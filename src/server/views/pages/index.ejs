@@ -1,0 +1,48 @@
+<%- include('../partials/header'); %>
+
+<div class="govuk-width-container">
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+        <span class="govuk-caption-l">Blog</span>
+        <h1 class="govuk-heading-l">Open Regulation Platform</h1>
+        <p>Description of the purpose of the blog</p>
+
+        <hr class="govuk-section-break govuk-section-break--l">
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <% posts.forEach(function(post) { %>
+                    <div class="blog-post-list-item">
+                        <p><a href="#" class="govuk-link"><%= post.title %></a></p>
+                        <p class="govuk-!-font-size-16">
+                            <a href="#" class="govuk-link"><%= post.author%></a>.
+                            <%= post.date %> -
+                            <% post.tags.forEach(function(tag) { %>
+                                <a href="<%= tag.href %>" class="govuk-link"><%= tag.name %></a>
+                            <% }); %>
+                        </p>
+                        <iframe class="govuk-!-padding-bottom-3" width="560" height="315" src="https://www.youtube.com/embed/<%= post.youtubeId %>" title="<%= post.title%> (video)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <p><%= post.description %></p>
+                        <a href="#" class="govuk-link">Read more</a>
+                    </div>
+
+                <% }); %>
+            </div>
+
+            <div class="govuk-grid-column-one-third">
+                <div class="side-bar-item">
+                    <h3 class="govuk-heading-s">About the Open Regulation Platform</h3>
+                    <p>Brieg description of the ORP service. Four to five lines.</p>
+                    <a href="#" class="govuk-link">Find out more</a>.
+                </div>
+                <div class="side-bar-item">
+                    <h3 class="govuk-heading-s">Contact us</h3>
+                    <p>If you have questions about the Open Regulation Platform, or would like to support or use the service, please contact us..</p>
+                    <a href="mailto:openregulationplatform@beis.gov.uk">openregulationplatform@beis.gov.uk
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<%- include('../partials/footer'); %>

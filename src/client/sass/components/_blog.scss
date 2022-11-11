@@ -1,0 +1,16 @@
+.blog-post-list-item {
+  padding: 35px 0;
+  border-top: 1px solid #B1B4B6;
+
+  &:last-child {
+    border-bottom: 1px solid #B1B4B6;
+  }
+}
+
+.side-bar-item {
+  padding: 20px 0 40px 0;
+  border-top: 2px solid #0B0C0C;
+  &:last-child {
+    border-bottom: 2px solid #0B0C0C;
+  }
+}
