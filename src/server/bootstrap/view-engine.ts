@@ -6,7 +6,7 @@ import { ServerConfig } from '../config';
 export function useGovUi(app: NestExpressApplication) {
   app.setLocal('asset_path', '/assets/');
   app.setLocal('applicationName', 'BEIS ORM');
-  console.log(app.get(ConfigService));
+
   const serverConfig = app.get(ConfigService).get<ServerConfig>('server');
   app.useStaticAssets(path.join(__dirname, 'assets'), {
     prefix: '/assets',

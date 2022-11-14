@@ -1,26 +1,15 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import * as request from 'supertest';
-import { NestExpressApplication } from '@nestjs/platform-express';
-import { useGovUi } from '../src/server/bootstrap';
-import { BlogModule } from '../src/server/blog/blog.module';
-import { ConfigService } from '@nestjs/config';
+import { E2eFixture } from './e2e.fixture';
 
 describe('BlogController (e2e)', () => {
-  let app: NestExpressApplication;
+  const fixture = new E2eFixture();
 
   beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [BlogModule],
-      providers: [ConfigService],
-    }).compile();
-
-    app = moduleFixture.createNestApplication<NestExpressApplication>();
-    useGovUi(app);
-    await app.init();
+    await fixture.init();
   });
 
   it('/ (GET)', () => {
-    return request(app.getHttpServer())
+    return fixture
+      .request()
       .get('/')
       .expect(200)
       .expect((res) => {
