@@ -1,0 +1,23 @@
+<%- include('../../partials/header'); %>
+
+<div class="govuk-width-container">
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+        <span class="govuk-caption-l">Blog</span>
+        <h1 class="govuk-heading-l">Open Regulation Platform</h1>
+        <p>Description of the purpose of the blog</p>
+
+        <hr class="govuk-section-break govuk-section-break--l">
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <% posts.forEach(function(post) { %>
+                    <%- include('partials/blogPost', {post: post, summary: true}); %>
+                <% }); %>
+            </div>
+
+            <%- include('../../partials/aboutSidebar'); %>
+        </div>
+    </main>
+</div>
+
+<%- include('../../partials/footer'); %>

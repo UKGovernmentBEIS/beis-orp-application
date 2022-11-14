@@ -13,7 +13,21 @@ describe('BlogController (e2e)', () => {
       .get('/')
       .expect(200)
       .expect((res) => {
-        expect(res.text).toContain('Building the Open Regulation Platform');
+        expect(res.text).toContain(
+          '<a href="/blog/1" class="govuk-link">Building the Open Regulation Platform</a>',
+        );
+      });
+  });
+
+  it('blog/:id (GET)', () => {
+    return fixture
+      .request()
+      .get('/blog/1')
+      .expect(200)
+      .expect((res) => {
+        expect(res.text).toContain(
+          '<h2 class="govuk-heading-l">Building the Open Regulation Platform</h2>',
+        );
       });
   });
 });

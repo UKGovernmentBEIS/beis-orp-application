@@ -1,18 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { BlogPost } from './types';
+import BlogPosts from './blog.posts';
 
 @Injectable()
 export class BlogService {
   getBlogPosts(): BlogPost[] {
-    return [
-      {
-        title: 'Building the Open Regulation Platform',
-        author: 'Author',
-        date: '4 November 2022',
-        tags: [{ name: 'Content tag', href: '#' }],
-        description: 'Short description of content - maximum two lines.',
-        youtubeId: 'X2juNBpHtaU',
-      },
-    ];
+    return Object.values(BlogPosts);
+  }
+
+  getBlogPost(id): BlogPost {
+    const post = BlogPosts[id];
+    if (!post) throw new NotFoundException(`No blog post matching id ${id}`);
+    return post;
   }
 }

@@ -1,8 +1,13 @@
-export interface BlogPostView {
+export interface BlogPostsView {
   posts: BlogPost[];
 }
 
+export interface BlogPostView {
+  post: BlogPost;
+}
+
 export interface BlogPost {
+  id: number;
   title: string;
   author: string;
   date: string;
