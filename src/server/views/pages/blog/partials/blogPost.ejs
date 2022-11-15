@@ -12,7 +12,10 @@
             <a href="<%= tag.href %>" class="govuk-link"><%= tag.name %></a>
         <% }); %>
     </p>
-    <iframe class="govuk-!-padding-bottom-3" width="560" height="315" src="https://www.youtube.com/embed/<%= post.youtubeId %>" title="<%= post.title%> (video)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+    <div class="embed-container">
+        <iframe src="https://www.youtube.com/embed/<%= post.youtubeId %>" title="<%= post.title%> (video)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
 
     <% if (summary === true) { %>
         <p><%= post.description %></p>
