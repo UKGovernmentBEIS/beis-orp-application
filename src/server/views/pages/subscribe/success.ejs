@@ -1,0 +1,26 @@
+<%- include('../../partials/header'); %>
+
+<div class="govuk-width-container">
+    <a href="/blog" class="govuk-back-link">Back</a>
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+
+        <hr class="govuk-section-break govuk-section-break--xl">
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <div class="govuk-panel govuk-panel--confirmation">
+                    <h1 class="govuk-panel__title">
+                        Success
+                    </h1>
+                    <div class="govuk-panel__body">
+                        Your details and communications preferences have been saved.
+                    </div>
+                </div>
+            </div>
+
+            <%- include('../../partials/aboutSidebar', {excludeRegister: true}); %>
+        </div>
+    </main>
+</div>
+
+<%- include('../../partials/footer'); %>
