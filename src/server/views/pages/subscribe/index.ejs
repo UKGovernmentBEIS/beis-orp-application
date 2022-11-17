@@ -1,7 +1,29 @@
 <%- include('../../partials/header'); %>
 
+<%
+    var errorMessages = {
+        email_address: "Enter a valid email address",
+        org: "Enter your organisation" ,
+        job: "Enter your job"
+    }
+
+    var emailValue = locals.model ? locals.model.email_address : ""
+    var emailError = locals.errors && locals.errors.email_address ? errorMessages.email_address : null
+    var orgValue = locals.model ? locals.model.org : ""
+    var orgError = locals.errors && locals.errors.org ? errorMessages.org : null
+    var jobValue = locals.model ? locals.model.job : ""
+    var jobError = locals.errors && locals.errors.job ? errorMessages.job : null
+%>
+
+
 <div class="govuk-width-container">
     <a href="/blog" class="govuk-back-link">Back</a>
+
+    <% if (locals.mailchimpError) { %>
+        <%- include('./partials/mailchimpError');%>
+    <% } %>
+    <%- include('../../partials/components/errorSummary', { errors: locals.errors || [], errorMessages }); %>
+
     <main class="govuk-main-wrapper " id="main-content" role="main">
         <span class="govuk-caption-l">Blog</span>
         <h1 class="govuk-heading-l">Register your interest</h1>
@@ -14,24 +36,10 @@
                 <div id="mc_embed_signup">
                     <form style="position: relative;" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_self">
                         <div id="mc_embed_signup_scroll">
-                            <div class="govuk-form-group">
-                                <label class="govuk-label" for="mce-EMAIL">
-                                    Your email address
-                                </label>
-                                <input id="mce-EMAIL" class="govuk-input govuk-!-width-two-thirds" name="email_address" type="email">
-                            </div>
-                            <div class="govuk-form-group">
-                                <label class="govuk-label" for="mce-ORG">
-                                    Your organisation
-                                </label>
-                                <input id="mce-ORG" class="govuk-input govuk-!-width-two-thirds" name="org" type="text">
-                            </div>
-                            <div class="govuk-form-group">
-                                <label class="govuk-label" for="mce-JOB">
-                                    Your job title
-                                </label>
-                                <input id="mce-JOB" class="govuk-input govuk-!-width-two-thirds" name="job" type="text">
-                            </div>
+
+                            <%- include('../../partials/components/textInput', { label: "Your email address", name: "email_address", type: "email", error: emailError, value: emailValue }); %>
+                            <%- include('../../partials/components/textInput', { label: "Your organisation", name: "org", error: orgError, value: orgValue }); %>
+                            <%- include('../../partials/components/textInput', { label: "Your job title", name: "job", error: jobError, value: jobValue }); %>
 
                             <div id="mce-responses" class="clear foot">
                                 <div class="response" id="mce-error-response" style="display:none"></div>
