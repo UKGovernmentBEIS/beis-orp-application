@@ -1,0 +1,17 @@
+a.social-link {
+  display: flex;
+  align-items: center;
+  &:before {
+    content: "";
+    display: block;
+    background-color: $govuk-link-colour;
+    border-right:  1px  solid $govuk-link-colour;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    background-image: url($path + "/email.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}
+

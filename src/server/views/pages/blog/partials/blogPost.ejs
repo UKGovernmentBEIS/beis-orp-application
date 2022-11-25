@@ -6,11 +6,8 @@
     <% } %>
 
     <p class="govuk-!-font-size-16">
-        <a href="#" class="govuk-link"><%= post.author%></a>.
-        <%= post.date %> -
-        <% post.tags.forEach(function(tag) { %>
-            <a href="<%= tag.href %>" class="govuk-link"><%= tag.name %></a>
-        <% }); %>
+        <%= post.author%>.
+        <%= post.date %>
     </p>
 
     <div class="embed-container">
