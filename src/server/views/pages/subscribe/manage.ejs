@@ -1,0 +1,62 @@
+<%- include('../../partials/header'); %>
+
+<%
+
+    var errorMessages = {
+        subscription: "Select an option"
+    }
+    var emailValue = locals.model ? locals.model.emailAddress : "email@domain.com"
+
+%>
+
+<div class="govuk-width-container">
+    <a href="/blog" class="govuk-back-link">Back</a>
+
+    <% if (locals.mailchimpError) { %>
+        <%- include('./partials/mailchimpError');%>
+    <% } %>
+    <%- include('../../partials/components/errorSummary', { errors: locals.errors || [], errorMessages }); %>
+
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <form method="post" id="manage-subscription-form" name="manage-subscription-form" target="_self">
+                    <input type="hidden" name="emailAddress" value="<%= emailValue %>">
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                                <h1 class="govuk-fieldset__heading">
+                                    Manage your subscription
+                                </h1>
+                            </legend>
+                            <div id="sign-in-hint" class="govuk-hint">
+                                Subscription options for <%= emailValue %>
+                            </div>
+                            <div class="govuk-radios" data-module="govuk-radios">
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" id="subscribed" name="subscription" type="radio" value="subscribed">
+                                    <label class="govuk-label govuk-radios__label" for="subscribed">
+                                        Receive all updates
+                                    </label>
+                                </div>
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" id="unsubscribed" name="subscription" type="radio" value="unsubscribed">
+                                    <label class="govuk-label govuk-radios__label" for="unsubscribed">
+                                        Unsubscribe
+                                    </label>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button">
+                        Save
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<%- include('../../partials/footer'); %>

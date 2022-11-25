@@ -1,7 +1,5 @@
 <%- include('../../partials/header'); %>
 
-<% var message = locals.subscription === 'subscribed' ? 'You have been subscribed to receive email updates' : 'You have been unsubscribed from all email updates.' %>
-
 <div class="govuk-width-container">
     <a href="/blog" class="govuk-back-link">Back</a>
     <main class="govuk-main-wrapper " id="main-content" role="main">
@@ -14,7 +12,9 @@
                     <h1 class="govuk-panel__title">
                         Success
                     </h1>
-                    <div><%= message %></div>
+                    <div class="govuk-panel__body">
+                        Your details and communications preferences have been saved.
+                    </div>
                 </div>
             </div>
 

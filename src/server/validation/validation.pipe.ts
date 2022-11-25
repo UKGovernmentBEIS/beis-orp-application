@@ -29,13 +29,20 @@ export class ValidationPipe implements PipeTransform {
   }
 }
 
-export function ValidateAndRender(template: string) {
+export function ValidateAndRender(
+  invalidTemplate: string,
+  validTemplate: string,
+) {
   return function (
     target: any,
     propertyKey: string | symbol,
     descriptor: any,
   ): void {
-    Render(template)(target, propertyKey, descriptor);
-    UsePipes(new ValidationPipe(template))(target, propertyKey, descriptor);
+    Render(validTemplate)(target, propertyKey, descriptor);
+    UsePipes(new ValidationPipe(invalidTemplate))(
+      target,
+      propertyKey,
+      descriptor,
+    );
   };
 }

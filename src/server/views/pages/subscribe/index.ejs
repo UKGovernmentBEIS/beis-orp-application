@@ -2,17 +2,17 @@
 
 <%
     var errorMessages = {
-        email_address: "Enter a valid email address",
-        org: "Enter your organisation" ,
-        job: "Enter your job"
+        emailAddress: "Enter a valid email address"
     }
 
-    var emailValue = locals.model ? locals.model.email_address : ""
-    var emailError = locals.errors && locals.errors.email_address ? errorMessages.email_address : null
-    var orgValue = locals.model ? locals.model.org : ""
-    var orgError = locals.errors && locals.errors.org ? errorMessages.org : null
-    var jobValue = locals.model ? locals.model.job : ""
-    var jobError = locals.errors && locals.errors.job ? errorMessages.job : null
+    var emailValue = locals.model ? locals.model.emailAddress : ""
+    var emailError = locals.errors && locals.errors.emailAddress ? errorMessages.emailAddress : null
+
+    var inputLabel = `<p class="govuk-body">Enter your email address to:</p>
+    <ul class="govuk-list govuk-list--bullet">
+        <li>subscribe for updates when new posts are published</li>
+        <li>manage your existing subscription</li>
+    </ul>`
 %>
 
 
@@ -25,26 +25,18 @@
     <%- include('../../partials/components/errorSummary', { errors: locals.errors || [], errorMessages }); %>
 
     <main class="govuk-main-wrapper " id="main-content" role="main">
-        <span class="govuk-caption-l">Blog</span>
-        <h1 class="govuk-heading-l">Register your interest</h1>
-        <p>Explanitory text about involvement in the ORP</p>
-
-        <hr class="govuk-section-break govuk-section-break--l">
-
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-l">Subscribe and manage your subscription</h1>
+
+                <hr class="govuk-section-break govuk-section-break--l">
+
                 <div id="mc_embed_signup">
-                    <form style="position: relative;" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_self">
-                        <div id="mc_embed_signup_scroll">
+                    <form style="position: relative;" method="post" id="subscribe-form" name="subscribe-form" target="_self">
+                        <div>
+                            <%- include('../../partials/components/textInput', { label: inputLabel, name: "emailAddress", type: "email", error: emailError, value: emailValue }); %>
 
-                            <%- include('../../partials/components/textInput', { label: "Your email address", name: "email_address", type: "email", error: emailError, value: emailValue }); %>
-                            <%- include('../../partials/components/textInput', { label: "Your organisation", name: "org", error: orgError, value: orgValue }); %>
-                            <%- include('../../partials/components/textInput', { label: "Your job title", name: "job", error: jobError, value: jobValue }); %>
-
-                            <div id="mce-responses" class="clear foot">
-                                <div class="response" id="mce-error-response" style="display:none"></div>
-                                <div class="response" id="mce-success-response" style="display:none"></div>
-                            </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                            <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
                             <div class="mockItem" aria-hidden="true"><input type="text" name="b_421d6e3d31b5a15d8560c613d_d8234fcc62" tabindex="-1" value=""></div>
                             <button id="mc-embedded-subscribe" type="submit" class="govuk-button" data-module="govuk-button">
                                 Submit
@@ -57,7 +49,6 @@
                 </div>
             </div>
 
-            <%- include('../../partials/aboutSidebar', {excludeRegister: true}); %>
         </div>
     </main>
 </div>

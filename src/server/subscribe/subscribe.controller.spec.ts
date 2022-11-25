@@ -26,7 +26,10 @@ describe('SubscribeController', () => {
       } as undefined as mailchimp.MembersSuccessResponse;
       jest.spyOn(subscribeService, 'subscribeUser').mockResolvedValue(result);
 
-      const expectedResult = await controller.subscribe(subscriber);
+      const session = {};
+      const expectedResult = await controller.subscribe(session, subscriber);
+
+      expect(session).toEqual({ emailAddress: subscriber.emailAddress });
       expect(expectedResult).toBe(result);
     });
   });

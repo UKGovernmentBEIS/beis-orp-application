@@ -1,6 +1,6 @@
 <div class="govuk-form-group <% if(error) { %>govuk-form-group--error<% } %>">
     <label class="govuk-label" for="<%= name %>">
-        <%= label %>
+        <%- label %>
     </label>
     <% if(error) { %>
         <p id="<%= name %>-error" class="govuk-error-message">
@@ -8,7 +8,7 @@
         </p>
     <% } %>
     <input id="<%= name %>"
-           class="govuk-input govuk-!-width-two-thirds <% if(error) { %>govuk-input--error<% } %>"
+           class="govuk-input govuk-!-width-three-quarters <% if(error) { %>govuk-input--error<% } %>"
            name="<%= name %>"
            type="<% if(locals.type) { %> <%= type %> <% } else { %>text<% } %>"
            value="<%= value %>"

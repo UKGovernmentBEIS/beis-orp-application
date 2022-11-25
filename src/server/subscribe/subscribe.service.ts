@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { SubscriberDto } from './Subscriber.dto';
+import { SubscriberDto } from './types/Subscriber.dto';
 import * as mailchimp from '@mailchimp/mailchimp_marketing';
 import { ConfigService } from '@nestjs/config';
 import { ApisConfig } from '../config';
+import { MailchimpException } from './types/types';
+import { UserPreferenceDto } from './types/UserPreference.dto';
 
 @Injectable()
 export class SubscribeService {
@@ -17,11 +19,22 @@ export class SubscribeService {
     });
   }
 
-  subscribeUser(user: SubscriberDto) {
-    return mailchimp.lists.addListMember(this.mcConfig.list, {
-      email_address: user.email_address,
-      status: 'subscribed',
-      merge_fields: { ORG: user.org, JOB: user.job },
-    });
+  async subscribeUser(user: SubscriberDto) {
+    try {
+      return await mailchimp.lists.addListMember(this.mcConfig.list, {
+        email_address: user.emailAddress,
+        status: 'subscribed',
+      });
+    } catch (e: any) {
+      throw new MailchimpException(e.response.body);
+    }
+  }
+
+  updatePreference(userPreferenceDto: UserPreferenceDto) {
+    return mailchimp.lists.updateListMember(
+      this.mcConfig.list,
+      userPreferenceDto.emailAddress,
+      { status: userPreferenceDto.subscription },
+    );
   }
 }
