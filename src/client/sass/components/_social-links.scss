@@ -1,17 +1,57 @@
-a.social-link {
+.share-icons {
   display: flex;
-  align-items: center;
-  &:before {
-    content: "";
-    display: block;
-    background-color: $govuk-link-colour;
-    border-right:  1px  solid $govuk-link-colour;
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
-    background-image: url($path + "/email.svg");
-    background-repeat: no-repeat;
-    background-position: center;
+
+  a {
+    margin-right: 30px;
   }
 }
 
+a.social-link {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+
+  &:visited {
+    color: $govuk-link-colour;
+  }
+}
+
+@mixin social-icons {
+  content: "";
+  display: block;
+  background-color: $govuk-link-colour;
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+a.social-email {
+  &:before {
+    @include social-icons;
+    background-image: url($path + "/email.svg");
+  }
+}
+
+a.social-linkedin {
+  &:before {
+    @include social-icons;
+    background-image: url($path + "/linkedin.svg");
+  }
+}
+
+a.social-twitter {
+  &:before {
+    @include social-icons;
+    background-image: url($path + "/twitter.svg");
+  }
+}
+
+a.social-facebook {
+  &:before {
+    @include social-icons;
+    background-image: url($path + "/facebook.svg");
+  }
+}

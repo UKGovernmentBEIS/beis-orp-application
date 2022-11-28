@@ -10,6 +10,7 @@ export const mockConfigService = {
 
 function config(key): Partial<Config> {
   const config = {
+    domain: 'https://test.com',
     server: {
       staticResourceCacheDuration: 20,
     },

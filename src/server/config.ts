@@ -7,12 +7,14 @@ export interface ApisConfig {
 }
 
 export interface Config {
+  domain: string;
   server: ServerConfig;
   apis: ApisConfig;
 }
 
 export function config(): Config {
   return {
+    domain: process.env.DOMAIN,
     server: {
       staticResourceCacheDuration: 20,
     },

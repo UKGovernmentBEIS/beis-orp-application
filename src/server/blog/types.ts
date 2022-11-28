@@ -4,6 +4,12 @@ export interface BlogPostsView {
 
 export interface BlogPostView {
   post: BlogPost;
+  social: {
+    facebook: string;
+    linkedIn: string;
+    twitter: string;
+    email: string;
+  };
 }
 
 export interface BlogPost {

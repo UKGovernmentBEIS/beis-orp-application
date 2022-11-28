@@ -13,6 +13,14 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <%- include('partials/blogPost', {post: post, summary: false}); %>
+                <h3 class="govuk-heading-m">Share this page</h3>
+                <p>Sharing will open the page in a new tab</p>
+                <div class="share-icons">
+                    <a target="_blank" href="<%= social.facebook %>" class="social-link social-facebook">Facebook</a>
+                    <a target="_blank" href="<%= social.linkedIn %>" class="social-link social-linkedin">LinkedIn</a>
+                    <a target="_blank" href="<%= social.twitter %>" class="social-link social-twitter">Twitter</a>
+                    <a target="_blank" href="<%= social.email %>" class="social-link social-email">Email</a>
+                </div>
             </div>
 
             <%- include('../../partials/aboutSidebar'); %>
