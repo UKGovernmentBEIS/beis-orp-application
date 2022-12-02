@@ -20,6 +20,7 @@ export class SubscribeController {
 
   @Get()
   @Render('pages/subscribe/index')
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   renderSignup() {}
 
   @Post()

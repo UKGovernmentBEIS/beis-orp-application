@@ -1,7 +1,6 @@
 import { Controller, Get, Param, Render } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { BlogPostsView, BlogPostView } from './types';
-import { ApisConfig } from '../config';
 import { ConfigService } from '@nestjs/config';
 
 @Controller()
