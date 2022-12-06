@@ -6,6 +6,7 @@ import { BlogModule } from './blog/blog.module';
 import { SubscribeModule } from './subscribe/subscribe.module';
 import { ApiModule } from './api/api.module';
 import { AwsModule } from './aws/aws.module';
+import { SearchModule } from './search/search.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { AwsModule } from './aws/aws.module';
     SubscribeModule,
     ApiModule,
     AwsModule,
+    SearchModule,
   ],
 })
 export class AppModule {}

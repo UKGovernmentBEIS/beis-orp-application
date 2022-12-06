@@ -1,5 +1,5 @@
 import { E2eFixture } from '../e2e.fixture';
-import { getPdfBuffer } from './mocks/uploadMocks';
+import { getPdfBuffer } from '../mocks/uploadMocks';
 
 const mockS3 = {
   putObject: jest.fn().mockReturnThis(),

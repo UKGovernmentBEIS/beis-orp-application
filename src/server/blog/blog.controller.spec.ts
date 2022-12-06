@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { BlogController } from './blog.controller';
 import { BlogService } from './blog.service';
-import { mockConfigService } from '../../../test/config.mock';
+import { mockConfigService } from '../../../test/mocks/config.mock';
 import posts from './blog.posts';
 
 describe('AppController', () => {

@@ -1,5 +1,5 @@
 import { ConfigService } from '@nestjs/config';
-import { Config } from '../src/server/config';
+import { Config } from '../../src/server/config';
 
 export const mockConfigService = {
   provide: ConfigService,

@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { SubscribeService } from './subscribe.service';
 import { lists, MembersSuccessResponse } from '@mailchimp/mailchimp_marketing';
 import { subscriber, userPreferences } from './test/mocks';
-import { mockConfigService } from '../../../test/config.mock';
+import { mockConfigService } from '../../../test/mocks/config.mock';
 
 describe('SubscribeService', () => {
   let service: SubscribeService;

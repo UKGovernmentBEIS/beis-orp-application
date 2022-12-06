@@ -4,7 +4,7 @@ import { AppModule } from '../src/server/app.module';
 import { useGovUi } from '../src/server/bootstrap';
 import * as request from 'supertest';
 import * as path from 'path';
-import { mockConfigService } from './config.mock';
+import { mockConfigService } from './mocks/config.mock';
 
 export class E2eFixture {
   private app: NestExpressApplication;
