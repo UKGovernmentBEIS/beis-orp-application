@@ -21,6 +21,11 @@ function config(key): Partial<Config> {
         list: 'mc_list',
       },
     },
+    aws: {
+      ingestionBucket: 'bucket',
+      secretAccessKey: 'secretaccesskey',
+      accessKeyId: 'accesskeyid',
+    },
   };
 
   return config[key];

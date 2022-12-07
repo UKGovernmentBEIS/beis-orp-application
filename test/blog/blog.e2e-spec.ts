@@ -1,4 +1,4 @@
-import { E2eFixture } from './e2e.fixture';
+import { E2eFixture } from '../e2e.fixture';
 
 describe('BlogController (e2e)', () => {
   const fixture = new E2eFixture();
@@ -7,14 +7,14 @@ describe('BlogController (e2e)', () => {
     await fixture.init();
   });
 
-  it('/ (GET)', () => {
+  it('blog/:id (GET)', () => {
     return fixture
       .request()
-      .get('/')
+      .get('/blog/1')
       .expect(200)
       .expect((res) => {
         expect(res.text).toContain(
-          '<a href="/blog/1" class="govuk-link">Building the Open Regulation Platform</a>',
+          '<h2 class="govuk-heading-l">Building the Open Regulation Platform</h2>',
         );
       });
   });

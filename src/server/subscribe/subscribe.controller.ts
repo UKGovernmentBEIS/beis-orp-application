@@ -12,8 +12,10 @@ import { SubscribeService } from './subscribe.service';
 import { ValidateAndRender } from '../validation';
 import { MailchimpExceptionFilter } from './filters/mailchimpError.filter';
 import { UserPreferenceDto } from './types/UserPreference.dto';
+import { ErrorFilter } from '../error.filter';
 
 @UseFilters(new MailchimpExceptionFilter())
+@UseFilters(new ErrorFilter())
 @Controller('subscribe')
 export class SubscribeController {
   constructor(private subscribeService: SubscribeService) {}

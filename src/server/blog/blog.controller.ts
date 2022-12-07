@@ -1,8 +1,10 @@
-import { Controller, Get, Param, Render } from '@nestjs/common';
+import { Controller, Get, Param, Render, UseFilters } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { BlogPostsView, BlogPostView } from './types';
 import { ConfigService } from '@nestjs/config';
+import { ErrorFilter } from '../error.filter';
 
+@UseFilters(new ErrorFilter())
 @Controller()
 export class BlogController {
   constructor(
