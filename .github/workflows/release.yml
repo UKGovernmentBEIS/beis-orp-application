@@ -23,7 +23,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+<<<<<<< Updated upstream
           tag_name: ${{ github.job }}
           release_name: ${{ github.job }}
+=======
+          tag_name: ${{ github.run_number }}.${{ github.run_attempt }}
+          release_name: ${{ github.run_number }}.${{ github.run_attempt }}
+>>>>>>> Stashed changes
           draft: false
           prerelease: false
