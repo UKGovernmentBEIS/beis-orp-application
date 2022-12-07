@@ -17,7 +17,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Create Release
+      - name: Create Release in GitHub
         id: create_release
         uses: actions/create-release@v1.1.4
         env:
