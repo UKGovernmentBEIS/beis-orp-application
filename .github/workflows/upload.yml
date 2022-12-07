@@ -1,0 +1,27 @@
+name: Upload Release to ECR
+
+on:
+  release:
+    types:
+      - released
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    name: Upload new Release to ECR
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Login to ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1.5.3
+
+      - name: Build & Push Image to ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: docker_nodejs_demo
+          IMAGE_TAG: nodejs_demo_image
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
