@@ -33,3 +33,4 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          aws ecs update-service --force-new-deployment --service ecs_webserver --cluster ecs_webserver

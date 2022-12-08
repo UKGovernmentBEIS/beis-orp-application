@@ -23,6 +23,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
+#         Annoyingly, there's no helpful value to set these to that I can, and no auto-increment stuff in GHA without
+#         using a third party Action and even then it's a pain
           tag_name: ${{ github.run_number }}
           release_name: ${{ github.run_number }}
           draft: false
