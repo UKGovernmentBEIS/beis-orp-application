@@ -24,6 +24,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           tag_name: ${{ github.run_number }}
-          release_name: ${{ github.run_number }}
+          release_name: ${{ github.ref }}
           draft: false
           prerelease: false
