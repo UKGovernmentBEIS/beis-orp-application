@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AwsService } from './aws.service';
-import { mockConfigService } from '../../../test/config.mock';
+import { mockConfigService } from '../../../test/mocks/config.mock';
 import { AwsFileUploader } from './aws-file-uploader';
-import { getPdfAsMulterFile } from '../../../test/api/mocks/uploadMocks';
+import { getPdfAsMulterFile } from '../../../test/mocks/uploadMocks';
 
 const mockS3 = {
   putObject: jest.fn().mockReturnThis(),

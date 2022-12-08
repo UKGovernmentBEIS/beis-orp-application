@@ -3,7 +3,7 @@ import { SubscribeController } from './subscribe.controller';
 import { SubscribeService } from './subscribe.service';
 import { subscriber } from './test/mocks';
 import * as mailchimp from '@mailchimp/mailchimp_marketing';
-import { mockConfigService } from '../../../test/config.mock';
+import { mockConfigService } from '../../../test/mocks/config.mock';
 
 describe('SubscribeController', () => {
   let controller: SubscribeController;

@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { Readable } from 'stream';
-import { AwsFileUploader } from '../../../src/server/aws/aws-file-uploader';
+import { AwsFileUploader } from '../../src/server/aws/aws-file-uploader';
 
 const fileToBuffer = (filename): Promise<Buffer> => {
   const readStream = fs.createReadStream(filename);
