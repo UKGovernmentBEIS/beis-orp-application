@@ -1,5 +1,7 @@
 name: Upload Release to ECR
 
+concurrency: upload_to_ecr
+
 on:
   release:
     branches: [ "*" ]

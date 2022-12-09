@@ -1,5 +1,7 @@
 name: Create Release
 
+concurrency: create_release
+
 on:
   pull_request:
     branches: [ "main" ]
