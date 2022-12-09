@@ -27,6 +27,7 @@
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/swagger": "^6.1.4",
     "@types/mailchimp__mailchimp_marketing": "^3.0.6",
     "aws-sdk": "^2.1263.0",
     "class-transformer": "^0.5.1",
@@ -95,6 +96,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
-    "setupFilesAfterEnv": ["../test/jest.setup.ts"]
+    "setupFilesAfterEnv": [
+      "../test/jest.setup.ts"
+    ]
   }
 }

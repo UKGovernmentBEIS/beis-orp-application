@@ -41,8 +41,13 @@ module.exports = function (options) {
             {
               loader: 'ts-loader',
               options: {
-                transpileOnly: true,
+                transpileOnly: false,
                 configFile: 'tsconfig.build.json',
+                getCustomTransformers: (program) => ({
+                  before: [
+                    require('@nestjs/swagger/plugin').before({}, program),
+                  ],
+                }),
               },
             },
           ],
@@ -91,6 +96,7 @@ module.exports = function (options) {
         patterns: [
           { from: 'node_modules/govuk-frontend/govuk/assets', to: 'assets' },
           { from: 'src/client/assets', to: 'assets' },
+          { from: 'src/client/swagger.css', to: 'assets' },
         ],
       }),
     ],

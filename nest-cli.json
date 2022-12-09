@@ -9,6 +9,7 @@
         "include": "views/**/*",
         "watchAssets": true
       }
-    ]
+    ],
+    "plugins": ["@nestjs/swagger"]
   }
 }

@@ -1,0 +1,11 @@
+body {
+    margin: 0;
+}
+
+body > svg {
+    display: none;
+}
+
+.swagger-ui .topbar .download-url-wrapper {
+    display: none;
+}

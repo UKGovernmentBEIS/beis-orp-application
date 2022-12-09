@@ -1,17 +1,3 @@
-interface TnaSearchItem {
-  title: string;
-  author?: string;
-  updated: string;
-  published: string;
-  legislationType: string;
-  links: { title?: string; type?: string; href: string }[];
-}
-
-export interface TnaSearchResponse {
-  totalItems?: number;
-  items: TnaSearchItem[];
-}
-
 interface RawTnaResponseLink {
   _attributes: { title: string; href: string; type: string };
 }
