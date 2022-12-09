@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { config } from './config';
 import { HealthModule } from './health/health.module';
@@ -18,5 +18,7 @@ import { SearchModule } from './search/search.module';
     AwsModule,
     SearchModule,
   ],
+  providers: [Logger],
+  exports: [Logger],
 })
 export class AppModule {}

@@ -3,6 +3,7 @@ import { AwsService } from './aws.service';
 import { mockConfigService } from '../../../test/mocks/config.mock';
 import { AwsFileUploader } from './aws-file-uploader';
 import { getPdfAsMulterFile } from '../../../test/mocks/uploadMocks';
+import { mockLogger } from '../../../test/mocks/logger.mock';
 
 const mockS3 = {
   putObject: jest.fn().mockReturnThis(),
@@ -22,7 +23,7 @@ describe('AwsService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AwsService, AwsFileUploader, mockConfigService],
+      providers: [AwsService, AwsFileUploader, mockConfigService, mockLogger],
     }).compile();
 
     service = module.get<AwsService>(AwsService);

@@ -1,7 +1,11 @@
 import { S3 } from 'aws-sdk';
 import { ConfigService } from '@nestjs/config';
 import { AwsConfig } from '../config';
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { FileUpload } from './types/FileUpload';
 import { v4 as uuidv4 } from 'uuid';
 import { UploadedFile } from './types/UploadedFile';
@@ -11,14 +15,10 @@ export class AwsFileUploader {
   private awsConfig: AwsConfig;
   private client: S3;
 
-  constructor(private config: ConfigService) {
+  constructor(private config: ConfigService, private readonly logger: Logger) {
     this.awsConfig = config.get<AwsConfig>('aws');
     this.client = new S3({
       region: 'eu-west-2',
-      credentials: {
-        secretAccessKey: this.awsConfig.secretAccessKey,
-        accessKeyId: this.awsConfig.accessKeyId,
-      },
     });
   }
 
@@ -44,8 +44,12 @@ export class AwsFileUploader {
         })
         .promise();
 
+      this.logger.log(
+        `FILE UPLOADED, ${this.awsConfig.ingestionBucket}/${fileKey}}`,
+      );
       return { path: `${this.awsConfig.ingestionBucket}/${fileKey}` };
     } catch (e) {
+      this.logger.error('UPLOAD ERROR', e.stack);
       throw new InternalServerErrorException(
         'There was a problem uploading the document',
       );
