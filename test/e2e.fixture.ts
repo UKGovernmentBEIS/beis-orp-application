@@ -4,7 +4,8 @@ import { AppModule } from '../src/server/app.module';
 import { useGovUi } from '../src/server/bootstrap';
 import * as request from 'supertest';
 import * as path from 'path';
-import { mockConfigService } from './mocks/config.mock';
+import { getMockedConfig } from './mocks/config.mock';
+import { ConfigService } from '@nestjs/config';
 
 export class E2eFixture {
   private app: NestExpressApplication;
@@ -12,8 +13,12 @@ export class E2eFixture {
   async init() {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-      providers: [mockConfigService],
-    }).compile();
+    })
+      .overrideProvider(ConfigService)
+      .useValue({
+        get: getMockedConfig,
+      })
+      .compile();
 
     this.app = moduleFixture.createNestApplication<NestExpressApplication>();
     useGovUi(this.app);

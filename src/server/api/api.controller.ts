@@ -6,6 +6,7 @@ import {
   Put,
   Query,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
   UsePipes,
   ValidationPipe,
@@ -25,6 +26,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { ApiBadRequestResponse } from '@nestjs/swagger/dist/decorators/api-response.decorator';
+import { AuthGuard } from '../auth/AuthGuard';
 
 @UsePipes(new ValidationPipe())
 @Controller('api')
@@ -50,6 +52,7 @@ export class ApiController {
   }
 
   @Put('upload')
+  @UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor('file'))
   @ApiTags('ingestion')
   @ApiConsumes('multipart/form-data')

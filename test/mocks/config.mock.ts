@@ -4,11 +4,11 @@ import { Config } from '../../src/server/config';
 export const mockConfigService = {
   provide: ConfigService,
   useValue: {
-    get: config,
+    get: getMockedConfig,
   },
 };
 
-function config(key): Partial<Config> {
+export function getMockedConfig(key): Partial<Config> {
   const config = {
     domain: 'https://test.com/',
     server: {
@@ -23,8 +23,9 @@ function config(key): Partial<Config> {
     },
     aws: {
       ingestionBucket: 'bucket',
-      secretAccessKey: 'secretaccesskey',
-      accessKeyId: 'accesskeyid',
+    },
+    secrets: {
+      uploadKey: 'upload_key',
     },
   };
 
