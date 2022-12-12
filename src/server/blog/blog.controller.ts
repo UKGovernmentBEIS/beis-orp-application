@@ -25,7 +25,7 @@ export class BlogController {
   findOne(@Param('id') id: string): BlogPostView {
     const domain = this.config.get('domain');
     const post = this.blogService.getBlogPost(id);
-    const address = `${domain}/blog/${post.id}`;
+    const address = `${domain}blog/${post.id}`;
     return {
       post,
       social: {
