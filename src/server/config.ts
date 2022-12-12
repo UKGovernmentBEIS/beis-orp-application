@@ -10,6 +10,8 @@ export interface AwsConfig {
   ingestionBucket: string;
   secretAccessKey: string;
   accessKeyId: string;
+  logGroupName: string;
+  logStreamName: string;
 }
 
 export interface Config {
@@ -36,6 +38,8 @@ export function config(): Config {
       ingestionBucket: process.env.S3_UPLOAD_BUCKET,
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
       accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      logGroupName: process.env.CLOUDWATCH_GROUP_NAME,
+      logStreamName: process.env.CLOUDWATCH_STREAM_NAME,
     },
   };
 }

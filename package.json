@@ -42,6 +42,7 @@
     "html5shiv": "^3.7.3",
     "jquery": "^3.6.1",
     "jquery-ui": "^1.13.2",
+    "nest-winston": "^1.8.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
@@ -49,6 +50,7 @@
     "sass-loader": "^13.1.0",
     "terser-webpack-plugin": "^5.3.6",
     "uuid": "^9.0.0",
+    "winston-cloudwatch": "^6.1.1",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
