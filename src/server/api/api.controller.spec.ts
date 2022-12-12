@@ -8,6 +8,7 @@ import {
 import { SearchService } from '../search/search.service';
 import { TnaDal } from '../search/tna.dal';
 import { HttpModule } from '@nestjs/axios';
+import { mockConfigService } from '../../../test/mocks/config.mock';
 
 describe('ApiController', () => {
   let controller: ApiController;
@@ -17,7 +18,13 @@ describe('ApiController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ApiController],
-      providers: [AwsService, mockAwsFileUploader, SearchService, TnaDal],
+      providers: [
+        AwsService,
+        mockAwsFileUploader,
+        SearchService,
+        TnaDal,
+        mockConfigService,
+      ],
       imports: [HttpModule],
     }).compile();
 

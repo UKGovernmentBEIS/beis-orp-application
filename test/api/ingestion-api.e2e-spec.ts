@@ -27,6 +27,7 @@ describe('api/upload (PUT)', () => {
     return fixture
       .request()
       .put('/api/upload')
+      .set('x-orp-auth-token', 'upload_key')
       .attach('file', file, 'testfile.pdf')
       .expect(200)
       .expect('success');
@@ -36,6 +37,7 @@ describe('api/upload (PUT)', () => {
     return fixture
       .request()
       .put('/api/upload')
+      .set('x-orp-auth-token', 'upload_key')
       .attach('file', '')
       .expect(400)
       .expect(
@@ -47,6 +49,7 @@ describe('api/upload (PUT)', () => {
     return fixture
       .request()
       .put('/api/upload')
+      .set('x-orp-auth-token', 'upload_key')
       .attach('file', file, 'testfile.png')
       .expect(400)
       .expect(
@@ -54,15 +57,26 @@ describe('api/upload (PUT)', () => {
       );
   });
 
-  it('returns error when aws upload fails', async () => {
-    mockS3.promise.mockRejectedValue(new Error('upload fail'));
+  it('returns unauthorised when wrong key is passed in', async () => {
+    return fixture
+      .request()
+      .put('/api/upload')
+      .set('x-orp-auth-token', 'wrong')
+      .attach('file', file, 'testfile.pdf')
+      .expect(403)
+      .expect(
+        '{"statusCode":403,"message":"Forbidden resource","error":"Forbidden"}',
+      );
+  });
+
+  it('returns unauthorised when no key is passed in', async () => {
     return fixture
       .request()
       .put('/api/upload')
       .attach('file', file, 'testfile.pdf')
-      .expect(500)
+      .expect(403)
       .expect(
-        '{"statusCode":500,"message":"There was a problem uploading the document","error":"Internal Server Error"}',
+        '{"statusCode":403,"message":"Forbidden resource","error":"Forbidden"}',
       );
   });
 });
