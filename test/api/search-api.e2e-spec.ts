@@ -1,5 +1,10 @@
 import { E2eFixture } from '../e2e.fixture';
 import { expectedOutputForTnaStandardResponse } from '../mocks/tnaSearchMock';
+import { expectedOutputForOrpStandardResponse } from '../mocks/orpSearchMock';
+import { server } from '../mocks/server';
+import { rest } from 'msw';
+import { TNA_URL } from '../../src/server/search/tna.dal';
+import { mockedSearchLambda } from '../mocks/config.mock';
 
 describe('api/search (GET)', () => {
   const fixture = new E2eFixture();
@@ -9,7 +14,7 @@ describe('api/search (GET)', () => {
   });
 
   describe('validation', () => {
-    it('returns bad request if both title and keyword is empty', async () => {
+    it('returns bad request if both title and keywords is empty', async () => {
       return fixture.request().get('/api/search').send({}).expect(400);
     });
 
@@ -21,19 +26,19 @@ describe('api/search (GET)', () => {
         .expect(200);
     });
 
-    it('is successful if keyword is provided', async () => {
+    it('is successful if keywords is provided', async () => {
       return fixture
         .request()
         .get('/api/search')
-        .query({ keyword: 'keyword' })
+        .query({ keywords: 'keyword' })
         .expect(200);
     });
 
-    it('is successful if keyword and title are provided', async () => {
+    it('is successful if keywords and title are provided', async () => {
       return fixture
         .request()
         .get('/api/search')
-        .query({ keyword: 'keyword', title: 'title' })
+        .query({ keywords: 'keyword', title: 'title' })
         .expect(200);
     });
   });
@@ -43,9 +48,42 @@ describe('api/search (GET)', () => {
       return fixture
         .request()
         .get('/api/search')
-        .query({ keyword: 'keyword', title: 'title' })
+        .query({ keywords: 'keyword', title: 'title' })
         .expect(200)
-        .expect({ nationalArchive: expectedOutputForTnaStandardResponse });
+        .expect({
+          nationalArchive: expectedOutputForTnaStandardResponse,
+          orp: expectedOutputForOrpStandardResponse,
+        });
+    });
+
+    it('returns 500 if orp call fails', () => {
+      server.use(
+        rest.post(mockedSearchLambda, (req, res, ctx) => {
+          return res(ctx.status(500));
+        }),
+      );
+
+      return fixture
+        .request()
+        .get('/api/search')
+        .query({ keywords: 'keyword', title: 'title' })
+        .expect(500)
+        .expect('{"statusCode":500,"message":"Internal server error"}');
+    });
+
+    it('returns 500 if tna call fails', () => {
+      server.use(
+        rest.get(TNA_URL, (req, res, ctx) => {
+          return res(ctx.status(500));
+        }),
+      );
+
+      return fixture
+        .request()
+        .get('/api/search')
+        .query({ keywords: 'keyword', title: 'title' })
+        .expect(500)
+        .expect('{"statusCode":500,"message":"Internal server error"}');
     });
   });
 });

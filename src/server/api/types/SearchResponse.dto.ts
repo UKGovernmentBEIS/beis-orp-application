@@ -1,10 +1,14 @@
 class TnaSearchItem {
   title: string;
   author?: string;
-  updated: string;
-  published: string;
+  dates: {
+    updated: string;
+    published: string;
+  };
   legislationType: string;
   links: TnaLink[];
+  number: number;
+  year: number;
 }
 
 class TnaLink {
@@ -14,10 +18,38 @@ class TnaLink {
 }
 
 export class TnaSearchResponse {
-  totalItems?: number;
-  items: TnaSearchItem[];
+  totalSearchResults?: number;
+  documents: TnaSearchItem[];
+}
+
+export class OrpSearchItem {
+  title: string;
+  summary: string;
+  documentId: string;
+  regulatorId: string;
+  dates: {
+    uploaded: string;
+    published: string;
+  };
+  legislativeOrigins: LegislativeOrigin[];
+  regulatoryTopics: string[];
+  version: number;
+  documentType: string;
+}
+
+class LegislativeOrigin {
+  url: string;
+  title: string;
+  type: string;
+  division: string;
+}
+
+export class OrpSearchResponse {
+  totalSearchResults?: number;
+  documents: OrpSearchItem[];
 }
 
 export class SearchResponseDto {
   nationalArchive: TnaSearchResponse;
+  orp: OrpSearchResponse;
 }

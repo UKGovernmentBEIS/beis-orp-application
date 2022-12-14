@@ -38,8 +38,8 @@ describe('TNA data access layer', () => {
     );
 
     expect(await tnaDal.searchTna('a', 'b')).toMatchObject({
-      totalItems: 8,
-      items: [],
+      totalSearchResults: 8,
+      documents: [],
     });
   });
 
@@ -85,14 +85,18 @@ describe('TNA data access layer', () => {
     );
 
     expect(await tnaDal.searchTna('a', 'b')).toEqual({
-      totalItems: undefined,
-      items: [
+      totalSearchResults: undefined,
+      documents: [
         {
           title: 'TITLE',
           legislationType: 'LEGISLATION_TYPE',
-          published: '2015-07-01T00:00:00Z',
-          updated: '2022-01-24T12:54:49Z',
+          dates: {
+            published: '2015-07-01T00:00:00Z',
+            updated: '2022-01-24T12:54:49Z',
+          },
           author: 'NAME',
+          number: 364,
+          year: 2016,
           links: [
             {
               href: 'HREF',
@@ -109,9 +113,13 @@ describe('TNA data access layer', () => {
         {
           title: 'TITLE2',
           legislationType: 'LEGISLATION_TYPE',
-          published: '2015-07-01T00:00:00Z',
-          updated: '2022-01-24T12:54:49Z',
+          dates: {
+            published: '2015-07-01T00:00:00Z',
+            updated: '2022-01-24T12:54:49Z',
+          },
           author: 'NAME',
+          number: 364,
+          year: 2016,
           links: [
             {
               href: 'HREF',
@@ -156,14 +164,18 @@ describe('TNA data access layer', () => {
     );
 
     expect(await tnaDal.searchTna('a', 'b')).toEqual({
-      totalItems: undefined,
-      items: [
+      totalSearchResults: undefined,
+      documents: [
         {
           title: 'TITLE',
           legislationType: 'LEGISLATION_TYPE',
-          published: '2015-07-01T00:00:00Z',
-          updated: '2022-01-24T12:54:49Z',
+          dates: {
+            published: '2015-07-01T00:00:00Z',
+            updated: '2022-01-24T12:54:49Z',
+          },
           author: 'NAME',
+          number: 364,
+          year: 2016,
           links: [
             {
               href: 'HREF',
@@ -202,14 +214,18 @@ describe('TNA data access layer', () => {
     );
 
     expect(await tnaDal.searchTna('a', 'b')).toEqual({
-      totalItems: undefined,
-      items: [
+      totalSearchResults: undefined,
+      documents: [
         {
           title: 'TITLE',
           legislationType: 'LEGISLATION_TYPE',
-          published: '2015-07-01T00:00:00Z',
-          updated: '2022-01-24T12:54:49Z',
+          dates: {
+            published: '2015-07-01T00:00:00Z',
+            updated: '2022-01-24T12:54:49Z',
+          },
           author: 'NAME',
+          number: 364,
+          year: 2016,
           links: [],
         },
       ],
