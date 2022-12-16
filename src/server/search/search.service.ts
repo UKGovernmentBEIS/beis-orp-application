@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { TnaDal } from './tna.dal';
+import { TnaDal } from '../data/tna.dal';
 import { SearchResponseDto } from '../api/types/SearchResponse.dto';
-import { OrpDal } from './orp.dal';
+import { OrpDal } from '../data/orp.dal';
 
 @Injectable()
 export class SearchService {

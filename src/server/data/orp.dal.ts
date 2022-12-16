@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 
@@ -7,9 +7,12 @@ import {
   OrpSearchResponse,
 } from '../api/types/SearchResponse.dto';
 
-import { RawOrpResponse } from './types/rawOrpSearchResponse';
 import { ApisConfig } from '../config';
 import { ConfigService } from '@nestjs/config';
+import {
+  RawOrpResponse,
+  RawOrpResponseEntry,
+} from './types/rawOrpSearchResponse';
 
 const MAX_ITEMS = 10;
 
@@ -35,7 +38,7 @@ export class OrpDal {
           regulatorId: document.regulator_id,
           dates: {
             uploaded: document.date_uploaded,
-            published: document.data_published,
+            published: document.date_published,
           },
           legislativeOrigins: document.legislative_origins,
           regulatoryTopics: document.regulatory_topics,
@@ -58,5 +61,16 @@ export class OrpDal {
     );
 
     return this.mapResponse(data);
+  }
+
+  async getById(id: string): Promise<RawOrpResponseEntry> {
+    const { data } = await firstValueFrom(
+      this.httpService.post<RawOrpResponse>(this.orpSearchUrl, { id }),
+    );
+
+    if (!data.documents.length)
+      throw new NotFoundException(`Document not found`);
+
+    return data.documents[0];
   }
 }

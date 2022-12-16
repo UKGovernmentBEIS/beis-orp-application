@@ -1,5 +1,5 @@
 import { rest } from 'msw';
-import { TNA_URL } from '../../src/server/search/tna.dal';
+import { TNA_URL } from '../../src/server/data/tna.dal';
 import { tnaStandardResponse } from './tnaSearchMock';
 import { orpStandardResponse } from './orpSearchMock';
 import { mockedSearchLambda } from './config.mock';

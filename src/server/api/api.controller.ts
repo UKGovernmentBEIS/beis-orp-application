@@ -2,18 +2,18 @@ import {
   Controller,
   FileTypeValidator,
   Get,
+  Param,
   ParseFilePipe,
   Put,
   Query,
+  StreamableFile,
   UploadedFile,
   UseGuards,
   UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { AwsService } from '../aws/aws.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { FileUpload } from '../aws/types/FileUpload';
 import { SearchRequestDto } from './types/SearchRequest.dto';
 import { SearchService } from '../search/search.service';
 import { SearchResponseDto } from './types/SearchResponse.dto';
@@ -27,13 +27,16 @@ import {
 } from '@nestjs/swagger';
 import { ApiBadRequestResponse } from '@nestjs/swagger/dist/decorators/api-response.decorator';
 import { AuthGuard } from '../auth/AuthGuard';
+import { DocumentRequestDto } from './types/DocumentRequest.dto';
+import { DocumentService } from '../document/document.service';
+import { FileUpload } from '../data/types/FileUpload';
 
 @UsePipes(new ValidationPipe())
 @Controller('api')
 export class ApiController {
   constructor(
-    private awsService: AwsService,
     private searchService: SearchService,
+    private documentService: DocumentService,
   ) {}
 
   @Get('search')
@@ -70,7 +73,16 @@ export class ApiController {
     )
     file: FileUpload,
   ) {
-    await this.awsService.upload(file);
+    await this.documentService.upload(file);
     return 'success';
+  }
+
+  @Get('document/:id')
+  async getDocument(
+    @Param() params: DocumentRequestDto,
+  ): Promise<StreamableFile> {
+    return new StreamableFile(
+      await this.documentService.getDocument(params.id),
+    );
   }
 }

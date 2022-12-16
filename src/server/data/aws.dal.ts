@@ -9,9 +9,10 @@ import {
 import { FileUpload } from './types/FileUpload';
 import { v4 as uuidv4 } from 'uuid';
 import { UploadedFile } from './types/UploadedFile';
+import { Readable } from 'stream';
 
 @Injectable()
-export class AwsFileUploader {
+export class AwsDal {
   private awsConfig: AwsConfig;
   private client: S3;
 
@@ -45,7 +46,7 @@ export class AwsFileUploader {
         .promise();
 
       this.logger.log(
-        `FILE UPLOADED, ${this.awsConfig.ingestionBucket}/${fileKey}}`,
+        `FILE UPLOADED, ${this.awsConfig.ingestionBucket}/${fileKey}`,
       );
       return { path: `${this.awsConfig.ingestionBucket}/${fileKey}` };
     } catch (e) {
@@ -54,5 +55,14 @@ export class AwsFileUploader {
         'There was a problem uploading the document',
       );
     }
+  }
+
+  getObject(uri: string): Readable {
+    return this.client
+      .getObject({
+        Bucket: this.awsConfig.ingestionBucket,
+        Key: uri,
+      })
+      .createReadStream();
   }
 }

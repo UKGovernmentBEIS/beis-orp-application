@@ -1,44 +1,47 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ApiController } from './api.controller';
-import { AwsService } from '../aws/aws.service';
 import {
   getPdfAsMulterFile,
-  mockAwsFileUploader,
+  getPdfBuffer,
+  mockAwsDal,
 } from '../../../test/mocks/uploadMocks';
 import { SearchService } from '../search/search.service';
-import { TnaDal } from '../search/tna.dal';
+import { TnaDal } from '../data/tna.dal';
 import { HttpModule } from '@nestjs/axios';
 import { mockConfigService } from '../../../test/mocks/config.mock';
-import { OrpDal } from '../search/orp.dal';
+import { OrpDal } from '../data/orp.dal';
+import { DocumentService } from '../document/document.service';
+import { Readable } from 'stream';
+import { StreamableFile } from '@nestjs/common';
 
 describe('ApiController', () => {
   let controller: ApiController;
-  let awsService: AwsService;
+  let documentService: DocumentService;
   let searchService: SearchService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ApiController],
       providers: [
-        AwsService,
-        mockAwsFileUploader,
+        mockAwsDal,
         SearchService,
         TnaDal,
         OrpDal,
         mockConfigService,
+        DocumentService,
       ],
       imports: [HttpModule],
     }).compile();
 
     controller = module.get<ApiController>(ApiController);
-    awsService = module.get<AwsService>(AwsService);
+    documentService = module.get<DocumentService>(DocumentService);
     searchService = module.get<SearchService>(SearchService);
   });
 
   describe('upload', () => {
     it('should call aws uploader with file', async () => {
       const result = { path: '/file.pdf' };
-      jest.spyOn(awsService, 'upload').mockResolvedValue(result);
+      jest.spyOn(documentService, 'upload').mockResolvedValue(result);
 
       const file = await getPdfAsMulterFile();
       const expectedResult = await controller.uploadFile(file);
@@ -49,18 +52,32 @@ describe('ApiController', () => {
 
   describe('search', () => {
     it('should call searchService and return response', async () => {
-      const result = {
+      const expectedResult = {
         nationalArchive: { totalSearchResults: 10, documents: [] },
         orp: { totalSearchResults: 10, documents: [] },
       };
-      jest.spyOn(searchService, 'search').mockResolvedValue(result);
+      jest.spyOn(searchService, 'search').mockResolvedValue(expectedResult);
 
-      const expectedResult = await controller.search({
+      const result = await controller.search({
         title: 'title',
         keywords: 'keyword',
       });
 
-      expect(expectedResult).toEqual(result);
+      expect(result).toEqual(expectedResult);
+    });
+  });
+
+  describe('getDocument', () => {
+    it('should call searchService and return response', async () => {
+      const buffer = await getPdfBuffer();
+      const getDocMock = jest
+        .spyOn(documentService, 'getDocument')
+        .mockResolvedValue(Readable.from(buffer));
+
+      const result = await controller.getDocument({ id: 'id' });
+
+      expect(getDocMock).toBeCalledWith('id');
+      expect(result).toBeInstanceOf(StreamableFile);
     });
   });
 });

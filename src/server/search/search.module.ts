@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { SearchService } from './search.service';
 import { HttpModule } from '@nestjs/axios';
-import { TnaDal } from './tna.dal';
-import { OrpDal } from './orp.dal';
+import { DataModule } from '../data/data.module';
+import { TnaDal } from '../data/tna.dal';
 
 @Module({
-  imports: [HttpModule],
-  providers: [SearchService, TnaDal, OrpDal],
+  imports: [HttpModule, DataModule],
+  providers: [SearchService],
   exports: [SearchService],
 })
 export class SearchModule {}

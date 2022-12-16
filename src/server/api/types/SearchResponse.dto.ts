@@ -26,15 +26,15 @@ export class OrpSearchItem {
   title: string;
   summary: string;
   documentId: string;
-  regulatorId: string;
+  regulatorId?: string;
   dates: {
     uploaded: string;
     published: string;
   };
   legislativeOrigins: LegislativeOrigin[];
-  regulatoryTopics: string[];
+  regulatoryTopics?: string[];
   version: number;
-  documentType: string;
+  documentType?: string;
 }
 
 class LegislativeOrigin {

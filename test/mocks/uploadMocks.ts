@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { Readable } from 'stream';
-import { AwsFileUploader } from '../../src/server/aws/aws-file-uploader';
+import { AwsDal } from '../../src/server/data/aws.dal';
 
 const fileToBuffer = (filename): Promise<Buffer> => {
   const readStream = fs.createReadStream(filename);
@@ -41,8 +41,8 @@ export const getPdfAsMulterFile = async (): Promise<Express.Multer.File> => {
   };
 };
 
-export const mockAwsFileUploader = {
-  provide: AwsFileUploader,
+export const mockAwsDal = {
+  provide: AwsDal,
   useValue: {
     upload: jest.fn(),
   },

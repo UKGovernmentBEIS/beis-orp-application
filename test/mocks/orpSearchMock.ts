@@ -1,7 +1,7 @@
 import {
   RawOrpResponse,
   RawOrpResponseEntry,
-} from '../../src/server/search/types/rawOrpSearchResponse';
+} from '../../src/server/data/types/rawOrpSearchResponse';
 import {
   OrpSearchItem,
   SearchResponseDto,
@@ -15,9 +15,9 @@ export const getRawDocument = (
     summary: 'This is the summary',
     document_uid: '0001',
     regulator_id: 'reg001',
-    s3_uri: '/bucket/doc.pdf',
+    uri: '/bucket/doc.pdf',
     date_uploaded: '2019-08-06T00:00:00Z',
-    data_published: '2018-08-06T00:00:00Z',
+    date_published: '2018-08-06T00:00:00Z',
     legislative_origins: [
       {
         url: 'www.lo.com',
@@ -29,6 +29,7 @@ export const getRawDocument = (
     regulatory_topics: ['topic1', 'topic2'],
     version: 1,
     document_type: 'doc type',
+    object_key: 'doc.pdf',
     ...overrides,
   };
 };
