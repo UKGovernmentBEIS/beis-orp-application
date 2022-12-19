@@ -4,6 +4,7 @@ export interface ServerConfig {
 
 export interface ApisConfig {
   mailchimp: { apiKey: string; server: string; list: string };
+  orpSearch: { url: string };
 }
 
 export interface AwsConfig {
@@ -35,6 +36,9 @@ export function config(): Config {
         apiKey: process.env.MC_API_KEY,
         server: process.env.MC_SERVER,
         list: process.env.MC_LIST,
+      },
+      orpSearch: {
+        url: process.env.ORP_SEARCH_URL,
       },
     },
     aws: {

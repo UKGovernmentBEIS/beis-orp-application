@@ -9,6 +9,7 @@ import { SearchService } from '../search/search.service';
 import { TnaDal } from '../search/tna.dal';
 import { HttpModule } from '@nestjs/axios';
 import { mockConfigService } from '../../../test/mocks/config.mock';
+import { OrpDal } from '../search/orp.dal';
 
 describe('ApiController', () => {
   let controller: ApiController;
@@ -23,6 +24,7 @@ describe('ApiController', () => {
         mockAwsFileUploader,
         SearchService,
         TnaDal,
+        OrpDal,
         mockConfigService,
       ],
       imports: [HttpModule],
@@ -47,12 +49,15 @@ describe('ApiController', () => {
 
   describe('search', () => {
     it('should call searchService and return response', async () => {
-      const result = { nationalArchive: { totalItems: 10, items: [] } };
+      const result = {
+        nationalArchive: { totalSearchResults: 10, documents: [] },
+        orp: { totalSearchResults: 10, documents: [] },
+      };
       jest.spyOn(searchService, 'search').mockResolvedValue(result);
 
       const expectedResult = await controller.search({
         title: 'title',
-        keyword: 'keyword',
+        keywords: 'keyword',
       });
 
       expect(expectedResult).toEqual(result);

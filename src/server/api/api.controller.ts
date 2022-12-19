@@ -47,7 +47,7 @@ export class ApiController {
   search(@Query() searchRequest: SearchRequestDto): Promise<SearchResponseDto> {
     return this.searchService.search(
       searchRequest.title,
-      searchRequest.keyword,
+      searchRequest.keywords,
     );
   }
 

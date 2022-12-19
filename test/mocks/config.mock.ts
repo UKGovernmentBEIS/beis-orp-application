@@ -8,6 +8,8 @@ export const mockConfigService = {
   },
 };
 
+export const mockedSearchLambda = 'http://www.searchapi.com';
+
 export function getMockedConfig(key): Partial<Config> {
   const config = {
     domain: 'https://test.com/',
@@ -19,6 +21,9 @@ export function getMockedConfig(key): Partial<Config> {
         apiKey: 'mc_key',
         server: 'mc_server',
         list: 'mc_list',
+      },
+      orpSearch: {
+        url: mockedSearchLambda,
       },
     },
     aws: {

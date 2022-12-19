@@ -4,7 +4,7 @@ import { firstValueFrom } from 'rxjs';
 import * as convert from 'xml-js';
 import { TnaSearchResponse } from '../api/types/SearchResponse.dto';
 
-import { RawTnaResponse } from './types/tnaSearchResponse';
+import { RawTnaResponse } from './types/rawTnaSearchResponse';
 
 export const TNA_URL = 'https://www.legislation.gov.uk/all/data.feed';
 const MAX_ITEMS = 10;
@@ -13,19 +13,21 @@ const MAX_ITEMS = 10;
 export class TnaDal {
   constructor(private readonly httpService: HttpService) {}
 
-  private responseMapper(stringifiedJson: string): TnaSearchResponse {
+  private mapResponse(stringifiedJson: string): TnaSearchResponse {
     const response: RawTnaResponse = JSON.parse(stringifiedJson);
 
     return {
-      items: [response.feed.entry]
+      documents: [response.feed.entry]
         .flat()
         .filter((item) => item)
         .slice(0, MAX_ITEMS)
         .map((entry) => ({
           title: entry.title._text,
           author: entry.author.name._text,
-          updated: entry.updated._text,
-          published: entry.published._text,
+          dates: {
+            updated: entry.updated._text,
+            published: entry.published._text,
+          },
           legislationType: entry['ukm:DocumentMainType']._attributes.Value,
           links: [entry.link]
             .flat()
@@ -35,22 +37,24 @@ export class TnaDal {
               href: link._attributes.href,
               type: link._attributes.type,
             })),
+          number: Number(entry['ukm:Number']._attributes.Value),
+          year: Number(entry['ukm:Year']._attributes.Value),
         })),
-      totalItems: response.feed['openSearch:totalResults']?._text
+      totalSearchResults: response.feed['openSearch:totalResults']?._text
         ? Number(response.feed['openSearch:totalResults']?._text)
         : undefined,
     };
   }
 
-  async searchTna(title: string, keyword: string): Promise<TnaSearchResponse> {
+  async searchTna(title: string, keywords: string): Promise<TnaSearchResponse> {
     const params = {
       title: title ? title : undefined,
-      text: keyword ? keyword : undefined,
+      text: keywords ? keywords : undefined,
     };
     const { data } = await firstValueFrom(
       this.httpService.get(TNA_URL, { params }),
     );
 
-    return this.responseMapper(convert.xml2json(data, { compact: true }));
+    return this.mapResponse(convert.xml2json(data, { compact: true }));
   }
 }
