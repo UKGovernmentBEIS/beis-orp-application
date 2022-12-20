@@ -60,7 +60,7 @@ describe('ApiController', () => {
 
       const result = await controller.search({
         title: 'title',
-        keywords: 'keyword',
+        keyword: 'keyword',
       });
 
       expect(result).toEqual(expectedResult);
