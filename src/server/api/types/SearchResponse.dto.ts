@@ -1,14 +1,14 @@
 class TnaSearchItem {
-  title: string;
+  title?: string;
   author?: string;
   dates: {
-    updated: string;
-    published: string;
+    updated?: string;
+    published?: string;
   };
-  legislationType: string;
+  legislationType?: string;
   links: TnaLink[];
-  number: number;
-  year: number;
+  number?: number;
+  year?: number;
 }
 
 class TnaLink {
