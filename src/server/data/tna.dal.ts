@@ -49,13 +49,12 @@ export class TnaDal {
     };
   }
 
-  async searchTna(title: string, keywords: string): Promise<TnaSearchResponse> {
-    const params = {
-      title: title ? title : undefined,
-      text: keywords ? keywords : undefined,
-    };
+  async searchTna(
+    title: string | undefined,
+    keyword: string | undefined,
+  ): Promise<TnaSearchResponse> {
     const { data } = await firstValueFrom(
-      this.httpService.get(TNA_URL, { params }),
+      this.httpService.get(TNA_URL, { params: { title, text: keyword } }),
     );
 
     return this.mapResponse(convert.xml2json(data, { compact: true }));

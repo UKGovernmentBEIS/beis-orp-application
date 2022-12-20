@@ -1,11 +1,11 @@
 import { IsString, ValidateIf } from 'class-validator';
 
 export class SearchRequestDto {
-  @ValidateIf((o) => !o.keywords)
+  @ValidateIf((o) => !o.keyword)
   @IsString()
   title?: string;
 
   @ValidateIf((o) => !o.title)
   @IsString()
-  keywords?: string;
+  keyword?: string;
 }

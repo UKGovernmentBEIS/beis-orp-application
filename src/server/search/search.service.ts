@@ -10,10 +10,13 @@ export class SearchService {
     private readonly orpDal: OrpDal,
   ) {}
 
-  async search(title: string, keywords: string): Promise<SearchResponseDto> {
+  async search(
+    title: string | undefined,
+    keyword: string | undefined,
+  ): Promise<SearchResponseDto> {
     const [nationalArchive, orp] = await Promise.all([
-      this.tnaDal.searchTna(title, keywords),
-      this.orpDal.searchOrp(title, keywords),
+      this.tnaDal.searchTna(title, keyword),
+      this.orpDal.searchOrp(title, keyword),
     ]);
 
     return { nationalArchive, orp };

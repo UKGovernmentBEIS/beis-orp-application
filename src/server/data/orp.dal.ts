@@ -51,12 +51,12 @@ export class OrpDal {
 
   async searchOrp(
     title: string | undefined,
-    keywords: string | undefined,
+    keyword: string | undefined,
   ): Promise<OrpSearchResponse> {
     const { data } = await firstValueFrom(
       this.httpService.post<RawOrpResponse>(this.orpSearchUrl, {
         title,
-        keywords,
+        keyword,
       }),
     );
 

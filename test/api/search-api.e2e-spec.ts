@@ -14,7 +14,7 @@ describe('api/search (GET)', () => {
   });
 
   describe('validation', () => {
-    it('returns bad request if both title and keywords is empty', async () => {
+    it('returns bad request if both title and keyword is empty', async () => {
       return fixture.request().get('/api/search').send({}).expect(400);
     });
 
@@ -26,19 +26,19 @@ describe('api/search (GET)', () => {
         .expect(200);
     });
 
-    it('is successful if keywords is provided', async () => {
+    it('is successful if keyword is provided', async () => {
       return fixture
         .request()
         .get('/api/search')
-        .query({ keywords: 'keyword' })
+        .query({ keyword: 'keyword' })
         .expect(200);
     });
 
-    it('is successful if keywords and title are provided', async () => {
+    it('is successful if keyword and title are provided', async () => {
       return fixture
         .request()
         .get('/api/search')
-        .query({ keywords: 'keyword', title: 'title' })
+        .query({ keyword: 'keyword', title: 'title' })
         .expect(200);
     });
   });
@@ -48,7 +48,7 @@ describe('api/search (GET)', () => {
       return fixture
         .request()
         .get('/api/search')
-        .query({ keywords: 'keyword', title: 'title' })
+        .query({ keyword: 'keyword', title: 'title' })
         .expect(200)
         .expect({
           nationalArchive: expectedOutputForTnaStandardResponse,
@@ -66,7 +66,7 @@ describe('api/search (GET)', () => {
       return fixture
         .request()
         .get('/api/search')
-        .query({ keywords: 'keyword', title: 'title' })
+        .query({ keyword: 'keyword', title: 'title' })
         .expect(500)
         .expect('{"statusCode":500,"message":"Internal server error"}');
     });
@@ -81,7 +81,7 @@ describe('api/search (GET)', () => {
       return fixture
         .request()
         .get('/api/search')
-        .query({ keywords: 'keyword', title: 'title' })
+        .query({ keyword: 'keyword', title: 'title' })
         .expect(500)
         .expect('{"statusCode":500,"message":"Internal server error"}');
     });
