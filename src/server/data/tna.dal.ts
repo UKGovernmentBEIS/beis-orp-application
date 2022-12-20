@@ -9,6 +9,9 @@ import { RawTnaResponse } from './types/rawTnaSearchResponse';
 export const TNA_URL = 'https://www.legislation.gov.uk/all/data.feed';
 const MAX_ITEMS = 10;
 
+const maybeNumber = (item: string | number) =>
+  item ? Number(item) : undefined;
+
 @Injectable()
 export class TnaDal {
   constructor(private readonly httpService: HttpService) {}
@@ -22,27 +25,27 @@ export class TnaDal {
         .filter((item) => item)
         .slice(0, MAX_ITEMS)
         .map((entry) => ({
-          title: entry.title._text,
-          author: entry.author.name._text,
+          title: entry.title?._text,
+          author: entry.author?.name?._text,
           dates: {
-            updated: entry.updated._text,
-            published: entry.published._text,
+            updated: entry.updated?._text,
+            published: entry.published?._text,
           },
-          legislationType: entry['ukm:DocumentMainType']._attributes.Value,
+          legislationType: entry['ukm:DocumentMainType']?._attributes?.Value,
           links: [entry.link]
             .flat()
             .filter((item) => item)
             .map((link) => ({
-              title: link._attributes.title,
-              href: link._attributes.href,
-              type: link._attributes.type,
+              title: link._attributes?.title,
+              href: link._attributes?.href,
+              type: link._attributes?.type,
             })),
-          number: Number(entry['ukm:Number']._attributes.Value),
-          year: Number(entry['ukm:Year']._attributes.Value),
+          number: maybeNumber(entry['ukm:Number']?._attributes?.Value),
+          year: maybeNumber(entry['ukm:Year']?._attributes?.Value),
         })),
-      totalSearchResults: response.feed['openSearch:totalResults']?._text
-        ? Number(response.feed['openSearch:totalResults']?._text)
-        : undefined,
+      totalSearchResults: maybeNumber(
+        response.feed['openSearch:totalResults']?._text,
+      ),
     };
   }
 

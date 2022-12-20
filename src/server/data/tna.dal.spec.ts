@@ -231,4 +231,39 @@ describe('TNA data access layer', () => {
       ],
     });
   });
+
+  it('should handle attributes not being present', async () => {
+    server.use(
+      rest.get(TNA_URL, (req, res, ctx) => {
+        return res(
+          ctx.xml(`
+          <?xml version="1.0" encoding="utf-8"?>
+          <feed>
+            <entry>
+       
+            </entry>                  
+          </feed>
+        `),
+        );
+      }),
+    );
+
+    expect(await tnaDal.searchTna('a', 'b')).toEqual({
+      totalSearchResults: undefined,
+      documents: [
+        {
+          author: undefined,
+          dates: {
+            published: undefined,
+            updated: undefined,
+          },
+          legislationType: undefined,
+          links: [],
+          number: undefined,
+          title: undefined,
+          year: undefined,
+        },
+      ],
+    });
+  });
 });
