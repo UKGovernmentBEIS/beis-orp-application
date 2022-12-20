@@ -5,8 +5,9 @@ import { HealthModule } from './health/health.module';
 import { BlogModule } from './blog/blog.module';
 import { SubscribeModule } from './subscribe/subscribe.module';
 import { ApiModule } from './api/api.module';
-import { AwsModule } from './aws/aws.module';
 import { SearchModule } from './search/search.module';
+import { DocumentModule } from './document/document.module';
+import { DataModule } from './data/data.module';
 
 @Module({
   imports: [
@@ -15,8 +16,9 @@ import { SearchModule } from './search/search.module';
     BlogModule,
     SubscribeModule,
     ApiModule,
-    AwsModule,
     SearchModule,
+    DocumentModule,
+    DataModule,
   ],
   providers: [Logger],
   exports: [Logger],

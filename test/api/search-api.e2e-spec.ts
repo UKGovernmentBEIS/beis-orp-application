@@ -3,7 +3,7 @@ import { expectedOutputForTnaStandardResponse } from '../mocks/tnaSearchMock';
 import { expectedOutputForOrpStandardResponse } from '../mocks/orpSearchMock';
 import { server } from '../mocks/server';
 import { rest } from 'msw';
-import { TNA_URL } from '../../src/server/search/tna.dal';
+import { TNA_URL } from '../../src/server/data/tna.dal';
 import { mockedSearchLambda } from '../mocks/config.mock';
 
 describe('api/search (GET)', () => {

@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SearchService } from './search.service';
-import { TnaDal } from './tna.dal';
+import { TnaDal } from '../data/tna.dal';
 import { HttpModule } from '@nestjs/axios';
-import { OrpDal } from './orp.dal';
+import { OrpDal } from '../data/orp.dal';
 import { mockConfigService } from '../../../test/mocks/config.mock';
 
 describe('SearchService', () => {
