@@ -8,13 +8,14 @@ import {
   mockConfigService,
   mockedSearchLambda,
 } from '../../../test/mocks/config.mock';
+import { mockLogger } from '../../../test/mocks/logger.mock';
 
 describe('Orp data access layer', () => {
   let orpDal: OrpDal;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [OrpDal, mockConfigService],
+      providers: [OrpDal, mockConfigService, mockLogger],
       imports: [HttpModule],
     }).compile();
 

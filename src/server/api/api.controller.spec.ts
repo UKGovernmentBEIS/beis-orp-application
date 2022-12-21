@@ -13,6 +13,7 @@ import { OrpDal } from '../data/orp.dal';
 import { DocumentService } from '../document/document.service';
 import { Readable } from 'stream';
 import { StreamableFile } from '@nestjs/common';
+import { mockLogger } from '../../../test/mocks/logger.mock';
 
 describe('ApiController', () => {
   let controller: ApiController;
@@ -29,6 +30,7 @@ describe('ApiController', () => {
         OrpDal,
         mockConfigService,
         DocumentService,
+        mockLogger,
       ],
       imports: [HttpModule],
     }).compile();

@@ -4,6 +4,7 @@ import { TnaDal } from '../data/tna.dal';
 import { HttpModule } from '@nestjs/axios';
 import { OrpDal } from '../data/orp.dal';
 import { mockConfigService } from '../../../test/mocks/config.mock';
+import { mockLogger } from '../../../test/mocks/logger.mock';
 
 describe('SearchService', () => {
   let service: SearchService;
@@ -12,7 +13,7 @@ describe('SearchService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [SearchService, TnaDal, OrpDal, mockConfigService],
+      providers: [SearchService, TnaDal, OrpDal, mockConfigService, mockLogger],
       imports: [HttpModule],
     }).compile();
 
