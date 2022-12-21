@@ -30,7 +30,7 @@ export class AwsDal {
   }: FileUpload): Promise<UploadedFile> {
     try {
       const uuid = uuidv4();
-      const fileKey = `trigger-pipeline/${uuid}-${originalname}`;
+      const fileKey = `${uuid}-${originalname}`;
       await this.client
         .putObject({
           Bucket: this.awsConfig.ingestionBucket,
