@@ -22,6 +22,7 @@ import {
   ApiBody,
   ApiConsumes,
   ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -57,7 +58,7 @@ export class ApiController {
   @Put('upload')
   @UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor('file'))
-  @ApiTags('ingestion')
+  @ApiTags('document')
   @ApiConsumes('multipart/form-data')
   @ApiBody({ description: 'Document to be ingested', type: FileUploadDto })
   @ApiOkResponse({ description: 'The document has been uploaded' })
@@ -78,6 +79,12 @@ export class ApiController {
   }
 
   @Get('document/:id')
+  @ApiTags('document')
+  @ApiOkResponse({
+    description: 'Returns the document in PDF format',
+    schema: { type: 'string', format: 'binary' },
+  })
+  @ApiNotFoundResponse({ description: 'The requested document was not found' })
   async getDocument(
     @Param() params: DocumentRequestDto,
   ): Promise<StreamableFile> {
