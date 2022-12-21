@@ -11,8 +11,8 @@ export function useSwagger(app: NestExpressApplication) {
     .setTitle('BEIS ORP')
     .setDescription('The ORP API documentation')
     .setVersion('1.0')
-    .addTag('ingestion')
     .addTag('search')
+    .addTag('document')
     .build();
   const document = SwaggerModule.createDocument(
     app,
