@@ -6,7 +6,6 @@ import {
 } from '../../../test/mocks/uploadMocks';
 import { mockLogger } from '../../../test/mocks/logger.mock';
 import { AwsDal } from './aws.dal';
-import { Readable } from 'stream';
 
 const mockS3 = {
   putObject: jest.fn().mockReturnThis(),
@@ -44,10 +43,12 @@ describe('AwsDal', () => {
 
       const result = await service.upload(file);
 
-      expect(result.path).toContain('bucket/UUID-original-filename');
+      expect(result.path).toContain(
+        'bucket/trigger-pipeline/UUID-original-filename',
+      );
       expect(mockS3.putObject).toBeCalledWith({
         Bucket: 'bucket',
-        Key: 'UUID-original-filename',
+        Key: 'trigger-pipeline/UUID-original-filename',
         ContentType: file.mimetype,
         Body: file.buffer,
         Metadata: {
