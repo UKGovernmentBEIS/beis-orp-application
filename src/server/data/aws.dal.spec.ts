@@ -43,12 +43,10 @@ describe('AwsDal', () => {
 
       const result = await service.upload(file);
 
-      expect(result.path).toContain(
-        'bucket/trigger-pipeline/UUID-original-filename',
-      );
+      expect(result.path).toContain('bucket/UUID-original-filename');
       expect(mockS3.putObject).toBeCalledWith({
         Bucket: 'bucket',
-        Key: 'trigger-pipeline/UUID-original-filename',
+        Key: 'UUID-original-filename',
         ContentType: file.mimetype,
         Body: file.buffer,
         Metadata: {
