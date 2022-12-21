@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 
@@ -23,6 +23,7 @@ export class OrpDal {
   constructor(
     private readonly httpService: HttpService,
     private config: ConfigService,
+    private readonly logger: Logger,
   ) {
     this.orpSearchUrl = config.get<ApisConfig>('apis').orpSearch.url;
   }
@@ -49,24 +50,28 @@ export class OrpDal {
     };
   }
 
+  private async postSearch<T>(params: T): Promise<RawOrpResponse> {
+    try {
+      const { data } = await firstValueFrom(
+        this.httpService.post<RawOrpResponse>(this.orpSearchUrl, params),
+      );
+      return data;
+    } catch (e) {
+      this.logger.error('SEARCH LAMBDA ERROR');
+      throw e;
+    }
+  }
+
   async searchOrp(
     title: string | undefined,
     keyword: string | undefined,
   ): Promise<OrpSearchResponse> {
-    const { data } = await firstValueFrom(
-      this.httpService.post<RawOrpResponse>(this.orpSearchUrl, {
-        title,
-        keyword,
-      }),
-    );
-
+    const data = await this.postSearch({ title, keyword });
     return this.mapResponse(data);
   }
 
   async getById(id: string): Promise<RawOrpResponseEntry> {
-    const { data } = await firstValueFrom(
-      this.httpService.post<RawOrpResponse>(this.orpSearchUrl, { id }),
-    );
+    const data = await this.postSearch({ id });
 
     if (!data.documents.length)
       throw new NotFoundException(`Document not found`);
