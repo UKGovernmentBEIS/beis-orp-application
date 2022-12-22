@@ -30,7 +30,7 @@ export const getPdfAsMulterFile = async (): Promise<Express.Multer.File> => {
   return {
     buffer,
     fieldname: 'fieldname-defined-in-@UseInterceptors-decorator',
-    originalname: 'original-filename',
+    originalname: 'Original-Filename',
     encoding: '7bit',
     mimetype: 'pdf',
     destination: 'destination-path',

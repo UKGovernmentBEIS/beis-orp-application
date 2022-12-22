@@ -34,7 +34,7 @@ describe('AwsDal', () => {
   });
 
   describe('upload', () => {
-    it('should call s3 putObject with correct details', async () => {
+    it('should call s3 putObject with correct details with lowercase key', async () => {
       const date = new Date('2020-01-01');
       jest.useFakeTimers().setSystemTime(date);
 
@@ -43,10 +43,10 @@ describe('AwsDal', () => {
 
       const result = await service.upload(file);
 
-      expect(result.path).toContain('bucket/UUID-original-filename');
+      expect(result.path).toContain('bucket/uuid-original-filename');
       expect(mockS3.putObject).toBeCalledWith({
         Bucket: 'bucket',
-        Key: 'UUID-original-filename',
+        Key: 'uuid-original-filename',
         ContentType: file.mimetype,
         Body: file.buffer,
         Metadata: {
