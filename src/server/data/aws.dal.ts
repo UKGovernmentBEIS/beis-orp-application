@@ -30,7 +30,7 @@ export class AwsDal {
   }: FileUpload): Promise<UploadedFile> {
     try {
       const uuid = uuidv4();
-      const fileKey = `${uuid}-${originalname}`;
+      const fileKey = `${uuid}-${originalname}`.toLocaleLowerCase();
       await this.client
         .putObject({
           Bucket: this.awsConfig.ingestionBucket,
