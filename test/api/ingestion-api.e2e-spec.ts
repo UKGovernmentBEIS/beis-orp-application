@@ -2,14 +2,16 @@ import { E2eFixture } from '../e2e.fixture';
 import { getPdfBuffer } from '../mocks/uploadMocks';
 
 const mockS3 = {
-  putObject: jest.fn().mockReturnThis(),
-  promise: jest.fn(),
+  send: jest.fn(),
 };
 
-jest.mock('aws-sdk', () => {
-  return { S3: jest.fn(() => mockS3) };
+jest.mock('@aws-sdk/client-s3', () => {
+  return {
+    S3Client: jest.fn(() => mockS3),
+    PutObjectCommand: jest.fn((args) => ({ ...args, putObjectCommand: true })),
+    GetObjectCommand: jest.fn((args) => ({ ...args, getObjectCommand: true })),
+  };
 });
-
 describe('api/upload (PUT)', () => {
   const fixture = new E2eFixture();
   let file: Buffer;
@@ -23,7 +25,7 @@ describe('api/upload (PUT)', () => {
   });
 
   it('accepts and uploads pdfs', async () => {
-    mockS3.promise.mockResolvedValueOnce('fake response');
+    mockS3.send.mockResolvedValueOnce('fake response');
     return fixture
       .request()
       .put('/api/upload')

@@ -5,21 +5,23 @@ import { rest } from 'msw';
 import { mockedSearchLambda } from '../mocks/config.mock';
 
 const mockS3 = {
-  getObject: jest.fn().mockReturnThis(),
-  createReadStream: jest.fn(),
+  send: jest.fn(),
 };
 
-jest.mock('aws-sdk', () => {
-  return { S3: jest.fn(() => mockS3) };
+jest.mock('@aws-sdk/client-s3', () => {
+  return {
+    S3Client: jest.fn(() => mockS3),
+    PutObjectCommand: jest.fn((args) => ({ ...args, putObjectCommand: true })),
+    GetObjectCommand: jest.fn((args) => ({ ...args, getObjectCommand: true })),
+  };
 });
-
 describe('api/document/:id (GET)', () => {
   const fixture = new E2eFixture();
 
   beforeEach(async () => {
     await fixture.init();
     jest.clearAllMocks();
-    mockS3.createReadStream.mockResolvedValueOnce(getPdfBuffer());
+    mockS3.send.mockResolvedValueOnce({ Body: getPdfBuffer() });
   });
 
   describe('validation', () => {
@@ -39,7 +41,8 @@ describe('api/document/:id (GET)', () => {
         .get('/api/document/1')
         .expect(200)
         .expect((res) => {
-          expect(mockS3.getObject).toBeCalledWith({
+          expect(mockS3.send).toBeCalledWith({
+            getObjectCommand: true,
             Bucket: 'bucket',
             Key: 'doc.pdf',
           });

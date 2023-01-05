@@ -35,14 +35,36 @@ describe('DocumentService', () => {
 
       const getObjSpy = jest
         .spyOn(awsDal, 'getObject')
-        .mockReturnValueOnce(Readable.from(buffer));
+        .mockResolvedValueOnce(Readable.from(buffer));
 
       const result = await service.getDocument('id');
 
       expect(getObjSpy).toBeCalledWith('thefile.pdf');
       expect(result).toBeInstanceOf(Readable);
+    });
+  });
 
-      expect(service).toBeDefined();
+  describe('getDocumentDetail', () => {
+    it('should return the document search data and a presigned url', async () => {
+      jest
+        .spyOn(orpDal, 'getById')
+        .mockResolvedValue(getRawDocument({ object_key: 'thefile.pdf' }));
+
+      const getUrlSpy = jest
+        .spyOn(awsDal, 'getObjectUrl')
+        .mockResolvedValueOnce('http://document');
+
+      const result = await service.getDocumentDetail('id');
+
+      expect(getUrlSpy).toBeCalledWith('thefile.pdf');
+
+      expect(result).toMatchObject({
+        url: 'http://document',
+        document: {
+          title: 'Title',
+          object_key: 'thefile.pdf',
+        },
+      });
     });
   });
 });

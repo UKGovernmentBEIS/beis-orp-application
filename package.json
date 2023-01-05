@@ -21,6 +21,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.241.0",
+    "@aws-sdk/s3-request-presigner": "^3.241.0",
     "@mailchimp/mailchimp_marketing": "^3.0.80",
     "@nestjs/axios": "^1.0.0",
     "@nestjs/common": "^9.0.0",
@@ -29,7 +31,6 @@
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.1.4",
     "@types/mailchimp__mailchimp_marketing": "^3.0.6",
-    "aws-sdk": "^2.1263.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "copy-webpack-plugin": "^11.0.0",
