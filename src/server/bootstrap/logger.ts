@@ -8,7 +8,11 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
 import { AwsConfig } from '../config';
 
-function getTransportsForEnv(logGroupName?: string, logStreamName?: string) {
+function getTransportsForEnv(
+  region: string,
+  logGroupName?: string,
+  logStreamName?: string,
+) {
   const consoleTransport = new winston.transports.Console({
     format: winston.format.combine(
       winston.format.timestamp(),
@@ -26,7 +30,7 @@ function getTransportsForEnv(logGroupName?: string, logStreamName?: string) {
       name: 'Cloudwatch Logs',
       logGroupName,
       logStreamName,
-      awsRegion: 'eu-west-2',
+      awsRegion: region,
       messageFormatter: function ({ level, message, stack }) {
         return `${level}: ${message} ${stack ? stack : ''}`;
       },
@@ -36,12 +40,13 @@ function getTransportsForEnv(logGroupName?: string, logStreamName?: string) {
 
 export function useLogger(app: NestExpressApplication) {
   const configService = app.get(ConfigService);
-  const { logStreamName, logGroupName } = configService.get<AwsConfig>('aws');
+  const { logStreamName, logGroupName, region } =
+    configService.get<AwsConfig>('aws');
 
   app.useLogger(
     WinstonModule.createLogger({
       format: winston.format.uncolorize(),
-      transports: getTransportsForEnv(logGroupName, logStreamName),
+      transports: getTransportsForEnv(region, logGroupName, logStreamName),
     }),
   );
 }

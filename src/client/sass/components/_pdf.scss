@@ -1,0 +1,9 @@
+.embedded-pdf {
+  width: 100%;
+  height: 400px;
+
+  @include govuk-media-query($from: mobile) {
+    height: 842px;
+  }
+
+}

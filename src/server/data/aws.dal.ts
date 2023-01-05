@@ -1,4 +1,8 @@
-import { S3 } from 'aws-sdk';
+import {
+  GetObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from '@aws-sdk/client-s3';
 import { ConfigService } from '@nestjs/config';
 import { AwsConfig } from '../config';
 import {
@@ -9,17 +13,18 @@ import {
 import { FileUpload } from './types/FileUpload';
 import { v4 as uuidv4 } from 'uuid';
 import { UploadedFile } from './types/UploadedFile';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Readable } from 'stream';
 
 @Injectable()
 export class AwsDal {
   private awsConfig: AwsConfig;
-  private client: S3;
+  private client: S3Client;
 
   constructor(private config: ConfigService, private readonly logger: Logger) {
     this.awsConfig = config.get<AwsConfig>('aws');
-    this.client = new S3({
-      region: 'eu-west-2',
+    this.client = new S3Client({
+      region: this.awsConfig.region,
     });
   }
 
@@ -31,19 +36,18 @@ export class AwsDal {
     try {
       const uuid = uuidv4();
       const fileKey = `${uuid}-${originalname}`.toLocaleLowerCase();
-      await this.client
-        .putObject({
-          Bucket: this.awsConfig.ingestionBucket,
-          Key: fileKey,
-          ContentType: mimetype,
-          Body: buffer,
-          Metadata: {
-            uuid,
-            uploadedDate: new Date().toTimeString(),
-          },
-          ACL: 'authenticated-read',
-        })
-        .promise();
+      const command = new PutObjectCommand({
+        Bucket: this.awsConfig.ingestionBucket,
+        Key: fileKey,
+        ContentType: mimetype,
+        Body: buffer,
+        Metadata: {
+          uuid,
+          uploadedDate: new Date().toTimeString(),
+        },
+        ACL: 'authenticated-read',
+      });
+      await this.client.send(command);
 
       this.logger.log(
         `FILE UPLOADED, ${this.awsConfig.ingestionBucket}/${fileKey}`,
@@ -57,12 +61,19 @@ export class AwsDal {
     }
   }
 
-  getObject(uri: string): Readable {
-    return this.client
-      .getObject({
-        Bucket: this.awsConfig.ingestionBucket,
-        Key: uri,
-      })
-      .createReadStream();
+  async getObject(key: string) {
+    const command = new GetObjectCommand({
+      Bucket: this.awsConfig.ingestionBucket,
+      Key: key,
+    });
+    return (await this.client.send(command)).Body as Readable;
+  }
+
+  getObjectUrl(key: string): Promise<string> {
+    const command = new GetObjectCommand({
+      Bucket: this.awsConfig.ingestionBucket,
+      Key: key,
+    });
+    return getSignedUrl(this.client, command, { expiresIn: 10 });
   }
 }

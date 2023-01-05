@@ -1,3 +1,5 @@
+import * as process from 'process';
+
 export interface ServerConfig {
   staticResourceCacheDuration: number;
 }
@@ -11,6 +13,7 @@ export interface AwsConfig {
   ingestionBucket: string;
   logGroupName: string;
   logStreamName: string;
+  region: string;
 }
 
 export interface Secrets {
@@ -45,6 +48,7 @@ export function config(): Config {
       ingestionBucket: process.env.S3_UPLOAD_BUCKET,
       logGroupName: process.env.CLOUDWATCH_GROUP_NAME,
       logStreamName: process.env.CLOUDWATCH_STREAM_NAME,
+      region: process.env.AWS_REGION,
     },
     secrets: {
       uploadKey: process.env.API_UPLOAD_KEY,

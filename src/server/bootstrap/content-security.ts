@@ -1,10 +1,14 @@
 import { NestExpressApplication } from '@nestjs/platform-express';
 import helmet from 'helmet';
+import { ConfigService } from '@nestjs/config';
 
 export function useHelmet(app: NestExpressApplication) {
   // Secure code best practice - see:
   // 1. https://expressjs.com/en/advanced/best-practice-security.html,
   // 2. https://www.npmjs.com/package/helmet
+
+  const awsConfig = app.get(ConfigService).get('aws');
+
   app.use(
     helmet({
       contentSecurityPolicy: {
@@ -17,7 +21,15 @@ export function useHelmet(app: NestExpressApplication) {
           ],
           styleSrc: ["'self'", 'code.jquery.com'],
           fontSrc: ["'self'"],
-          frameSrc: ["'self'", 'www.youtube.com', 'youtube.com'],
+          frameSrc: [
+            "'self'",
+            'youtube.com',
+            `${awsConfig.ingestionBucket}.s3.${awsConfig.region}.amazonaws.com`,
+          ],
+          objectSrc: [
+            "'self'",
+            `${awsConfig.ingestionBucket}.s3.${awsConfig.region}.amazonaws.com`,
+          ],
         },
       },
       crossOriginEmbedderPolicy: false,
