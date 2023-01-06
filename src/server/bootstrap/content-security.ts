@@ -18,6 +18,7 @@ export function useHelmet(app: NestExpressApplication) {
           scriptSrc: [
             "'self'",
             "'sha256-+6WnXIl4mbFTCARd8N3COQmT3bJJmo32N8q8ZSQAIcU='",
+            "'sha256-2b+Gm87u3WRLxfnN+NOZHjz1c6wcU7grMX2FhtC02OA='",
           ],
           styleSrc: ["'self'", 'code.jquery.com'],
           fontSrc: ["'self'"],

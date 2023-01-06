@@ -1,0 +1,22 @@
+<%
+    var dateText = item.dates.updated ?? item.dates.published ?? null
+    const date = new Date(dateText)
+    const dateDay = date.getDate();
+    const dateMonth = date.toLocaleString('default', {month: 'long'});
+    const dateYear = date.getFullYear();
+%>
+
+<div class="search-result tna-search-result govuk-!-margin-bottom-2">
+    <div class="search-result-top-panel vertical-align-right">
+    </div>
+    <div class="govuk-!-padding-3">
+        <a href="#">
+            <h3><%= item.title %></h3>
+        </a>
+        <p class="search-result-info govuk-!-font-size-16">
+            <span><%= item.legislationType %></span>
+            <span><%= dateDay %>, <%= dateMonth %>, <%= dateYear %></span>
+            <span><%= item.number %></span>
+        </p>
+    </div>
+</div>

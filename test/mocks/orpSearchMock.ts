@@ -76,10 +76,14 @@ const docTitles = [
 
 export const orpStandardResponse: RawOrpResponse = {
   total_search_results: 13,
-  documents: docTitles.map((title) => getRawDocument({ title })),
+  documents: docTitles.map((title, index) =>
+    getRawDocument({ title, document_uid: String(index) }),
+  ),
 };
 
 export const expectedOutputForOrpStandardResponse: SearchResponseDto['orp'] = {
-  documents: docTitles.map((title) => getMappedDocument({ title })),
+  documents: docTitles.map((title, index) =>
+    getMappedDocument({ title, documentId: String(index) }),
+  ),
   totalSearchResults: 13,
 };

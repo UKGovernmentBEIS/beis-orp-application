@@ -1,4 +1,10 @@
 .vertical-align {
   display: flex;
-  vertical-align: center;
+  vertical-align: middle;
+}
+
+.vertical-align-right {
+  display: flex;
+  vertical-align: middle;
+  justify-content: flex-end;
 }

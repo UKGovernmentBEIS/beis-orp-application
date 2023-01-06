@@ -1,3 +1,63 @@
 .app-header__logo {
   width: auto;
 }
+
+.primary-navigation-container {
+  background-color: govuk-colour("light-grey", $legacy: "grey-3");
+  border-bottom: 1px solid $govuk-border-colour;
+  margin-top: -10px;
+  padding-top: 10px;
+}
+
+.primary-navigation__container {
+  max-width: 1220px;
+  margin: 0 15px;
+  font-size: 0;
+  text-align: justify;
+}
+
+.primary-navigation__nav {
+  text-align: left;
+}
+
+.primary-navigation__list {
+  font-size: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.primary-navigation__item {
+  font-family: "GDS Transport",arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  font-size: 1rem;
+  line-height: 1.25;
+  display: inline-block;
+  margin-right: 20px;
+  margin-top: 0;
+}
+
+.primary-navigation__link[aria-current] {
+  color: #1d70b8;
+  position: relative;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.primary-navigation__link:link, .primary-navigation__link:visited {
+  color: #1d70b8;
+}
+
+.primary-navigation__link {
+  font-family: "GDS Transport",arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: block;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  text-decoration: none;
+  font-weight: bold;
+}
