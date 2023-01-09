@@ -1,0 +1,12 @@
+<div class="search-result orp-search-result govuk-!-margin-bottom-2">
+    <div class="search-result-top-panel vertical-align-right">
+        <a href="/api/document/<%= item.documentId %>" role="button" draggable="false" download="<%= item.documentId %>.pdf">
+            <img src="/assets/images/download-blue.svg" width="20px" height="20px" aria-label="download" class="govuk-!-padding-2"/>
+        </a>
+    </div>
+    <div class="govuk-!-padding-3">
+        <a href="/document/<%= item.documentId %>">
+            <h3><%= item.title %></h3>
+        </a>
+    </div>
+</div>

@@ -28,6 +28,11 @@
 
 <body class="govuk-template__body ">
 
+<script>
+  document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+
+</script>
+
 <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
 <header class="govuk-header" role="banner" data-module="govuk-header">
@@ -43,6 +48,24 @@
         </div>
     </div>
 </header>
+<div class="primary-navigation-container">
+    <div class="govuk-width-container">
+        <div class="primary-navigation__container">
+            <div class="primary-navigation__nav">
+                <nav class="primary-navigation" aria-label="Primary navigation">
+                    <ul class="primary-navigation__list">
+                        <li class="primary-navigation__item">
+                            <a class="primary-navigation__link" aria-current="page" href="/search">Search</a>
+                        </li>
+                        <li class="primary-navigation__item">
+                            <a class="primary-navigation__link" href="/blog">Blog</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="govuk-phase-banner govuk-width-container">
     <p class="govuk-phase-banner__content">
         <strong class="govuk-tag govuk-phase-banner__content__tag">

@@ -1,0 +1,90 @@
+<%- include('../../partials/header'); %>
+
+<%
+    var titleValue = title ?? ""
+    var keywordValue = keyword ?? ""
+    var tnaResults = results?.nationalArchive.documents ?? []
+    var totalTnaResults = results?.nationalArchive.totalSearchResults ?? null
+    var orpResults = results?.orp.documents ?? []
+    var totalOrpResults = results?.orp.totalSearchResults ?? null
+    var noResults = !tnaResults.length && !orpResults.length
+%>
+
+<div class="govuk-width-container" xmlns="http://www.w3.org/1999/html">
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+        <h1 class="govuk-heading-l">Search for Regulatory Material</h1>
+        <div class="govuk-grid-row">
+
+            <div class="govuk-grid-column-one-third">
+                <%- include('./partials/searchPanelForm', { titleValue, keywordValue }); %>
+            </div>
+            <div class="govuk-grid-column-two-thirds">
+                <% if (noResults) { %>
+                    <div class="search-no-content">
+                        <% if (!titleValue && !keywordValue) { %>
+                            <p>Enter your keywords into one of the search bars and press search to see results.</p>
+                        <% } else { %>
+                            <p class="govuk-!-font-weight-bold">No results found</p>
+                            <p>Try adjusting your search to find what you are looking for.</p>
+                        <% } %>
+                    </div>
+                <% } else { %>
+
+                    <div class="govuk-tabs" data-module="govuk-tabs">
+                        <h2 class="govuk-tabs__title">
+                            Contents
+                        </h2>
+
+                        <ul class="govuk-tabs__list">
+                            <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+                                <%- include('./partials/searchResultTab', { name: "Open Regulation Platform", tabId: "orp", total: totalOrpResults }); %>
+                            </li>
+                            <li class="govuk-tabs__list-item">
+                                <%- include('./partials/searchResultTab', { name: "National Archives", tabId: "tna", total: totalTnaResults }); %>
+                            </li>
+                        </ul>
+
+                        <div class="govuk-tabs__panel no-border" id="orp">
+                            <% if (!orpResults.length) { %>
+                                <div class="search-no-content-panel">
+                                    <p class="govuk-!-font-weight-bold">No results found</p>
+                                    <p>
+                                        <span class="govuk-!-font-weight-bold">Check results from the Open Regulation Platform</span><br />,
+                                        or try adjusting your search or filters to find what you are looking for. You can also contact us to request a document.
+                                    </p>
+                                </div>
+                            <% } else { %>
+                                <%- include('./partials/searchInfoBar', { total: totalOrpResults }); %>
+
+                                <% orpResults.forEach(function(item) {  %>
+                                    <%- include('./partials/orpSearchItem', { item }); %>
+                                <% }); %>
+                             <% } %>
+
+                        </div>
+
+                        <div class="govuk-tabs__panel no-border govuk-tabs__panel--hidden" id="tna">
+
+                            <% if (!tnaResults.length) { %>
+                                <div class="search-no-content-panel">
+                                    <p class="govuk-!-font-weight-bold">No results found</p>
+                                    <p>
+                                        <span class="govuk-!-font-weight-bold">Check results from the Open Regulation Platform</span>,<br />
+                                        or try adjusting your search or filters to find what you are looking for. You can also contact us to request a document.
+                                    </p>
+                                </div>
+                            <% } else { %>
+                                <%- include('./partials/searchInfoBar', { total: totalTnaResults }); %>
+                                <% tnaResults.forEach(function(item) {  %>
+                                    <%- include('./partials/tnaSearchItem', { item }); %>
+                                <% }); %>
+                            <% } %>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </main>
+</div>
+
+<%- include('../../partials/footer'); %>
