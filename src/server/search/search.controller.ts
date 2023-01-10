@@ -13,7 +13,9 @@ export class SearchController {
     @Query() { title, keyword }: { title?: string; keyword?: string },
   ) {
     const results =
-      title || keyword ? await this.searchService.search(title, keyword) : null;
+      title || keyword
+        ? await this.searchService.searchForView(title, keyword)
+        : null;
 
     return { title, keyword, results };
   }
