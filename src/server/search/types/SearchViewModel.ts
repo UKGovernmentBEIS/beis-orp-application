@@ -1,4 +1,4 @@
-class TnaSearchItem {
+interface TnaSearchItemViewModel {
   title?: string;
   author?: string;
   dates: {
@@ -7,23 +7,23 @@ class TnaSearchItem {
   };
   legislationType?: string;
   links: TnaLink[];
+  href: string;
   number?: number;
   year?: number;
 }
 
-class TnaLink {
+interface TnaLink {
   title?: string;
   type?: string;
   href: string;
-  rel?: string;
 }
 
-export class TnaSearchResponse {
+export interface TnaSearchResponseViewModel {
   totalSearchResults?: number;
-  documents: TnaSearchItem[];
+  documents: TnaSearchItemViewModel[];
 }
 
-export class OrpSearchItem {
+interface OrpSearchItem {
   title: string;
   summary: string;
   documentId: string;
@@ -38,19 +38,19 @@ export class OrpSearchItem {
   documentType?: string;
 }
 
-class LegislativeOrigin {
+interface LegislativeOrigin {
   url: string;
   title: string;
   type: string;
   division: string;
 }
 
-export class OrpSearchResponse {
+interface OrpSearchResponse {
   totalSearchResults?: number;
   documents: OrpSearchItem[];
 }
 
-export class SearchResponseDto {
-  nationalArchive: TnaSearchResponse;
+export interface SearchViewModel {
+  nationalArchive: TnaSearchResponseViewModel;
   orp: OrpSearchResponse;
 }

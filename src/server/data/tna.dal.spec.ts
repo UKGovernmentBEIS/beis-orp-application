@@ -100,11 +100,13 @@ describe('TNA data access layer', () => {
           links: [
             {
               href: 'HREF',
+              rel: 'http://purl.org/dc/terms/tableOfContents',
               title: 'TITLE',
               type: 'TYPE',
             },
             {
               href: 'HREF2',
+              rel: 'http://purl.org/dc/terms/tableOfContents',
               title: 'TITLE2',
               type: 'TYPE2',
             },
@@ -123,11 +125,13 @@ describe('TNA data access layer', () => {
           links: [
             {
               href: 'HREF',
+              rel: 'http://purl.org/dc/terms/tableOfContents',
               title: 'TITLE',
               type: 'TYPE',
             },
             {
               href: 'HREF2',
+              rel: 'http://purl.org/dc/terms/tableOfContents',
               title: 'TITLE2',
               type: 'TYPE2',
             },
@@ -179,6 +183,7 @@ describe('TNA data access layer', () => {
           links: [
             {
               href: 'HREF',
+              rel: 'http://purl.org/dc/terms/tableOfContents',
               title: 'TITLE',
               type: 'TYPE',
             },

@@ -1,9 +1,9 @@
 interface RawTnaResponseLink {
-  _attributes: { title?: string; href: string; type?: string };
+  _attributes: { title?: string; href: string; type?: string; rel?: string };
 }
 
 interface RawTnaResponseEntry {
-  title?: { _text: string };
+  title?: RawTitle;
   author?: { name: { _text: string } };
   updated?: { _text: string };
   published?: { _text: string };
@@ -14,6 +14,19 @@ interface RawTnaResponseEntry {
   'ukm:CreationDate'?: { _attributes?: { Date: string } };
   link: RawTnaResponseLink | RawTnaResponseLink[];
 }
+
+interface LanguageTitle {
+  div: {
+    span: {
+      _attributes: { 'xml:lang': string };
+      _text: string;
+    }[];
+  };
+}
+
+export type RawTitle = { _text: string } | LanguageTitle;
+export const isLanguageTitle = (title: RawTitle): title is LanguageTitle =>
+  (title as LanguageTitle).div !== undefined;
 
 export interface RawTnaResponse {
   feed: {
