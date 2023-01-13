@@ -1,0 +1,48 @@
+<%- include('../../partials/header'); %>
+
+<%
+    var validationError = locals.error ?? null
+%>
+
+<div class="govuk-width-container">
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <span class="govuk-caption-l">Step 1 of 5</span>
+                <h1 class="govuk-heading-l">Choose a document</h1>
+                <p>You can use this page to upload a document to the Open Regulation Platform. Documents that are uploaded will become visible to other users of the service.</p>
+
+                <form method="post" enctype="multipart/form-data">
+                    <div class="govuk-form-group <% if(validationError) { %>govuk-form-group--error<% } %>">
+                        <label class="govuk-label" for="file-upload">
+                            Upload a file
+                        </label>
+                        <% if(validationError) { %>
+                            <p id="file-upload-error" class="govuk-error-message">
+                                <span class="govuk-visually-hidden">Error:</span> <%= validationError %>
+                            </p>
+                        <% } %>
+                        <input class="govuk-file-upload" id="file-upload" name="file" type="file">
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button">
+                        Continue
+                    </button>
+                </form>
+
+
+                <details class="govuk-details" data-module="govuk-details">
+                    <summary class="govuk-details__summary">
+                        <span class="govuk-details__summary-text">
+                          Get help uploading a document
+                        </span>
+                    </summary>
+                    <div class="govuk-details__text">
+                        <p>Contact <a class="govuk-link" href="mailto:openregulationplatform@beis.gov.uk">openregulationplatform@beis.gov.uk</a> if you need help using this service.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </main>
+</div>
+
+<%- include('../../partials/footer'); %>

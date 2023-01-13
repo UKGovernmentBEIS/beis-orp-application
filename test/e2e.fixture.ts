@@ -15,7 +15,8 @@ const mockCogUserPool = {
     callback(undefined, { user: 'USER_MOCK' }),
 };
 
-export const CORRECT_EMAIL = 'email@email.com';
+export const CORRECT_EMAIL = 'reg@regulator.com';
+export const CORRECT_NON_REG_EMAIL = 'noreg@email.com';
 export const CORRECT_PW = 'pw';
 const mockCogUser = {
   authenticateUser: (authDetails, callbacks) => {

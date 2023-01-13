@@ -5,7 +5,10 @@ import { AuthException } from './types/AuthException';
 import { UserService } from '../user/user.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { mockLogger } from '../../../test/mocks/logger.mock';
-import { DEFAULT_PRISMA_USER } from '../../../test/mocks/prismaService.mock';
+import {
+  DEFAULT_PRISMA_USER,
+  DEFAULT_PRISMA_USER_WITH_REGULATOR,
+} from '../../../test/mocks/prismaService.mock';
 
 const mockCogUserPool = {
   signUp: (email, password, userAttributes, validationData, callback) => {
@@ -74,12 +77,23 @@ describe('AuthService', () => {
 
   describe('authenticateUser', () => {
     it('should call authenticateUser on congnitoUser and return user if success', async () => {
+      jest
+        .spyOn(userService, 'getUserByEmail')
+        .mockResolvedValue(DEFAULT_PRISMA_USER_WITH_REGULATOR);
+
       const user = {
         email: 'e@mail.com',
         password: 'pw',
       };
       const result = await service.authenticateUser(user);
-      expect(result).toEqual({ email: user.email });
+      expect(result).toEqual({
+        email: 'e@mail.com',
+        regulator: {
+          domain: 'regulator.com',
+          id: 'rid',
+          name: 'Regulator',
+        },
+      });
     });
 
     it('should throw authError if rejected', async () => {

@@ -50,10 +50,11 @@ export class AuthService {
     const cognitoUser = new CognitoUser(userData);
     return new Promise((resolve, reject) => {
       cognitoUser.authenticateUser(authDetails, {
-        onSuccess: () => {
-          // TODO get corresponding user from db
+        onSuccess: async () => {
+          const user = await this.userService.getUserByEmail(email);
           resolve({
             email,
+            regulator: user.regulator,
           });
         },
         onFailure: (err) => {
