@@ -1,0 +1,17 @@
+version: '3.1'
+services:
+  orp-db:
+    image: postgres
+    networks:
+      - orp
+    container_name: orp-db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=orp
+      - POSTGRES_USER=orp
+      - POSTGRES_DB=orp
+
+networks:
+  orp:

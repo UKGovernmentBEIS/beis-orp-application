@@ -29,7 +29,7 @@ describe('api/upload (PUT)', () => {
     return fixture
       .request()
       .put('/api/upload')
-      .set('x-orp-auth-token', 'upload_key')
+      .set('x-orp-auth-token', 'regulator_key')
       .attach('file', file, 'testfile.pdf')
       .expect(200)
       .expect('success');
@@ -39,7 +39,7 @@ describe('api/upload (PUT)', () => {
     return fixture
       .request()
       .put('/api/upload')
-      .set('x-orp-auth-token', 'upload_key')
+      .set('x-orp-auth-token', 'regulator_key')
       .attach('file', '')
       .expect(400)
       .expect(
@@ -51,7 +51,7 @@ describe('api/upload (PUT)', () => {
     return fixture
       .request()
       .put('/api/upload')
-      .set('x-orp-auth-token', 'upload_key')
+      .set('x-orp-auth-token', 'regulator_key')
       .attach('file', file, 'testfile.png')
       .expect(400)
       .expect(
@@ -59,7 +59,7 @@ describe('api/upload (PUT)', () => {
       );
   });
 
-  it('returns unauthorised when wrong key is passed in', async () => {
+  it('returns unauthorised when non-regulator key is passed in', async () => {
     return fixture
       .request()
       .put('/api/upload')

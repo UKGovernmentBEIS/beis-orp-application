@@ -6,6 +6,8 @@ import * as request from 'supertest';
 import * as path from 'path';
 import { getMockedConfig } from './mocks/config.mock';
 import { ConfigService } from '@nestjs/config';
+import { ApiKeyService } from '../src/server/auth/apiKey.service';
+import { PrismaService } from '../src/server/prisma/prisma.service';
 
 export class E2eFixture {
   private app: NestExpressApplication;
@@ -18,6 +20,27 @@ export class E2eFixture {
       .useValue({
         get: getMockedConfig,
       })
+      .overrideProvider(ApiKeyService)
+      .useValue({
+        key: ({ key }) => {
+          return key === 'regulator_key'
+            ? {
+                key: 'regulator_key',
+                createdDate: new Date(),
+                expiresDate: null,
+                revoked: false,
+                regulatorId: 'xxx',
+                regulator: {
+                  id: 'xxx',
+                  name: 'Regulator',
+                  domain: 'regulator.com',
+                },
+              }
+            : null;
+        },
+      })
+      .overrideProvider(PrismaService)
+      .useValue({})
       .compile();
 
     this.app = moduleFixture.createNestApplication<NestExpressApplication>();

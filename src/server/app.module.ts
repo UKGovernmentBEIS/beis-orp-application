@@ -8,6 +8,8 @@ import { ApiModule } from './api/api.module';
 import { SearchModule } from './search/search.module';
 import { DocumentModule } from './document/document.module';
 import { DataModule } from './data/data.module';
+import { PrismaService } from './prisma/prisma.service';
+import { ApiKeyService } from './auth/apiKey.service';
 
 @Module({
   imports: [
@@ -20,7 +22,7 @@ import { DataModule } from './data/data.module';
     DocumentModule,
     DataModule,
   ],
-  providers: [Logger],
+  providers: [Logger, PrismaService, ApiKeyService],
   exports: [Logger],
 })
 export class AppModule {}

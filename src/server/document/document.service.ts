@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { OrpDal } from '../data/orp.dal';
 import { AwsDal } from '../data/aws.dal';
 import { UploadedFile } from '../data/types/UploadedFile';
@@ -11,10 +11,16 @@ export class DocumentService {
   constructor(
     private readonly orpDal: OrpDal,
     private readonly awsDal: AwsDal,
+    private readonly logger: Logger,
   ) {}
 
-  upload(fileUpload: FileUpload): Promise<UploadedFile> {
-    return this.awsDal.upload(fileUpload);
+  async upload(
+    fileUpload: FileUpload,
+    regulator: string,
+  ): Promise<UploadedFile> {
+    const upload = await this.awsDal.upload(fileUpload);
+    this.logger.log(`file uploaded by ${regulator}, ${upload.key}`);
+    return upload;
   }
 
   async getDocument(id: string): Promise<Readable> {

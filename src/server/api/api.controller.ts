@@ -6,6 +6,7 @@ import {
   ParseFilePipe,
   Put,
   Query,
+  Req,
   StreamableFile,
   UploadedFile,
   UseGuards,
@@ -31,6 +32,7 @@ import { AuthGuard } from '../auth/AuthGuard';
 import { DocumentRequestDto } from './types/DocumentRequest.dto';
 import { DocumentService } from '../document/document.service';
 import { FileUpload } from '../data/types/FileUpload';
+import { Request } from 'express';
 
 @UsePipes(new ValidationPipe())
 @Controller('api')
@@ -67,6 +69,7 @@ export class ApiController {
   })
   @ApiInternalServerErrorResponse({ description: 'Unexpected error' })
   async uploadFile(
+    @Req() request: Request & { regulator: string },
     @UploadedFile(
       new ParseFilePipe({
         validators: [new FileTypeValidator({ fileType: 'pdf' })],
@@ -74,7 +77,7 @@ export class ApiController {
     )
     file: FileUpload,
   ) {
-    await this.documentService.upload(file);
+    await this.documentService.upload(file, request.regulator);
     return 'success';
   }
 
