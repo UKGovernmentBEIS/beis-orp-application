@@ -2,7 +2,7 @@
 ARG BUILD_NUMBER
 ARG GIT_REF
 
-FROM node:18.12.1-buster-slim as base
+FROM node:lts-slim as base
 
 ENV TZ=Europe/London
 RUN ln -snf "/usr/share/zoneinfo/$TZ" /etc/localtime && echo "$TZ" > /etc/timezone
@@ -23,6 +23,8 @@ ARG GIT_REF
 RUN apt-get install -y make python g++
 
 COPY package*.json ./
+COPY prisma ./prisma/
+
 RUN npm ci --no-audit
 
 COPY . .
@@ -54,8 +56,11 @@ COPY --from=build --chown=appuser:appgroup \
 COPY --from=build --chown=appuser:appgroup \
         /app/node_modules ./node_modules
 
+COPY --from=build --chown=appuser:appgroup \
+        /app/prisma ./prisma
+
 EXPOSE 3000
 ENV NODE_ENV='production'
 USER 2000
 
-CMD [ "npm", "run", "start:prod" ]
+CMD [ "npm", "run", "start:migrate:prod" ]
