@@ -1,3 +1,4 @@
 export interface UploadedFile {
-  path: string;
+  key: string;
+  id: string;
 }

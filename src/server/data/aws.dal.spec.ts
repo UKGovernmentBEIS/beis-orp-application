@@ -52,7 +52,10 @@ describe('AwsDal', () => {
 
       const result = await service.upload(file);
 
-      expect(result.path).toContain('bucket/uuid-original-filename');
+      expect(result).toEqual({
+        key: 'uuid-original-filename',
+        id: 'UUID',
+      });
       expect(mockS3.send).toBeCalledWith({
         putObjectCommand: true,
         Bucket: 'bucket',

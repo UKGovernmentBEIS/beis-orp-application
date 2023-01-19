@@ -49,10 +49,7 @@ export class AwsDal {
       });
       await this.client.send(command);
 
-      this.logger.log(
-        `FILE UPLOADED, ${this.awsConfig.ingestionBucket}/${fileKey}`,
-      );
-      return { path: `${this.awsConfig.ingestionBucket}/${fileKey}` };
+      return { key: fileKey, id: uuid };
     } catch (e) {
       this.logger.error('UPLOAD ERROR', e.stack);
       throw new InternalServerErrorException(

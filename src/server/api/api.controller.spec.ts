@@ -14,6 +14,9 @@ import { DocumentService } from '../document/document.service';
 import { Readable } from 'stream';
 import { StreamableFile } from '@nestjs/common';
 import { mockLogger } from '../../../test/mocks/logger.mock';
+import * as mocks from 'node-mocks-http';
+import { ApiKeyService } from '../auth/apiKey.service';
+import { PrismaService } from '../prisma/prisma.service';
 
 describe('ApiController', () => {
   let controller: ApiController;
@@ -31,6 +34,8 @@ describe('ApiController', () => {
         mockConfigService,
         DocumentService,
         mockLogger,
+        ApiKeyService,
+        PrismaService,
       ],
       imports: [HttpModule],
     }).compile();
@@ -42,11 +47,14 @@ describe('ApiController', () => {
 
   describe('upload', () => {
     it('should call aws uploader with file', async () => {
-      const result = { path: '/file.pdf' };
+      const result = { key: 'file.pdf', id: '123' };
       jest.spyOn(documentService, 'upload').mockResolvedValue(result);
 
       const file = await getPdfAsMulterFile();
-      const expectedResult = await controller.uploadFile(file);
+      const expectedResult = await controller.uploadFile(
+        mocks.createRequest(),
+        file,
+      );
 
       expect(expectedResult).toEqual('success');
     });
