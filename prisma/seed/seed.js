@@ -1,5 +1,6 @@
-import { PrismaClient } from '@prisma/client';
-import { regulators } from './regulators';
+/* eslint-disable @typescript-eslint/no-var-requires */
+const { PrismaClient } = require('@prisma/client');
+const { regulators } = require('./regulators');
 
 const prisma = new PrismaClient();
 
