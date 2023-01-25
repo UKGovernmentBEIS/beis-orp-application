@@ -6,6 +6,7 @@ import {
   Render,
   Session,
   UseFilters,
+  UseInterceptors,
 } from '@nestjs/common';
 import { SubscriberDto } from './types/Subscriber.dto';
 import { SubscribeService } from './subscribe.service';
@@ -13,9 +14,11 @@ import { ValidateAndRender } from '../validation';
 import { MailchimpExceptionFilter } from './filters/mailchimpError.filter';
 import { UserPreferenceDto } from './types/UserPreference.dto';
 import { ErrorFilter } from '../error.filter';
+import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 
 @UseFilters(new MailchimpExceptionFilter())
 @UseFilters(new ErrorFilter())
+@UseInterceptors(ViewDataInterceptor)
 @Controller('subscribe')
 export class SubscribeController {
   constructor(private subscribeService: SubscribeService) {}

@@ -1,8 +1,17 @@
-import { Controller, Get, Query, Render, UseFilters } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  Render,
+  UseFilters,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ErrorFilter } from '../error.filter';
 import { SearchService } from './search.service';
+import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 
 @UseFilters(new ErrorFilter())
+@UseInterceptors(ViewDataInterceptor)
 @Controller('search')
 export class SearchController {
   constructor(private readonly searchService: SearchService) {}

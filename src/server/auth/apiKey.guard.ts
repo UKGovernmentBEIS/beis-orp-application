@@ -12,7 +12,7 @@ export const isRegulatorKey = (key: ApiKey): key is RegulatorKey =>
   !!key.regulatorId;
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class ApiKeyGuard implements CanActivate {
   private secret: string;
 
   constructor(

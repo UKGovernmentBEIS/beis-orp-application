@@ -10,6 +10,7 @@ import { DocumentModule } from './document/document.module';
 import { DataModule } from './data/data.module';
 import { PrismaService } from './prisma/prisma.service';
 import { ApiKeyService } from './auth/apiKey.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ApiKeyService } from './auth/apiKey.service';
     SearchModule,
     DocumentModule,
     DataModule,
+    AuthModule,
   ],
   providers: [Logger, PrismaService, ApiKeyService],
   exports: [Logger],

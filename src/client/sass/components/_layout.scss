@@ -61,3 +61,13 @@
   text-decoration: none;
   font-weight: bold;
 }
+
+.header-title-container {
+  display: flex;
+
+  #user-block {
+    margin-left: auto;
+    display: flex;
+
+  }
+}
