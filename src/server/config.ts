@@ -14,6 +14,10 @@ export interface AwsConfig {
   logGroupName: string;
   logStreamName: string;
   region: string;
+  cognito: {
+    userPoolId: string;
+    clientId: string;
+  };
 }
 
 export interface Secrets {
@@ -49,6 +53,10 @@ export function config(): Config {
       logGroupName: process.env.CLOUDWATCH_GROUP_NAME,
       logStreamName: process.env.CLOUDWATCH_STREAM_NAME,
       region: process.env.AWS_REGION,
+      cognito: {
+        userPoolId: process.env.COGNITO_USER_POOL,
+        clientId: process.env.COGNITO_CLIENT_ID,
+      },
     },
     secrets: {
       uploadKey: process.env.API_UPLOAD_KEY,

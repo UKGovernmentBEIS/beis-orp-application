@@ -39,7 +39,8 @@ export class ErrorFilter<T extends Error> implements ExceptionFilter {
 
     switch (status) {
       case HttpStatus.FORBIDDEN:
-        return response.redirect('/login');
+      case HttpStatus.UNAUTHORIZED:
+        return response.redirect('/auth/logout');
       default:
         return response.status(status).render('pages/error', {
           message: exception.message,

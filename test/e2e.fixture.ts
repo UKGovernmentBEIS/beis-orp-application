@@ -6,7 +6,35 @@ import * as request from 'supertest';
 import * as path from 'path';
 import { getMockedConfig } from './mocks/config.mock';
 import { ConfigService } from '@nestjs/config';
+import { useSession } from '../src/server/bootstrap/session';
+import { usePassport } from '../src/server/bootstrap/passport';
 
+const mockCogUserPool = {
+  signUp: (email, password, userAttributes, validationData, callback) =>
+    callback(undefined, { user: 'USER_MOCK' }),
+};
+
+export const CORRECT_EMAIL = 'email@email.com';
+export const CORRECT_PW = 'pw';
+const mockCogUser = {
+  authenticateUser: (authDetails, callbacks) => {
+    if (
+      authDetails.Username === CORRECT_EMAIL &&
+      authDetails.Password === CORRECT_PW
+    ) {
+      return callbacks.onSuccess();
+    }
+    callbacks.onFailure({ code: 'NotAuthorizedException' });
+  },
+};
+
+jest.mock('amazon-cognito-identity-js', () => {
+  return {
+    CognitoUserPool: jest.fn(() => mockCogUserPool),
+    AuthenticationDetails: jest.fn((args) => args),
+    CognitoUser: jest.fn(() => mockCogUser),
+  };
+});
 export class E2eFixture {
   private app: NestExpressApplication;
 
@@ -22,6 +50,8 @@ export class E2eFixture {
 
     this.app = moduleFixture.createNestApplication<NestExpressApplication>();
     useGovUi(this.app);
+    useSession(this.app);
+    usePassport(this.app);
     this.app.setBaseViewsDir(
       path.join(__dirname, '..', 'src', 'server', 'views'),
     );

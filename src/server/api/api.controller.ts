@@ -28,7 +28,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { ApiBadRequestResponse } from '@nestjs/swagger/dist/decorators/api-response.decorator';
-import { AuthGuard } from '../auth/AuthGuard';
+import { ApiKeyGuard } from '../auth/apiKey.guard';
 import { DocumentRequestDto } from './types/DocumentRequest.dto';
 import { DocumentService } from '../document/document.service';
 import { FileUpload } from '../data/types/FileUpload';
@@ -58,7 +58,7 @@ export class ApiController {
   }
 
   @Put('upload')
-  @UseGuards(AuthGuard)
+  @UseGuards(ApiKeyGuard)
   @UseInterceptors(FileInterceptor('file'))
   @ApiTags('document')
   @ApiConsumes('multipart/form-data')

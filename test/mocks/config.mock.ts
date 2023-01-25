@@ -28,6 +28,10 @@ export function getMockedConfig(key): Partial<Config> {
     },
     aws: {
       ingestionBucket: 'bucket',
+      cognito: {
+        userPoolId: 'upid',
+        clientId: 'clid',
+      },
     },
     secrets: {
       uploadKey: 'upload_key',
