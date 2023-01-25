@@ -6,9 +6,11 @@ import { mockAuthService } from '../../../test/mocks/authService.mock';
 import { ApiKeyService } from './apiKey.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { mockLogger } from '../../../test/mocks/logger.mock';
+import { AuthService } from './auth.service';
 
 describe('AuthController', () => {
   let controller: AuthController;
+  let authService: AuthService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -23,6 +25,9 @@ describe('AuthController', () => {
     }).compile();
 
     controller = module.get<AuthController>(AuthController);
+    authService = module.get<AuthService>(AuthService);
+
+    jest.clearAllMocks();
   });
 
   describe('register', () => {
@@ -49,6 +54,30 @@ describe('AuthController', () => {
       );
 
       expect(destroyMock).toBeCalledTimes(1);
+    });
+  });
+
+  describe('resend-confirmation', () => {
+    it('should resend confirmation link if there is an address in session', async () => {
+      const req = mocks.createRequest({
+        session: { unconfirmedEmail: ['email@email.com'] },
+      });
+      const res = mocks.createResponse();
+
+      const resentSpy = jest.spyOn(authService, 'resendConfirmationCode');
+      await controller.resendConfirmation(req, res);
+      expect(resentSpy).toBeCalledTimes(1);
+    });
+
+    it('should not resend confirmation link if there is no address in session', async () => {
+      const req = mocks.createRequest({
+        session: {},
+      });
+      const res = mocks.createResponse();
+
+      const resentSpy = jest.spyOn(authService, 'resendConfirmationCode');
+      await controller.resendConfirmation(req, res);
+      expect(resentSpy).toBeCalledTimes(0);
     });
   });
 });

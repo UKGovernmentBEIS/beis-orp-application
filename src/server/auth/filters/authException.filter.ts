@@ -26,6 +26,11 @@ export class AuthExceptionFilter implements ExceptionFilter {
       return response.redirect('/auth/login');
     }
 
+    if (exception.isUnconfirmed()) {
+      request.session.unconfirmedEmail = exception.errorObj.meta.email;
+      return response.redirect('/auth/unconfirmed');
+    }
+
     return response.redirect('/');
   }
 }
