@@ -6,6 +6,7 @@ import {
   Redirect,
   Render,
   Request,
+  Res,
   UseFilters,
   UseGuards,
   UseInterceptors,
@@ -50,5 +51,23 @@ export class AuthController {
   logout(@Request() req): any {
     req.session.destroy();
     return { msg: 'The user session has ended' };
+  }
+
+  @Get('unconfirmed')
+  @Render('pages/auth/unconfirmed')
+  unconfirmed() {
+    return;
+  }
+
+  @Get('/resend-confirmation')
+  async resendConfirmation(@Request() req, @Res() res) {
+    const email = req.session.unconfirmedEmail;
+    req.session.unconfirmedEmail = undefined;
+
+    if (!email) {
+      return res.redirect('/auth/login');
+    }
+    await this.authService.resendConfirmationCode(email);
+    return res.render('pages/auth/confirmationSent');
   }
 }

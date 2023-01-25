@@ -10,6 +10,7 @@ const mockCogUserPool = {
 
 const mockCogUser = {
   authenticateUser: (authDetails, callbacks) => callbacks.onSuccess(),
+  resendConfirmationCode: (callback) => callback(null, 'RESEND_RESULT'),
 };
 
 jest.mock('amazon-cognito-identity-js', () => {
@@ -54,7 +55,7 @@ describe('AuthService', () => {
 
     it('should throw authError if rejected', async () => {
       mockCogUser.authenticateUser = (authDetails, callbacks) =>
-        callbacks.onFailure();
+        callbacks.onFailure({ code: 'NotAuthorizedException' });
       const user = {
         email: 'e@mail.com',
         password: 'pw',
@@ -62,6 +63,21 @@ describe('AuthService', () => {
       await expect(service.authenticateUser(user)).rejects.toBeInstanceOf(
         AuthException,
       );
+    });
+  });
+
+  describe('resendConfirmationCode', () => {
+    it('should call resendConfirmationCode on congnitoUser and return user if success', async () => {
+      const result = await service.resendConfirmationCode('e@mail.com');
+      expect(result).toEqual('RESEND_RESULT');
+    });
+
+    it('should throw authError if rejected', async () => {
+      mockCogUser.resendConfirmationCode = (callback) =>
+        callback('ERROR', 'RESEND_RESULT');
+      await expect(
+        service.resendConfirmationCode('e@mail.com'),
+      ).rejects.toEqual('ERROR');
     });
   });
 });

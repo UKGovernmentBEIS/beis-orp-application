@@ -50,8 +50,23 @@ export class AuthService {
           });
         },
         onFailure: (err) => {
-          reject(new AuthException(err));
+          reject(new AuthException({ code: err.code, meta: { email } }));
         },
+      });
+    });
+  }
+
+  async resendConfirmationCode(email: string) {
+    const userData = { Username: email, Pool: this.userPool };
+    const cognitoUser = new CognitoUser(userData);
+
+    return new Promise((resolve, reject) => {
+      cognitoUser.resendConfirmationCode((error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result);
+        }
       });
     });
   }
