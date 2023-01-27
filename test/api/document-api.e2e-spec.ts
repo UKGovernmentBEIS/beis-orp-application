@@ -17,9 +17,15 @@ jest.mock('@aws-sdk/client-s3', () => {
 });
 describe('api/document/:id (GET)', () => {
   const fixture = new E2eFixture();
+  beforeAll(async () => {
+    await fixture.init();
+  });
+
+  afterAll(() => {
+    fixture.tearDown();
+  });
 
   beforeEach(async () => {
-    await fixture.init();
     jest.clearAllMocks();
     mockS3.send.mockResolvedValueOnce({ Body: getPdfBuffer() });
   });

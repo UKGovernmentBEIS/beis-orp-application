@@ -6,12 +6,13 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { HealthError } from './health/types';
-import { ValidationException } from './validation';
+import { FormValidationException } from './form-validation';
 
 @Catch()
 export class ErrorFilter<T extends Error> implements ExceptionFilter {
   catch(exception: T, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse();
+    const request = host.switchToHttp().getRequest();
 
     if (exception instanceof HealthError) {
       return response
@@ -19,17 +20,12 @@ export class ErrorFilter<T extends Error> implements ExceptionFilter {
         .json(exception.health);
     }
 
-    if (exception instanceof ValidationException) {
-      const errors = exception.viewModel.errors.reduce(
-        (acc, er) => ({ ...acc, [er.property]: er.constraints }),
-        {},
-      );
+    if (exception instanceof FormValidationException) {
+      request.session.errors = exception.viewModel.errors;
+
       return response
         .status(HttpStatus.BAD_REQUEST)
-        .render(exception.template, {
-          model: exception.viewModel.model,
-          errors,
-        });
+        .redirect(request.originalUrl);
     }
 
     const status =

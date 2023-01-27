@@ -31,10 +31,18 @@ describe('AuthController', () => {
   });
 
   describe('register', () => {
-    it('should call register user on auth service', () => {
-      expect(
-        controller.register({ email: 'email@e.com', password: 'pw' }),
-      ).toEqual('MOCK_REGISTER_RESPONSE');
+    it('should call register user on auth service', async () => {
+      const registerSpy = jest
+        .spyOn(authService, 'registerUser')
+        .mockResolvedValue('done');
+      const req = mocks.createRequest({
+        session: {},
+      });
+      await controller.registerPost(
+        { email: 'email@e.com', password: 'pw' },
+        req,
+      );
+      expect(registerSpy).toBeCalledTimes(1);
     });
   });
 
@@ -64,7 +72,9 @@ describe('AuthController', () => {
       });
       const res = mocks.createResponse();
 
-      const resentSpy = jest.spyOn(authService, 'resendConfirmationCode');
+      const resentSpy = jest
+        .spyOn(authService, 'resendConfirmationCode')
+        .mockResolvedValue('done');
       await controller.resendConfirmation(req, res);
       expect(resentSpy).toBeCalledTimes(1);
     });
@@ -75,7 +85,9 @@ describe('AuthController', () => {
       });
       const res = mocks.createResponse();
 
-      const resentSpy = jest.spyOn(authService, 'resendConfirmationCode');
+      const resentSpy = jest
+        .spyOn(authService, 'resendConfirmationCode')
+        .mockResolvedValue('done');
       await controller.resendConfirmation(req, res);
       expect(resentSpy).toBeCalledTimes(0);
     });

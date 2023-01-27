@@ -32,7 +32,7 @@ model ApiKey {
 
 model User {
   id           String  @id @default(uuid())
-  email        String
+  email        String  @unique
   regulator    Regulator?  @relation(fields: [regulatorId], references: [id])
   regulatorId  String?
   apiKeys      ApiKey[]

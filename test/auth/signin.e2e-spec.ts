@@ -20,8 +20,12 @@ jest.mock('amazon-cognito-identity-js', () => {
 describe('AuthController (e2e)', () => {
   const fixture = new E2eFixture();
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     await fixture.init();
+  });
+
+  afterAll(() => {
+    fixture.tearDown();
   });
 
   describe('auth/login (GET)', () => {

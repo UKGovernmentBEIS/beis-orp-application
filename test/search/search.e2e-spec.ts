@@ -4,8 +4,12 @@ import * as cheerio from 'cheerio';
 describe('api/search (GET)', () => {
   const fixture = new E2eFixture();
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     await fixture.init();
+  });
+
+  afterAll(() => {
+    fixture.tearDown();
   });
 
   describe('search', () => {

@@ -3,8 +3,12 @@ import { E2eFixture } from '../e2e.fixture';
 describe('BlogController (e2e)', () => {
   const fixture = new E2eFixture();
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     await fixture.init();
+  });
+
+  afterAll(() => {
+    fixture.tearDown();
   });
 
   it('blog/:id (GET)', () => {

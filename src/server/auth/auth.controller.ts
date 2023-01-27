@@ -10,18 +10,15 @@ import {
   UseFilters,
   UseGuards,
   UseInterceptors,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import AuthRegisterDto from './types/AuthRegister.dto';
 import { LocalAuthGuard } from './local-auth.guard';
 import { ErrorFilter } from '../error.filter';
 import { AuthExceptionFilter } from './filters/authException.filter';
-import { ApiKeyGuard } from './apiKey.guard';
 import { ViewDataInterceptor } from '../../view-data-interceptor.service';
+import { ValidateForm } from '../form-validation';
 
-@UsePipes(new ValidationPipe())
 @UseFilters(new AuthExceptionFilter())
 @UseFilters(new ErrorFilter())
 @UseInterceptors(ViewDataInterceptor)
@@ -29,10 +26,19 @@ import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @UseGuards(ApiKeyGuard)
-  @Post('/register')
-  register(@Body() authRegisterDto: AuthRegisterDto) {
-    return this.authService.registerUser(authRegisterDto);
+  @Get('register')
+  @Render('pages/auth/register')
+  register() {
+    return;
+  }
+
+  @Post('register')
+  @ValidateForm()
+  @Redirect('/auth/unconfirmed')
+  async registerPost(@Body() authRegisterDto: AuthRegisterDto, @Request() req) {
+    await this.authService.registerUser(authRegisterDto);
+    req.session.unconfirmedEmail = authRegisterDto.email;
+    return;
   }
   @Get('login')
   @Render('pages/auth/login')
