@@ -1,7 +1,8 @@
-type AuthExceptionCode =
+export type AuthExceptionCode =
   | 'NotAuthorizedException'
   | 'ValidationException'
-  | 'UserNotConfirmedException';
+  | 'UserNotConfirmedException'
+  | 'UsernameExistsException';
 
 export class AuthException extends Error {
   constructor(
@@ -20,5 +21,9 @@ export class AuthException extends Error {
 
   isUnconfirmed() {
     return this.errorObj.code === 'UserNotConfirmedException';
+  }
+
+  isEmailInUse() {
+    return this.errorObj.code === 'UsernameExistsException';
   }
 }

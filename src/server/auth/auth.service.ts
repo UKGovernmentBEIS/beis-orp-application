@@ -7,7 +7,7 @@ import {
 } from 'amazon-cognito-identity-js';
 import { AwsConfig } from '../config';
 import AuthRegisterDto from './types/AuthRegister.dto';
-import { AuthException } from './types/AuthException';
+import { AuthException, AuthExceptionCode } from './types/AuthException';
 import { UserService } from '../user/user.service';
 
 @Injectable()
@@ -30,7 +30,9 @@ export class AuthService {
     return new Promise((resolve, reject) => {
       this.userPool.signUp(email, password, null, null, async (err, result) => {
         if (!result) {
-          reject(err);
+          // callback error type set incorrectly in sdk
+          const cognitoError = err as unknown as { code: AuthExceptionCode };
+          reject(new AuthException({ code: cognitoError.code }));
         } else {
           const user = await this.userService.createUser(email);
           resolve(user);

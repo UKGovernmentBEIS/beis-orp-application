@@ -8,8 +8,12 @@ import { mockLogger } from '../../../test/mocks/logger.mock';
 import { DEFAULT_PRISMA_USER } from '../../../test/mocks/prismaService.mock';
 
 const mockCogUserPool = {
-  signUp: (email, password, userAttributes, validationData, callback) =>
-    callback(undefined, { user: 'USER_MOCK' }),
+  signUp: (email, password, userAttributes, validationData, callback) => {
+    if (email === 'ALREADY_IN_USE') {
+      return callback({ code: 'UsernameExistsException' }, null);
+    }
+    callback(undefined, { user: 'USER_MOCK' });
+  },
 };
 
 const mockCogUser = {
@@ -54,6 +58,17 @@ describe('AuthService', () => {
       expect(registerSpy).toBeCalledTimes(1);
       expect(registerSpy).toBeCalledWith(user.email);
       expect(result).toEqual(DEFAULT_PRISMA_USER);
+    });
+
+    it('should throw AuthException if cognito errors', async () => {
+      const registerSpy = jest
+        .spyOn(userService, 'createUser')
+        .mockResolvedValue(DEFAULT_PRISMA_USER);
+      const user = { email: 'ALREADY_IN_USE', password: 'pw' };
+      expect(async () => await service.registerUser(user)).rejects.toThrow(
+        'Auth error',
+      );
+      expect(registerSpy).toBeCalledTimes(0);
     });
   });
 
