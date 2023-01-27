@@ -31,6 +31,13 @@ export class AuthExceptionFilter implements ExceptionFilter {
       return response.redirect('/auth/unconfirmed');
     }
 
+    if (exception.isEmailInUse()) {
+      request.session.errors = {
+        global: 'The email address provided is already in use',
+      };
+      return response.redirect(request.originalUrl);
+    }
+
     return response.redirect('/');
   }
 }
