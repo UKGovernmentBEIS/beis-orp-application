@@ -8,11 +8,15 @@ import {
 import { AwsConfig } from '../config';
 import AuthRegisterDto from './types/AuthRegister.dto';
 import { AuthException } from './types/AuthException';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
   private userPool: CognitoUserPool;
-  constructor(private readonly config: ConfigService) {
+  constructor(
+    private readonly config: ConfigService,
+    private readonly userService: UserService,
+  ) {
     const { cognito } = config.get<AwsConfig>('aws');
     this.userPool = new CognitoUserPool({
       UserPoolId: cognito.userPoolId,
@@ -24,11 +28,12 @@ export class AuthService {
     const { email, password } = authRegisterUserDto;
 
     return new Promise((resolve, reject) => {
-      this.userPool.signUp(email, password, null, null, (err, result) => {
+      this.userPool.signUp(email, password, null, null, async (err, result) => {
         if (!result) {
           reject(err);
         } else {
-          resolve(result.user);
+          const user = await this.userService.createUser(email);
+          resolve(user);
         }
       });
     });

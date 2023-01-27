@@ -17,8 +17,12 @@ jest.mock('@aws-sdk/s3-request-presigner', () => {
 describe('DocumentController (e2e)', () => {
   const fixture = new E2eFixture();
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     await fixture.init();
+  });
+
+  afterAll(() => {
+    fixture.tearDown();
   });
 
   it('document/:id (GET)', () => {

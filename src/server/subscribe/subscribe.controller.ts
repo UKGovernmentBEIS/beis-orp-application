@@ -10,11 +10,11 @@ import {
 } from '@nestjs/common';
 import { SubscriberDto } from './types/Subscriber.dto';
 import { SubscribeService } from './subscribe.service';
-import { ValidateAndRender } from '../validation';
 import { MailchimpExceptionFilter } from './filters/mailchimpError.filter';
 import { UserPreferenceDto } from './types/UserPreference.dto';
 import { ErrorFilter } from '../error.filter';
 import { ViewDataInterceptor } from '../../view-data-interceptor.service';
+import { ValidateForm } from '../form-validation';
 
 @UseFilters(new MailchimpExceptionFilter())
 @UseFilters(new ErrorFilter())
@@ -29,7 +29,8 @@ export class SubscribeController {
   renderSignup() {}
 
   @Post()
-  @ValidateAndRender('pages/subscribe/index', 'pages/subscribe/success')
+  @ValidateForm()
+  @Render('pages/subscribe/success')
   subscribe(
     @Session() session: Record<string, any>,
     @Body() subscriberDto: SubscriberDto,
@@ -49,7 +50,8 @@ export class SubscribeController {
   }
 
   @Post('/manage')
-  @ValidateAndRender('pages/subscribe/manage', 'pages/subscribe/success')
+  @ValidateForm()
+  @Render('pages/subscribe/success')
   async updateSubscription(@Body() userPreferenceDto: UserPreferenceDto) {
     await this.subscribeService.updatePreference(userPreferenceDto);
     return userPreferenceDto;

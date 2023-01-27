@@ -49,14 +49,14 @@
 
         <div id="user-block" class="govuk-!-padding-top-1 govuk-!-padding-bottom-1 govuk-!-font-size-16 govuk-!-font-weight-bold">
         <% if (locals?.user) { %>
-                <div id="header-user-name" data-qa="header-user-name" class="govuk-!-padding-right-3">
-                    <%= user.email %>
+                <div id="header-user-name" data-qa="header-user-name" class="govuk-!-padding-right-3 govuk-header__link">
+                    <a data-qa="user-profile" class="govuk-header__link" href="/user"><%= user.email %></a>
                 </div>
                 <div class="govuk-!-padding-right-0 govuk-header__link">
                     <a data-qa="logout" class="govuk-header__link" href="/auth/logout">Sign out</a>
                 </div>
         <% } else { %>
-                <a data-qa="logout" class="govuk-header__link"  href="/auth/login">Sign in</a>
+                <a data-qa="login" class="govuk-header__link"  href="/auth/login">Sign in</a>
         <% } %>
         </div>
     </div>

@@ -19,10 +19,11 @@ describe('api/upload (PUT)', () => {
 
   beforeAll(async () => {
     file = await getPdfBuffer();
+    await fixture.init();
   });
 
-  beforeEach(async () => {
-    await fixture.init();
+  afterAll(() => {
+    fixture.tearDown();
   });
 
   it('accepts and uploads pdfs', async () => {

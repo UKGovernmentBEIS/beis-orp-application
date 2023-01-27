@@ -1,0 +1,35 @@
+<%- include('../../partials/header'); %>
+
+<div class="govuk-width-container">
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds"><h1 class="govuk-heading-l">Your account</h1>
+
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Email
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            <%= locals.email %>
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Organisation
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            <% if(locals.regulator?.name) { %>
+                                <%= locals.regulator.name %>
+                            <% } else { %>
+                                -
+                            <% } %>
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+    </main>
+</div>
+
+<%- include('../../partials/footer'); %>

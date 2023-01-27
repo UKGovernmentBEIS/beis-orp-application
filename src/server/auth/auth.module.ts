@@ -6,6 +6,7 @@ import { PassportModule } from '@nestjs/passport';
 import { SessionSerializer } from './session.serializer';
 import { ApiKeyService } from './apiKey.service';
 import { PrismaService } from '../prisma/prisma.service';
+import { UserService } from '../user/user.service';
 
 @Module({
   imports: [PassportModule.register({ session: true })],
@@ -16,6 +17,7 @@ import { PrismaService } from '../prisma/prisma.service';
     ApiKeyService,
     PrismaService,
     Logger,
+    UserService,
   ],
   controllers: [AuthController],
 })

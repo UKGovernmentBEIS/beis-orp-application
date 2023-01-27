@@ -11,6 +11,8 @@ import { DataModule } from './data/data.module';
 import { PrismaService } from './prisma/prisma.service';
 import { ApiKeyService } from './auth/apiKey.service';
 import { AuthModule } from './auth/auth.module';
+import { UserService } from './user/user.service';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -23,8 +25,9 @@ import { AuthModule } from './auth/auth.module';
     DocumentModule,
     DataModule,
     AuthModule,
+    UserModule,
   ],
-  providers: [Logger, PrismaService, ApiKeyService],
+  providers: [Logger, PrismaService, ApiKeyService, UserService],
   exports: [Logger],
 })
 export class AppModule {}
