@@ -9,6 +9,8 @@ import { AwsConfig } from '../config';
 import AuthRegisterDto from './types/AuthRegister.dto';
 import { AuthException, AuthExceptionCode } from './types/AuthException';
 import { UserService } from '../user/user.service';
+import ConfirmPasswordDto from './types/ConfirmPassword.dto';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -75,6 +77,40 @@ export class AuthService {
         } else {
           resolve(result);
         }
+      });
+    });
+  }
+
+  startResetPassword({ email }: User) {
+    const userData = { Username: email, Pool: this.userPool };
+    const cognitoUser = new CognitoUser(userData);
+    return new Promise((resolve, reject) => {
+      cognitoUser.forgotPassword({
+        onSuccess: (result) => {
+          resolve(result);
+        },
+        onFailure: (err) => {
+          reject(err);
+        },
+      });
+    });
+  }
+
+  confirmPassword(
+    { email }: User,
+    { verificationCode, newPassword }: ConfirmPasswordDto,
+  ) {
+    const userData = { Username: email, Pool: this.userPool };
+    const cognitoUser = new CognitoUser(userData);
+
+    return new Promise((resolve, reject) => {
+      cognitoUser.confirmPassword(verificationCode, newPassword, {
+        onFailure(err) {
+          reject(err);
+        },
+        onSuccess(result) {
+          resolve(result);
+        },
       });
     });
   }

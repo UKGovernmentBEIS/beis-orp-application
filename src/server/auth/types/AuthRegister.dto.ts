@@ -1,7 +1,5 @@
 import { IsEmail, Matches } from 'class-validator';
-
-const passwordRegEx =
-  /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[\^$*.[\]{}()?"!@#%&/\\,><':;|_~`=+\- ])[A-Za-z0-9^$*.[\]{}()?"!@#%&/\\,><':;|_~`=+\- ]{8,256}$/;
+import passwordRegex from '../utils/passwordRegex';
 
 export default class AuthRegisterDto {
   @IsEmail(
@@ -13,7 +11,7 @@ export default class AuthRegisterDto {
   )
   email: string;
 
-  @Matches(passwordRegEx, {
+  @Matches(passwordRegex, {
     message: 'Password must satisfy the criteria above',
   })
   password: string;

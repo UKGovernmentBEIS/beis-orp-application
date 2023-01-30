@@ -18,6 +18,10 @@ import { ErrorFilter } from '../error.filter';
 import { AuthExceptionFilter } from './filters/authException.filter';
 import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 import { ValidateForm } from '../form-validation';
+import { User } from '../user/user.decorator';
+import ConfirmPasswordDto from './types/ConfirmPassword.dto';
+import type { User as UserType } from '@prisma/client';
+import { AuthenticatedGuard } from './authenticated.guard';
 
 @UseFilters(new AuthExceptionFilter())
 @UseFilters(new ErrorFilter())
@@ -75,5 +79,23 @@ export class AuthController {
     }
     await this.authService.resendConfirmationCode(email);
     return res.render('pages/auth/confirmationSent');
+  }
+
+  @Get('/reset-password')
+  @UseGuards(AuthenticatedGuard)
+  @Render('pages/auth/resetPassword')
+  async resetPassword(@User() user: UserType) {
+    return this.authService.startResetPassword(user);
+  }
+
+  @Post('/reset-password')
+  @UseGuards(AuthenticatedGuard)
+  @ValidateForm()
+  @Render('pages/auth/passwordResetConfirmation')
+  async confirmNewPassword(
+    @User() user: UserType,
+    @Body() confirmPasswordDto: ConfirmPasswordDto,
+  ) {
+    return this.authService.confirmPassword(user, confirmPasswordDto);
   }
 }

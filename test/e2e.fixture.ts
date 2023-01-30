@@ -18,16 +18,23 @@ const mockCogUserPool = {
 export const CORRECT_EMAIL = 'reg@regulator.com';
 export const CORRECT_NON_REG_EMAIL = 'noreg@email.com';
 export const CORRECT_PW = 'pw';
-const mockCogUser = {
+export const mockCogUser = {
   authenticateUser: (authDetails, callbacks) => {
     if (
-      authDetails.Username === CORRECT_EMAIL &&
+      (authDetails.Username === CORRECT_EMAIL ||
+        authDetails.Username === CORRECT_NON_REG_EMAIL) &&
       authDetails.Password === CORRECT_PW
     ) {
       return callbacks.onSuccess();
     }
     callbacks.onFailure({ code: 'NotAuthorizedException' });
   },
+  forgotPassword: jest.fn().mockImplementation((callbacks) => {
+    return callbacks.onSuccess('RESET');
+  }),
+  confirmPassword: jest.fn().mockImplementation((code, pw, callbacks) => {
+    return callbacks.onSuccess('RESET');
+  }),
 };
 
 jest.mock('amazon-cognito-identity-js', () => {

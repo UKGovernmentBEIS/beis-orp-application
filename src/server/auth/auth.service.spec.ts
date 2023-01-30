@@ -22,6 +22,9 @@ const mockCogUserPool = {
 const mockCogUser = {
   authenticateUser: (authDetails, callbacks) => callbacks.onSuccess(),
   resendConfirmationCode: (callback) => callback(null, 'RESEND_RESULT'),
+  forgotPassword: (callbacks) => callbacks.onSuccess('RESET_PASSWORD'),
+  confirmPassword: (code, pw, callbacks) =>
+    callbacks.onSuccess('RESET_PASSWORD_CONFIRMED'),
 };
 
 jest.mock('amazon-cognito-identity-js', () => {
@@ -120,6 +123,41 @@ describe('AuthService', () => {
         callback('ERROR', 'RESEND_RESULT');
       await expect(
         service.resendConfirmationCode('e@mail.com'),
+      ).rejects.toEqual('ERROR');
+    });
+  });
+
+  describe('startResetPassword', () => {
+    it('should call forgotPassword on congnitoUser and return result if success', async () => {
+      const result = await service.startResetPassword(DEFAULT_PRISMA_USER);
+      expect(result).toEqual('RESET_PASSWORD');
+    });
+
+    it('should throw if rejected', async () => {
+      mockCogUser.forgotPassword = (callback) => callback.onFailure('ERROR');
+      await expect(
+        service.startResetPassword(DEFAULT_PRISMA_USER),
+      ).rejects.toEqual('ERROR');
+    });
+  });
+
+  describe('confirmPassword', () => {
+    it('should call confirmPassword on congnitoUser and return result if success', async () => {
+      const result = await service.confirmPassword(DEFAULT_PRISMA_USER, {
+        verificationCode: 'correct',
+        newPassword: 'pw',
+      });
+      expect(result).toEqual('RESET_PASSWORD_CONFIRMED');
+    });
+
+    it('should throw if rejected', async () => {
+      mockCogUser.confirmPassword = (code, pw, callback) =>
+        callback.onFailure('ERROR');
+      await expect(
+        service.confirmPassword(DEFAULT_PRISMA_USER, {
+          verificationCode: 'correct',
+          newPassword: 'pw',
+        }),
       ).rejects.toEqual('ERROR');
     });
   });
