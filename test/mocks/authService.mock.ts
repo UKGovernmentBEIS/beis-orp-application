@@ -7,5 +7,7 @@ export const mockAuthService = {
     registerUser: () => 'MOCK_REGISTER_RESPONSE',
     authenticateUser: () => ({ email: CORRECT_EMAIL }),
     resendConfirmationCode: () => ({ email: CORRECT_EMAIL }),
+    startResetPassword: () => 'RESET_PASSWORD',
+    confirmPassword: () => 'RESET_PASSWORD_CONFIRMED',
   },
 };

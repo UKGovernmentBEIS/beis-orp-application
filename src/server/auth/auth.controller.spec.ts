@@ -7,6 +7,7 @@ import { ApiKeyService } from './apiKey.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { mockLogger } from '../../../test/mocks/logger.mock';
 import { AuthService } from './auth.service';
+import { DEFAULT_PRISMA_USER } from '../../../test/mocks/prismaService.mock';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -90,6 +91,23 @@ describe('AuthController', () => {
         .mockResolvedValue('done');
       await controller.resendConfirmation(req, res);
       expect(resentSpy).toBeCalledTimes(0);
+    });
+  });
+
+  describe('resetPassword', () => {
+    it('should call startResetPassword on auth service', async () => {
+      const result = await controller.resetPassword(DEFAULT_PRISMA_USER);
+      expect(result).toEqual('RESET_PASSWORD');
+    });
+  });
+
+  describe('confirmNewPassword', () => {
+    it('should call confirmPassword on auth service', async () => {
+      const result = await controller.confirmNewPassword(DEFAULT_PRISMA_USER, {
+        verificationCode: 'correct',
+        newPassword: 'newPassword',
+      });
+      expect(result).toEqual('RESET_PASSWORD_CONFIRMED');
     });
   });
 });
