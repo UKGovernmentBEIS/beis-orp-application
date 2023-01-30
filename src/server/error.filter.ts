@@ -6,7 +6,10 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { HealthError } from './health/types';
-import { FormValidationException } from './form-validation';
+import {
+  FileValidationException,
+  FormValidationException,
+} from './form-validation';
 
 @Catch()
 export class ErrorFilter<T extends Error> implements ExceptionFilter {
@@ -18,6 +21,16 @@ export class ErrorFilter<T extends Error> implements ExceptionFilter {
       return response
         .status(HttpStatus.SERVICE_UNAVAILABLE)
         .json(exception.health);
+    }
+
+    if (exception instanceof FileValidationException) {
+      if (exception.template) {
+        return response
+          .status(HttpStatus.BAD_REQUEST)
+          .render(exception.template, {
+            error: exception.errors,
+          });
+      }
     }
 
     if (exception instanceof FormValidationException) {

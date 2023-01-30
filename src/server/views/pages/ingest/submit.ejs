@@ -1,0 +1,47 @@
+<%- include('../../partials/header'); %>
+<div class="govuk-width-container">
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <span class="govuk-caption-l">Step 5 of 5</span>
+                <h1 class="govuk-heading-l">Review document details</h1>
+
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            File
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            <%= file %>
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+                            <a class="govuk-link" href="/ingest/upload">
+                                Change<span class="govuk-visually-hidden"> file</span>
+                            </a>
+                        </dd>
+                    </div>
+                </dl>
+                <form method="post">
+                    <input type="hidden" value="<%= locals.key %>" name="key" />
+                    <button type="submit" class="govuk-button" data-module="govuk-button">
+                        Upload
+                    </button>
+                </form>
+
+                <details class="govuk-details" data-module="govuk-details">
+                    <summary class="govuk-details__summary">
+                        <span class="govuk-details__summary-text">
+                          Get help uploading a document
+                        </span>
+                    </summary>
+                    <div class="govuk-details__text">
+                        <p>Contact <a class="govuk-link" href="mailto:openregulationplatform@beis.gov.uk">openregulationplatform@beis.gov.uk</a> if you need help using this service.</p>
+                    </div>
+                </details>
+
+            </div>
+        </div>
+    </main>
+</div>
+
+<%- include('../../partials/footer'); %>

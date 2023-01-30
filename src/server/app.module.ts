@@ -13,6 +13,7 @@ import { ApiKeyService } from './auth/apiKey.service';
 import { AuthModule } from './auth/auth.module';
 import { UserService } from './user/user.service';
 import { UserModule } from './user/user.module';
+import { IngestModule } from './ingest/ingest.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { UserModule } from './user/user.module';
     DataModule,
     AuthModule,
     UserModule,
+    IngestModule,
   ],
   providers: [Logger, PrismaService, ApiKeyService, UserService],
   exports: [Logger],

@@ -18,6 +18,18 @@ jest.mock('@aws-sdk/client-s3', () => {
     S3Client: jest.fn(() => mockS3),
     PutObjectCommand: jest.fn((args) => ({ ...args, putObjectCommand: true })),
     GetObjectCommand: jest.fn((args) => ({ ...args, getObjectCommand: true })),
+    HeadObjectCommand: jest.fn((args) => ({
+      ...args,
+      headObjectCommand: true,
+    })),
+    CopyObjectCommand: jest.fn((args) => ({
+      ...args,
+      copyObjectCommand: true,
+    })),
+    DeleteObjectCommand: jest.fn((args) => ({
+      ...args,
+      deleteObjectCommand: true,
+    })),
   };
 });
 
@@ -65,6 +77,37 @@ describe('AwsDal', () => {
         Metadata: {
           uuid: 'UUID',
           uploadedDate: date.toTimeString(),
+          fileName: 'Original-Filename',
+        },
+        ACL: 'authenticated-read',
+      });
+
+      jest.useRealTimers();
+    });
+
+    it('should prepend unconfirmed/ if true', async () => {
+      const date = new Date('2020-01-01');
+      jest.useFakeTimers().setSystemTime(date);
+
+      mockS3.send.mockResolvedValueOnce('fake response');
+      const file = await getPdfAsMulterFile();
+
+      const result = await service.upload(file, true);
+
+      expect(result).toEqual({
+        key: 'unconfirmed/uuid-original-filename',
+        id: 'UUID',
+      });
+      expect(mockS3.send).toBeCalledWith({
+        putObjectCommand: true,
+        Bucket: 'bucket',
+        Key: 'unconfirmed/uuid-original-filename',
+        ContentType: file.mimetype,
+        Body: file.buffer,
+        Metadata: {
+          uuid: 'UUID',
+          uploadedDate: date.toTimeString(),
+          fileName: 'Original-Filename',
         },
         ACL: 'authenticated-read',
       });
@@ -96,6 +139,56 @@ describe('AwsDal', () => {
       const result = await service.getObjectUrl(id);
 
       expect(result).toEqual(mockUrl);
+    });
+  });
+
+  describe('getObjectMeta', () => {
+    it('should request meta data of object', async () => {
+      const key = 'key';
+      const meta = { this: 'that' };
+      mockS3.send.mockResolvedValueOnce({ Metadata: meta });
+
+      const result = await service.getObjectMeta(key);
+
+      expect(result).toEqual(meta);
+      expect(mockS3.send).toBeCalledWith({
+        headObjectCommand: true,
+        Bucket: 'bucket',
+        Key: key,
+      });
+    });
+  });
+
+  describe('copyObject', () => {
+    it('should copy object to the second key passed in', async () => {
+      const resp = { this: 'that' };
+      mockS3.send.mockResolvedValueOnce(resp);
+
+      const result = await service.copyObject('oldKey', 'newKey');
+
+      expect(result).toEqual({ from: 'oldKey', to: 'newKey' });
+      expect(mockS3.send).toBeCalledWith({
+        copyObjectCommand: true,
+        Bucket: 'bucket',
+        CopySource: 'bucket/oldKey',
+        Key: 'newKey',
+      });
+    });
+  });
+
+  describe('deleteObject', () => {
+    it('should delete object passed in', async () => {
+      const resp = { this: 'that' };
+      mockS3.send.mockResolvedValueOnce(resp);
+
+      const result = await service.deleteObject('key');
+
+      expect(result).toEqual({ deleted: 'key' });
+      expect(mockS3.send).toBeCalledWith({
+        deleteObjectCommand: true,
+        Bucket: 'bucket',
+        Key: 'key',
+      });
     });
   });
 });

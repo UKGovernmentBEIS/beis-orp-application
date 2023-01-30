@@ -9,3 +9,12 @@ export class FormValidationException<T = any> extends Error {
     super('validation error');
   }
 }
+
+export class FileValidationException extends Error {
+  constructor(
+    public readonly errors: string,
+    public readonly template: string,
+  ) {
+    super('file validation error');
+  }
+}

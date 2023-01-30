@@ -67,4 +67,66 @@ describe('DocumentService', () => {
       });
     });
   });
+
+  describe('getDocumentUrl', () => {
+    it('should return the presigned url', async () => {
+      const getUrlSpy = jest
+        .spyOn(awsDal, 'getObjectUrl')
+        .mockResolvedValueOnce('http://document');
+
+      const result = await service.getDocumentUrl('key');
+
+      expect(getUrlSpy).toBeCalledWith('key');
+      expect(result).toEqual('http://document');
+    });
+  });
+
+  describe('getDocumentMeta', () => {
+    it('should request and return the object meta data', async () => {
+      const response = {
+        uuid: 'id',
+        uploadeddate: 'data',
+        filename: 'file',
+      };
+      const getMetaSpy = jest
+        .spyOn(awsDal, 'getObjectMeta')
+        .mockResolvedValueOnce(response);
+
+      const result = await service.getDocumentMeta('key');
+
+      expect(getMetaSpy).toBeCalledWith('key');
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('deleteDocument', () => {
+    it('should request and return the object meta data', async () => {
+      const deleteSpy = jest
+        .spyOn(awsDal, 'deleteObject')
+        .mockResolvedValueOnce({ deleted: 'key' });
+
+      const result = await service.deleteDocument('key');
+
+      expect(deleteSpy).toBeCalledWith('key');
+      expect(result).toEqual({ deleted: 'key' });
+    });
+  });
+
+  describe('confirmDocument', () => {
+    it('should copy object with unconfirmed/ removed from key and delete original object', async () => {
+      const deleteSpy = jest
+        .spyOn(awsDal, 'deleteObject')
+        .mockResolvedValueOnce({ deleted: 'key' });
+
+      const copySpy = jest
+        .spyOn(awsDal, 'copyObject')
+        .mockResolvedValueOnce({ from: 'key', to: 'key2' });
+
+      const result = await service.confirmDocument('unconfirmed/key');
+
+      expect(copySpy).toBeCalledWith('unconfirmed/key', 'key');
+      expect(deleteSpy).toBeCalledWith('unconfirmed/key');
+      expect(result).toEqual('key');
+    });
+  });
 });

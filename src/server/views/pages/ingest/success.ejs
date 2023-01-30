@@ -1,0 +1,28 @@
+<%- include('../../partials/header'); %>
+
+<div class="govuk-width-container">
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-5">
+                    <h1 class="govuk-panel__title">
+                        Success
+                    </h1>
+                    <div class="govuk-panel__body bottom govuk-!-margin-bottom-4 govuk-!-padding-left-6  govuk-!-padding-right-6">
+                        Your document has been uploaded and is being processed.
+                    </div>
+                    <div class="govuk-panel__body govuk-!-padding-left-6 govuk-!-padding-right-6">
+                        Your document ID number is<br><strong><%= id %></strong>
+                    </div>
+                </div>
+                <h2 class="govuk-heading-m">What happens next</h2>
+                <p>Your document is being processed. You will receive an email when your document is ready to view. This can take up to 10 minutes.</p>
+                <a href="/ingest/upload" role="button" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                    Upload Another Document
+                </a>
+            </div>
+        </div>
+    </main>
+</div>
+
+<%- include('../../partials/footer'); %>
