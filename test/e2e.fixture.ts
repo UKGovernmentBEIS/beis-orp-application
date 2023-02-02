@@ -9,39 +9,44 @@ import { ConfigService } from '@nestjs/config';
 import { useSession } from '../src/server/bootstrap/session';
 import { usePassport } from '../src/server/bootstrap/passport';
 import { PrismaService } from '../src/server/prisma/prisma.service';
-
-const mockCogUserPool = {
-  signUp: (email, password, userAttributes, validationData, callback) =>
-    callback(undefined, { user: 'USER_MOCK' }),
-};
+import { CognitoAuthError } from './mocks/cognitoAuthError';
 
 export const CORRECT_EMAIL = 'reg@regulator.com';
 export const CORRECT_NON_REG_EMAIL = 'noreg@email.com';
+export const CORRECT_EMAIL_TO_DELETE = 'todelete@email.com';
 export const CORRECT_PW = 'pw';
-export const mockCogUser = {
-  authenticateUser: (authDetails, callbacks) => {
-    if (
-      (authDetails.Username === CORRECT_EMAIL ||
-        authDetails.Username === CORRECT_NON_REG_EMAIL) &&
-      authDetails.Password === CORRECT_PW
-    ) {
-      return callbacks.onSuccess();
+export const mockCognito = {
+  send: jest.fn().mockImplementation((command) => {
+    if (command.authRequest) {
+      if (
+        (command.AuthParameters.USERNAME === CORRECT_EMAIL ||
+          command.AuthParameters.USERNAME === CORRECT_NON_REG_EMAIL ||
+          command.AuthParameters.USERNAME === CORRECT_EMAIL_TO_DELETE) &&
+        command.AuthParameters.PASSWORD === CORRECT_PW
+      ) {
+        return { user: command.AuthParameters.USERNAME };
+      }
+      throw new CognitoAuthError('NotAuthorizedException');
     }
-    callbacks.onFailure({ code: 'NotAuthorizedException' });
-  },
-  forgotPassword: jest.fn().mockImplementation((callbacks) => {
-    return callbacks.onSuccess('RESET');
-  }),
-  confirmPassword: jest.fn().mockImplementation((code, pw, callbacks) => {
-    return callbacks.onSuccess('RESET');
+
+    return 'COG SUCCESS';
   }),
 };
 
-jest.mock('amazon-cognito-identity-js', () => {
+jest.mock('@aws-sdk/client-cognito-identity-provider', () => {
   return {
-    CognitoUserPool: jest.fn(() => mockCogUserPool),
-    AuthenticationDetails: jest.fn((args) => args),
-    CognitoUser: jest.fn(() => mockCogUser),
+    AdminDeleteUserCommand: jest.fn(() => ({
+      deleteUserCommand: true,
+    })),
+    AdminInitiateAuthCommand: jest.fn((args) => ({
+      ...args,
+      authRequest: true,
+    })),
+    AdminResetUserPasswordCommand: jest.fn(),
+    CognitoIdentityProviderClient: jest.fn(() => mockCognito),
+    ConfirmForgotPasswordCommand: jest.fn(),
+    ResendConfirmationCodeCommand: jest.fn(),
+    SignUpCommand: jest.fn(),
   };
 });
 export class E2eFixture {

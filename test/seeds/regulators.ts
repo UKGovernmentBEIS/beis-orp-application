@@ -25,4 +25,8 @@ export const users = [
     email: 'noreg@email.com',
     domain: null,
   },
+  {
+    email: 'todelete@email.com',
+    domain: null,
+  },
 ];

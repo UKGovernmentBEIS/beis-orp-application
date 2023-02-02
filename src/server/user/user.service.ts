@@ -29,4 +29,10 @@ export class UserService {
       include: { regulator: true },
     });
   }
+
+  deleteUser(emailAddress: string) {
+    return this.prisma.user.delete({
+      where: { email: emailAddress },
+    });
+  }
 }

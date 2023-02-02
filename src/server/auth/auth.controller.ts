@@ -83,19 +83,37 @@ export class AuthController {
 
   @Get('/reset-password')
   @UseGuards(AuthenticatedGuard)
-  @Render('pages/auth/resetPassword')
+  @Redirect('reset-password-confirm')
   async resetPassword(@User() user: UserType) {
     return this.authService.startResetPassword(user);
   }
 
-  @Post('/reset-password')
-  @UseGuards(AuthenticatedGuard)
+  @Get('/reset-password-confirm')
+  @Render('pages/auth/resetPassword')
+  async resetPasswordConfirm() {
+    return;
+  }
+
+  @Post('/reset-password-confirm')
   @ValidateForm()
   @Render('pages/auth/passwordResetConfirmation')
-  async confirmNewPassword(
-    @User() user: UserType,
-    @Body() confirmPasswordDto: ConfirmPasswordDto,
-  ) {
-    return this.authService.confirmPassword(user, confirmPasswordDto);
+  async confirmNewPassword(@Body() confirmPasswordDto: ConfirmPasswordDto) {
+    return this.authService.confirmPassword(confirmPasswordDto);
+  }
+
+  @Get('/delete-user')
+  @UseGuards(AuthenticatedGuard)
+  @Render('pages/auth/deleteUser')
+  async deleteUser() {
+    return;
+  }
+
+  @Get('/delete-user-confirmation')
+  @UseGuards(AuthenticatedGuard)
+  @Render('pages/auth/deleteUserConfirm')
+  async deleteUserConfirm(@User() user: UserType, @Request() req) {
+    await this.authService.deleteUser(user);
+    req.session.destroy();
+    return;
   }
 }

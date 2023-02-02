@@ -2,16 +2,6 @@ import { E2eFixture } from '../e2e.fixture';
 import * as cheerio from 'cheerio';
 import { v4 as uuid } from 'uuid';
 
-const mockCogUserPool = {
-  signUp: (email, password, userAttributes, validationData, callback) =>
-    callback(undefined, { user: { email: 'test@test.com' } }),
-};
-jest.mock('amazon-cognito-identity-js', () => {
-  return {
-    CognitoUserPool: jest.fn(() => mockCogUserPool),
-    AuthenticationDetails: jest.fn((args) => args),
-  };
-});
 describe('Register (e2e)', () => {
   const fixture = new E2eFixture();
 
