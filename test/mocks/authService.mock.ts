@@ -9,5 +9,6 @@ export const mockAuthService = {
     resendConfirmationCode: () => ({ email: CORRECT_EMAIL }),
     startResetPassword: () => 'RESET_PASSWORD',
     confirmPassword: () => 'RESET_PASSWORD_CONFIRMED',
+    deleteUser: () => 'DELETE_USER',
   },
 };

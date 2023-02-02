@@ -2,7 +2,9 @@ export type AuthExceptionCode =
   | 'NotAuthorizedException'
   | 'ValidationException'
   | 'UserNotConfirmedException'
-  | 'UsernameExistsException';
+  | 'UsernameExistsException'
+  | 'PasswordResetRequiredException'
+  | 'LimitExceededException';
 
 export class AuthException extends Error {
   constructor(

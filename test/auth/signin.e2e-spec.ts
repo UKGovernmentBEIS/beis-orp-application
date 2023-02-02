@@ -1,22 +1,6 @@
 import { CORRECT_EMAIL, CORRECT_PW, E2eFixture } from '../e2e.fixture';
 import * as cheerio from 'cheerio';
 
-const mockCogUserPool = {
-  signUp: (email, password, userAttributes, validationData, callback) =>
-    callback(undefined, { user: 'USER_MOCK' }),
-};
-
-const mockCogUser = {
-  authenticateUser: (authDetails, callbacks) => callbacks.onSuccess(),
-};
-
-jest.mock('amazon-cognito-identity-js', () => {
-  return {
-    CognitoUserPool: jest.fn(() => mockCogUserPool),
-    AuthenticationDetails: jest.fn((args) => args),
-    CognitoUser: jest.fn(() => mockCogUser),
-  };
-});
 describe('AuthController (e2e)', () => {
   const fixture = new E2eFixture();
 

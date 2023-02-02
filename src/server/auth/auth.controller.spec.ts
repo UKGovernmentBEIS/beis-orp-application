@@ -35,7 +35,7 @@ describe('AuthController', () => {
     it('should call register user on auth service', async () => {
       const registerSpy = jest
         .spyOn(authService, 'registerUser')
-        .mockResolvedValue('done');
+        .mockResolvedValue(DEFAULT_PRISMA_USER);
       const req = mocks.createRequest({
         session: {},
       });
@@ -103,11 +103,30 @@ describe('AuthController', () => {
 
   describe('confirmNewPassword', () => {
     it('should call confirmPassword on auth service', async () => {
-      const result = await controller.confirmNewPassword(DEFAULT_PRISMA_USER, {
+      const result = await controller.confirmNewPassword({
         verificationCode: 'correct',
         newPassword: 'newPassword',
+        email: 'e@mail.com',
       });
       expect(result).toEqual('RESET_PASSWORD_CONFIRMED');
+    });
+  });
+
+  describe('deleteUserConfirm', () => {
+    it('should call confirmPassword on auth service', async () => {
+      const deleteSpy = jest
+        .spyOn(authService, 'deleteUser')
+        .mockResolvedValue(DEFAULT_PRISMA_USER);
+      const destroyMock = jest.fn();
+      await controller.deleteUserConfirm(
+        DEFAULT_PRISMA_USER,
+        mocks.createRequest({
+          session: { destroy: destroyMock },
+        }),
+      );
+      expect(deleteSpy).toBeCalledTimes(1);
+      expect(deleteSpy).toBeCalledWith(DEFAULT_PRISMA_USER);
+      expect(destroyMock).toBeCalledTimes(1);
     });
   });
 });

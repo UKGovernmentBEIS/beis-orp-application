@@ -1,117 +1,136 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import {
-  AuthenticationDetails,
-  CognitoUser,
-  CognitoUserPool,
-} from 'amazon-cognito-identity-js';
 import { AwsConfig } from '../config';
 import AuthRegisterDto from './types/AuthRegister.dto';
-import { AuthException, AuthExceptionCode } from './types/AuthException';
+import { AuthException } from './types/AuthException';
 import { UserService } from '../user/user.service';
 import ConfirmPasswordDto from './types/ConfirmPassword.dto';
 import { User } from '@prisma/client';
+import {
+  AdminDeleteUserCommand,
+  AdminInitiateAuthCommand,
+  AdminResetUserPasswordCommand,
+  CognitoIdentityProviderClient,
+  ConfirmForgotPasswordCommand,
+  ResendConfirmationCodeCommand,
+  SignUpCommand,
+} from '@aws-sdk/client-cognito-identity-provider';
 
 @Injectable()
 export class AuthService {
-  private userPool: CognitoUserPool;
+  private clientId: string;
+  private userPoolId: string;
+
+  private client;
   constructor(
     private readonly config: ConfigService,
     private readonly userService: UserService,
   ) {
-    const { cognito } = config.get<AwsConfig>('aws');
-    this.userPool = new CognitoUserPool({
-      UserPoolId: cognito.userPoolId,
-      ClientId: cognito.clientId,
-    });
+    const { cognito, region } = config.get<AwsConfig>('aws');
+    this.client = new CognitoIdentityProviderClient({ region });
+    this.clientId = cognito.clientId;
+    this.userPoolId = cognito.userPoolId;
   }
 
   async registerUser(authRegisterUserDto: AuthRegisterDto) {
     const { email, password } = authRegisterUserDto;
-
-    return new Promise((resolve, reject) => {
-      this.userPool.signUp(email, password, null, null, async (err, result) => {
-        if (!result) {
-          // callback error type set incorrectly in sdk
-          const cognitoError = err as unknown as { code: AuthExceptionCode };
-          reject(new AuthException({ code: cognitoError.code }));
-        } else {
-          const user = await this.userService.createUser(email);
-          resolve(user);
-        }
-      });
-    });
-  }
-
-  authenticateUser({ email, password }: { email: string; password: string }) {
-    const userData = { Username: email, Pool: this.userPool };
-    const authDetails = new AuthenticationDetails({
+    const createUserCommand = new SignUpCommand({
+      ClientId: this.clientId,
       Username: email,
       Password: password,
     });
-    const cognitoUser = new CognitoUser(userData);
-    return new Promise((resolve, reject) => {
-      cognitoUser.authenticateUser(authDetails, {
-        onSuccess: async () => {
-          const user = await this.userService.getUserByEmail(email);
-          resolve({
-            email,
-            regulator: user.regulator,
-          });
-        },
-        onFailure: (err) => {
-          reject(new AuthException({ code: err.code, meta: { email } }));
-        },
-      });
+
+    try {
+      await this.client.send(createUserCommand);
+      return this.userService.createUser(email);
+    } catch (err) {
+      throw new AuthException({ code: err.__type, meta: { email } });
+    }
+  }
+
+  async authenticateUser({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) {
+    const adminInitiateAuthCommand = new AdminInitiateAuthCommand({
+      AuthFlow: 'ADMIN_USER_PASSWORD_AUTH',
+      ClientId: this.clientId,
+      UserPoolId: this.userPoolId,
+      AuthParameters: {
+        USERNAME: email,
+        PASSWORD: password,
+      },
     });
+
+    try {
+      await this.client.send(adminInitiateAuthCommand);
+      return this.userService.getUserByEmail(email);
+    } catch (err) {
+      throw new AuthException({ code: err.__type, meta: { email } });
+    }
   }
 
   async resendConfirmationCode(email: string) {
-    const userData = { Username: email, Pool: this.userPool };
-    const cognitoUser = new CognitoUser(userData);
-
-    return new Promise((resolve, reject) => {
-      cognitoUser.resendConfirmationCode((error, result) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(result);
-        }
-      });
+    const resendConfirmationCode = new ResendConfirmationCodeCommand({
+      ClientId: this.clientId,
+      Username: email,
     });
+
+    try {
+      const result = await this.client.send(resendConfirmationCode);
+      return result;
+    } catch (err) {
+      throw new AuthException({ code: err.__type });
+    }
   }
 
-  startResetPassword({ email }: User) {
-    const userData = { Username: email, Pool: this.userPool };
-    const cognitoUser = new CognitoUser(userData);
-    return new Promise((resolve, reject) => {
-      cognitoUser.forgotPassword({
-        onSuccess: (result) => {
-          resolve(result);
-        },
-        onFailure: (err) => {
-          reject(err);
-        },
-      });
+  async startResetPassword({ email }: User) {
+    const adminResetPasswordCommand = new AdminResetUserPasswordCommand({
+      UserPoolId: this.userPoolId,
+      Username: email,
     });
+
+    try {
+      return await this.client.send(adminResetPasswordCommand);
+    } catch (err) {
+      throw new AuthException({ code: err.__type });
+    }
   }
 
-  confirmPassword(
-    { email }: User,
-    { verificationCode, newPassword }: ConfirmPasswordDto,
-  ) {
-    const userData = { Username: email, Pool: this.userPool };
-    const cognitoUser = new CognitoUser(userData);
-
-    return new Promise((resolve, reject) => {
-      cognitoUser.confirmPassword(verificationCode, newPassword, {
-        onFailure(err) {
-          reject(err);
-        },
-        onSuccess(result) {
-          resolve(result);
-        },
-      });
+  async confirmPassword({
+    verificationCode,
+    email,
+    newPassword,
+  }: ConfirmPasswordDto) {
+    const confirmPasswordCommand = new ConfirmForgotPasswordCommand({
+      ClientId: this.clientId,
+      Username: email,
+      Password: newPassword,
+      ConfirmationCode: verificationCode,
     });
+
+    try {
+      const result = await this.client.send(confirmPasswordCommand);
+      return result;
+    } catch (err) {
+      throw new AuthException({ code: err.__type });
+    }
+  }
+
+  async deleteUser({ email }: User) {
+    const deleteUserCommand = new AdminDeleteUserCommand({
+      UserPoolId: this.userPoolId,
+      Username: email,
+    });
+
+    try {
+      await this.client.send(deleteUserCommand);
+      return this.userService.deleteUser(email);
+    } catch (err) {
+      throw new AuthException({ code: err.__type });
+    }
   }
 }

@@ -1,0 +1,27 @@
+<%- include('../../partials/header'); %>
+
+<div class="govuk-width-container">
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-l">Are you sure you want to delete your account?</h1>
+                <p>If you delete your account you will no longer be ablet to:</p>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Upload documents to this service</li>
+                    <li>Access your API key</li>
+                </ul>
+                <p>We will not be able to recover your account details if you choose to continue.</p>
+                <div class="govuk-button-group">
+                    <a href="/auth/delete-user-confirmation" role="button" class="govuk-button govuk-button--warning" data-module="govuk-button">
+                        Delete account
+                    </a>
+                    <a href="/search" role="button" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                        Cancel
+                    </a>
+                    </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<%- include('../../partials/footer'); %>
