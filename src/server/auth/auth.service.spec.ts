@@ -183,6 +183,7 @@ describe('AuthService', () => {
       const result = await service.confirmPassword({
         verificationCode: 'correct',
         newPassword: 'pw',
+        confirmPassword: 'pw',
         email: 'e@mail.com',
       });
 
@@ -205,6 +206,7 @@ describe('AuthService', () => {
         service.confirmPassword({
           verificationCode: 'correct',
           newPassword: 'pw',
+          confirmPassword: 'pw',
           email: 'e@mail.com',
         }),
       ).rejects.toBeInstanceOf(AuthException);

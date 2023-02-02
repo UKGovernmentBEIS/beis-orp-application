@@ -88,12 +88,13 @@ describe('Password Reset (e2e)', () => {
           verificationCode: 'code',
           email: 'e@mail.com',
           newPassword: '9.PAssworD',
+          confirmPassword: '9.PAssworD',
         })
         .expect(201)
         .expect((res) => {
           expect(mockCognito.send).toBeCalledTimes(1);
           const $ = cheerio.load(res.text);
-          expect($('h1').text().trim()).toEqual('Password successfully reset');
+          expect($('h1').text().trim()).toEqual('Password Successfully Reset');
         });
     });
     it('redirects back if unacceptable password', () => {
@@ -104,6 +105,7 @@ describe('Password Reset (e2e)', () => {
           verificationCode: 'code',
           email: 'e@mail.com',
           newPassword: 'rubbishpw',
+          confirmPassword: 'rubbishpw',
         })
         .expect(302)
         .expect('Location', '/auth/reset-password-confirm');
@@ -117,6 +119,7 @@ describe('Password Reset (e2e)', () => {
           verificationCode: '',
           email: 'e@mail.com',
           newPassword: '9.PAssworD',
+          confirmPassword: '9.PAssworD',
         })
         .expect(302)
         .expect('Location', '/auth/reset-password-confirm');
@@ -130,6 +133,21 @@ describe('Password Reset (e2e)', () => {
           verificationCode: 'code',
           email: '',
           newPassword: '9.PAssworD',
+          confirmPassword: '9.PAssworD',
+        })
+        .expect(302)
+        .expect('Location', '/auth/reset-password-confirm');
+    });
+
+    it('redirects back if two emails do not match', () => {
+      return fixture
+        .request()
+        .post('/auth/reset-password-confirm')
+        .send({
+          verificationCode: 'code',
+          email: '',
+          newPassword: '9.PAssworD',
+          confirmPassword: '9.PAssworD4',
         })
         .expect(302)
         .expect('Location', '/auth/reset-password-confirm');

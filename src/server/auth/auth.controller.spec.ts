@@ -106,6 +106,7 @@ describe('AuthController', () => {
       const result = await controller.confirmNewPassword({
         verificationCode: 'correct',
         newPassword: 'newPassword',
+        confirmPassword: 'newPassword',
         email: 'e@mail.com',
       });
       expect(result).toEqual('RESET_PASSWORD_CONFIRMED');
