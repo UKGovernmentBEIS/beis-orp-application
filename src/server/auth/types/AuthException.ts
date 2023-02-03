@@ -4,6 +4,7 @@ export type AuthExceptionCode =
   | 'UserNotConfirmedException'
   | 'UsernameExistsException'
   | 'PasswordResetRequiredException'
+  | 'UserNotFoundException'
   | 'LimitExceededException';
 
 export class AuthException extends Error {
@@ -19,6 +20,10 @@ export class AuthException extends Error {
 
   isNotAuthorized() {
     return this.errorObj.code === 'NotAuthorizedException';
+  }
+
+  isNotFound() {
+    return this.errorObj.code === 'UserNotFoundException';
   }
 
   isUnconfirmed() {

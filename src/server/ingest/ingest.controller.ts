@@ -26,7 +26,7 @@ import IngestionConfirmationDto from './types/IngestionConfirmation.dto';
 
 @Controller('ingest')
 @UseGuards(RegulatorGuard)
-@UseFilters(new ErrorFilter())
+@UseFilters(ErrorFilter)
 @UseInterceptors(ViewDataInterceptor)
 export class IngestController {
   constructor(private readonly documentService: DocumentService) {}

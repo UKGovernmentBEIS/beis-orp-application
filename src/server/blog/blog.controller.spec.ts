@@ -3,6 +3,7 @@ import { BlogController } from './blog.controller';
 import { BlogService } from './blog.service';
 import { mockConfigService } from '../../../test/mocks/config.mock';
 import posts from './blog.posts';
+import { mockLogger } from '../../../test/mocks/logger.mock';
 
 describe('AppController', () => {
   let blogController: BlogController;
@@ -10,7 +11,7 @@ describe('AppController', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [BlogController],
-      providers: [BlogService, mockConfigService],
+      providers: [BlogService, mockConfigService, mockLogger],
     }).compile();
 
     blogController = app.get<BlogController>(BlogController);

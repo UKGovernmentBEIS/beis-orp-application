@@ -23,8 +23,8 @@ import ConfirmPasswordDto from './types/ConfirmPassword.dto';
 import type { User as UserType } from '@prisma/client';
 import { AuthenticatedGuard } from './authenticated.guard';
 
-@UseFilters(new AuthExceptionFilter())
-@UseFilters(new ErrorFilter())
+@UseFilters(AuthExceptionFilter)
+@UseFilters(ErrorFilter)
 @UseInterceptors(ViewDataInterceptor)
 @Controller('auth')
 export class AuthController {

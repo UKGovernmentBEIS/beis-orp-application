@@ -10,7 +10,7 @@ import { DocumentService } from './document.service';
 import { ErrorFilter } from '../error.filter';
 import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 
-@UseFilters(new ErrorFilter())
+@UseFilters(ErrorFilter)
 @UseInterceptors(ViewDataInterceptor)
 @Controller('document')
 export class DocumentController {

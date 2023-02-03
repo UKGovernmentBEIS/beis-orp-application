@@ -4,6 +4,7 @@ import { SubscribeService } from './subscribe.service';
 import { subscriber } from './test/mocks';
 import * as mailchimp from '@mailchimp/mailchimp_marketing';
 import { mockConfigService } from '../../../test/mocks/config.mock';
+import { mockLogger } from '../../../test/mocks/logger.mock';
 
 describe('SubscribeController', () => {
   let controller: SubscribeController;
@@ -12,7 +13,7 @@ describe('SubscribeController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [SubscribeController],
-      providers: [SubscribeService, mockConfigService],
+      providers: [SubscribeService, mockConfigService, mockLogger],
     }).compile();
 
     subscribeService = module.get<SubscribeService>(SubscribeService);
