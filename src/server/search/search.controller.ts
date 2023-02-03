@@ -10,7 +10,7 @@ import { ErrorFilter } from '../error.filter';
 import { SearchService } from './search.service';
 import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 
-@UseFilters(new ErrorFilter())
+@UseFilters(ErrorFilter)
 @UseInterceptors(ViewDataInterceptor)
 @Controller('search')
 export class SearchController {

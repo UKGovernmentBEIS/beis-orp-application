@@ -1,13 +1,14 @@
-import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, Logger } from '@nestjs/common';
 import { AuthException } from '../types/AuthException';
 
 @Catch(AuthException)
 export class AuthExceptionFilter implements ExceptionFilter {
+  constructor(private readonly logger: Logger) {}
   catch(exception: AuthException, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse();
     const request = host.switchToHttp().getRequest();
 
-    if (exception.isNotAuthorized()) {
+    if (exception.isNotAuthorized() || exception.isNotFound()) {
       request.session.errors = {
         global: 'Incorrect email address or password',
       };
@@ -38,6 +39,10 @@ export class AuthExceptionFilter implements ExceptionFilter {
       return response.redirect(request.originalUrl);
     }
 
-    return response.redirect('/');
+    this.logger.error(`Unhandled auth error: ${exception.errorObj.code}`);
+    request.session.errors = {
+      global: 'An error occurred during authentication, please try again',
+    };
+    return response.redirect('/auth/logout');
   }
 }

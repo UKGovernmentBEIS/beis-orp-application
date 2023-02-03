@@ -32,6 +32,12 @@ export class AuthService {
     this.userPoolId = cognito.userPoolId;
   }
 
+  private getAuthError(err: any, meta = {}) {
+    if (!!err.__type) {
+      return new AuthException({ code: err.__type, meta });
+    }
+    return err;
+  }
   async registerUser(authRegisterUserDto: AuthRegisterDto) {
     const { email, password } = authRegisterUserDto;
     const createUserCommand = new SignUpCommand({
@@ -44,7 +50,7 @@ export class AuthService {
       await this.client.send(createUserCommand);
       return this.userService.createUser(email);
     } catch (err) {
-      throw new AuthException({ code: err.__type, meta: { email } });
+      throw this.getAuthError(err, { email });
     }
   }
 
@@ -69,7 +75,7 @@ export class AuthService {
       await this.client.send(adminInitiateAuthCommand);
       return this.userService.getUserByEmail(email);
     } catch (err) {
-      throw new AuthException({ code: err.__type, meta: { email } });
+      throw this.getAuthError(err, { email });
     }
   }
 
@@ -83,7 +89,7 @@ export class AuthService {
       const result = await this.client.send(resendConfirmationCode);
       return result;
     } catch (err) {
-      throw new AuthException({ code: err.__type });
+      throw this.getAuthError(err);
     }
   }
 
@@ -96,7 +102,7 @@ export class AuthService {
     try {
       return await this.client.send(adminResetPasswordCommand);
     } catch (err) {
-      throw new AuthException({ code: err.__type });
+      throw this.getAuthError(err);
     }
   }
 
@@ -116,7 +122,7 @@ export class AuthService {
       const result = await this.client.send(confirmPasswordCommand);
       return result;
     } catch (err) {
-      throw new AuthException({ code: err.__type });
+      throw this.getAuthError(err);
     }
   }
 
@@ -130,7 +136,7 @@ export class AuthService {
       await this.client.send(deleteUserCommand);
       return this.userService.deleteUser(email);
     } catch (err) {
-      throw new AuthException({ code: err.__type });
+      throw this.getAuthError(err);
     }
   }
 }

@@ -4,6 +4,7 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
+  Logger,
 } from '@nestjs/common';
 import { HealthError } from './health/types';
 import {
@@ -13,6 +14,7 @@ import {
 
 @Catch()
 export class ErrorFilter<T extends Error> implements ExceptionFilter {
+  constructor(private readonly logger: Logger) {}
   catch(exception: T, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse();
     const request = host.switchToHttp().getRequest();
@@ -51,6 +53,10 @@ export class ErrorFilter<T extends Error> implements ExceptionFilter {
       case HttpStatus.UNAUTHORIZED:
         return response.redirect('/auth/logout');
       default:
+        this.logger.error(
+          `Unhandled error: ${exception.message}`,
+          exception.stack,
+        );
         return response.status(status).render('pages/error', {
           message: exception.message,
           status,

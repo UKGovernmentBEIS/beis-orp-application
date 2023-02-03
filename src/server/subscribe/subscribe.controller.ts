@@ -17,7 +17,7 @@ import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 import { ValidateForm } from '../form-validation';
 
 @UseFilters(new MailchimpExceptionFilter())
-@UseFilters(new ErrorFilter())
+@UseFilters(ErrorFilter)
 @UseInterceptors(ViewDataInterceptor)
 @Controller('subscribe')
 export class SubscribeController {
