@@ -1,6 +1,5 @@
 import { E2eFixture } from '../e2e.fixture';
 import { getPdfBuffer } from '../mocks/uploadMocks';
-import { REGULATOR_UUID } from '../seeds/regulators';
 
 const mockS3 = {
   send: jest.fn(),
@@ -31,7 +30,6 @@ describe('api/upload (PUT)', () => {
     return fixture
       .request()
       .put('/api/upload')
-      .set('x-orp-auth-token', REGULATOR_UUID)
       .attach('file', file, 'testfile.pdf')
       .expect(200)
       .expect('success');
@@ -41,7 +39,6 @@ describe('api/upload (PUT)', () => {
     return fixture
       .request()
       .put('/api/upload')
-      .set('x-orp-auth-token', REGULATOR_UUID)
       .attach('file', '')
       .expect(400)
       .expect(
@@ -53,34 +50,10 @@ describe('api/upload (PUT)', () => {
     return fixture
       .request()
       .put('/api/upload')
-      .set('x-orp-auth-token', REGULATOR_UUID)
       .attach('file', file, 'testfile.png')
       .expect(400)
       .expect(
         '{"statusCode":400,"message":"Validation failed (expected type is pdf)","error":"Bad Request"}',
-      );
-  });
-
-  it('returns unauthorised when non-regulator key is passed in', async () => {
-    return fixture
-      .request()
-      .put('/api/upload')
-      .set('x-orp-auth-token', 'wrong')
-      .attach('file', file, 'testfile.pdf')
-      .expect(403)
-      .expect(
-        '{"statusCode":403,"message":"Forbidden resource","error":"Forbidden"}',
-      );
-  });
-
-  it('returns unauthorised when no key is passed in', async () => {
-    return fixture
-      .request()
-      .put('/api/upload')
-      .attach('file', file, 'testfile.pdf')
-      .expect(403)
-      .expect(
-        '{"statusCode":403,"message":"Forbidden resource","error":"Forbidden"}',
       );
   });
 });

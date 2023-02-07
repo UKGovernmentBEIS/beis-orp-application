@@ -10,6 +10,8 @@ import { useSession } from '../src/server/bootstrap/session';
 import { usePassport } from '../src/server/bootstrap/passport';
 import { PrismaService } from '../src/server/prisma/prisma.service';
 import { CognitoAuthError } from './mocks/cognitoAuthError';
+import JwtAuthenticationGuard from '../src/server/auth/jwt.guard';
+import JwtRegulatorGuard from '../src/server/auth/jwt-regulator.guard';
 
 export const CORRECT_EMAIL = 'reg@regulator.com';
 export const CORRECT_NON_REG_EMAIL = 'noreg@email.com';
@@ -60,6 +62,14 @@ export class E2eFixture {
       .overrideProvider(ConfigService)
       .useValue({
         get: getMockedConfig,
+      })
+      .overrideGuard(JwtAuthenticationGuard)
+      .useValue({
+        canActivate: () => true,
+      })
+      .overrideGuard(JwtRegulatorGuard)
+      .useValue({
+        canActivate: () => true,
       })
       .compile();
 

@@ -12,13 +12,6 @@ async function main() {
       create: {
         domain: regulator.domain,
         name: regulator.name,
-        apiKeys: {
-          create: [
-            {
-              key: regulator.apiKey,
-            },
-          ],
-        },
       },
     });
   }

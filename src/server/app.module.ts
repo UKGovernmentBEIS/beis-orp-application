@@ -9,11 +9,11 @@ import { SearchModule } from './search/search.module';
 import { DocumentModule } from './document/document.module';
 import { DataModule } from './data/data.module';
 import { PrismaService } from './prisma/prisma.service';
-import { ApiKeyService } from './auth/apiKey.service';
 import { AuthModule } from './auth/auth.module';
 import { UserService } from './user/user.service';
 import { UserModule } from './user/user.module';
 import { IngestModule } from './ingest/ingest.module';
+import { RegulatorModule } from './regulator/regulator.module';
 
 @Module({
   imports: [
@@ -28,8 +28,9 @@ import { IngestModule } from './ingest/ingest.module';
     AuthModule,
     UserModule,
     IngestModule,
+    RegulatorModule,
   ],
-  providers: [Logger, PrismaService, ApiKeyService, UserService],
+  providers: [Logger, PrismaService, UserService],
   exports: [Logger],
 })
 export class AppModule {}
