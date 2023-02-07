@@ -3,7 +3,6 @@ import { AuthController } from './auth.controller';
 import * as mocks from 'node-mocks-http';
 import { mockConfigService } from '../../../test/mocks/config.mock';
 import { mockAuthService } from '../../../test/mocks/authService.mock';
-import { ApiKeyService } from './apiKey.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { mockLogger } from '../../../test/mocks/logger.mock';
 import { AuthService } from './auth.service';
@@ -19,7 +18,6 @@ describe('AuthController', () => {
       providers: [
         mockAuthService,
         mockConfigService,
-        ApiKeyService,
         PrismaService,
         mockLogger,
       ],

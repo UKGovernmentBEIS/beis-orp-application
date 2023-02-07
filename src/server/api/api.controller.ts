@@ -1,9 +1,11 @@
 import {
+  Body,
   Controller,
   FileTypeValidator,
   Get,
   Param,
   ParseFilePipe,
+  Post,
   Put,
   Query,
   Req,
@@ -28,11 +30,15 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { ApiBadRequestResponse } from '@nestjs/swagger/dist/decorators/api-response.decorator';
-import { ApiKeyGuard } from '../auth/apiKey.guard';
 import { DocumentRequestDto } from './types/DocumentRequest.dto';
 import { DocumentService } from '../document/document.service';
 import { FileUpload } from '../data/types/FileUpload';
 import { Request } from 'express';
+import AuthLoginDto from '../auth/types/AuthLogin.dto';
+import { AuthService } from '../auth/auth.service';
+import JwtAuthenticationGuard from '../auth/jwt.guard';
+import JwtRegulatorGuard from '../auth/jwt-regulator.guard';
+import AuthenticationResultDto from '../auth/types/AuthenticationResult.dto';
 
 @UsePipes(new ValidationPipe())
 @Controller('api')
@@ -40,9 +46,11 @@ export class ApiController {
   constructor(
     private searchService: SearchService,
     private documentService: DocumentService,
+    private authService: AuthService,
   ) {}
 
   @Get('search')
+  @UseGuards(JwtAuthenticationGuard)
   @ApiTags('search')
   @ApiOkResponse({ type: SearchResponseDto })
   @ApiBadRequestResponse({
@@ -58,7 +66,7 @@ export class ApiController {
   }
 
   @Put('upload')
-  @UseGuards(ApiKeyGuard)
+  @UseGuards(JwtRegulatorGuard)
   @UseInterceptors(FileInterceptor('file'))
   @ApiTags('document')
   @ApiConsumes('multipart/form-data')
@@ -82,6 +90,7 @@ export class ApiController {
   }
 
   @Get('document/:id')
+  @UseGuards(JwtAuthenticationGuard)
   @ApiTags('document')
   @ApiOkResponse({
     description: 'Returns the document in PDF format',
@@ -94,5 +103,12 @@ export class ApiController {
     return new StreamableFile(
       await this.documentService.getDocument(params.id),
     );
+  }
+
+  @Post('tokens')
+  async login(
+    @Body() authLoginUserDto: AuthLoginDto,
+  ): Promise<AuthenticationResultDto> {
+    return this.authService.authenticateApiUser(authLoginUserDto);
   }
 }

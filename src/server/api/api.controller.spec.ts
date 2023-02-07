@@ -15,8 +15,11 @@ import { Readable } from 'stream';
 import { StreamableFile } from '@nestjs/common';
 import { mockLogger } from '../../../test/mocks/logger.mock';
 import * as mocks from 'node-mocks-http';
-import { ApiKeyService } from '../auth/apiKey.service';
 import { PrismaService } from '../prisma/prisma.service';
+import JwtAuthenticationGuard from '../auth/jwt.guard';
+import JwtRegulatorGuard from '../auth/jwt-regulator.guard';
+import { AuthService } from '../auth/auth.service';
+import { UserService } from '../user/user.service';
 
 describe('ApiController', () => {
   let controller: ApiController;
@@ -34,8 +37,9 @@ describe('ApiController', () => {
         mockConfigService,
         DocumentService,
         mockLogger,
-        ApiKeyService,
         PrismaService,
+        AuthService,
+        UserService,
       ],
       imports: [HttpModule],
     }).compile();
@@ -46,6 +50,16 @@ describe('ApiController', () => {
   });
 
   describe('upload', () => {
+    it('should apply JwtRegulatorGuard', async () => {
+      const guards = Reflect.getMetadata(
+        '__guards__',
+        ApiController.prototype.uploadFile,
+      );
+      const guard = new guards[0]();
+
+      expect(guard).toBeInstanceOf(JwtRegulatorGuard);
+    });
+
     it('should call aws uploader with file', async () => {
       const result = { key: 'file.pdf', id: '123' };
       jest.spyOn(documentService, 'upload').mockResolvedValue(result);
@@ -61,6 +75,16 @@ describe('ApiController', () => {
   });
 
   describe('search', () => {
+    it('should apply JwtAuthenticationGuard', async () => {
+      const guards = Reflect.getMetadata(
+        '__guards__',
+        ApiController.prototype.search,
+      );
+      const guard = new guards[0]();
+
+      expect(guard).toBeInstanceOf(JwtAuthenticationGuard);
+    });
+
     it('should call searchService and return response', async () => {
       const expectedResult = {
         nationalArchive: { totalSearchResults: 10, documents: [] },
@@ -78,7 +102,41 @@ describe('ApiController', () => {
   });
 
   describe('getDocument', () => {
+    it('should apply JwtAuthenticationGuard', async () => {
+      const guards = Reflect.getMetadata(
+        '__guards__',
+        ApiController.prototype.getDocument,
+      );
+      const guard = new guards[0]();
+
+      expect(guard).toBeInstanceOf(JwtAuthenticationGuard);
+    });
+
     it('should call searchService and return response', async () => {
+      const buffer = await getPdfBuffer();
+      const getDocMock = jest
+        .spyOn(documentService, 'getDocument')
+        .mockResolvedValue(Readable.from(buffer));
+
+      const result = await controller.getDocument({ id: 'id' });
+
+      expect(getDocMock).toBeCalledWith('id');
+      expect(result).toBeInstanceOf(StreamableFile);
+    });
+  });
+
+  describe('login', () => {
+    it('should return response from authService', async () => {
+      const guards = Reflect.getMetadata(
+        '__guards__',
+        ApiController.prototype.getDocument,
+      );
+      const guard = new guards[0]();
+
+      expect(guard).toBeInstanceOf(JwtAuthenticationGuard);
+    });
+
+    it('should return response from authService', async () => {
       const buffer = await getPdfBuffer();
       const getDocMock = jest
         .spyOn(documentService, 'getDocument')

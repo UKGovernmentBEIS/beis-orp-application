@@ -4,9 +4,11 @@ import { AuthController } from './auth.controller';
 import { LocalStrategy } from './local.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { SessionSerializer } from './session.serializer';
-import { ApiKeyService } from './apiKey.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserService } from '../user/user.service';
+import { JwtStrategy } from './jwt.strategy';
+import { RegulatorService } from '../regulator/regulator.service';
+import JwtRegulatorStrategy from './jwt-regulator.strategy';
 
 @Module({
   imports: [PassportModule.register({ session: true })],
@@ -14,10 +16,12 @@ import { UserService } from '../user/user.service';
     AuthService,
     LocalStrategy,
     SessionSerializer,
-    ApiKeyService,
     PrismaService,
     Logger,
     UserService,
+    JwtStrategy,
+    JwtRegulatorStrategy,
+    RegulatorService,
   ],
   controllers: [AuthController],
 })
