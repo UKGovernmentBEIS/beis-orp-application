@@ -28,7 +28,7 @@
                                 <%= locals?.errors?.email %>
                             </p>
                         <% } %>
-                        <input class="govuk-input govuk-!-width-two-thirds" id="email" name="email" type="text" />
+                        <input class="govuk-input govuk-!-width-two-thirds" id="email" name="email" type="text" <% if(locals?.values?.email) { %>value="<%= locals?.values?.email %>" <% } %> />
                     </div>
                     <div class="govuk-form-group <% if(locals?.errors?.password) { %>govuk-form-group--error<% } %>">
                         <h2 class="govuk-label-wrapper">
@@ -39,7 +39,7 @@
                                 <%= locals?.errors?.password %>
                             </p>
                         <% } %>
-                        <input class="govuk-input govuk-!-width-one-half" id="password" name="password" type="password" data-module="password-reveal" />
+                        <input class="govuk-input govuk-!-width-one-half" id="password" name="password" type="password" data-module="password-reveal" <% if(locals?.values?.password) { %>value="<%= locals?.values?.password %>" <% } %> />
                     </div>
 
                     <button type="submit" class="govuk-button govuk-!-margin-bottom-0" data-module="govuk-button">

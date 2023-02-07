@@ -1,7 +1,7 @@
 import { IsEmail, IsOptional } from 'class-validator';
 
 export class SubscriberDto {
-  @IsEmail()
+  @IsEmail({}, { message: 'Enter a valid email address' })
   emailAddress: string;
 
   @IsOptional()

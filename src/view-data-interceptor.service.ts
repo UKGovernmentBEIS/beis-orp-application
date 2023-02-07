@@ -20,12 +20,16 @@ export class ViewDataInterceptor<T> implements NestInterceptor<T, Response<T>> {
   ): Observable<Response<T>> {
     const request = context.switchToHttp().getRequest();
     const errors = request.session.errors;
+    const values = request.session.values;
     request.session.errors = undefined;
+    request.session.values = undefined;
+
     return next.handle().pipe(
       map((data) => ({
         ...data,
         user: request.user,
         errors,
+        values,
       })),
     );
   }

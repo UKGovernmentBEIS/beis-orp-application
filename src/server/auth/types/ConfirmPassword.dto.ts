@@ -7,7 +7,7 @@ export default class ConfirmPasswordDto {
   @IsNotEmpty({ message: 'Enter the code that was sent to your email address' })
   verificationCode: string;
 
-  @IsEmail({ message: 'Enter your email address' })
+  @IsEmail({}, { message: 'Enter your email address' })
   email: string;
 
   @Matches(passwordRegex, {
