@@ -34,11 +34,12 @@ import { DocumentRequestDto } from './types/DocumentRequest.dto';
 import { DocumentService } from '../document/document.service';
 import { FileUpload } from '../data/types/FileUpload';
 import { Request } from 'express';
-import AuthLoginDto from '../auth/types/AuthLogin.dto';
 import { AuthService } from '../auth/auth.service';
 import JwtAuthenticationGuard from '../auth/jwt.guard';
 import JwtRegulatorGuard from '../auth/jwt-regulator.guard';
 import AuthenticationResultDto from '../auth/types/AuthenticationResult.dto';
+import { ApiAuthService } from '../auth/api-auth.service';
+import ApiTokenRequestDto from '../auth/types/ApiTokenRequest.dto';
 
 @UsePipes(new ValidationPipe())
 @Controller('api')
@@ -47,6 +48,7 @@ export class ApiController {
     private searchService: SearchService,
     private documentService: DocumentService,
     private authService: AuthService,
+    private apiAuthService: ApiAuthService,
   ) {}
 
   @Get('search')
@@ -107,8 +109,8 @@ export class ApiController {
 
   @Post('tokens')
   async login(
-    @Body() authLoginUserDto: AuthLoginDto,
+    @Body() apiTokenRequestDto: ApiTokenRequestDto,
   ): Promise<AuthenticationResultDto> {
-    return this.authService.authenticateApiUser(authLoginUserDto);
+    return this.apiAuthService.authenticateApiUser(apiTokenRequestDto);
   }
 }

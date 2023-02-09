@@ -14,6 +14,7 @@ import { UserService } from './user/user.service';
 import { UserModule } from './user/user.module';
 import { IngestModule } from './ingest/ingest.module';
 import { RegulatorModule } from './regulator/regulator.module';
+import { DeveloperModule } from './developer/developer.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { RegulatorModule } from './regulator/regulator.module';
     UserModule,
     IngestModule,
     RegulatorModule,
+    DeveloperModule,
   ],
   providers: [Logger, PrismaService, UserService],
   exports: [Logger],

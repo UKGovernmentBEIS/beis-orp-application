@@ -7,10 +7,10 @@ export default function (config: ConfigService) {
   return {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     ignoreExpiration: false,
-    _audience: config.get<AwsConfig>('aws').cognito.clientId,
+    _audience: config.get<AwsConfig>('aws').cognito.apiClientId,
     issuer: `https://cognito-idp.${
       config.get<AwsConfig>('aws').region
-    }.amazonaws.com/${config.get<AwsConfig>('aws').cognito.userPoolId}`,
+    }.amazonaws.com/${config.get<AwsConfig>('aws').cognito.apiUserPoolId}`,
     algorithms: ['RS256'],
     secretOrKeyProvider: passportJwtSecret({
       cache: true,
@@ -19,7 +19,7 @@ export default function (config: ConfigService) {
       jwksUri: `https://cognito-idp.${
         config.get<AwsConfig>('aws').region
       }.amazonaws.com/${
-        config.get<AwsConfig>('aws').cognito.userPoolId
+        config.get<AwsConfig>('aws').cognito.apiUserPoolId
       }/.well-known/jwks.json`,
     }),
   };

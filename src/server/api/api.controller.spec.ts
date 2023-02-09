@@ -20,6 +20,8 @@ import JwtAuthenticationGuard from '../auth/jwt.guard';
 import JwtRegulatorGuard from '../auth/jwt-regulator.guard';
 import { AuthService } from '../auth/auth.service';
 import { UserService } from '../user/user.service';
+import { ApiAuthService } from '../auth/api-auth.service';
+import { RegulatorService } from '../regulator/regulator.service';
 
 describe('ApiController', () => {
   let controller: ApiController;
@@ -40,6 +42,8 @@ describe('ApiController', () => {
         PrismaService,
         AuthService,
         UserService,
+        ApiAuthService,
+        RegulatorService,
       ],
       imports: [HttpModule],
     }).compile();

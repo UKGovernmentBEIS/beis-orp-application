@@ -17,6 +17,8 @@ export interface AwsConfig {
   cognito: {
     userPoolId: string;
     clientId: string;
+    apiUserPoolId: string;
+    apiClientId: string;
   };
 }
 
@@ -56,6 +58,8 @@ export function config(): Config {
       cognito: {
         userPoolId: process.env.COGNITO_USER_POOL,
         clientId: process.env.COGNITO_CLIENT_ID,
+        apiUserPoolId: process.env.COGNITO_API_USER_POOL,
+        apiClientId: process.env.COGNITO_API_CLIENT_ID,
       },
     },
     secrets: {

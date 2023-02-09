@@ -8,7 +8,6 @@ import ConfirmPasswordDto from './types/ConfirmPassword.dto';
 import { User } from '@prisma/client';
 import {
   AdminDeleteUserCommand,
-  AdminGetUserCommand,
   AdminInitiateAuthCommand,
   AdminResetUserPasswordCommand,
   CognitoIdentityProviderClient,
@@ -16,10 +15,6 @@ import {
   ResendConfirmationCodeCommand,
   SignUpCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
-import CognitoUser from './types/CognitoUser';
-import AuthenticationResultDto, {
-  CognitoAuthResponse,
-} from './types/AuthenticationResult.dto';
 
 @Injectable()
 export class AuthService {
@@ -84,33 +79,6 @@ export class AuthService {
     }
   }
 
-  async authenticateApiUser({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }): Promise<AuthenticationResultDto> {
-    const adminInitiateAuthCommand = new AdminInitiateAuthCommand({
-      AuthFlow: 'ADMIN_USER_PASSWORD_AUTH',
-      ClientId: this.clientId,
-      UserPoolId: this.userPoolId,
-      AuthParameters: {
-        USERNAME: email,
-        PASSWORD: password,
-      },
-    });
-
-    try {
-      const result: CognitoAuthResponse = await this.client.send(
-        adminInitiateAuthCommand,
-      );
-      return result.AuthenticationResult;
-    } catch (err) {
-      throw err;
-    }
-  }
-
   async resendConfirmationCode(email: string) {
     const resendConfirmationCode = new ResendConfirmationCodeCommand({
       ClientId: this.clientId,
@@ -167,19 +135,6 @@ export class AuthService {
     try {
       await this.client.send(deleteUserCommand);
       return this.userService.deleteUser(email);
-    } catch (err) {
-      throw this.getAuthError(err);
-    }
-  }
-
-  async getUser(username: string): Promise<CognitoUser> {
-    const getUserCommand = new AdminGetUserCommand({
-      UserPoolId: this.userPoolId,
-      Username: username,
-    });
-
-    try {
-      return this.client.send(getUserCommand);
     } catch (err) {
       throw this.getAuthError(err);
     }

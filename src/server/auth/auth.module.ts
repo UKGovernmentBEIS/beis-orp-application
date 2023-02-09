@@ -9,6 +9,7 @@ import { UserService } from '../user/user.service';
 import { JwtStrategy } from './jwt.strategy';
 import { RegulatorService } from '../regulator/regulator.service';
 import JwtRegulatorStrategy from './jwt-regulator.strategy';
+import { ApiAuthService } from './api-auth.service';
 
 @Module({
   imports: [PassportModule.register({ session: true })],
@@ -22,6 +23,7 @@ import JwtRegulatorStrategy from './jwt-regulator.strategy';
     JwtStrategy,
     JwtRegulatorStrategy,
     RegulatorService,
+    ApiAuthService,
   ],
   controllers: [AuthController],
 })

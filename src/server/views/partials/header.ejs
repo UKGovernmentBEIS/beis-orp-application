@@ -75,6 +75,11 @@
                                 <a class="primary-navigation__link" href="/ingest">Upload</a>
                             </li>
                         <% }%>
+                        <% if (locals?.user) { %>
+                            <li class="primary-navigation__item">
+                                <a class="primary-navigation__link" href="/developer">Developer Portal</a>
+                            </li>
+                        <% }%>
                         <li class="primary-navigation__item">
                             <a class="primary-navigation__link" href="/blog">Blog</a>
                         </li>
