@@ -45,4 +45,20 @@ export class BlogController {
       },
     };
   }
+
+  @Get(['/about'])
+  @Render('pages/about/index')
+  about() {
+    const domain = this.config.get('domain');
+    const address = `${domain}about`;
+    const title = 'About the Open Regulation Platform';
+    return {
+      social: {
+        facebook: `https://www.facebook.com/sharer/sharer.php?u=${address}`,
+        twitter: `https://twitter.com/share?text=${title}&url=${address}`,
+        linkedIn: `https://www.linkedin.com/shareArticle/?url=${address}&title=${title}`,
+        email: `mailto:?to=&body=${address}&subject=${title}`,
+      },
+    };
+  }
 }
