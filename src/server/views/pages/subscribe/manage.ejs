@@ -15,14 +15,13 @@
     <% if (locals.mailchimpError) { %>
         <%- include('./partials/mailchimpError');%>
     <% } %>
-    <%- include('../../partials/components/errorSummary', { errors: locals.errors || [], errorMessages }); %>
 
     <main class="govuk-main-wrapper " id="main-content" role="main">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <form method="post" id="manage-subscription-form" name="manage-subscription-form" target="_self">
                     <input type="hidden" name="emailAddress" value="<%= emailValue %>">
-                    <div class="govuk-form-group">
+                    <div class="govuk-form-group <% if(locals?.errors?.subscription) { %>govuk-form-group--error<% } %>">
                         <fieldset class="govuk-fieldset">
                             <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                                 <h1 class="govuk-fieldset__heading">
@@ -32,6 +31,11 @@
                             <div id="sign-in-hint" class="govuk-hint">
                                 Subscription options for <%= emailValue %>
                             </div>
+                            <% if(locals?.errors?.subscription) { %>
+                                <p id="subscription-error" class="govuk-error-message">
+                                    <%= locals?.errors?.subscription %>
+                                </p>
+                            <% } %>
                             <div class="govuk-radios" data-module="govuk-radios">
                                 <div class="govuk-radios__item">
                                     <input class="govuk-radios__input" id="subscribed" name="subscription" type="radio" value="subscribed">

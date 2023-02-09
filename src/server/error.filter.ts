@@ -37,6 +37,7 @@ export class ErrorFilter<T extends Error> implements ExceptionFilter {
 
     if (exception instanceof FormValidationException) {
       request.session.errors = exception.viewModel.errors;
+      request.session.values = exception.viewModel.model;
 
       return response
         .status(HttpStatus.BAD_REQUEST)

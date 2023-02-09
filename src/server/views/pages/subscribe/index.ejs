@@ -1,12 +1,8 @@
 <%- include('../../partials/header'); %>
 
 <%
-    var errorMessages = {
-        emailAddress: "Enter a valid email address"
-    }
-
-    var emailValue = locals.model ? locals.model.emailAddress : ""
-    var emailError = locals.errors && locals.errors.emailAddress ? errorMessages.emailAddress : null
+    var emailValue = locals.values?.emailAddress
+    var emailError = locals.errors?.emailAddress
 
     var inputLabel = `<p class="govuk-body">Enter your email address to:</p>
     <ul class="govuk-list govuk-list--bullet">
@@ -22,7 +18,6 @@
     <% if (locals.mailchimpError) { %>
         <%- include('./partials/mailchimpError');%>
     <% } %>
-    <%- include('../../partials/components/errorSummary', { errors: locals.errors || [], errorMessages }); %>
 
     <main class="govuk-main-wrapper " id="main-content" role="main">
         <div class="govuk-grid-row">
