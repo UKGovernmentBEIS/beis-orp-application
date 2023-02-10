@@ -1,6 +1,6 @@
 import { E2eFixture, mockCognito } from '../e2e.fixture';
 import * as cheerio from 'cheerio';
-import { getSessionToDelete } from '../helpers/userSessions';
+import { getNonRegulatorSession } from '../helpers/userSessions';
 
 describe('Register (e2e)', () => {
   const fixture = new E2eFixture();
@@ -8,7 +8,7 @@ describe('Register (e2e)', () => {
 
   beforeAll(async () => {
     await fixture.init();
-    loggedInSession = await getSessionToDelete(fixture);
+    loggedInSession = await getNonRegulatorSession(fixture);
   });
 
   beforeEach(() => {

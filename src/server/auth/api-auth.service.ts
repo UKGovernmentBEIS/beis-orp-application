@@ -1,7 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AwsConfig } from '../config';
-import { UserService } from '../user/user.service';
 import {
   AdminAddUserToGroupCommand,
   AdminConfirmSignUpCommand,
@@ -19,11 +18,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { RegulatorService } from '../regulator/regulator.service';
 import CognitoUser from './types/CognitoUser';
 import { AuthService } from './auth.service';
-import { User as UserType } from '@prisma/client';
 import { ApiClient } from './types/ApiClient';
 import ApiRefreshTokensResponseDto, {
   CognitoRefreshResponse,
 } from './types/ApiRefreshTokensResponse.dto';
+import { User } from './types/User';
 
 @Injectable()
 export class ApiAuthService {
@@ -33,7 +32,6 @@ export class ApiAuthService {
   private client;
   constructor(
     private readonly config: ConfigService,
-    private readonly userService: UserService,
     private readonly regulatorService: RegulatorService,
     private readonly authService: AuthService,
     private readonly logger: Logger,
@@ -44,7 +42,7 @@ export class ApiAuthService {
     this.userPoolId = cognito.apiUserPoolId;
   }
 
-  async registerClient(user: UserType) {
+  async registerClient(user: User) {
     const clientId = uuidv4();
     const clientSecret = uuidv4();
 
@@ -53,7 +51,7 @@ export class ApiAuthService {
       Username: clientId,
       Password: clientSecret,
       UserAttributes: [
-        { Name: 'custom:regulator', Value: user.regulatorId },
+        { Name: 'custom:regulator', Value: user.regulator?.id },
       ].filter((att) => !!att.Value),
     });
 
@@ -64,7 +62,10 @@ export class ApiAuthService {
 
     try {
       await this.client.send(createUserCommand);
-      await this.addToRegulatorGroup(user.regulatorId ?? user.id, clientId);
+      await this.addToRegulatorGroup(
+        user.regulator?.id ?? user.cognitoUsername,
+        clientId,
+      );
       await this.client.send(confirmUserCommand);
       return { clientId, clientSecret };
     } catch (err) {
@@ -139,10 +140,10 @@ export class ApiAuthService {
     }
   }
 
-  async getApiClientsForUser(user: UserType): Promise<ApiClient[]> {
-    return user.regulatorId
-      ? this.getApiClientsForGroup(user.regulatorId)
-      : this.getApiClientsForGroup(user.id);
+  async getApiClientsForUser(user: User): Promise<ApiClient[]> {
+    return user.regulator?.id
+      ? this.getApiClientsForGroup(user.regulator.id)
+      : this.getApiClientsForGroup(user.cognitoUsername);
   }
   private async getApiClientsForGroup(groupId: string): Promise<ApiClient[]> {
     const listUsersInGroupCommand = new ListUsersInGroupCommand({

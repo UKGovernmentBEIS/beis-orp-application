@@ -12,6 +12,10 @@ import { PrismaService } from '../src/server/prisma/prisma.service';
 import { CognitoAuthError } from './mocks/cognitoAuthError';
 import JwtAuthenticationGuard from '../src/server/auth/jwt.guard';
 import JwtRegulatorGuard from '../src/server/auth/jwt-regulator.guard';
+import {
+  COGNITO_SUCCESSFUL_RESPONSE_NON_REGULATOR,
+  COGNITO_SUCCESSFUL_RESPONSE_REGULATOR,
+} from './mocks/cognitoSuccessfulResponse';
 
 export const CORRECT_EMAIL = 'reg@regulator.com';
 export const CORRECT_NON_REG_EMAIL = 'noreg@email.com';
@@ -20,15 +24,15 @@ export const CORRECT_PW = 'pw';
 export const mockCognito = {
   send: jest.fn().mockImplementation((command) => {
     if (command.authRequest) {
-      if (
-        (command.AuthParameters.USERNAME === CORRECT_EMAIL ||
-          command.AuthParameters.USERNAME === CORRECT_NON_REG_EMAIL ||
-          command.AuthParameters.USERNAME === CORRECT_EMAIL_TO_DELETE) &&
-        command.AuthParameters.PASSWORD === CORRECT_PW
-      ) {
-        return { user: command.AuthParameters.USERNAME };
+      if (command.AuthParameters.PASSWORD !== CORRECT_PW) {
+        throw new CognitoAuthError('NotAuthorizedException');
       }
-      throw new CognitoAuthError('NotAuthorizedException');
+      if (command.AuthParameters.USERNAME === CORRECT_EMAIL) {
+        return COGNITO_SUCCESSFUL_RESPONSE_REGULATOR;
+      }
+      if (command.AuthParameters.USERNAME === CORRECT_NON_REG_EMAIL) {
+        return COGNITO_SUCCESSFUL_RESPONSE_NON_REGULATOR;
+      }
     }
 
     return 'COG SUCCESS';

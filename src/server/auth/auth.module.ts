@@ -5,7 +5,6 @@ import { LocalStrategy } from './local.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { SessionSerializer } from './session.serializer';
 import { PrismaService } from '../prisma/prisma.service';
-import { UserService } from '../user/user.service';
 import { JwtStrategy } from './jwt.strategy';
 import { RegulatorService } from '../regulator/regulator.service';
 import JwtRegulatorStrategy from './jwt-regulator.strategy';
@@ -19,7 +18,6 @@ import { ApiAuthService } from './api-auth.service';
     SessionSerializer,
     PrismaService,
     Logger,
-    UserService,
     JwtStrategy,
     JwtRegulatorStrategy,
     RegulatorService,

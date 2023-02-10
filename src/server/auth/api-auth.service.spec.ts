@@ -2,10 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { RegulatorService } from '../regulator/regulator.service';
 import { ApiAuthService } from './api-auth.service';
 import {
-  DEFAULT_PRISMA_USER,
-  DEFAULT_PRISMA_USER_WITH_REGULATOR,
+  DEFAULT_USER,
+  DEFAULT_USER_WITH_REGULATOR,
 } from '../../../test/mocks/prismaService.mock';
-import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
 import { mockLogger } from '../../../test/mocks/logger.mock';
 import { mockConfigService } from '../../../test/mocks/config.mock';
@@ -59,7 +58,6 @@ describe('ApiAuthService', () => {
         ApiAuthService,
         AuthService,
         mockConfigService,
-        UserService,
         PrismaService,
         mockLogger,
         RegulatorService,
@@ -75,7 +73,7 @@ describe('ApiAuthService', () => {
     describe('regulator user', () => {
       it('should sign up the user and add to a group named by regulatorId', async () => {
         const result = await service.registerClient(
-          DEFAULT_PRISMA_USER_WITH_REGULATOR,
+          DEFAULT_USER_WITH_REGULATOR,
         );
 
         expect(mockCognito.send).toBeCalledTimes(4);
@@ -116,7 +114,7 @@ describe('ApiAuthService', () => {
           .mockResolvedValue('COGNITO_RESPONSE');
 
         const result = await service.registerClient(
-          DEFAULT_PRISMA_USER_WITH_REGULATOR,
+          DEFAULT_USER_WITH_REGULATOR,
         );
 
         expect(mockCognito.send).toBeCalledTimes(4);
@@ -153,7 +151,7 @@ describe('ApiAuthService', () => {
 
     describe('non-regulator user', () => {
       it('should sign up the user and add to a group named by regulatorId', async () => {
-        const result = await service.registerClient(DEFAULT_PRISMA_USER);
+        const result = await service.registerClient(DEFAULT_USER);
 
         expect(mockCognito.send).toBeCalledTimes(4);
         expect(mockCognito.send).toBeCalledWith({
@@ -166,14 +164,14 @@ describe('ApiAuthService', () => {
 
         expect(mockCognito.send).toBeCalledWith({
           UserPoolId: 'apiUpId',
-          GroupName: 'id',
+          GroupName: 'cogun',
           createGroupCommand: true,
         });
 
         expect(mockCognito.send).toBeCalledWith({
           UserPoolId: 'apiUpId',
           Username: 'UUID',
-          GroupName: 'id',
+          GroupName: 'cogun',
           adminAddUserToGroupCommand: true,
         });
 
@@ -198,7 +196,7 @@ describe('ApiAuthService', () => {
         mockCognito.send.mockResolvedValueOnce(clientResponse);
 
         const result = await service.getApiClientsForUser(
-          DEFAULT_PRISMA_USER_WITH_REGULATOR,
+          DEFAULT_USER_WITH_REGULATOR,
         );
 
         expect(mockCognito.send).toBeCalledTimes(1);
@@ -217,7 +215,7 @@ describe('ApiAuthService', () => {
         });
 
         const result = await service.getApiClientsForUser(
-          DEFAULT_PRISMA_USER_WITH_REGULATOR,
+          DEFAULT_USER_WITH_REGULATOR,
         );
 
         expect(mockCognito.send).toBeCalledTimes(1);
@@ -239,13 +237,13 @@ describe('ApiAuthService', () => {
 
         mockCognito.send.mockResolvedValueOnce(clientResponse);
 
-        const result = await service.getApiClientsForUser(DEFAULT_PRISMA_USER);
+        const result = await service.getApiClientsForUser(DEFAULT_USER);
 
         expect(mockCognito.send).toBeCalledTimes(1);
         expect(mockCognito.send).toBeCalledWith({
           UserPoolId: 'apiUpId',
           listUsersInGroupCommand: true,
-          GroupName: 'id',
+          GroupName: 'cogun',
         });
 
         expect(result).toEqual([DEFAULT_API_CREDENTIAL]);

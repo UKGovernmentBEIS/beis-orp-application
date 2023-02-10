@@ -4,7 +4,6 @@ import { SearchModule } from '../search/search.module';
 import { DocumentModule } from '../document/document.module';
 import { PrismaService } from '../prisma/prisma.service';
 import { AuthService } from '../auth/auth.service';
-import { UserService } from '../user/user.service';
 import { RegulatorService } from '../regulator/regulator.service';
 import { ApiAuthService } from '../auth/api-auth.service';
 
@@ -15,7 +14,6 @@ import { ApiAuthService } from '../auth/api-auth.service';
     PrismaService,
     Logger,
     AuthService,
-    UserService,
     RegulatorService,
     ApiAuthService,
   ],

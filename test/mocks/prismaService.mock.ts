@@ -1,4 +1,4 @@
-import { User } from '@prisma/client';
+import { User } from '../../src/server/auth/types/User';
 import { PrismaService } from '../../src/server/prisma/prisma.service';
 
 export const DEFAULT_REGULATOR = {
@@ -6,16 +6,15 @@ export const DEFAULT_REGULATOR = {
   id: 'rid',
   domain: 'regulator.com',
 };
-export const DEFAULT_PRISMA_USER = {
-  id: 'id',
+export const DEFAULT_USER: User = {
+  cognitoUsername: 'cogun',
   email: 'e@mail.com',
-  regulatorId: null,
+  regulator: null,
 };
 
-export const DEFAULT_PRISMA_USER_WITH_REGULATOR = {
+export const DEFAULT_USER_WITH_REGULATOR: User = {
+  cognitoUsername: 'cogun',
   email: 'e@mail.com',
-  id: 'id',
-  regulatorId: 'rid',
   regulator: DEFAULT_REGULATOR,
 };
 export const mockPrismaService = {
@@ -25,8 +24,8 @@ export const mockPrismaService = {
       findUnique: () => DEFAULT_REGULATOR,
     },
     user: {
-      create: (): User => DEFAULT_PRISMA_USER,
-      findUnique: () => DEFAULT_PRISMA_USER,
+      create: (): User => DEFAULT_USER,
+      findUnique: () => DEFAULT_USER,
     },
   },
 };

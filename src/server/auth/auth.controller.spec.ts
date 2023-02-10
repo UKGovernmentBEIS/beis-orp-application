@@ -6,7 +6,7 @@ import { mockAuthService } from '../../../test/mocks/authService.mock';
 import { PrismaService } from '../prisma/prisma.service';
 import { mockLogger } from '../../../test/mocks/logger.mock';
 import { AuthService } from './auth.service';
-import { DEFAULT_PRISMA_USER } from '../../../test/mocks/prismaService.mock';
+import { DEFAULT_USER } from '../../../test/mocks/prismaService.mock';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -33,7 +33,7 @@ describe('AuthController', () => {
     it('should call register user on auth service', async () => {
       const registerSpy = jest
         .spyOn(authService, 'registerUser')
-        .mockResolvedValue(DEFAULT_PRISMA_USER);
+        .mockResolvedValue(DEFAULT_USER);
       const req = mocks.createRequest({
         session: {},
       });
@@ -94,7 +94,7 @@ describe('AuthController', () => {
 
   describe('resetPassword', () => {
     it('should call startResetPassword on auth service', async () => {
-      const result = await controller.resetPassword(DEFAULT_PRISMA_USER);
+      const result = await controller.resetPassword(DEFAULT_USER);
       expect(result).toEqual('RESET_PASSWORD');
     });
   });
@@ -115,16 +115,16 @@ describe('AuthController', () => {
     it('should call confirmPassword on auth service', async () => {
       const deleteSpy = jest
         .spyOn(authService, 'deleteUser')
-        .mockResolvedValue(DEFAULT_PRISMA_USER);
+        .mockResolvedValue(DEFAULT_USER);
       const destroyMock = jest.fn();
       await controller.deleteUserConfirm(
-        DEFAULT_PRISMA_USER,
+        DEFAULT_USER,
         mocks.createRequest({
           session: { destroy: destroyMock },
         }),
       );
       expect(deleteSpy).toBeCalledTimes(1);
-      expect(deleteSpy).toBeCalledWith(DEFAULT_PRISMA_USER);
+      expect(deleteSpy).toBeCalledWith(DEFAULT_USER);
       expect(destroyMock).toBeCalledTimes(1);
     });
   });

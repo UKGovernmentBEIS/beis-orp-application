@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { AuthenticatedGuard } from '../auth/authenticated.guard';
 import { User } from '../user/user.decorator';
-import { User as UserType } from '@prisma/client';
+import { User as UserType } from '../auth/types/User';
 import { ApiAuthService } from '../auth/api-auth.service';
 import { ErrorFilter } from '../error.filter';
 import { ViewDataInterceptor } from '../../view-data-interceptor.service';
