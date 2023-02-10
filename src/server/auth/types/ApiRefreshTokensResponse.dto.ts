@@ -1,18 +1,17 @@
-export default class AuthenticationResultDto {
+export default class ApiRefreshTokensResponseDto {
   AccessToken: string;
   ExpiresIn: number;
   IdToken: string;
-  RefreshToken: string;
   TokenType: string;
 }
 
-export type CognitoAuthResponse = {
+export type CognitoRefreshResponse = {
   $metadata: {
     httpStatusCode: number;
     requestId: string;
     attempts: number;
     totalRetryDelay: number;
   };
-  AuthenticationResult: AuthenticationResultDto;
+  AuthenticationResult: ApiRefreshTokensResponseDto;
   ChallengeParameters: Record<string, any>;
 };

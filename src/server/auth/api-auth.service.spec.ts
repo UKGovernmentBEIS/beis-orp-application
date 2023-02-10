@@ -1,16 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { RegulatorService } from '../../regulator/regulator.service';
-import { ApiAuthService } from '../api-auth.service';
+import { RegulatorService } from '../regulator/regulator.service';
+import { ApiAuthService } from './api-auth.service';
 import {
   DEFAULT_PRISMA_USER,
   DEFAULT_PRISMA_USER_WITH_REGULATOR,
-} from '../../../../test/mocks/prismaService.mock';
-import { UserService } from '../../user/user.service';
-import { AuthService } from '../auth.service';
-import { mockLogger } from '../../../../test/mocks/logger.mock';
-import { mockConfigService } from '../../../../test/mocks/config.mock';
-import { PrismaService } from '../../prisma/prisma.service';
-import { DEFAULT_API_CREDENTIAL } from '../../../../test/mocks/cognitoApiCred.mock';
+} from '../../../test/mocks/prismaService.mock';
+import { UserService } from '../user/user.service';
+import { AuthService } from './auth.service';
+import { mockLogger } from '../../../test/mocks/logger.mock';
+import { mockConfigService } from '../../../test/mocks/config.mock';
+import { PrismaService } from '../prisma/prisma.service';
+import { DEFAULT_API_CREDENTIAL } from '../../../test/mocks/cognitoApiCred.mock';
+import { mockTokens } from '../../../test/mocks/tokens.mock';
 
 const mockCognito = {
   send: jest.fn().mockImplementation(() => 'COGNITO_RESPONSE'),
@@ -249,6 +250,56 @@ describe('ApiAuthService', () => {
 
         expect(result).toEqual([DEFAULT_API_CREDENTIAL]);
       });
+    });
+  });
+
+  describe('authenticateApiClient', () => {
+    it('should auth user in cognito and return tokens', async () => {
+      mockCognito.send.mockResolvedValueOnce({
+        AuthenticationResult: mockTokens,
+      });
+
+      const result = await service.authenticateApiClient({
+        clientId: 'un',
+        clientSecret: 'pw',
+      });
+
+      expect(mockCognito.send).toBeCalledTimes(1);
+      expect(mockCognito.send).toBeCalledWith({
+        AuthFlow: 'ADMIN_USER_PASSWORD_AUTH',
+        ClientId: 'apiClId',
+        UserPoolId: 'apiUpId',
+        adminInitiateAuthCommand: true,
+        AuthParameters: {
+          USERNAME: 'un',
+          PASSWORD: 'pw',
+        },
+      });
+
+      expect(result).toEqual(mockTokens);
+    });
+  });
+
+  describe('refreshApiUser', () => {
+    it('should refresh tokens in cognito and return tokens', async () => {
+      mockCognito.send.mockResolvedValueOnce({
+        AuthenticationResult: mockTokens,
+      });
+
+      const result = await service.refreshApiUser('token');
+
+      expect(mockCognito.send).toBeCalledTimes(1);
+      expect(mockCognito.send).toBeCalledWith({
+        AuthFlow: 'REFRESH_TOKEN_AUTH',
+        ClientId: 'apiClId',
+        UserPoolId: 'apiUpId',
+        adminInitiateAuthCommand: true,
+        AuthParameters: {
+          REFRESH_TOKEN: 'token',
+        },
+      });
+
+      expect(result).toEqual(mockTokens);
     });
   });
 });
