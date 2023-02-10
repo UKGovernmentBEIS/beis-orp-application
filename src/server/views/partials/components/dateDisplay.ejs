@@ -1,0 +1,8 @@
+<%
+    const date = new Date(dateString)
+    const dateDay = date.getDate();
+    const dateMonth = date.toLocaleString('default', {month: 'long'});
+    const dateYear = date.getFullYear();
+%>
+<%= dateDay %> <%= dateMonth %> <%= dateYear %>
+

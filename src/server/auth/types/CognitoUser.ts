@@ -1,6 +1,6 @@
 export default interface CognitoUser {
   Username: string;
-  UserAttributes: { Name: 'sub' | 'email_verified' | 'email'; Value: string }[];
+  UserAttributes: { Name: 'sub' | 'custom:regulator'; Value: string }[];
   $metadata: {
     httpStatusCode: number;
     requestId: string;

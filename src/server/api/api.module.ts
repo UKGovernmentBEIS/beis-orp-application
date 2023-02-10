@@ -6,6 +6,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { AuthService } from '../auth/auth.service';
 import { UserService } from '../user/user.service';
 import { RegulatorService } from '../regulator/regulator.service';
+import { ApiAuthService } from '../auth/api-auth.service';
 
 @Module({
   controllers: [ApiController],
@@ -16,6 +17,7 @@ import { RegulatorService } from '../regulator/regulator.service';
     AuthService,
     UserService,
     RegulatorService,
+    ApiAuthService,
   ],
 })
 export class ApiModule {}

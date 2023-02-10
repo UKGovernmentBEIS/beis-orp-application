@@ -31,6 +31,8 @@ export function getMockedConfig(key): Partial<Config> {
       cognito: {
         userPoolId: 'upid',
         clientId: 'clid',
+        apiUserPoolId: 'apiUpId',
+        apiClientId: 'apiClId',
       },
     },
     secrets: {

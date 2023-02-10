@@ -2,9 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
-import { AuthService } from './auth.service';
-import { RegulatorService } from '../regulator/regulator.service';
 import getJwtStrategyProps from './utils/getJwtStrategyProps';
+import { ApiAuthService } from './api-auth.service';
 
 @Injectable()
 export default class JwtRegulatorStrategy extends PassportStrategy(
@@ -13,21 +12,15 @@ export default class JwtRegulatorStrategy extends PassportStrategy(
 ) {
   constructor(
     private readonly config: ConfigService,
-    protected readonly authService: AuthService,
-    protected readonly regulatorService: RegulatorService,
+    protected readonly apiAuthService: ApiAuthService,
   ) {
     super(getJwtStrategyProps(config));
   }
 
   async validate(payload: any) {
-    const user = await this.authService.getUser(payload.username);
-    const emailAddress = user.UserAttributes.find(
-      (attr) => attr.Name === 'email',
-    ).Value;
-    const regulator = await this.regulatorService.getRegulatorByEmail(
-      emailAddress,
-    );
-
-    return !!regulator?.name;
+    const user = await this.apiAuthService.getClient(payload.username);
+    return !!user.UserAttributes.find(
+      (attr) => attr.Name === 'custom:regulator',
+    )?.Value;
   }
 }
