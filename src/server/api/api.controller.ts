@@ -34,12 +34,13 @@ import { DocumentRequestDto } from './types/DocumentRequest.dto';
 import { DocumentService } from '../document/document.service';
 import { FileUpload } from '../data/types/FileUpload';
 import { Request } from 'express';
-import { AuthService } from '../auth/auth.service';
 import JwtAuthenticationGuard from '../auth/jwt.guard';
 import JwtRegulatorGuard from '../auth/jwt-regulator.guard';
 import AuthenticationResultDto from '../auth/types/AuthenticationResult.dto';
 import { ApiAuthService } from '../auth/api-auth.service';
 import ApiTokenRequestDto from '../auth/types/ApiTokenRequest.dto';
+import ApiRefreshTokenRequestDto from '../auth/types/ApiRefreshTokenRequest.dto';
+import ApiRefreshTokensResponseDto from '../auth/types/ApiRefreshTokensResponse.dto';
 
 @UsePipes(new ValidationPipe())
 @Controller('api')
@@ -47,7 +48,6 @@ export class ApiController {
   constructor(
     private searchService: SearchService,
     private documentService: DocumentService,
-    private authService: AuthService,
     private apiAuthService: ApiAuthService,
   ) {}
 
@@ -108,9 +108,18 @@ export class ApiController {
   }
 
   @Post('tokens')
+  @ApiTags('auth')
   async login(
     @Body() apiTokenRequestDto: ApiTokenRequestDto,
   ): Promise<AuthenticationResultDto> {
-    return this.apiAuthService.authenticateApiUser(apiTokenRequestDto);
+    return this.apiAuthService.authenticateApiClient(apiTokenRequestDto);
+  }
+
+  @Post('refresh-tokens')
+  @ApiTags('auth')
+  async refreshToken(
+    @Body() apiRefreshTokenRequestDto: ApiRefreshTokenRequestDto,
+  ): Promise<ApiRefreshTokensResponseDto> {
+    return this.apiAuthService.refreshApiUser(apiRefreshTokenRequestDto.token);
   }
 }

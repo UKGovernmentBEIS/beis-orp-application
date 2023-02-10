@@ -21,6 +21,9 @@ import CognitoUser from './types/CognitoUser';
 import { AuthService } from './auth.service';
 import { User as UserType } from '@prisma/client';
 import { ApiClient } from './types/ApiClient';
+import ApiRefreshTokensResponseDto, {
+  CognitoRefreshResponse,
+} from './types/ApiRefreshTokensResponse.dto';
 
 @Injectable()
 export class ApiAuthService {
@@ -70,7 +73,7 @@ export class ApiAuthService {
     }
   }
 
-  async authenticateApiUser({
+  async authenticateApiClient({
     clientSecret,
     clientId,
   }: {
@@ -153,6 +156,26 @@ export class ApiAuthService {
       if (err.__type === 'ResourceNotFoundException') {
         return [];
       }
+      throw err;
+    }
+  }
+
+  async refreshApiUser(token: string): Promise<ApiRefreshTokensResponseDto> {
+    const adminInitiateAuthCommand = new AdminInitiateAuthCommand({
+      AuthFlow: 'REFRESH_TOKEN_AUTH',
+      ClientId: this.clientId,
+      UserPoolId: this.userPoolId,
+      AuthParameters: {
+        REFRESH_TOKEN: token,
+      },
+    });
+
+    try {
+      const result: CognitoRefreshResponse = await this.client.send(
+        adminInitiateAuthCommand,
+      );
+      return result.AuthenticationResult;
+    } catch (err) {
       throw err;
     }
   }

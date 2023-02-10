@@ -13,6 +13,7 @@ export function useSwagger(app: NestExpressApplication) {
     .setVersion('1.0')
     .addTag('search')
     .addTag('document')
+    .addTag('auth')
     .build();
   const document = SwaggerModule.createDocument(
     app,

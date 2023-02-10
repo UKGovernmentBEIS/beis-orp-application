@@ -18,15 +18,17 @@ import * as mocks from 'node-mocks-http';
 import { PrismaService } from '../prisma/prisma.service';
 import JwtAuthenticationGuard from '../auth/jwt.guard';
 import JwtRegulatorGuard from '../auth/jwt-regulator.guard';
-import { AuthService } from '../auth/auth.service';
 import { UserService } from '../user/user.service';
 import { ApiAuthService } from '../auth/api-auth.service';
 import { RegulatorService } from '../regulator/regulator.service';
+import { mockTokens } from '../../../test/mocks/tokens.mock';
+import { AuthService } from '../auth/auth.service';
 
 describe('ApiController', () => {
   let controller: ApiController;
   let documentService: DocumentService;
   let searchService: SearchService;
+  let apiAuthService: ApiAuthService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -51,6 +53,7 @@ describe('ApiController', () => {
     controller = module.get<ApiController>(ApiController);
     documentService = module.get<DocumentService>(DocumentService);
     searchService = module.get<SearchService>(SearchService);
+    apiAuthService = module.get<ApiAuthService>(ApiAuthService);
   });
 
   describe('upload', () => {
@@ -130,7 +133,7 @@ describe('ApiController', () => {
   });
 
   describe('login', () => {
-    it('should return response from authService', async () => {
+    it('should apply JwtRegulatorGuard', async () => {
       const guards = Reflect.getMetadata(
         '__guards__',
         ApiController.prototype.getDocument,
@@ -150,6 +153,38 @@ describe('ApiController', () => {
 
       expect(getDocMock).toBeCalledWith('id');
       expect(result).toBeInstanceOf(StreamableFile);
+    });
+  });
+
+  describe('login', () => {
+    it('should return response from apiAuthService', async () => {
+      const getTokensMock = jest
+        .spyOn(apiAuthService, 'authenticateApiClient')
+        .mockResolvedValue(mockTokens);
+
+      const creds = {
+        clientId: 'clid',
+        clientSecret: 'cls',
+      };
+      const result = await controller.login(creds);
+
+      expect(getTokensMock).toBeCalledWith(creds);
+      expect(result).toEqual(mockTokens);
+    });
+  });
+
+  describe('refreshToken', () => {
+    it('should return response from apiAuthService', async () => {
+      const refreshTokensMock = jest
+        .spyOn(apiAuthService, 'refreshApiUser')
+        .mockResolvedValue(mockTokens);
+
+      const result = await controller.refreshToken({
+        token: mockTokens.RefreshToken,
+      });
+
+      expect(refreshTokensMock).toBeCalledWith(mockTokens.RefreshToken);
+      expect(result).toEqual(mockTokens);
     });
   });
 });
