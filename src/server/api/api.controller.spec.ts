@@ -18,7 +18,6 @@ import * as mocks from 'node-mocks-http';
 import { PrismaService } from '../prisma/prisma.service';
 import JwtAuthenticationGuard from '../auth/jwt.guard';
 import JwtRegulatorGuard from '../auth/jwt-regulator.guard';
-import { UserService } from '../user/user.service';
 import { ApiAuthService } from '../auth/api-auth.service';
 import { RegulatorService } from '../regulator/regulator.service';
 import { mockTokens } from '../../../test/mocks/tokens.mock';
@@ -43,7 +42,6 @@ describe('ApiController', () => {
         mockLogger,
         PrismaService,
         AuthService,
-        UserService,
         ApiAuthService,
         RegulatorService,
       ],

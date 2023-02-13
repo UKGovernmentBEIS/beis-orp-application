@@ -10,7 +10,6 @@ import { DocumentModule } from './document/document.module';
 import { DataModule } from './data/data.module';
 import { PrismaService } from './prisma/prisma.service';
 import { AuthModule } from './auth/auth.module';
-import { UserService } from './user/user.service';
 import { UserModule } from './user/user.module';
 import { IngestModule } from './ingest/ingest.module';
 import { RegulatorModule } from './regulator/regulator.module';
@@ -32,7 +31,7 @@ import { DeveloperModule } from './developer/developer.module';
     RegulatorModule,
     DeveloperModule,
   ],
-  providers: [Logger, PrismaService, UserService],
+  providers: [Logger, PrismaService],
   exports: [Logger],
 })
 export class AppModule {}

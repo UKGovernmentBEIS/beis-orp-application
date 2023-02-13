@@ -2,9 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { DeveloperController } from './developer.controller';
 import { ApiAuthService } from '../auth/api-auth.service';
 import { DEFAULT_API_CREDENTIAL } from '../../../test/mocks/cognitoApiCred.mock';
-import { DEFAULT_PRISMA_USER } from '../../../test/mocks/prismaService.mock';
+import { DEFAULT_USER } from '../../../test/mocks/prismaService.mock';
 import { mockConfigService } from '../../../test/mocks/config.mock';
-import { UserService } from '../user/user.service';
 import { RegulatorService } from '../regulator/regulator.service';
 import { mockLogger } from '../../../test/mocks/logger.mock';
 import { AuthService } from '../auth/auth.service';
@@ -20,7 +19,6 @@ describe('DeveloperController', () => {
       providers: [
         ApiAuthService,
         mockConfigService,
-        UserService,
         RegulatorService,
         mockLogger,
         AuthService,
@@ -38,7 +36,7 @@ describe('DeveloperController', () => {
         .spyOn(apiAuthService, 'getApiClientsForUser')
         .mockResolvedValue([DEFAULT_API_CREDENTIAL]);
 
-      const result = await controller.apiKeys(DEFAULT_PRISMA_USER);
+      const result = await controller.apiKeys(DEFAULT_USER);
       expect(result).toEqual({ creds: [DEFAULT_API_CREDENTIAL] });
     });
   });
@@ -52,7 +50,7 @@ describe('DeveloperController', () => {
       const newCreds = { clientId: '1', clientSecret: 'sec' };
       jest.spyOn(apiAuthService, 'registerClient').mockResolvedValue(newCreds);
 
-      const result = await controller.generateApiKeys(DEFAULT_PRISMA_USER);
+      const result = await controller.generateApiKeys(DEFAULT_USER);
       expect(result).toEqual({
         creds: [DEFAULT_API_CREDENTIAL],
         newCreds: newCreds,

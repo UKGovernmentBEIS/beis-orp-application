@@ -7,7 +7,7 @@ import { Logger } from '@nestjs/common';
 import { getPdfAsMulterFile } from '../../../test/mocks/uploadMocks';
 import { OrpDal } from '../data/orp.dal';
 import { HttpModule } from '@nestjs/axios';
-import { DEFAULT_PRISMA_USER_WITH_REGULATOR } from '../../../test/mocks/prismaService.mock';
+import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/prismaService.mock';
 
 describe('IngestController', () => {
   let controller: IngestController;
@@ -32,7 +32,7 @@ describe('IngestController', () => {
       const file = await getPdfAsMulterFile();
       const expectedResult = await controller.uploadFile(
         file,
-        DEFAULT_PRISMA_USER_WITH_REGULATOR,
+        DEFAULT_USER_WITH_REGULATOR,
       );
 
       expect(expectedResult).toEqual({ url: '/ingest/confirm?key=file.pdf' });

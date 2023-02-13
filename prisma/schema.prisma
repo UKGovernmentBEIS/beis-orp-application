@@ -15,12 +15,4 @@ model Regulator {
   id       String  @id @default(uuid())
   domain   String  @unique
   name     String  @unique
-  users    User[]
-}
-
-model User {
-  id           String  @id @default(uuid())
-  email        String  @unique
-  regulator    Regulator?  @relation(fields: [regulatorId], references: [id])
-  regulatorId  String?
 }

@@ -10,18 +10,3 @@ export const regulators = [
     domain: 'regulator2.tech',
   },
 ];
-
-export const users = [
-  {
-    email: 'reg@regulator.com',
-    domain: 'regulator.com',
-  },
-  {
-    email: 'noreg@email.com',
-    domain: null,
-  },
-  {
-    email: 'todelete@email.com',
-    domain: null,
-  },
-];

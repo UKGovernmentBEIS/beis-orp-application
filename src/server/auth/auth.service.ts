@@ -3,9 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { AwsConfig } from '../config';
 import AuthRegisterDto from './types/AuthRegister.dto';
 import { AuthException } from './types/AuthException';
-import { UserService } from '../user/user.service';
 import ConfirmPasswordDto from './types/ConfirmPassword.dto';
-import { User } from '@prisma/client';
+import { User } from './types/User';
 import {
   AdminDeleteUserCommand,
   AdminInitiateAuthCommand,
@@ -15,6 +14,9 @@ import {
   ResendConfirmationCodeCommand,
   SignUpCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
+import { CognitoAuthResponse } from './types/AuthenticationResult.dto';
+import { RegulatorService } from '../regulator/regulator.service';
+import decodeJwt from './utils/decodeJwt';
 
 @Injectable()
 export class AuthService {
@@ -24,7 +26,7 @@ export class AuthService {
   private client;
   constructor(
     private readonly config: ConfigService,
-    private readonly userService: UserService,
+    private readonly regulatorService: RegulatorService,
   ) {
     const { cognito, region } = config.get<AwsConfig>('aws');
     this.client = new CognitoIdentityProviderClient({ region });
@@ -47,8 +49,7 @@ export class AuthService {
     });
 
     try {
-      await this.client.send(createUserCommand);
-      return this.userService.createUser(email);
+      return await this.client.send(createUserCommand);
     } catch (err) {
       throw this.getAuthError(err, { email });
     }
@@ -60,7 +61,7 @@ export class AuthService {
   }: {
     email: string;
     password: string;
-  }) {
+  }): Promise<User> {
     const adminInitiateAuthCommand = new AdminInitiateAuthCommand({
       AuthFlow: 'ADMIN_USER_PASSWORD_AUTH',
       ClientId: this.clientId,
@@ -72,8 +73,17 @@ export class AuthService {
     });
 
     try {
-      await this.client.send(adminInitiateAuthCommand);
-      return this.userService.getUserByEmail(email);
+      const cognitoResponse: CognitoAuthResponse = await this.client.send(
+        adminInitiateAuthCommand,
+      );
+      const idToken = decodeJwt(cognitoResponse.AuthenticationResult.IdToken);
+      const regulator = await this.regulatorService.getRegulatorByEmail(email);
+
+      return {
+        cognitoUsername: idToken['cognito:username'],
+        email,
+        regulator,
+      };
     } catch (err) {
       throw this.getAuthError(err, { email });
     }
@@ -86,8 +96,7 @@ export class AuthService {
     });
 
     try {
-      const result = await this.client.send(resendConfirmationCode);
-      return result;
+      return await this.client.send(resendConfirmationCode);
     } catch (err) {
       throw this.getAuthError(err);
     }
@@ -119,8 +128,7 @@ export class AuthService {
     });
 
     try {
-      const result = await this.client.send(confirmPasswordCommand);
-      return result;
+      return await this.client.send(confirmPasswordCommand);
     } catch (err) {
       throw this.getAuthError(err);
     }
@@ -133,8 +141,7 @@ export class AuthService {
     });
 
     try {
-      await this.client.send(deleteUserCommand);
-      return this.userService.deleteUser(email);
+      return await this.client.send(deleteUserCommand);
     } catch (err) {
       throw this.getAuthError(err);
     }

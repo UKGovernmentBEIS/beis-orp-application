@@ -20,7 +20,7 @@ import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 import { ValidateForm } from '../form-validation';
 import { User } from '../user/user.decorator';
 import ConfirmPasswordDto from './types/ConfirmPassword.dto';
-import type { User as UserType } from '@prisma/client';
+import type { User as UserType } from '../auth/types/User';
 import { AuthenticatedGuard } from './authenticated.guard';
 
 @UseFilters(AuthExceptionFilter)

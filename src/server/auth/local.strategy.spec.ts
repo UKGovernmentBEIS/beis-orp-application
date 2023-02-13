@@ -4,7 +4,7 @@ import { mockConfigService } from '../../../test/mocks/config.mock';
 import { LocalStrategy } from './local.strategy';
 import { CORRECT_EMAIL, CORRECT_PW } from '../../../test/e2e.fixture';
 import { mockAuthService } from '../../../test/mocks/authService.mock';
-import { DEFAULT_PRISMA_USER_WITH_REGULATOR } from '../../../test/mocks/prismaService.mock';
+import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/prismaService.mock';
 
 describe('AuthService', () => {
   let strategy: LocalStrategy;
@@ -21,7 +21,7 @@ describe('AuthService', () => {
 
   describe('validate', () => {
     it('should return the user if it comes back from authService', async () => {
-      const returnedUser = DEFAULT_PRISMA_USER_WITH_REGULATOR;
+      const returnedUser = DEFAULT_USER_WITH_REGULATOR;
       jest
         .spyOn(authService, 'authenticateUser')
         .mockResolvedValue(returnedUser);

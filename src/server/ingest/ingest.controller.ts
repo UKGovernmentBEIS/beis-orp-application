@@ -19,10 +19,10 @@ import FileValidationExceptionFactory from './utils/FileValidationExceptionFacto
 import { DocumentService } from '../document/document.service';
 import { RegulatorGuard } from '../auth/regulator.guard';
 import { User } from '../user/user.decorator';
-import { UserWithRegulator } from '../user/types/UserWithRegulator';
 import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 import { ValidateForm } from '../form-validation';
 import IngestionConfirmationDto from './types/IngestionConfirmation.dto';
+import type { User as UserType } from '../auth/types/User';
 
 @Controller('ingest')
 @UseGuards(RegulatorGuard)
@@ -53,7 +53,7 @@ export class IngestController {
       }),
     )
     file: Express.Multer.File,
-    @User() user: UserWithRegulator,
+    @User() user: UserType,
   ) {
     const { key } = await this.documentService.upload(
       file,
