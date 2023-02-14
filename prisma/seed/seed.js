@@ -5,11 +5,11 @@ const { regulators } = require('./regulators');
 const prisma = new PrismaClient();
 
 async function main() {
+  await prisma.regulator.deleteMany({});
   for (const regulator of regulators) {
-    await prisma.regulator.upsert({
-      where: { name: regulator.name },
-      update: {},
-      create: {
+    await prisma.regulator.create({
+      data: {
+        id: regulator.id,
         domain: regulator.domain,
         name: regulator.name,
       },

@@ -13,6 +13,8 @@ import {
   RawOrpResponse,
   RawOrpResponseEntry,
 } from './types/rawOrpSearchResponse';
+import { SearchRequestDto } from '../api/types/SearchRequest.dto';
+import { OrpIdSearchBody, OrpSearchBody } from './types/orpSearchRequests';
 
 const MAX_ITEMS = 10;
 
@@ -50,7 +52,9 @@ export class OrpDal {
     };
   }
 
-  private async postSearch<T>(params: T): Promise<RawOrpResponse> {
+  private async postSearch(
+    params: OrpSearchBody | OrpIdSearchBody,
+  ): Promise<RawOrpResponse> {
     try {
       const { data } = await firstValueFrom(
         this.httpService.post<RawOrpResponse>(this.orpSearchUrl, params),
@@ -62,11 +66,20 @@ export class OrpDal {
     }
   }
 
-  async searchOrp(
-    title: string | undefined,
-    keyword: string | undefined,
-  ): Promise<OrpSearchResponse> {
-    const data = await this.postSearch({ title, keyword });
+  private mapToOrpSearchBody(searchRequest: SearchRequestDto): OrpSearchBody {
+    const regulatorIdArray = [searchRequest.regulators]
+      .flat()
+      .filter((item) => item);
+
+    return {
+      keyword: searchRequest.keyword,
+      title: searchRequest.title,
+      regulator_id: regulatorIdArray.length ? regulatorIdArray : undefined,
+    };
+  }
+
+  async searchOrp(searchRequest: SearchRequestDto): Promise<OrpSearchResponse> {
+    const data = await this.postSearch(this.mapToOrpSearchBody(searchRequest));
     return this.mapResponse(data);
   }
 

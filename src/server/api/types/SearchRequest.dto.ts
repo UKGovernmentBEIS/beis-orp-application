@@ -8,4 +8,6 @@ export class SearchRequestDto {
   @ValidateIf((o) => !o.title)
   @IsString()
   keyword?: string;
+
+  regulators?: string | string[];
 }

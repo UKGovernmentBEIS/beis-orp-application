@@ -1,6 +1,5 @@
-.search-form {
+#search-container {
   background-color: govuk-colour("light-grey", $legacy: "grey-3");
-  padding: 20px 10px;
 }
 
 .search-no-content {
@@ -57,5 +56,12 @@
         background-color: govuk-colour("dark-grey", $legacy: "grey-1");
       }
     }
+  }
+}
+
+.filter-item {
+  border-top: 2px solid govuk-colour("mid-grey", $legacy: "grey-2");;
+  &:last-child {
+    border-bottom: 2px solid govuk-colour("mid-grey", $legacy: "grey-2");;
   }
 }

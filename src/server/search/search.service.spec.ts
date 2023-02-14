@@ -29,7 +29,7 @@ describe('SearchService', () => {
       jest.spyOn(tnaDal, 'searchTna').mockResolvedValue(tnaResponse);
       jest.spyOn(orpDal, 'searchOrp').mockResolvedValue(orpResponse);
 
-      expect(await service.search('a', 'b')).toStrictEqual({
+      expect(await service.search({ title: 'a', keyword: 'b' })).toStrictEqual({
         nationalArchive: tnaResponse,
         orp: orpResponse,
       });
@@ -73,7 +73,9 @@ describe('SearchService', () => {
       jest.spyOn(tnaDal, 'searchTna').mockResolvedValue(tnaResponse);
       jest.spyOn(orpDal, 'searchOrp').mockResolvedValue(orpResponse);
 
-      expect(await service.searchForView('a', 'b')).toStrictEqual({
+      expect(
+        await service.searchForView({ title: 'a', keyword: 'b' }),
+      ).toStrictEqual({
         nationalArchive: {
           ...tnaResponse,
           documents: [

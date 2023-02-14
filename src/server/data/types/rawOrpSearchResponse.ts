@@ -3,7 +3,7 @@ export interface RawOrpResponseEntry {
   summary: string;
   document_uid: string;
   regulator_id?: string;
-  uri: string;
+  s3_uri: string;
   date_uploaded: string;
   date_published?: string;
   legislative_origins: {
@@ -16,6 +16,7 @@ export interface RawOrpResponseEntry {
   version: number;
   document_type?: string;
   object_key: string;
+  keyword: string[];
 }
 
 export interface RawOrpResponse {

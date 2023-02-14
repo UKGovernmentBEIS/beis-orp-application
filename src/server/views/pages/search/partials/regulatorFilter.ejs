@@ -1,0 +1,31 @@
+<div class="filter-container">
+    <div class="govuk-form-group filter-item govuk-!-padding-top-6">
+        <fieldset class="govuk-fieldset" data-module="count-selections">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                <h1 class="govuk-fieldset__heading">
+                    Regulator
+                </h1>
+            </legend>
+            <details class="govuk-details" data-module="govuk-details">
+                <summary class="govuk-details__summary" data-module="show-hide">
+                            <span class="govuk-details__summary-text" >
+                              Show
+                            </span>
+                </summary>
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                    <% allRegulators.forEach((item) => {
+                        var valueSelected = selectedRegulators.includes(item.id)
+                    %>
+
+                    <div class="govuk-checkboxes__item govuk-checkboxes--small">
+                        <input class="govuk-checkboxes__input" id="regulator-<%= item.id %>" name="regulators" type="checkbox" value="<%= item.id %>" <% if (valueSelected) { %>checked<% } %>>
+                        <label class="govuk-label govuk-checkboxes__label" for="regulator-<%= item.id %>">
+                            <%= item.name %>
+                        </label>
+                    </div>
+                    <% }) %>
+                </div>
+            </details>
+        </fieldset>
+    </div>
+</div>
