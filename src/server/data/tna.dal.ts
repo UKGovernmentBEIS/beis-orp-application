@@ -9,6 +9,7 @@ import {
   RawTitle,
   RawTnaResponse,
 } from './types/rawTnaSearchResponse';
+import { SearchRequestDto } from '../api/types/SearchRequest.dto';
 
 export const TNA_URL = 'https://www.legislation.gov.uk/all/data.feed';
 const MAX_ITEMS = 10;
@@ -66,10 +67,10 @@ export class TnaDal {
     };
   }
 
-  async searchTna(
-    title: string | undefined,
-    keyword: string | undefined,
-  ): Promise<TnaSearchResponse> {
+  async searchTna({
+    title,
+    keyword,
+  }: SearchRequestDto): Promise<TnaSearchResponse> {
     const { data } = await firstValueFrom(
       this.httpService.get(TNA_URL, { params: { title, text: keyword } }),
     );

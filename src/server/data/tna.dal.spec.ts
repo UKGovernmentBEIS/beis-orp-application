@@ -18,7 +18,7 @@ describe('TNA data access layer', () => {
   });
 
   it('should search the national archives and map to JS object with top 10 entries', async () => {
-    expect(await tnaDal.searchTna('a', 'b')).toMatchObject(
+    expect(await tnaDal.searchTna({ title: 'a', keyword: 'b' })).toMatchObject(
       expectedOutputForTnaStandardResponse,
     );
   });
@@ -37,7 +37,7 @@ describe('TNA data access layer', () => {
       }),
     );
 
-    expect(await tnaDal.searchTna('a', 'b')).toMatchObject({
+    expect(await tnaDal.searchTna({ title: 'a', keyword: 'b' })).toMatchObject({
       totalSearchResults: 8,
       documents: [],
     });
@@ -84,7 +84,7 @@ describe('TNA data access layer', () => {
       }),
     );
 
-    expect(await tnaDal.searchTna('a', 'b')).toEqual({
+    expect(await tnaDal.searchTna({ title: 'a', keyword: 'b' })).toEqual({
       totalSearchResults: undefined,
       documents: [
         {
@@ -167,7 +167,7 @@ describe('TNA data access layer', () => {
       }),
     );
 
-    expect(await tnaDal.searchTna('a', 'b')).toEqual({
+    expect(await tnaDal.searchTna({ title: 'a', keyword: 'b' })).toEqual({
       totalSearchResults: undefined,
       documents: [
         {
@@ -218,7 +218,7 @@ describe('TNA data access layer', () => {
       }),
     );
 
-    expect(await tnaDal.searchTna('a', 'b')).toEqual({
+    expect(await tnaDal.searchTna({ title: 'a', keyword: 'b' })).toEqual({
       totalSearchResults: undefined,
       documents: [
         {
@@ -253,7 +253,7 @@ describe('TNA data access layer', () => {
       }),
     );
 
-    expect(await tnaDal.searchTna('a', 'b')).toEqual({
+    expect(await tnaDal.searchTna({ title: 'a', keyword: 'b' })).toEqual({
       totalSearchResults: undefined,
       documents: [
         {

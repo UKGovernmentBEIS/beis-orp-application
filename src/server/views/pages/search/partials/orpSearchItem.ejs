@@ -1,3 +1,7 @@
+<%
+ var regulator = allRegulators.find(reg => reg.id === item.regulatorId) ?? {}
+%>
+
 <div class="search-result orp-search-result govuk-!-margin-bottom-2">
     <div class="search-result-top-panel vertical-align-right">
         <a href="/api/document/<%= item.documentId %>" role="button" draggable="false" download="<%= item.documentId %>.pdf">
@@ -5,8 +9,7 @@
         </a>
     </div>
     <div class="govuk-!-padding-3">
-        <a href="/document/<%= item.documentId %>">
-            <h3><%= item.title %></h3>
-        </a>
+        <a href="/document/<%= item.documentId %>"><h3><%= item.title %></h3></a>
+        <p class="govuk-!-font-size-16 govuk-!-font-weight-bold"><%= regulator.name %></p>
     </div>
 </div>

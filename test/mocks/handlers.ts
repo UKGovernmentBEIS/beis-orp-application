@@ -4,12 +4,14 @@ import { tnaStandardResponse } from './tnaSearchMock';
 import { orpStandardResponse } from './orpSearchMock';
 import { mockedSearchLambda } from './config.mock';
 
+export const searchMock = jest.fn();
 export const handlers = [
   rest.get(TNA_URL, (req, res, ctx) => {
     return res(ctx.status(200), ctx.xml(tnaStandardResponse));
   }),
 
   rest.post(mockedSearchLambda, (req, res, ctx) => {
+    searchMock(req.body);
     return res(ctx.status(200), ctx.json(orpStandardResponse));
   }),
 ];

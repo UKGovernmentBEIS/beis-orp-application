@@ -1,8 +1,10 @@
 <%- include('../../partials/header'); %>
 
 <%
-    var titleValue = title ?? ""
-    var keywordValue = keyword ?? ""
+    var titleValue = searchedValues.title ?? ""
+    var keywordValue = searchedValues.keyword ?? ""
+    var allRegulators = filters.regulators ?? ""
+    var selectedRegulators = searchedValues.regulators ?? []
     var tnaResults = results?.nationalArchive.documents ?? []
     var totalTnaResults = results?.nationalArchive.totalSearchResults ?? null
     var orpResults = results?.orp.documents ?? []
@@ -16,7 +18,7 @@
         <div class="govuk-grid-row">
 
             <div class="govuk-grid-column-one-third">
-                <%- include('./partials/searchPanelForm', { titleValue, keywordValue }); %>
+                <%- include('./partials/searchPanelForm', { titleValue, keywordValue, selectedRegulators, allRegulators }); %>
             </div>
             <div class="govuk-grid-column-two-thirds">
                 <% if (noResults) { %>
@@ -57,7 +59,7 @@
                                 <%- include('./partials/searchInfoBar', { total: totalOrpResults }); %>
 
                                 <% orpResults.forEach(function(item) {  %>
-                                    <%- include('./partials/orpSearchItem', { item }); %>
+                                    <%- include('./partials/orpSearchItem', { item, allRegulators }); %>
                                 <% }); %>
                              <% } %>
 

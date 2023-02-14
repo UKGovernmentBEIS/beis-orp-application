@@ -9,6 +9,7 @@ import {
   SearchViewModel,
   TnaSearchResponseViewModel,
 } from './types/SearchViewModel';
+import { SearchRequestDto } from '../api/types/SearchRequest.dto';
 
 @Injectable()
 export class SearchService {
@@ -17,13 +18,10 @@ export class SearchService {
     private readonly orpDal: OrpDal,
   ) {}
 
-  async search(
-    title: string | undefined,
-    keyword: string | undefined,
-  ): Promise<SearchResponseDto> {
+  async search(searchRequest: SearchRequestDto): Promise<SearchResponseDto> {
     const [nationalArchive, orp] = await Promise.all([
-      this.tnaDal.searchTna(title, keyword),
-      this.orpDal.searchOrp(title, keyword),
+      this.tnaDal.searchTna(searchRequest),
+      this.orpDal.searchOrp(searchRequest),
     ]);
 
     return { nationalArchive, orp };
@@ -41,10 +39,9 @@ export class SearchService {
   }
 
   async searchForView(
-    title: string | undefined,
-    keyword: string | undefined,
+    searchRequest: SearchRequestDto,
   ): Promise<SearchViewModel> {
-    const { nationalArchive, orp } = await this.search(title, keyword);
+    const { nationalArchive, orp } = await this.search(searchRequest);
 
     return {
       nationalArchive: this.toTnaViewModel(nationalArchive),

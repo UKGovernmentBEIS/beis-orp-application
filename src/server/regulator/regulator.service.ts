@@ -15,4 +15,8 @@ export class RegulatorService {
       },
     });
   }
+
+  getRegulators(): Promise<Regulator[]> {
+    return this.prisma.regulator.findMany();
+  }
 }

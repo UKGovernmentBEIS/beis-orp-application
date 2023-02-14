@@ -61,10 +61,7 @@ export class ApiController {
   })
   @ApiInternalServerErrorResponse({ description: 'Unexpected error' })
   search(@Query() searchRequest: SearchRequestDto): Promise<SearchResponseDto> {
-    return this.searchService.search(
-      searchRequest.title,
-      searchRequest.keyword,
-    );
+    return this.searchService.search(searchRequest);
   }
 
   @Put('upload')

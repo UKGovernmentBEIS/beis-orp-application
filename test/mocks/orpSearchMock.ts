@@ -15,7 +15,7 @@ export const getRawDocument = (
     summary: 'This is the summary',
     document_uid: '0001',
     regulator_id: 'reg001',
-    uri: '/bucket/doc.pdf',
+    s3_uri: '/bucket/doc.pdf',
     date_uploaded: '2019-08-06T00:00:00Z',
     date_published: '2018-08-06T00:00:00Z',
     legislative_origins: [
@@ -30,6 +30,7 @@ export const getRawDocument = (
     version: 1,
     document_type: 'doc type',
     object_key: 'doc.pdf',
+    keyword: ['keyword1', 'keyword2'],
     ...overrides,
   };
 };
