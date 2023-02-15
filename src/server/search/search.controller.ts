@@ -11,6 +11,7 @@ import { SearchService } from './search.service';
 import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 import { RegulatorService } from '../regulator/regulator.service';
 import { SearchRequestDto } from '../api/types/SearchRequest.dto';
+import { documentTypes } from './types/documentTypes';
 
 @UseFilters(ErrorFilter)
 @UseInterceptors(ViewDataInterceptor)
@@ -32,12 +33,13 @@ export class SearchController {
         ? await this.searchService.searchForView(searchRequestDto)
         : null;
 
-    const allRegulators = await this.regulatorService.getRegulators();
-
     return {
       searchedValues: searchRequestDto,
       results,
-      filters: { regulators: allRegulators },
+      filters: {
+        regulators: await this.regulatorService.getRegulators(),
+        docTypes: documentTypes,
+      },
     };
   }
 }
