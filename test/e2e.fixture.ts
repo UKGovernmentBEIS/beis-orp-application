@@ -17,9 +17,8 @@ import {
   COGNITO_SUCCESSFUL_RESPONSE_REGULATOR,
 } from './mocks/cognitoSuccessfulResponse';
 
-export const CORRECT_EMAIL = 'reg@regulator.com';
+export const CORRECT_EMAIL = 'reg@ofcom.org.uk';
 export const CORRECT_NON_REG_EMAIL = 'noreg@email.com';
-export const CORRECT_EMAIL_TO_DELETE = 'todelete@email.com';
 export const CORRECT_PW = 'pw';
 export const mockCognito = {
   send: jest.fn().mockImplementation((command) => {
