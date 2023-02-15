@@ -18,6 +18,10 @@ import { OrpIdSearchBody, OrpSearchBody } from './types/orpSearchRequests';
 
 const MAX_ITEMS = 10;
 
+function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
+  return value !== null && value !== undefined;
+}
+
 @Injectable()
 export class OrpDal {
   private orpSearchUrl: string;
@@ -67,17 +71,18 @@ export class OrpDal {
   }
 
   private mapToOrpSearchBody(searchRequest: SearchRequestDto): OrpSearchBody {
-    const regulatorIdArray = [searchRequest.regulators]
-      .flat()
-      .filter((item) => item);
-
-    const docTypeArray = [searchRequest.docTypes].flat().filter((item) => item);
+    const regulatorIdArray = [searchRequest.regulators].flat().filter(notEmpty);
+    const docTypeArray = [searchRequest.docTypes].flat().filter(notEmpty);
+    const statusArray = [searchRequest.status].flat().filter(notEmpty);
 
     return {
       keyword: searchRequest.keyword,
       title: searchRequest.title,
       regulator_id: regulatorIdArray.length ? regulatorIdArray : undefined,
       document_type: docTypeArray.length ? docTypeArray : undefined,
+      status: statusArray.length
+        ? statusArray.map((st) => (st === 'active' ? 'published' : st))
+        : undefined,
     };
   }
 

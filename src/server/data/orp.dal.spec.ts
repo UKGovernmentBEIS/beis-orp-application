@@ -57,6 +57,7 @@ describe('Orp data access layer', () => {
       keyword: 'b',
       docTypes: ['GD', 'MSI'],
       regulators: ['id', 'id2'],
+      status: ['active', 'draft'],
     };
 
     const SEARCH_RES: OrpSearchBody = {
@@ -64,6 +65,7 @@ describe('Orp data access layer', () => {
       keyword: 'b',
       regulator_id: ['id', 'id2'],
       document_type: ['GD', 'MSI'],
+      status: ['published', 'draft'],
     };
 
     it('should map to required lambda format', async () => {
@@ -87,13 +89,22 @@ describe('Orp data access layer', () => {
       });
     });
 
-    it('should handle no regulators and docTypes', async () => {
+    it('should ensure status is an array', async () => {
+      await orpDal.searchOrp({ ...SEARCH_REQ, status: 'active' });
+      expect(searchMock).toBeCalledWith({
+        ...SEARCH_RES,
+        status: ['published'],
+      });
+    });
+
+    it('should handle no regulators and docTypes and status', async () => {
       await orpDal.searchOrp({ title: 'a', keyword: 'b' });
       expect(searchMock).toBeCalledWith({
         title: 'a',
         keyword: 'b',
         regulator_id: undefined,
         document_types: undefined,
+        status: undefined,
       });
     });
   });

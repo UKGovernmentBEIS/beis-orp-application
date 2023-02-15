@@ -2,7 +2,7 @@
     <fieldset class="govuk-fieldset" data-module="count-selections">
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
             <h1 class="govuk-fieldset__heading">
-                Document Type
+                Status
             </h1>
         </legend>
         <details class="govuk-details govuk-!-margin-bottom-4" data-module="govuk-details">
@@ -12,14 +12,14 @@
                         </span>
             </summary>
             <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                <% Object.keys(allDocTypes).forEach((itemKey) => {
-                    var valueSelected = selectedDocTypes.includes(itemKey)
+                <% Object.keys(allStatuses).forEach((itemKey) => {
+                    var valueSelected = selectedStatuses.includes(itemKey)
                 %>
 
                 <div class="govuk-checkboxes__item govuk-checkboxes--small">
-                    <input class="govuk-checkboxes__input" id="docType-<%= itemKey %>" name="docTypes" type="checkbox" value="<%= itemKey %>" <% if (valueSelected) { %>checked<% } %>>
-                    <label class="govuk-label govuk-checkboxes__label" for="docType-<%= itemKey %>">
-                        <%= allDocTypes[itemKey] %>
+                    <input class="govuk-checkboxes__input" id="status-<%= itemKey %>" name="status" type="checkbox" value="<%= itemKey %>" <% if (valueSelected) { %>checked<% } %>>
+                    <label class="govuk-label govuk-checkboxes__label" for="status-<%= itemKey %>">
+                        <%= allStatuses[itemKey] %>
                     </label>
                 </div>
                 <% }) %>

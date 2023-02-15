@@ -9,12 +9,17 @@ import { mockLogger } from '../../../test/mocks/logger.mock';
 import { RegulatorService } from '../regulator/regulator.service';
 import { Regulator } from '@prisma/client';
 import { documentTypes } from './types/documentTypes';
+import { documentStatus } from './types/statusTypes';
 
 const MOCK_REGULATORS: Regulator[] = [
   { id: 'id', name: 'reg', domain: 'reg@reg.com' },
 ];
 
-const FILTERS = { regulators: MOCK_REGULATORS, docTypes: documentTypes };
+const FILTERS = {
+  regulators: MOCK_REGULATORS,
+  docTypes: documentTypes,
+  statuses: documentStatus,
+};
 describe('SearchController', () => {
   let controller: SearchController;
   let searchService: SearchService;

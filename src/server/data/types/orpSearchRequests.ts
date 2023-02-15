@@ -6,7 +6,7 @@ export type OrpSearchBody = {
   regulator_id?: string[];
   date_published?: string;
   regulatory_topic?: string;
-  status?: string;
+  status?: ('published' | 'draft')[];
   document_type?: DocumentType[];
 };
 
