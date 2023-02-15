@@ -1,5 +1,6 @@
 <%
  var regulator = allRegulators.find(reg => reg.id === item.regulatorId) ?? {}
+ var documentType = allDocTypes[item.documentType]
 %>
 
 <div class="search-result orp-search-result govuk-!-margin-bottom-2">
@@ -10,6 +11,9 @@
     </div>
     <div class="govuk-!-padding-3">
         <a href="/document/<%= item.documentId %>"><h3><%= item.title %></h3></a>
-        <p class="govuk-!-font-size-16 govuk-!-font-weight-bold"><%= regulator.name %></p>
+        <p class="govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-2"><%= regulator.name %></p>
+        <p class="search-result-info govuk-!-font-size-16">
+            <span><%= documentType %></span>
+        </p>
     </div>
 </div>

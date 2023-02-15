@@ -71,10 +71,13 @@ export class OrpDal {
       .flat()
       .filter((item) => item);
 
+    const docTypeArray = [searchRequest.docTypes].flat().filter((item) => item);
+
     return {
       keyword: searchRequest.keyword,
       title: searchRequest.title,
       regulator_id: regulatorIdArray.length ? regulatorIdArray : undefined,
+      document_type: docTypeArray.length ? docTypeArray : undefined,
     };
   }
 

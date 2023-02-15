@@ -1,4 +1,5 @@
 import { IsString, ValidateIf } from 'class-validator';
+import { DocumentType } from '../../search/types/documentTypes';
 
 export class SearchRequestDto {
   @ValidateIf((o) => !o.keyword)
@@ -10,4 +11,6 @@ export class SearchRequestDto {
   keyword?: string;
 
   regulators?: string | string[];
+
+  docTypes?: DocumentType | DocumentType[];
 }

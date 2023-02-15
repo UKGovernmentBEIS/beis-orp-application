@@ -8,10 +8,13 @@ import { mockConfigService } from '../../../test/mocks/config.mock';
 import { mockLogger } from '../../../test/mocks/logger.mock';
 import { RegulatorService } from '../regulator/regulator.service';
 import { Regulator } from '@prisma/client';
+import { documentTypes } from './types/documentTypes';
 
 const MOCK_REGULATORS: Regulator[] = [
   { id: 'id', name: 'reg', domain: 'reg@reg.com' },
 ];
+
+const FILTERS = { regulators: MOCK_REGULATORS, docTypes: documentTypes };
 describe('SearchController', () => {
   let controller: SearchController;
   let searchService: SearchService;
@@ -49,7 +52,7 @@ describe('SearchController', () => {
       const result = await controller.search({ title: 'Title' });
       expect(result).toEqual({
         searchedValues: { title: 'Title', keyword: undefined },
-        filters: { regulators: MOCK_REGULATORS },
+        filters: FILTERS,
         results: expectedResult,
       });
     });
@@ -63,7 +66,7 @@ describe('SearchController', () => {
       const result = await controller.search({ keyword: 'Keyword' });
       expect(result).toEqual({
         searchedValues: { title: undefined, keyword: 'Keyword' },
-        filters: { regulators: MOCK_REGULATORS },
+        filters: FILTERS,
         results: expectedResult,
       });
     });
@@ -80,7 +83,7 @@ describe('SearchController', () => {
       });
       expect(result).toEqual({
         searchedValues: { title: 'Title', keyword: 'Keyword' },
-        filters: { regulators: MOCK_REGULATORS },
+        filters: FILTERS,
         results: expectedResult,
       });
     });
@@ -94,7 +97,7 @@ describe('SearchController', () => {
       const result = await controller.search({});
       expect(result).toEqual({
         searchedValues: { title: undefined, keyword: undefined },
-        filters: { regulators: MOCK_REGULATORS },
+        filters: FILTERS,
         results: null,
       });
     });

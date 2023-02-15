@@ -2,7 +2,7 @@ import * as $ from 'jquery';
 
 export default function init() {
   const getCounterText = (name) =>
-    `${$(`input[name=${name}]:checkbox:checked`).length} items selected`;
+    `${$(`input[name=${name}]:checkbox:checked`).length} selected`;
 
   $('[data-module="count-selections"]').each((i, item) => {
     const $el = $(item);
@@ -14,7 +14,9 @@ export default function init() {
     const checkBoxes = $(details).find('input.govuk-checkboxes__input');
     const name = $(checkBoxes[0]).attr('name');
 
-    const counter = $(`<p>${getCounterText(name)}</p>`);
+    const counter = $(
+      `<p class="govuk-hint govuk-!-font-size-16">${getCounterText(name)}</p>`,
+    );
     $(details).before(counter);
 
     checkBoxes.on('change', () => counter.text(getCounterText(name)));

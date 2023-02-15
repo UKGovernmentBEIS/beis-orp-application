@@ -10,6 +10,8 @@ import {
 } from '../../../test/mocks/config.mock';
 import { mockLogger } from '../../../test/mocks/logger.mock';
 import { searchMock } from '../../../test/mocks/handlers';
+import { SearchRequestDto } from '../api/types/SearchRequest.dto';
+import { OrpSearchBody } from './types/orpSearchRequests';
 
 describe('Orp data access layer', () => {
   let orpDal: OrpDal;
@@ -49,40 +51,49 @@ describe('Orp data access layer', () => {
     });
   });
 
-  describe('regulator_id', () => {
-    it('should map regulators to regulator_id', async () => {
-      await orpDal.searchOrp({ title: 'a', keyword: 'b', regulators: ['id'] });
-      expect(searchMock).toBeCalledWith({
-        title: 'a',
-        keyword: 'b',
-        regulator_id: ['id'],
-      });
+  describe('mapping', () => {
+    const SEARCH_REQ: SearchRequestDto = {
+      title: 'a',
+      keyword: 'b',
+      docTypes: ['GD', 'MSI'],
+      regulators: ['id', 'id2'],
+    };
+
+    const SEARCH_RES: OrpSearchBody = {
+      title: 'a',
+      keyword: 'b',
+      regulator_id: ['id', 'id2'],
+      document_type: ['GD', 'MSI'],
+    };
+
+    it('should map to required lambda format', async () => {
+      await orpDal.searchOrp(SEARCH_REQ);
+      expect(searchMock).toBeCalledWith(SEARCH_RES);
     });
 
     it('should ensure regulator_id is an array', async () => {
-      await orpDal.searchOrp({ title: 'a', keyword: 'b', regulators: 'id' });
+      await orpDal.searchOrp({ ...SEARCH_REQ, regulators: 'id' });
       expect(searchMock).toBeCalledWith({
-        title: 'a',
-        keyword: 'b',
+        ...SEARCH_RES,
         regulator_id: ['id'],
       });
     });
 
-    it('should handle no regulators', async () => {
-      await orpDal.searchOrp({ title: 'a', keyword: 'b', regulators: '' });
+    it('should ensure document_type is an array', async () => {
+      await orpDal.searchOrp({ ...SEARCH_REQ, docTypes: 'GD' });
       expect(searchMock).toBeCalledWith({
-        title: 'a',
-        keyword: 'b',
-        regulator_id: undefined,
+        ...SEARCH_RES,
+        document_type: ['GD'],
       });
     });
 
-    it('should handle no regulators as array', async () => {
-      await orpDal.searchOrp({ title: 'a', keyword: 'b', regulators: [] });
+    it('should handle no regulators and docTypes', async () => {
+      await orpDal.searchOrp({ title: 'a', keyword: 'b' });
       expect(searchMock).toBeCalledWith({
         title: 'a',
         keyword: 'b',
         regulator_id: undefined,
+        document_types: undefined,
       });
     });
   });
