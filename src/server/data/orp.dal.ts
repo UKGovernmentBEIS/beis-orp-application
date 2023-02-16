@@ -51,6 +51,7 @@ export class OrpDal {
           regulatoryTopics: document.regulatory_topics,
           version: document.version,
           documentType: document.document_type,
+          keyword: document.keyword,
         })),
       totalSearchResults: response.total_search_results,
     };
@@ -83,6 +84,10 @@ export class OrpDal {
       status: statusArray.length
         ? statusArray.map((st) => (st === 'active' ? 'published' : st))
         : undefined,
+      date_published: {
+        start_date: searchRequest.publishedFromDate,
+        end_date: searchRequest.publishedToDate,
+      },
     };
   }
 

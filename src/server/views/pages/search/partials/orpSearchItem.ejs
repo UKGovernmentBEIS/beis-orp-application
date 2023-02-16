@@ -14,6 +14,14 @@
         <p class="govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-2"><%= regulator.name %></p>
         <p class="search-result-info govuk-!-font-size-16">
             <span><%= documentType %></span>
+            <span> <%- include('../../../partials/components/dateDisplay', { dateString: item.dates.published }); %></span>
         </p>
+        <div class="search-result-keywords">
+            <ul class="govuk-list">
+                <% item.keyword.forEach(function(keyword) { %>
+                    <li><%= keyword %></li>
+                <% }) %>
+            </ul>
+        </div>
     </div>
 </div>

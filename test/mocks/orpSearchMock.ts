@@ -58,6 +58,7 @@ const getMappedDocument = (
     regulatoryTopics: ['topic1', 'topic2'],
     version: 1,
     documentType: 'doc type',
+    keyword: ['keyword1', 'keyword2'],
     ...overrides,
   };
 };

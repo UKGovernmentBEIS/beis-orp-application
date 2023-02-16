@@ -16,4 +16,7 @@ export class SearchRequestDto {
   docTypes?: DocumentType | DocumentType[];
 
   status?: DocumentStatus | DocumentStatus[];
+
+  publishedFromDate?: string;
+  publishedToDate?: string;
 }

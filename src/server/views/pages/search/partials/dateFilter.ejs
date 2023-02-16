@@ -1,0 +1,83 @@
+<div class="filter-item govuk-!-padding-top-4 govuk-!-margin-bottom-0">
+    <fieldset class="govuk-fieldset" data-module="display-selected">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+            <h3 class="govuk-fieldset__heading">
+                Publication date
+            </h3>
+        </legend>
+        <details class="govuk-details govuk-!-margin-bottom-4" data-module="govuk-details">
+            <summary class="govuk-details__summary" data-module="show-hide">
+                <span class="govuk-details__summary-text" >
+                  Show
+                </span>
+            </summary>
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset" role="group" aria-describedby="passport-issued-hint">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                        <h3 class="govuk-fieldset__heading">From</h3>
+                    </legend>
+                    <div class="govuk-date-input" id="published-from">
+                        <div class="govuk-date-input__item">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-date-input__label" for="from-day">
+                                    Day
+                                </label>
+                                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="published-from-day" name="publishedFrom-day" type="text" inputmode="numeric" value="<%= publishedFromDay %>">
+                            </div>
+                        </div>
+                        <div class="govuk-date-input__item">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-date-input__label" for="published-from-month">
+                                    Month
+                                </label>
+                                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="published-from-month" name="publishedFrom-month" type="text" inputmode="numeric"  value="<%= publishedFromMonth %>">
+                            </div>
+                        </div>
+                        <div class="govuk-date-input__item">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-date-input__label" for="published-from-year">
+                                    Year
+                                </label>
+                                <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="published-from-year" name="publishedFrom-year" type="text" inputmode="numeric" value="<%= publishedFromYear %>">
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset" role="group" aria-describedby="passport-issued-hint">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                        <h3 class="govuk-fieldset__heading">To</h3>
+                    </legend>
+                    <div class="govuk-date-input" id="published-to">
+                        <div class="govuk-date-input__item">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-date-input__label" for="from-day">
+                                    Day
+                                </label>
+                                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="published-to-day" name="publishedTo-day" type="text" inputmode="numeric" value="<%= publishedToDay %>">
+                            </div>
+                        </div>
+                        <div class="govuk-date-input__item">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-date-input__label" for="published-to-month">
+                                    Month
+                                </label>
+                                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="published-to-month" name="publishedTo-month" type="text" inputmode="numeric" value="<%= publishedToMonth %>">
+                            </div>
+                        </div>
+                        <div class="govuk-date-input__item">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-date-input__label" for="published-to-year">
+                                    Year
+                                </label>
+                                <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="published-to-year" name="publishedTo-year" type="text" inputmode="numeric" value="<%= publishedToYear %>">
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </details>
+    </fieldset>
+</div>
+

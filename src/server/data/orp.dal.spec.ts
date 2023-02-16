@@ -58,6 +58,8 @@ describe('Orp data access layer', () => {
       docTypes: ['GD', 'MSI'],
       regulators: ['id', 'id2'],
       status: ['active', 'draft'],
+      publishedFromDate: '1985-03-12',
+      publishedToDate: '1986-03-12',
     };
 
     const SEARCH_RES: OrpSearchBody = {
@@ -66,6 +68,10 @@ describe('Orp data access layer', () => {
       regulator_id: ['id', 'id2'],
       document_type: ['GD', 'MSI'],
       status: ['published', 'draft'],
+      date_published: {
+        start_date: '1985-03-12',
+        end_date: '1986-03-12',
+      },
     };
 
     it('should map to required lambda format', async () => {
@@ -105,6 +111,7 @@ describe('Orp data access layer', () => {
         regulator_id: undefined,
         document_types: undefined,
         status: undefined,
+        date_published: {},
       });
     });
   });

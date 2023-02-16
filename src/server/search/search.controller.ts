@@ -5,6 +5,7 @@ import {
   Render,
   UseFilters,
   UseInterceptors,
+  UsePipes,
 } from '@nestjs/common';
 import { ErrorFilter } from '../error.filter';
 import { SearchService } from './search.service';
@@ -13,6 +14,7 @@ import { RegulatorService } from '../regulator/regulator.service';
 import { SearchRequestDto } from '../api/types/SearchRequest.dto';
 import { documentTypes } from './types/documentTypes';
 import { documentStatus } from './types/statusTypes';
+import { DateTransformPipe } from '../form-validation/date-transform.pipe';
 
 @UseFilters(ErrorFilter)
 @UseInterceptors(ViewDataInterceptor)
@@ -24,6 +26,7 @@ export class SearchController {
   ) {}
 
   @Get('')
+  @UsePipes(DateTransformPipe)
   @Render('pages/search')
   async search(
     @Query()

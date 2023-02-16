@@ -3,6 +3,12 @@
 <%
     var titleValue = searchedValues.title ?? ""
     var keywordValue = searchedValues.keyword ?? ""
+    var publishedFromDay = searchedValues["publishedFrom-day"] ?? ""
+    var publishedFromMonth = searchedValues["publishedFrom-month"] ?? ""
+    var publishedFromYear = searchedValues["publishedFrom-year"] ?? ""
+    var publishedToDay = searchedValues["publishedTo-day"] ?? ""
+    var publishedToMonth = searchedValues["publishedTo-month"] ?? ""
+    var publishedToYear = searchedValues["publishedTo-year"] ?? ""
     var allRegulators = filters.regulators ?? ""
     var allDocTypes = filters.docTypes ?? ""
     var allStatuses = filters.statuses ?? ""
@@ -30,7 +36,13 @@
                     selectedDocTypes,
                     allDocTypes,
                     allStatuses,
-                    selectedStatuses
+                    selectedStatuses,
+                    publishedFromDay,
+                    publishedFromMonth,
+                    publishedFromYear,
+                    publishedToDay,
+                    publishedToMonth,
+                    publishedToYear
                 }); %>
             </div>
             <div class="govuk-grid-column-two-thirds">
