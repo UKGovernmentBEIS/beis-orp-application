@@ -5,8 +5,10 @@
     var keywordValue = searchedValues.keyword ?? ""
     var allRegulators = filters.regulators ?? ""
     var allDocTypes = filters.docTypes ?? ""
+    var allStatuses = filters.statuses ?? ""
     var selectedRegulators = searchedValues.regulators ?? []
     var selectedDocTypes = searchedValues.docTypes ?? []
+    var selectedStatuses = searchedValues.status ?? []
     var tnaResults = results?.nationalArchive.documents ?? []
     var totalTnaResults = results?.nationalArchive.totalSearchResults ?? null
     var orpResults = results?.orp.documents ?? []
@@ -20,7 +22,16 @@
         <div class="govuk-grid-row">
 
             <div class="govuk-grid-column-one-third">
-                <%- include('./partials/searchPanelForm', { titleValue, keywordValue, selectedRegulators, allRegulators, selectedDocTypes, allDocTypes }); %>
+                <%- include('./partials/searchPanelForm', {
+                    titleValue,
+                    keywordValue,
+                    selectedRegulators,
+                    allRegulators,
+                    selectedDocTypes,
+                    allDocTypes,
+                    allStatuses,
+                    selectedStatuses
+                }); %>
             </div>
             <div class="govuk-grid-column-two-thirds">
                 <% if (noResults) { %>

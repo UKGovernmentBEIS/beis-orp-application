@@ -12,6 +12,7 @@ import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 import { RegulatorService } from '../regulator/regulator.service';
 import { SearchRequestDto } from '../api/types/SearchRequest.dto';
 import { documentTypes } from './types/documentTypes';
+import { documentStatus } from './types/statusTypes';
 
 @UseFilters(ErrorFilter)
 @UseInterceptors(ViewDataInterceptor)
@@ -39,6 +40,7 @@ export class SearchController {
       filters: {
         regulators: await this.regulatorService.getRegulators(),
         docTypes: documentTypes,
+        statuses: documentStatus,
       },
     };
   }
