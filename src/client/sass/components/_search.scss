@@ -43,16 +43,16 @@
   span {
     display: flex;
     align-items: center;
-    margin-right: 0.5em;
+    margin-right: 0.6em;
     &:not(:first-of-type){
       &:before {
         display: inline-block;
         content: '';
         -webkit-border-radius: 0.375rem;
         border-radius: 0.375rem;
-        height: 0.4rem;
-        width: 0.4rem;
-        margin-right: 0.5rem;
+        height: 0.3rem;
+        width: 0.3rem;
+        margin-right: 0.6rem;
         background-color: govuk-colour("dark-grey", $legacy: "grey-1");
       }
     }
@@ -63,5 +63,24 @@
   border-top: 2px solid govuk-colour("mid-grey", $legacy: "grey-2");;
   &:last-child {
     border-bottom: 2px solid govuk-colour("mid-grey", $legacy: "grey-2");;
+  }
+}
+
+.search-result-keywords {
+  ul {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    flex-wrap: wrap;
+    font-size: 16px;
+
+    li {
+      margin-right: 10px;
+      margin-bottom: 10px;
+      padding: 5px;
+      background-color: govuk-colour("light-grey", $legacy: "grey-3");
+      border: 1px solid govuk-colour("mid-grey", $legacy: "grey-2");;
+    }
   }
 }

@@ -36,6 +36,7 @@ export class OrpSearchItem {
   regulatoryTopics?: string[];
   version: number;
   documentType?: string;
+  keyword: string[];
 }
 
 class LegislativeOrigin {
