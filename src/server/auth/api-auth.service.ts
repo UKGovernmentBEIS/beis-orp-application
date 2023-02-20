@@ -19,7 +19,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { RegulatorService } from '../regulator/regulator.service';
 import CognitoUser from './types/CognitoUser';
 import { AuthService } from './auth.service';
-import { ApiClient } from './types/ApiClient';
+import { ApiClient, ListUsersInGroupCommandResponse } from './types/ApiClient';
 import ApiRefreshTokensResponseDto, {
   CognitoRefreshResponse,
 } from './types/ApiRefreshTokensResponse.dto';
@@ -152,8 +152,15 @@ export class ApiAuthService {
       GroupName: groupId,
     });
     try {
-      const response = await this.client.send(listUsersInGroupCommand);
-      return response.Users;
+      const response: ListUsersInGroupCommandResponse = await this.client.send(
+        listUsersInGroupCommand,
+      );
+
+      return response.Users.sort(
+        (a, b) =>
+          new Date(b.UserCreateDate).valueOf() -
+          new Date(a.UserCreateDate).valueOf(),
+      );
     } catch (err) {
       if (err.__type === 'ResourceNotFoundException') {
         return [];

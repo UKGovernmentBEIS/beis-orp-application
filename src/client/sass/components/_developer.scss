@@ -8,6 +8,10 @@
   }
 
   .new-api-credentials__value {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
     background-color: govuk-colour("light-grey", $legacy: "grey-3");
     padding: 10px;
     margin: 0;

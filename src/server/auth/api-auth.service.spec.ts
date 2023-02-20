@@ -213,6 +213,32 @@ describe('ApiAuthService', () => {
         expect(result).toEqual([DEFAULT_API_CREDENTIAL]);
       });
 
+      it('should order by date newest first', async () => {
+        const clientResponse = {
+          Users: [
+            {
+              ...DEFAULT_API_CREDENTIAL,
+              Username: 'oldest',
+              UserCreateDate: '2022-01-24T12:54:49Z',
+            },
+            {
+              ...DEFAULT_API_CREDENTIAL,
+              Username: 'newest',
+              UserCreateDate: '2023-01-24T12:54:49Z',
+            },
+          ],
+        };
+
+        mockCognito.send.mockResolvedValueOnce(clientResponse);
+
+        const result = await service.getApiClientsForUser(
+          DEFAULT_USER_WITH_REGULATOR,
+        );
+
+        expect(result[0].Username).toEqual('newest');
+        expect(result[1].Username).toEqual('oldest');
+      });
+
       it('should return empty list of no group exists', async () => {
         mockCognito.send.mockRejectedValueOnce({
           __type: 'ResourceNotFoundException',
