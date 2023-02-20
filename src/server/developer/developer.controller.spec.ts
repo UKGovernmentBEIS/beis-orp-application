@@ -31,12 +31,13 @@ describe('DeveloperController', () => {
   });
 
   describe('apiKeys', () => {
-    it('should get existing API credentials and return them', async () => {
+    it('should render existingCredentials view with creds for user', async () => {
       jest
         .spyOn(apiAuthService, 'getApiClientsForUser')
         .mockResolvedValue([DEFAULT_API_CREDENTIAL]);
 
       const result = await controller.apiKeys(DEFAULT_USER);
+
       expect(result).toEqual({ creds: [DEFAULT_API_CREDENTIAL] });
     });
   });
@@ -52,9 +53,21 @@ describe('DeveloperController', () => {
 
       const result = await controller.generateApiKeys(DEFAULT_USER);
       expect(result).toEqual({
-        creds: [DEFAULT_API_CREDENTIAL],
         newCreds: newCreds,
       });
+    });
+  });
+
+  describe('deleteApiClient', () => {
+    it('should call deleteApiClient on auth service', async () => {
+      const deleteMock = jest
+        .spyOn(apiAuthService, 'deleteApiClient')
+        .mockResolvedValue([DEFAULT_API_CREDENTIAL]);
+
+      await controller.deleteApiClient(DEFAULT_USER, {
+        username: 'abc',
+      });
+      expect(deleteMock).toBeCalledWith('abc');
     });
   });
 });
