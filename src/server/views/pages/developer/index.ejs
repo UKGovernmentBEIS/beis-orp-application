@@ -1,0 +1,10 @@
+<!--This is done here rather than controller because using
+@Res in controller stops the interceptor running which adds user data -->
+
+<% var hasCredentials = !!locals?.creds?.length %>
+
+<% if (hasCredentials) { %>
+    <%- include('./existingCredentials'); %>
+<% } else { %>
+    <%- include('./noExistingCredentials'); %>
+<% } %>

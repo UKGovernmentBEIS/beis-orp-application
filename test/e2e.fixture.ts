@@ -34,6 +34,14 @@ export const mockCognito = {
       }
     }
 
+    if (command.listUsers) {
+      return {
+        Users: [
+          { Username: 'CLIENT', UserCreateDate: '2015-07-01T00:00:00Z' },
+          { Username: 'CLIENT2', UserCreateDate: '2015-08-01T00:00:00Z' },
+        ],
+      };
+    }
     return 'COG SUCCESS';
   }),
 };
@@ -52,6 +60,10 @@ jest.mock('@aws-sdk/client-cognito-identity-provider', () => {
     ConfirmForgotPasswordCommand: jest.fn(),
     ResendConfirmationCodeCommand: jest.fn(),
     SignUpCommand: jest.fn(),
+    ListUsersInGroupCommand: jest.fn((args) => ({
+      ...args,
+      listUsers: true,
+    })),
   };
 });
 export class E2eFixture {

@@ -1,0 +1,45 @@
+.new-api-credentials {
+  .new-api-group {
+    margin-bottom: 20px;
+  }
+
+  .new-api-credentials__key {
+    font-weight: bold;
+  }
+
+  .new-api-credentials__value {
+    background-color: govuk-colour("light-grey", $legacy: "grey-3");
+    padding: 10px;
+    margin: 0;
+  }
+}
+
+.existing-api-credentials {
+  border: 1px solid govuk-colour("mid-grey", $legacy: "grey-2");
+  margin-bottom: 15px;
+
+  .existing-api-credentials__top {
+    background-color: govuk-colour("light-grey", $legacy: "grey-3");
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+
+    button {
+      margin-bottom: 0;
+    }
+  }
+
+  dl {
+    padding: 10px;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    dt {
+      font-weight: bold;
+    }
+  }
+}

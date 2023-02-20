@@ -4,6 +4,7 @@ import { AwsConfig } from '../config';
 import {
   AdminAddUserToGroupCommand,
   AdminConfirmSignUpCommand,
+  AdminDeleteUserCommand,
   AdminGetUserCommand,
   AdminInitiateAuthCommand,
   CognitoIdentityProviderClient,
@@ -179,5 +180,13 @@ export class ApiAuthService {
     } catch (err) {
       throw err;
     }
+  }
+
+  async deleteApiClient(username: string): Promise<ApiClient[]> {
+    const deleteUserCommand = new AdminDeleteUserCommand({
+      UserPoolId: this.userPoolId,
+      Username: username,
+    });
+    return this.client.send(deleteUserCommand);
   }
 }

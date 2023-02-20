@@ -43,6 +43,10 @@ jest.mock('@aws-sdk/client-cognito-identity-provider', () => {
     })),
     SignUpCommand: jest.fn((args) => ({ ...args, signUpCommand: true })),
     CognitoIdentityProviderClient: jest.fn(() => mockCognito),
+    AdminDeleteUserCommand: jest.fn((args) => ({
+      ...args,
+      adminDeleteUserCommand: true,
+    })),
   };
 });
 
@@ -298,6 +302,21 @@ describe('ApiAuthService', () => {
       });
 
       expect(result).toEqual(mockTokens);
+    });
+  });
+
+  describe('deleteApiClient', () => {
+    it('should delete user from cognito', async () => {
+      const result = await service.deleteApiClient('username');
+
+      expect(mockCognito.send).toBeCalledTimes(1);
+      expect(mockCognito.send).toBeCalledWith({
+        UserPoolId: 'apiUpId',
+        Username: 'username',
+        adminDeleteUserCommand: true,
+      });
+
+      expect(result).toEqual('COGNITO_RESPONSE');
     });
   });
 });
