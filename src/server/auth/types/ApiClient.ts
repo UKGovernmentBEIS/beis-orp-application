@@ -7,3 +7,17 @@ export type ApiClient = {
   UserStatus: string;
   Username: string;
 };
+
+export type ListUsersInGroupCommandResponse = {
+  $metadata: {
+    httpStatusCode: number;
+    requestId: string;
+    extendedRequestId?: string;
+    cfId?: string;
+    attempts: number;
+    totalRetryDelay: number;
+  };
+  NextToken?: string;
+
+  Users: ApiClient[];
+};
