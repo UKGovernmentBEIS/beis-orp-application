@@ -26,7 +26,7 @@ jest.mock('@aws-sdk/client-s3', () => {
     })),
   };
 });
-describe('Ingest document type', () => {
+describe('Ingest document status', () => {
   const fixture = new E2eFixture();
   let regulatorSession = null;
   let nonRegulatorSession = null;
@@ -48,15 +48,15 @@ describe('Ingest document type', () => {
   describe('GET', () => {
     mockS3.send.mockResolvedValueOnce({ Metadata: { old: 'meta' } });
 
-    it('gets a the meta and displays the filename', () => {
+    it('gets the meta and displays the options', () => {
       return fixture
         .request()
-        .get('/ingest/document-type?key=unconfirmeddoc')
+        .get('/ingest/document-status?key=unconfirmeddoc')
         .set('Cookie', regulatorSession)
         .expect(200)
         .expect((res) => {
           const $ = cheerio.load(res.text);
-          expect($('input[name="documentType"]').length).toEqual(4);
+          expect($('input[name="status"]').length).toEqual(2);
           expect($('button[type="submit"]').text().trim()).toEqual('Continue');
           expect(
             $('input[type="hidden"][value="unconfirmeddoc"][name="key"]'),
@@ -68,7 +68,7 @@ describe('Ingest document type', () => {
       it('redirects non-regulator users', async () => {
         return fixture
           .request()
-          .get('/ingest/document-type?key=unconfirmeddoc')
+          .get('/ingest/document-status?key=unconfirmeddoc')
           .set('Cookie', nonRegulatorSession)
           .expect(302)
           .expect('Location', '/auth/logout');
@@ -77,7 +77,7 @@ describe('Ingest document type', () => {
       it('redirects unauthenticated users', () => {
         return fixture
           .request()
-          .get('/ingest/document-type?key=unconfirmeddoc')
+          .get('/ingest/document-status?key=unconfirmeddoc')
           .expect(302)
           .expect('Location', '/auth/logout');
       });
@@ -92,11 +92,11 @@ describe('Ingest document type', () => {
 
       return fixture
         .request()
-        .post('/ingest/document-type')
+        .post('/ingest/document-status')
         .set('Cookie', regulatorSession)
-        .send({ key: 'unconfirmed/key', documentType: { new: 'meta' } })
+        .send({ key: 'unconfirmed/key', status: 'published' })
         .expect(302)
-        .expect('Location', '/ingest/document-status?key=unconfirmed/key')
+        .expect('Location', '/ingest/submit?key=unconfirmed/key')
         .expect(() => {
           expect(mockS3.send).toBeCalledTimes(2);
         });
@@ -105,9 +105,9 @@ describe('Ingest document type', () => {
       it('redirects non-regulator users', async () => {
         return fixture
           .request()
-          .post('/ingest/document-type')
+          .post('/ingest/document-status')
           .set('Cookie', nonRegulatorSession)
-          .send({ key: 'unconfirmed/key', documentType: { new: 'meta' } })
+          .send({ key: 'unconfirmed/key', status: 'published' })
           .expect(302)
           .expect('Location', '/auth/logout');
       });
@@ -115,8 +115,8 @@ describe('Ingest document type', () => {
       it('redirects unauthenticated users', () => {
         return fixture
           .request()
-          .post('/ingest/document-type')
-          .send({ key: 'unconfirmed/key', documentType: { new: 'meta' } })
+          .post('/ingest/document-status')
+          .send({ key: 'unconfirmed/key', status: 'published' })
           .expect(302)
           .expect('Location', '/auth/logout');
       });

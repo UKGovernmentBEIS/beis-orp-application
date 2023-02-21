@@ -33,6 +33,19 @@
                             </a>
                         </dd>
                     </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Status
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            <%= documentStatus %>
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+                            <a class="govuk-link" href="/ingest/document-status?key=<%= locals.key %>">
+                                Change<span class="govuk-visually-hidden"> document status</span>
+                            </a>
+                        </dd>
+                    </div>
                 </dl>
                 <form method="post">
                     <input type="hidden" value="<%= locals.key %>" name="key" />

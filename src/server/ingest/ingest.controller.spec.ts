@@ -121,7 +121,52 @@ describe('IngestController', () => {
         });
 
         expect(updateMock).toBeCalledTimes(1);
-        expect(updateMock).toBeCalledWith('key', { documentType: 'GD' });
+        expect(updateMock).toBeCalledWith('key', { documenttype: 'GD' });
+        expect(expectedResult).toEqual({
+          url: `/ingest/document-status?key=key`,
+        });
+      });
+    });
+  });
+
+  describe('document status', () => {
+    describe('chooseDraft GET', () => {
+      it('should get the doc meta data and return the status', async () => {
+        const metaMock = jest
+          .spyOn(documentService, 'getDocumentMeta')
+          .mockResolvedValue({
+            filename: 'fn',
+            uuid: 'id',
+            uploadeddate: 'data',
+            documenttype: 'GD',
+            status: 'published',
+          });
+
+        const expectedResult = await controller.chooseDraft({
+          key: 'key',
+        });
+
+        expect(metaMock).toBeCalledTimes(1);
+        expect(expectedResult).toEqual({
+          key: 'key',
+          selected: 'published',
+        });
+      });
+    });
+
+    describe('postDraft POST', () => {
+      it('should call updateMeta on documentService', async () => {
+        const updateMock = jest
+          .spyOn(documentService, 'updateMeta')
+          .mockResolvedValue({ updated: 'key' });
+
+        const expectedResult = await controller.postDraft({
+          key: 'key',
+          status: 'published',
+        });
+
+        expect(updateMock).toBeCalledTimes(1);
+        expect(updateMock).toBeCalledWith('key', { status: 'published' });
         expect(expectedResult).toEqual({ url: `/ingest/submit?key=key` });
       });
     });
@@ -136,6 +181,7 @@ describe('IngestController', () => {
             filename: 'fn',
             uuid: 'id',
             uploadeddate: 'data',
+            status: 'published',
           });
 
         const expectedResult = await controller.submit({
@@ -147,6 +193,7 @@ describe('IngestController', () => {
           file: 'fn',
           key: 'key',
           documentType: 'Other',
+          documentStatus: 'Active',
         });
       });
     });
