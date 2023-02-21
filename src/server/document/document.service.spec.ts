@@ -129,4 +129,17 @@ describe('DocumentService', () => {
       expect(result).toEqual('key');
     });
   });
+
+  describe('updateMeta', () => {
+    it('should request and return the object meta data', async () => {
+      const updateSpy = jest
+        .spyOn(awsDal, 'updateMetaData')
+        .mockResolvedValueOnce({ updated: 'key' });
+
+      const result = await service.updateMeta('key', { new: 'meta' });
+
+      expect(updateSpy).toBeCalledWith('key', { new: 'meta' });
+      expect(result).toEqual({ updated: 'key' });
+    });
+  });
 });

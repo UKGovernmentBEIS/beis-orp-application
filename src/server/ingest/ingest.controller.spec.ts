@@ -8,6 +8,7 @@ import { getPdfAsMulterFile } from '../../../test/mocks/uploadMocks';
 import { OrpDal } from '../data/orp.dal';
 import { HttpModule } from '@nestjs/axios';
 import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/prismaService.mock';
+import { documentTypes } from '../search/types/documentTypes';
 
 describe('IngestController', () => {
   let controller: IngestController;
@@ -65,7 +66,7 @@ describe('IngestController', () => {
         expect(expectedResult).toEqual({ url: '/ingest/upload' });
       });
 
-      it('should redirect to submit page if answer is yes without deleting doc', async () => {
+      it('should redirect to doc type page if answer is yes without deleting doc', async () => {
         const deleteMock = jest
           .spyOn(documentService, 'deleteDocument')
           .mockResolvedValue({ deleted: 'key' });
@@ -76,14 +77,59 @@ describe('IngestController', () => {
         });
 
         expect(deleteMock).toBeCalledTimes(0);
-        expect(expectedResult).toEqual({ url: '/ingest/submit?key=key' });
+        expect(expectedResult).toEqual({
+          url: '/ingest/document-type?key=key',
+        });
+      });
+    });
+  });
+
+  describe('document type', () => {
+    describe('chooseDocType GET', () => {
+      it('should get the doc meta data and return the selected doctype', async () => {
+        const metaMock = jest
+          .spyOn(documentService, 'getDocumentMeta')
+          .mockResolvedValue({
+            filename: 'fn',
+            uuid: 'id',
+            uploadeddate: 'data',
+            documenttype: 'GD',
+          });
+
+        const expectedResult = await controller.chooseDocType({
+          key: 'key',
+        });
+
+        expect(metaMock).toBeCalledTimes(1);
+        expect(expectedResult).toEqual({
+          key: 'key',
+          selected: 'GD',
+          documentTypes,
+        });
+      });
+    });
+
+    describe('postDocType POST', () => {
+      it('should call updateMeta on documentService', async () => {
+        const updateMock = jest
+          .spyOn(documentService, 'updateMeta')
+          .mockResolvedValue({ updated: 'key' });
+
+        const expectedResult = await controller.postDocType({
+          key: 'key',
+          documentType: 'GD',
+        });
+
+        expect(updateMock).toBeCalledTimes(1);
+        expect(updateMock).toBeCalledWith('key', { documentType: 'GD' });
+        expect(expectedResult).toEqual({ url: `/ingest/submit?key=key` });
       });
     });
   });
 
   describe('submit', () => {
     describe('submit GET', () => {
-      it('should get the doc meta data and return the filename', async () => {
+      it('should get the doc meta data and return the details', async () => {
         const metaMock = jest
           .spyOn(documentService, 'getDocumentMeta')
           .mockResolvedValue({
@@ -97,12 +143,16 @@ describe('IngestController', () => {
         });
 
         expect(metaMock).toBeCalledTimes(1);
-        expect(expectedResult).toEqual({ file: 'fn', key: 'key' });
+        expect(expectedResult).toEqual({
+          file: 'fn',
+          key: 'key',
+          documentType: 'Other',
+        });
       });
     });
 
     describe('submit POST', () => {
-      it('should get the doc meta data and return the filename', async () => {
+      it('should call confirmDocument on documentService', async () => {
         const confirmMock = jest
           .spyOn(documentService, 'confirmDocument')
           .mockResolvedValue('newKey');

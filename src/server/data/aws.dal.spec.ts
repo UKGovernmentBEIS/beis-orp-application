@@ -52,6 +52,7 @@ describe('AwsDal', () => {
     }).compile();
 
     service = module.get<AwsDal>(AwsDal);
+    jest.clearAllMocks();
   });
 
   describe('upload', () => {
@@ -188,6 +189,28 @@ describe('AwsDal', () => {
         deleteObjectCommand: true,
         Bucket: 'bucket',
         Key: 'key',
+      });
+    });
+  });
+
+  describe('updateMetaData', () => {
+    it('should get the meta and copy the object with new meta', async () => {
+      const resp = { Metadata: { old: 'meta' } };
+      mockS3.send.mockResolvedValueOnce(resp);
+
+      await service.updateMetaData('key', { new: 'meta' });
+
+      expect(mockS3.send).toBeCalledTimes(2);
+      expect(mockS3.send).toBeCalledWith({
+        copyObjectCommand: true,
+        Bucket: 'bucket',
+        CopySource: 'bucket/key',
+        Key: 'key',
+        MetadataDirective: 'REPLACE',
+        Metadata: {
+          old: 'meta',
+          new: 'meta',
+        },
       });
     });
   });
