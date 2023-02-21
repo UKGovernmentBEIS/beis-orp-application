@@ -25,6 +25,8 @@ import IngestionConfirmationDto from './types/IngestionConfirmation.dto';
 import type { User as UserType } from '../auth/types/User';
 import { documentTypes } from '../search/types/documentTypes';
 import DocumentTypeDto from './types/DocumentType.dto';
+import DocumentStatusDto from './types/DocumentStatus.dto';
+import { orpDocumentStatus } from '../search/types/statusTypes';
 
 @Controller('ingest')
 @UseGuards(RegulatorGuard)
@@ -96,11 +98,28 @@ export class IngestController {
   }
 
   @Post('document-type')
-  @Redirect('/ingest/submit', 302)
+  @Redirect('/ingest/document-status', 302)
   @ValidateForm()
   async postDocType(@Body() documentTypeDto: DocumentTypeDto) {
     const { key, documentType } = documentTypeDto;
-    await this.documentService.updateMeta(key, { documentType });
+    await this.documentService.updateMeta(key, { documenttype: documentType });
+
+    return { url: `/ingest/document-status?key=${key}` };
+  }
+
+  @Get('document-status')
+  @Render('pages/ingest/documentStatus')
+  async chooseDraft(@Query() { key }: { key: string }) {
+    const meta = await this.documentService.getDocumentMeta(key);
+    return { key, selected: meta.status };
+  }
+
+  @Post('document-status')
+  @Redirect('/ingest/submit', 302)
+  @ValidateForm()
+  async postDraft(@Body() documentStatusDto: DocumentStatusDto) {
+    const { key, status } = documentStatusDto;
+    await this.documentService.updateMeta(key, { status });
 
     return { url: `/ingest/submit?key=${key}` };
   }
@@ -113,6 +132,7 @@ export class IngestController {
       key,
       file: meta.filename,
       documentType: documentTypes[meta.documenttype] ?? 'Other',
+      documentStatus: orpDocumentStatus[meta.status] ?? '',
     };
   }
 

@@ -5,7 +5,7 @@ import { UploadedFile } from '../data/types/UploadedFile';
 import { FileUpload } from '../data/types/FileUpload';
 import { Readable } from 'stream';
 import { RawOrpResponseEntry } from '../data/types/rawOrpSearchResponse';
-import { ObjectMetaData } from '../data/types/ObjectMetaData';
+import { MetaItem, ObjectMetaData } from '../data/types/ObjectMetaData';
 
 @Injectable()
 export class DocumentService {
@@ -60,7 +60,7 @@ export class DocumentService {
     return this.awsDal.deleteObject(key);
   }
 
-  async updateMeta(key: string, meta: Record<string, string>) {
+  async updateMeta(key: string, meta: Partial<Record<MetaItem, string>>) {
     return this.awsDal.updateMetaData(key, meta);
   }
 }

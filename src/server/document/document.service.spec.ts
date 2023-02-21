@@ -136,9 +136,9 @@ describe('DocumentService', () => {
         .spyOn(awsDal, 'updateMetaData')
         .mockResolvedValueOnce({ updated: 'key' });
 
-      const result = await service.updateMeta('key', { new: 'meta' });
+      const result = await service.updateMeta('key', { status: 'published' });
 
-      expect(updateSpy).toBeCalledWith('key', { new: 'meta' });
+      expect(updateSpy).toBeCalledWith('key', { status: 'published' });
       expect(result).toEqual({ updated: 'key' });
     });
   });
