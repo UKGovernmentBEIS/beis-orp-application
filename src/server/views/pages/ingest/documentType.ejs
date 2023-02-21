@@ -1,0 +1,78 @@
+<%
+    var hint = {
+        GD: "Documents that help explain regulation and can be used to guide towards compliance.",
+        MSI: "Documents that contain information about specific regulated businesses or data about markets.",
+        HS: "Documents that are informal updates or comment on how things might change in the future.",
+        OTHER: "Documents that do not fit into the above categories"
+    }
+%>
+
+<%- include('../../partials/header'); %>
+<div class="govuk-width-container">
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <span class="govuk-caption-l">Step 3 of 6</span>
+                <h1 class="govuk-heading-l">Choose document type</h1>
+                <form method="post">
+                    <input type="hidden" value="<%= locals.key %>" name="key" />
+                    <div class="govuk-form-group <% if(locals?.errors?.documentType) { %>govuk-form-group--error<% } %>">
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                <h1 class="govuk-fieldset__heading">
+                                    Which category best describes the type of regulatory material you are uploading?
+                                </h1>
+                            </legend>
+                            <% if(locals?.errors?.documentType) { %>
+                                <p id="email-error" class="govuk-error-message">
+                                    <%= locals?.errors?.documentType %>
+                                </p>
+                            <% } %>
+                            <div class="govuk-radios" data-module="govuk-radios">
+                                <% Object.keys(documentTypes).forEach(function(docType) { %>
+                                    <div class="govuk-radios__item">
+                                        <input class="govuk-radios__input" id="document-type-<%= docType %>" name="documentType" type="radio" value="<%= docType %>" <% if (selected === docType) { %>checked<% } %>>
+                                        <label class="govuk-label govuk-radios__label" for="document-type">
+                                            <%= documentTypes[docType] %>
+                                        </label>
+                                        <% if (hint[docType]) { %>
+                                            <div id="<%= docType %>-hint" class="govuk-hint govuk-radios__hint">
+                                                <%= hint[docType] %>
+                                            </div>
+                                        <% } %>
+                                    </div>
+                                <% }); %>
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" id="document-type-other" name="documentType" type="radio" value="OTHER" <% if (selected === 'OTHER') { %>checked<% } %>>
+                                    <label class="govuk-label govuk-radios__label" for="document-type">
+                                        Other
+                                    </label>
+                                    <div id="other-hint" class="govuk-hint govuk-radios__hint">
+                                        <%= hint.OTHER %>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button">
+                        Continue
+                    </button>
+                </form>
+
+                <details class="govuk-details" data-module="govuk-details">
+                    <summary class="govuk-details__summary">
+                        <span class="govuk-details__summary-text">
+                          Get help uploading a document
+                        </span>
+                    </summary>
+                    <div class="govuk-details__text">
+                        <p>Contact <a class="govuk-link" href="mailto:openregulationplatform@beis.gov.uk">openregulationplatform@beis.gov.uk</a> if you need help using this service.</p>
+                    </div>
+                </details>
+
+            </div>
+        </div>
+    </main>
+</div>
+
+<%- include('../../partials/footer'); %>

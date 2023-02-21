@@ -57,7 +57,7 @@ export class AwsDal {
 
       return { key: fileKey, id: uuid };
     } catch (e) {
-      this.logger.error('UPLOAD ERROR', e.stack);
+      this.logger.error('Upload error', e.stack);
       throw new InternalServerErrorException(
         'There was a problem uploading the document',
       );
@@ -96,7 +96,7 @@ export class AwsDal {
       Key: newKey,
     });
     await this.client.send(command);
-    this.logger.log(`FILE COPIED, ${key} to ${newKey}`);
+    this.logger.log(`File copied, ${key} to ${newKey}`);
     return { from: key, to: newKey };
   }
 
@@ -106,7 +106,25 @@ export class AwsDal {
       Key: key,
     });
     await this.client.send(command);
-    this.logger.log(`FILE DELETED, ${key}`);
+    this.logger.log(`File deleted, ${key}`);
     return { deleted: key };
+  }
+
+  async updateMetaData(key, newMeta: Record<string, string>) {
+    const meta = await this.getObjectMeta(key);
+    const command = new CopyObjectCommand({
+      Bucket: this.awsConfig.ingestionBucket,
+      Key: key,
+      MetadataDirective: 'REPLACE',
+      CopySource: `${this.awsConfig.ingestionBucket}/${key}`,
+      Metadata: {
+        ...meta,
+        ...newMeta,
+      },
+    });
+    await this.client.send(command);
+
+    this.logger.log(`File meta updated, ${key}`);
+    return { updated: key };
   }
 }

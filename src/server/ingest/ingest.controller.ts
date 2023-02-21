@@ -23,6 +23,8 @@ import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 import { ValidateForm } from '../form-validation';
 import IngestionConfirmationDto from './types/IngestionConfirmation.dto';
 import type { User as UserType } from '../auth/types/User';
+import { documentTypes } from '../search/types/documentTypes';
+import DocumentTypeDto from './types/DocumentType.dto';
 
 @Controller('ingest')
 @UseGuards(RegulatorGuard)
@@ -73,24 +75,45 @@ export class IngestController {
   }
 
   @Post('confirm')
-  @Redirect('/ingest/submit', 302)
+  @Redirect('/ingest/document-type', 302)
   @ValidateForm()
   async confirmPost(@Body() confirmDto: IngestionConfirmationDto) {
     const { confirm, key } = confirmDto;
 
     if (confirm === 'yes') {
-      return { url: `/ingest/submit?key=${key}` };
+      return { url: `/ingest/document-type?key=${key}` };
     }
 
     await this.documentService.deleteDocument(key);
     return { url: '/ingest/upload' };
   }
 
+  @Get('document-type')
+  @Render('pages/ingest/documentType')
+  async chooseDocType(@Query() { key }: { key: string }) {
+    const meta = await this.documentService.getDocumentMeta(key);
+    return { key, documentTypes, selected: meta.documenttype };
+  }
+
+  @Post('document-type')
+  @Redirect('/ingest/submit', 302)
+  @ValidateForm()
+  async postDocType(@Body() documentTypeDto: DocumentTypeDto) {
+    const { key, documentType } = documentTypeDto;
+    await this.documentService.updateMeta(key, { documentType });
+
+    return { url: `/ingest/submit?key=${key}` };
+  }
+
   @Get('submit')
   @Render('pages/ingest/submit')
   async submit(@Query() { key }: { key: string }) {
     const meta = await this.documentService.getDocumentMeta(key);
-    return { key, file: meta.filename };
+    return {
+      key,
+      file: meta.filename,
+      documentType: documentTypes[meta.documenttype] ?? 'Other',
+    };
   }
 
   @Post('submit')

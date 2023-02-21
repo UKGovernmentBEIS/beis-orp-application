@@ -59,4 +59,8 @@ export class DocumentService {
   async deleteDocument(key: string) {
     return this.awsDal.deleteObject(key);
   }
+
+  async updateMeta(key: string, meta: Record<string, string>) {
+    return this.awsDal.updateMetaData(key, meta);
+  }
 }

@@ -85,14 +85,14 @@ describe('Ingest confirm', () => {
   });
 
   describe('POST', () => {
-    it('redirects to submit page if answer is yes', async () => {
+    it('redirects to document-type page if answer is yes', async () => {
       return fixture
         .request()
         .post('/ingest/confirm')
         .set('Cookie', regulatorSession)
         .send({ confirm: 'yes', key: 'key' })
         .expect(302)
-        .expect('Location', '/ingest/submit?key=key');
+        .expect('Location', '/ingest/document-type?key=key');
     });
 
     it('deletes the unconfirmed object if answer is no', async () => {
