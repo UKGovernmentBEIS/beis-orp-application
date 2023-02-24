@@ -4,4 +4,6 @@ export type User = {
   cognitoUsername: string;
   email: string;
   regulator?: Regulator;
+
+  accessToken: string;
 };

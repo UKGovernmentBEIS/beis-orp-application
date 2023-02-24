@@ -9,6 +9,13 @@ export class AuthExceptionFilter implements ExceptionFilter {
     const request = host.switchToHttp().getRequest();
 
     if (exception.isNotAuthorized() || exception.isNotFound()) {
+      if (request.url === 'auth/reset-password') {
+        request.session.previousPassword = {
+          global: 'Incorrect password',
+        };
+        return response.redirect('/auth/reset-password');
+      }
+
       request.session.errors = {
         global: 'Incorrect email address or password',
       };
@@ -34,12 +41,20 @@ export class AuthExceptionFilter implements ExceptionFilter {
 
     if (exception.isEmailInUse()) {
       request.session.errors = {
-        global: 'The email address provided is already in use',
+        global:
+          'The email address provided is already in use.<br /><br /> If you can not remember your details you can <a href="/auth/new-password">reset your password</a>.',
       };
       return response.redirect(request.originalUrl);
     }
 
-    this.logger.error(`Unhandled auth error: ${exception.errorObj.code}`);
+    if (exception.isLimitExceeded()) {
+      request.session.destroy();
+      return response.redirect('/auth/limit-exceeded');
+    }
+
+    this.logger.error(
+      `Unhandled auth error: ${JSON.stringify(exception.errorObj)}`,
+    );
     request.session.errors = {
       global: 'An error occurred during authentication, please try again',
     };

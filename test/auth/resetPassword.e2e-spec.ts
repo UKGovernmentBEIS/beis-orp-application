@@ -1,4 +1,4 @@
-import { E2eFixture, mockCognito } from '../e2e.fixture';
+import { E2eFixture } from '../e2e.fixture';
 import * as cheerio from 'cheerio';
 import { getNonRegulatorSession } from '../helpers/userSessions';
 
@@ -20,22 +20,10 @@ describe('Password Reset (e2e)', () => {
   });
 
   describe('auth/reset-password (GET)', () => {
-    it('calls starts cognito reset password and redirects to confirmation form', () => {
+    it('displays the reset password form', () => {
       return fixture
         .request()
         .get('/auth/reset-password')
-        .set('Cookie', loggedInSession)
-        .expect(302)
-        .expect('Location', 'reset-password-confirm')
-        .expect(() => {
-          expect(mockCognito.send).toBeCalledTimes(1);
-        });
-    });
-
-    it('displays confirmation form on reset-password-confirm page', () => {
-      return fixture
-        .request()
-        .get('/auth/reset-password-confirm')
         .set('Cookie', loggedInSession)
         .expect(200)
         .expect((res) => {
@@ -45,7 +33,13 @@ describe('Password Reset (e2e)', () => {
             $("form[method='post'] > input[name='verificationCode']"),
           ).toBeTruthy();
           expect(
+            $("form[method='post'] > input[name='previousPassword']"),
+          ).toBeTruthy();
+          expect(
             $("form[method='post'] > input[name='newPassword']"),
+          ).toBeTruthy();
+          expect(
+            $("form[method='post'] > input[name='confirmPassword']"),
           ).toBeTruthy();
         });
     });
@@ -58,77 +52,59 @@ describe('Password Reset (e2e)', () => {
           .expect(302)
           .expect('Location', '/auth/logout');
       });
-
-      it('displays confirmation page to unauthenticated users', () => {
-        return fixture
-          .request()
-          .get('/auth/reset-password-confirm')
-          .expect(200)
-          .expect((res) => {
-            const $ = cheerio.load(res.text);
-            expect($("form[method='post'] > input[name='email']")).toBeTruthy();
-            expect(
-              $("form[method='post'] > input[name='verificationCode']"),
-            ).toBeTruthy();
-            expect(
-              $("form[method='post'] > input[name='newPassword']"),
-            ).toBeTruthy();
-          });
-      });
     });
   });
 
-  describe('auth/reset-password-confirm (POST)', () => {
+  describe('auth/reset-password (POST)', () => {
     it('calls confirm password and displays success', () => {
       return fixture
         .request()
-        .post('/auth/reset-password-confirm')
+        .post('/auth/reset-password')
         .set('Cookie', loggedInSession)
         .send({
-          verificationCode: 'code',
+          previousPassword: '9.PAssworD1',
           email: 'e@mail.com',
           newPassword: '9.PAssworD',
           confirmPassword: '9.PAssworD',
         })
-        .expect(201)
-        .expect((res) => {
-          expect(mockCognito.send).toBeCalledTimes(1);
-          const $ = cheerio.load(res.text);
-          expect($('h1').text().trim()).toEqual('Password Successfully Reset');
-        });
+        .expect(302)
+        .expect('Location', 'change-password-success');
     });
     it('redirects back if unacceptable password', () => {
       return fixture
         .request()
-        .post('/auth/reset-password-confirm')
+        .post('/auth/reset-password')
+        .set('Cookie', loggedInSession)
         .send({
-          verificationCode: 'code',
+          previousPassword: '9.PAssworD1',
           email: 'e@mail.com',
           newPassword: 'rubbishpw',
           confirmPassword: 'rubbishpw',
         })
         .expect(302)
-        .expect('Location', '/auth/reset-password-confirm');
+        .expect('Location', '/auth/reset-password');
     });
 
-    it('redirects back if no verification code', () => {
+    it('redirects back if no prev password code', () => {
       return fixture
         .request()
-        .post('/auth/reset-password-confirm')
+        .post('/auth/reset-password')
+        .set('Cookie', loggedInSession)
         .send({
-          verificationCode: '',
+          previousPassword: '',
           email: 'e@mail.com',
           newPassword: '9.PAssworD',
           confirmPassword: '9.PAssworD',
         })
         .expect(302)
-        .expect('Location', '/auth/reset-password-confirm');
+        .expect('Location', '/auth/reset-password');
     });
 
     it('redirects back if no email address', () => {
       return fixture
         .request()
-        .post('/auth/reset-password-confirm')
+        .post('/auth/reset-password')
+        .set('Cookie', loggedInSession)
         .send({
           verificationCode: 'code',
           email: '',
@@ -136,13 +112,14 @@ describe('Password Reset (e2e)', () => {
           confirmPassword: '9.PAssworD',
         })
         .expect(302)
-        .expect('Location', '/auth/reset-password-confirm');
+        .expect('Location', '/auth/reset-password');
     });
 
     it('redirects back if two emails do not match', () => {
       return fixture
         .request()
-        .post('/auth/reset-password-confirm')
+        .post('/auth/reset-password')
+        .set('Cookie', loggedInSession)
         .send({
           verificationCode: 'code',
           email: '',
@@ -150,7 +127,7 @@ describe('Password Reset (e2e)', () => {
           confirmPassword: '9.PAssworD4',
         })
         .expect(302)
-        .expect('Location', '/auth/reset-password-confirm');
+        .expect('Location', '/auth/reset-password');
     });
   });
 });

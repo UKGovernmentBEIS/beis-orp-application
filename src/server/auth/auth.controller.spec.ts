@@ -38,7 +38,7 @@ describe('AuthController', () => {
         session: {},
       });
       await controller.registerPost(
-        { email: 'email@e.com', password: 'pw' },
+        { email: 'email@e.com', password: 'pw', confirmPassword: 'pw' },
         req,
       );
       expect(registerSpy).toBeCalledTimes(1);
@@ -93,21 +93,13 @@ describe('AuthController', () => {
   });
 
   describe('resetPassword', () => {
-    it('should call startResetPassword on auth service', async () => {
-      const result = await controller.resetPassword(DEFAULT_USER);
-      expect(result).toEqual('RESET_PASSWORD');
-    });
-  });
-
-  describe('confirmNewPassword', () => {
-    it('should call confirmPassword on auth service', async () => {
-      const result = await controller.confirmNewPassword({
-        verificationCode: 'correct',
-        newPassword: 'newPassword',
-        confirmPassword: 'newPassword',
-        email: 'e@mail.com',
+    it('should call resetPassword on auth service', async () => {
+      const result = await controller.postResetPassword(DEFAULT_USER, {
+        previousPassword: 'opw',
+        newPassword: 'npw',
+        confirmPassword: 'npw',
       });
-      expect(result).toEqual('RESET_PASSWORD_CONFIRMED');
+      expect(result).toEqual('CHANGE_PASSWORD');
     });
   });
 
@@ -126,6 +118,34 @@ describe('AuthController', () => {
       expect(deleteSpy).toBeCalledTimes(1);
       expect(deleteSpy).toBeCalledWith(DEFAULT_USER);
       expect(destroyMock).toBeCalledTimes(1);
+    });
+  });
+
+  describe('forgotten password', () => {
+    it('should call startForgotPassword on auth service', async () => {
+      const req = mocks.createRequest({
+        session: {},
+      });
+      const result = await controller.generateNewPassword(
+        {
+          email: DEFAULT_USER.email,
+        },
+        req,
+      );
+      expect(result).toEqual('FORGOT_PASSWORD');
+    });
+
+    it('should confirm new password', async () => {
+      const req = mocks.createRequest({
+        session: {},
+      });
+      const result = await controller.confirmForgottenPassword({
+        verificationCode: 'code',
+        email: 'email@e.com',
+        newPassword: 'pw',
+        confirmPassword: 'pw',
+      });
+      expect(result).toEqual('NEW_PASSWORD_CONFIRM');
     });
   });
 });

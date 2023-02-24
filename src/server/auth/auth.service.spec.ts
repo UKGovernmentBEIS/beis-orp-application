@@ -24,10 +24,6 @@ jest.mock('@aws-sdk/client-cognito-identity-provider', () => {
       ...args,
       adminInitiateAuthCommand: true,
     })),
-    AdminResetUserPasswordCommand: jest.fn((args) => ({
-      ...args,
-      adminResetUserPasswordCommand: true,
-    })),
     CognitoIdentityProviderClient: jest.fn(() => mockCognito),
     ConfirmForgotPasswordCommand: jest.fn((args) => ({
       ...args,
@@ -38,6 +34,14 @@ jest.mock('@aws-sdk/client-cognito-identity-provider', () => {
       resendConfirmationCodeCommand: true,
     })),
     SignUpCommand: jest.fn((args) => ({ ...args, signUpCommand: true })),
+    ChangePasswordCommand: jest.fn((args) => ({
+      ...args,
+      changePasswordCommand: true,
+    })),
+    ForgotPasswordCommand: jest.fn((args) => ({
+      ...args,
+      forgotPasswordCommand: true,
+    })),
   };
 });
 
@@ -64,7 +68,11 @@ describe('AuthService', () => {
 
   describe('registerUser', () => {
     it('should register the user with the cognito user pool', async () => {
-      const user = { email: 'e@mail.com', password: 'pw' };
+      const user = {
+        email: 'e@mail.com',
+        password: 'pw',
+        confirmPassword: 'pw',
+      };
       await service.registerUser(user);
       expect(mockCognito.send).toBeCalledWith({
         ClientId: 'clid',
@@ -77,7 +85,11 @@ describe('AuthService', () => {
     it('should throw AuthException if cognito errors', async () => {
       mockCognito.send.mockRejectedValueOnce({ __type: 'error' });
 
-      const user = { email: 'ALREADY_IN_USE', password: 'pw' };
+      const user = {
+        email: 'ALREADY_IN_USE',
+        password: 'pw',
+        confirmPassword: 'pw',
+      };
       await expect(
         async () => await service.registerUser(user),
       ).rejects.toBeInstanceOf(AuthException);
@@ -153,13 +165,18 @@ describe('AuthService', () => {
     });
   });
 
-  describe('startResetPassword', () => {
-    it('should call forgotPassword on congnitoUser and return result if success', async () => {
-      const result = await service.startResetPassword(DEFAULT_USER);
+  describe('resetPassword', () => {
+    it('should use ChangePasswordCommand and return result if success', async () => {
+      const result = await service.resetPassword(DEFAULT_USER, {
+        previousPassword: 'opw',
+        newPassword: 'mpw',
+        confirmPassword: 'mpw',
+      });
       expect(mockCognito.send).toBeCalledWith({
-        UserPoolId: 'upid',
-        Username: DEFAULT_USER.email,
-        adminResetUserPasswordCommand: true,
+        AccessToken: 'token',
+        PreviousPassword: 'opw',
+        ProposedPassword: 'mpw',
+        changePasswordCommand: true,
       });
       expect(result).toEqual('COGNITO_RESPONSE');
     });
@@ -170,41 +187,10 @@ describe('AuthService', () => {
       });
 
       return expect(
-        service.startResetPassword(DEFAULT_USER),
-      ).rejects.toBeInstanceOf(AuthException);
-    });
-  });
-
-  describe('confirmPassword', () => {
-    it('should call confirmPassword on congnitoUser and return result if success', async () => {
-      const result = await service.confirmPassword({
-        verificationCode: 'correct',
-        newPassword: 'pw',
-        confirmPassword: 'pw',
-        email: 'e@mail.com',
-      });
-
-      expect(mockCognito.send).toBeCalledWith({
-        ClientId: 'clid',
-        Username: 'e@mail.com',
-        Password: 'pw',
-        ConfirmationCode: 'correct',
-        confirmForgotPasswordCommand: true,
-      });
-
-      expect(result).toEqual('COGNITO_RESPONSE');
-    });
-
-    it('should throw if rejected', () => {
-      mockCognito.send.mockRejectedValueOnce({
-        __type: 'Error',
-      });
-      return expect(
-        service.confirmPassword({
-          verificationCode: 'correct',
-          newPassword: 'pw',
-          confirmPassword: 'pw',
-          email: 'e@mail.com',
+        service.resetPassword(DEFAULT_USER, {
+          previousPassword: 'opw',
+          newPassword: 'mpw',
+          confirmPassword: 'mpw',
         }),
       ).rejects.toBeInstanceOf(AuthException);
     });
@@ -225,6 +211,63 @@ describe('AuthService', () => {
 
       await expect(
         async () => await service.deleteUser(DEFAULT_USER),
+      ).rejects.toBeInstanceOf(AuthException);
+    });
+  });
+
+  describe('startForgotPassword', () => {
+    it('should use ForgotPasswordCommand and return result if success', async () => {
+      const result = await service.startForgotPassword(DEFAULT_USER.email);
+      expect(mockCognito.send).toBeCalledWith({
+        ClientId: 'clid',
+        Username: DEFAULT_USER.email,
+        forgotPasswordCommand: true,
+      });
+      expect(result).toEqual('COGNITO_RESPONSE');
+    });
+
+    it('should throw if rejected', async () => {
+      mockCognito.send.mockRejectedValueOnce({
+        __type: 'Error',
+      });
+
+      await expect(
+        async () => await service.startForgotPassword(DEFAULT_USER.email),
+      ).rejects.toBeInstanceOf(AuthException);
+    });
+  });
+
+  describe('confirmForgotPassword', () => {
+    it('should use ConfirmForgotPasswordCommand and return result if success', async () => {
+      const result = await service.confirmForgotPassword({
+        verificationCode: 'code',
+        email: DEFAULT_USER.email,
+        newPassword: 'pw',
+        confirmPassword: 'pw',
+      });
+      expect(mockCognito.send).toBeCalledWith({
+        ClientId: 'clid',
+        ConfirmationCode: 'code',
+        Username: DEFAULT_USER.email,
+        Password: 'pw',
+        confirmForgotPasswordCommand: true,
+      });
+      expect(result).toEqual('COGNITO_RESPONSE');
+    });
+
+    it('should throw if rejected', async () => {
+      mockCognito.send.mockRejectedValueOnce({
+        __type: 'Error',
+      });
+
+      await expect(
+        async () =>
+          await service.confirmForgotPassword({
+            verificationCode: 'code',
+            email: DEFAULT_USER.email,
+            newPassword: 'pw',
+            confirmPassword: 'pw',
+          }),
       ).rejects.toBeInstanceOf(AuthException);
     });
   });

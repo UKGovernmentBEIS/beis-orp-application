@@ -2,7 +2,7 @@ import { IsEmail, IsNotEmpty, IsString, Matches } from 'class-validator';
 import passwordRegex from '../utils/passwordRegex';
 import { IsSameAs } from '../../validators/IsSameAs';
 
-export default class ConfirmPasswordDto {
+export default class ForgotPasswordResetDto {
   @IsString({ message: 'Enter the code that was sent to your email address' })
   @IsNotEmpty({ message: 'Enter the code that was sent to your email address' })
   verificationCode: string;

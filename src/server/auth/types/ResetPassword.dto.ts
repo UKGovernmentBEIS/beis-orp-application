@@ -1,23 +1,17 @@
-import { IsEmail, Matches } from 'class-validator';
+import { IsNotEmpty, Matches } from 'class-validator';
 import passwordRegex from '../utils/passwordRegex';
 import { IsSameAs } from '../../validators/IsSameAs';
 
-export default class AuthRegisterDto {
-  @IsEmail(
-    {},
-    {
-      message:
-        'Enter your email in the correct format, such as name@example.com',
-    },
-  )
-  email: string;
+export default class ResetPasswordDto {
+  @IsNotEmpty({ message: 'Enter your current password' })
+  previousPassword: string;
 
   @Matches(passwordRegex, {
     message: 'Password must satisfy the criteria above',
   })
-  password: string;
+  newPassword: string;
 
-  @IsSameAs('password', {
+  @IsSameAs('newPassword', {
     message: 'Your password must match the password entered above',
   })
   confirmPassword: string;
