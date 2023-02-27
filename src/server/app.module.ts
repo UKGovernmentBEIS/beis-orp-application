@@ -8,12 +8,12 @@ import { ApiModule } from './api/api.module';
 import { SearchModule } from './search/search.module';
 import { DocumentModule } from './document/document.module';
 import { DataModule } from './data/data.module';
-import { PrismaService } from './prisma/prisma.service';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { IngestModule } from './ingest/ingest.module';
 import { RegulatorModule } from './regulator/regulator.module';
 import { DeveloperModule } from './developer/developer.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
@@ -30,8 +30,9 @@ import { DeveloperModule } from './developer/developer.module';
     IngestModule,
     RegulatorModule,
     DeveloperModule,
+    PrismaModule,
   ],
-  providers: [Logger, PrismaService],
+  providers: [Logger],
   exports: [Logger],
 })
 export class AppModule {}
