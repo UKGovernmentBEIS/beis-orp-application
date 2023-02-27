@@ -3,20 +3,22 @@ import { ConfigService } from '@nestjs/config';
 import { AwsConfig } from '../config';
 import AuthRegisterDto from './types/AuthRegister.dto';
 import { AuthException } from './types/AuthException';
-import ConfirmPasswordDto from './types/ConfirmPassword.dto';
+import ForgotPasswordResetDto from './types/ForgotPasswordResetDto';
 import { User } from './types/User';
 import {
   AdminDeleteUserCommand,
   AdminInitiateAuthCommand,
-  AdminResetUserPasswordCommand,
+  ChangePasswordCommand,
   CognitoIdentityProviderClient,
   ConfirmForgotPasswordCommand,
+  ForgotPasswordCommand,
   ResendConfirmationCodeCommand,
   SignUpCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
 import { CognitoAuthResponse } from './types/AuthenticationResult.dto';
 import { RegulatorService } from '../regulator/regulator.service';
 import decodeJwt from './utils/decodeJwt';
+import ResetPasswordDto from './types/ResetPassword.dto';
 
 @Injectable()
 export class AuthService {
@@ -83,6 +85,7 @@ export class AuthService {
         cognitoUsername: idToken['cognito:username'],
         email,
         regulator,
+        accessToken: cognitoResponse.AuthenticationResult.AccessToken,
       };
     } catch (err) {
       throw this.getAuthError(err, { email });
@@ -102,38 +105,6 @@ export class AuthService {
     }
   }
 
-  async startResetPassword({ email }: User) {
-    const adminResetPasswordCommand = new AdminResetUserPasswordCommand({
-      UserPoolId: this.userPoolId,
-      Username: email,
-    });
-
-    try {
-      return await this.client.send(adminResetPasswordCommand);
-    } catch (err) {
-      throw this.getAuthError(err);
-    }
-  }
-
-  async confirmPassword({
-    verificationCode,
-    email,
-    newPassword,
-  }: ConfirmPasswordDto) {
-    const confirmPasswordCommand = new ConfirmForgotPasswordCommand({
-      ClientId: this.clientId,
-      Username: email,
-      Password: newPassword,
-      ConfirmationCode: verificationCode,
-    });
-
-    try {
-      return await this.client.send(confirmPasswordCommand);
-    } catch (err) {
-      throw this.getAuthError(err);
-    }
-  }
-
   async deleteUser({ email }: User) {
     const deleteUserCommand = new AdminDeleteUserCommand({
       UserPoolId: this.userPoolId,
@@ -142,6 +113,55 @@ export class AuthService {
 
     try {
       return await this.client.send(deleteUserCommand);
+    } catch (err) {
+      throw this.getAuthError(err);
+    }
+  }
+
+  async startForgotPassword(email: string) {
+    const forgotPasswordCommand = new ForgotPasswordCommand({
+      ClientId: this.clientId,
+      Username: email,
+    });
+
+    try {
+      return await this.client.send(forgotPasswordCommand);
+    } catch (err) {
+      throw this.getAuthError(err);
+    }
+  }
+
+  async confirmForgotPassword({
+    verificationCode,
+    email,
+    newPassword,
+  }: ForgotPasswordResetDto) {
+    const confirmForgotPasswordCommand = new ConfirmForgotPasswordCommand({
+      ClientId: this.clientId,
+      ConfirmationCode: verificationCode,
+      Password: newPassword,
+      Username: email,
+    });
+
+    try {
+      return await this.client.send(confirmForgotPasswordCommand);
+    } catch (err) {
+      throw this.getAuthError(err);
+    }
+  }
+
+  async resetPassword(
+    { accessToken }: User,
+    { previousPassword, newPassword }: ResetPasswordDto,
+  ) {
+    const changePasswordCommand = new ChangePasswordCommand({
+      AccessToken: accessToken,
+      PreviousPassword: previousPassword,
+      ProposedPassword: newPassword,
+    });
+
+    try {
+      return await this.client.send(changePasswordCommand);
     } catch (err) {
       throw this.getAuthError(err);
     }

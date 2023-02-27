@@ -10,12 +10,14 @@ export const DEFAULT_USER: User = {
   cognitoUsername: 'cogun',
   email: 'e@mail.com',
   regulator: null,
+  accessToken: 'token',
 };
 
 export const DEFAULT_USER_WITH_REGULATOR: User = {
   cognitoUsername: 'cogun',
   email: 'e@mail.com',
   regulator: DEFAULT_REGULATOR,
+  accessToken: 'token',
 };
 export const mockPrismaService = {
   provide: PrismaService,

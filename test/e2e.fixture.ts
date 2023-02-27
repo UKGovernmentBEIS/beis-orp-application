@@ -57,12 +57,20 @@ jest.mock('@aws-sdk/client-cognito-identity-provider', () => {
     })),
     AdminResetUserPasswordCommand: jest.fn(),
     CognitoIdentityProviderClient: jest.fn(() => mockCognito),
-    ConfirmForgotPasswordCommand: jest.fn(),
+    ConfirmForgotPasswordCommand: jest.fn(() => ({
+      confirmForgotPasswordCommand: true,
+    })),
     ResendConfirmationCodeCommand: jest.fn(),
-    SignUpCommand: jest.fn(),
+    SignUpCommand: jest.fn(() => ({
+      signUpCommand: true,
+    })),
     ListUsersInGroupCommand: jest.fn((args) => ({
       ...args,
       listUsers: true,
+    })),
+    ChangePasswordCommand: jest.fn(),
+    ForgotPasswordCommand: jest.fn(() => ({
+      forgotPasswordCommand: true,
     })),
   };
 });

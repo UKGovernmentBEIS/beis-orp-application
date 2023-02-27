@@ -1,6 +1,5 @@
-import { E2eFixture } from '../e2e.fixture';
+import { E2eFixture, mockCognito } from '../e2e.fixture';
 import * as cheerio from 'cheerio';
-import { v4 as uuid } from 'uuid';
 
 describe('Register (e2e)', () => {
   const fixture = new E2eFixture();
@@ -30,13 +29,23 @@ describe('Register (e2e)', () => {
   });
 
   describe('auth/register (POST)', () => {
-    it('signs up a user in cognito and stores in database', () => {
+    it('signs up a user in cognito', () => {
       return fixture
         .request()
         .post('/auth/register')
-        .send({ email: `${uuid()}@test.com`, password: '9.PAssworD' })
+        .send({
+          email: 'user@test.com',
+          password: '9.PAssworD',
+          confirmPassword: '9.PAssworD',
+        })
         .expect(302)
-        .expect('Location', '/auth/unconfirmed');
+        .expect('Location', '/auth/unconfirmed')
+        .expect((res) => {
+          expect(mockCognito.send).toBeCalledTimes(1);
+          expect(mockCognito.send).toBeCalledWith({
+            signUpCommand: true,
+          });
+        });
     });
 
     describe('validation', () => {

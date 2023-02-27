@@ -33,4 +33,8 @@ export class AuthException extends Error {
   isEmailInUse() {
     return this.errorObj.code === 'UsernameExistsException';
   }
+
+  isLimitExceeded() {
+    return this.errorObj.code === 'LimitExceededException';
+  }
 }

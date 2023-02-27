@@ -19,9 +19,11 @@ import { AuthExceptionFilter } from './filters/authException.filter';
 import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 import { ValidateForm } from '../form-validation';
 import { User } from '../user/user.decorator';
-import ConfirmPasswordDto from './types/ConfirmPassword.dto';
+import ForgotPasswordResetDto from './types/ForgotPasswordResetDto';
 import type { User as UserType } from '../auth/types/User';
 import { AuthenticatedGuard } from './authenticated.guard';
+import EmailAddressDto from './types/EmailAddress.dto';
+import ResetPasswordDto from './types/ResetPassword.dto';
 
 @UseFilters(AuthExceptionFilter)
 @UseFilters(ErrorFilter)
@@ -83,22 +85,26 @@ export class AuthController {
 
   @Get('/reset-password')
   @UseGuards(AuthenticatedGuard)
-  @Redirect('reset-password-confirm')
-  async resetPassword(@User() user: UserType) {
-    return this.authService.startResetPassword(user);
+  @Render('pages/auth/resetPasswordWithOldPassword')
+  async resetPassword() {
+    return {};
   }
 
-  @Get('/reset-password-confirm')
-  @Render('pages/auth/resetPassword')
-  async resetPasswordConfirm() {
-    return;
-  }
-
-  @Post('/reset-password-confirm')
+  @Post('/reset-password')
+  @UseGuards(AuthenticatedGuard)
   @ValidateForm()
+  @Redirect('change-password-success')
+  async postResetPassword(
+    @User() user: UserType,
+    @Body() resetPasswordDto: ResetPasswordDto,
+  ) {
+    return this.authService.resetPassword(user, resetPasswordDto);
+  }
+
+  @Get('/change-password-success')
   @Render('pages/auth/passwordResetConfirmation')
-  async confirmNewPassword(@Body() confirmPasswordDto: ConfirmPasswordDto) {
-    return this.authService.confirmPassword(confirmPasswordDto);
+  async resetPasswordSuccess() {
+    return;
   }
 
   @Get('/delete-user')
@@ -114,6 +120,52 @@ export class AuthController {
   async deleteUserConfirm(@User() user: UserType, @Request() req) {
     await this.authService.deleteUser(user);
     req.session.destroy();
+    return;
+  }
+
+  @Get('/new-password')
+  @Render('pages/auth/newPassword')
+  async getNewPassword() {
+    return;
+  }
+
+  @Post('/new-password')
+  @ValidateForm()
+  @Redirect('set-new-password')
+  async generateNewPassword(
+    @Body() { email }: EmailAddressDto,
+    @Request() req,
+  ) {
+    const res = await this.authService.startForgotPassword(email);
+    req.session.email = email;
+    return res;
+  }
+
+  @Get('/set-new-password')
+  @Render('pages/auth/resetPasswordWithCode')
+  async setNewPassword(@Request() req) {
+    const email = req.session.email;
+    return { email };
+  }
+
+  @Post('/set-new-password')
+  @ValidateForm()
+  @Redirect('forgot-password-success')
+  async confirmForgottenPassword(
+    @Body() confirmPasswordDto: ForgotPasswordResetDto,
+  ) {
+    return this.authService.confirmForgotPassword(confirmPasswordDto);
+  }
+
+  @Get('/forgot-password-success')
+  @Render('pages/auth/passwordForgotConfirmation')
+  async forgotPasswordSuccess() {
+    return;
+  }
+
+  @Get('/limit-exceeded')
+  @Render('pages/auth/limitExceeded')
+  async limitExceeded() {
     return;
   }
 }
