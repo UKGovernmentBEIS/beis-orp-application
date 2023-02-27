@@ -26,9 +26,9 @@ export class DocumentService {
   }
 
   async getDocument(id: string): Promise<Readable> {
-    const { object_key } = await this.orpDal.getById(id);
+    const { uri } = await this.orpDal.getById(id);
 
-    return this.awsDal.getObject(object_key);
+    return this.awsDal.getObject(uri);
   }
 
   async getDocumentDetail(
@@ -37,7 +37,7 @@ export class DocumentService {
     const document = await this.orpDal.getById(id);
     return {
       document,
-      url: await this.awsDal.getObjectUrl(document.object_key),
+      url: await this.awsDal.getObjectUrl(document.uri),
     };
   }
 

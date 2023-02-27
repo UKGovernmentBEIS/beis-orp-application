@@ -7,10 +7,14 @@ import { mockConfigService } from '../../../test/mocks/config.mock';
 import { mockLogger } from '../../../test/mocks/logger.mock';
 import { HttpModule } from '@nestjs/axios';
 import { getRawDocument } from '../../../test/mocks/orpSearchMock';
+import { RegulatorModule } from '../regulator/regulator.module';
+import { DEFAULT_REGULATOR } from '../../../test/mocks/prismaService.mock';
+import { RegulatorService } from '../regulator/regulator.service';
 
 describe('DocumentController', () => {
   let controller: DocumentController;
   let documentService: DocumentService;
+  let regulatorService: RegulatorService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -22,25 +26,31 @@ describe('DocumentController', () => {
         mockConfigService,
         mockLogger,
       ],
-      imports: [HttpModule],
+      imports: [HttpModule, RegulatorModule],
     }).compile();
 
     controller = module.get<DocumentController>(DocumentController);
     documentService = module.get<DocumentService>(DocumentService);
+    regulatorService = module.get<RegulatorService>(RegulatorService);
   });
 
   describe('getDocument', () => {
     it('should return information from document service', async () => {
-      const expectedResult = {
-        document: getRawDocument({ object_key: 'thefile.pdf' }),
+      const orpResponse = {
+        document: getRawDocument({ uri: 'thefile.pdf', regulator_id: 'reg' }),
         url: 'http://document',
       };
       jest
         .spyOn(documentService, 'getDocumentDetail')
-        .mockResolvedValue(expectedResult);
+        .mockResolvedValue(orpResponse);
+
+      const regMock = jest
+        .spyOn(regulatorService, 'getRegulatorById')
+        .mockResolvedValue(DEFAULT_REGULATOR);
 
       const result = await controller.getDocument({ id: 'id' });
-      expect(result).toEqual(expectedResult);
+      expect(regMock).toBeCalledWith('reg');
+      expect(result).toEqual({ ...orpResponse, regulator: DEFAULT_REGULATOR });
     });
   });
 });
