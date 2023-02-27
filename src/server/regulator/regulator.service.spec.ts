@@ -27,4 +27,11 @@ describe('RegulatorService', () => {
       expect(result).toEqual(DEFAULT_REGULATOR);
     });
   });
+
+  describe('getRegulatorById', () => {
+    it('should return value from prisma', async () => {
+      const result = await service.getRegulatorById('regId');
+      expect(result).toEqual(DEFAULT_REGULATOR);
+    });
+  });
 });

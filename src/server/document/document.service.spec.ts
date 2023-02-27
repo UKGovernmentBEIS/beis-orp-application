@@ -31,7 +31,7 @@ describe('DocumentService', () => {
 
       jest
         .spyOn(orpDal, 'getById')
-        .mockResolvedValue(getRawDocument({ object_key: 'thefile.pdf' }));
+        .mockResolvedValue(getRawDocument({ uri: 'thefile.pdf' }));
 
       const getObjSpy = jest
         .spyOn(awsDal, 'getObject')
@@ -48,7 +48,7 @@ describe('DocumentService', () => {
     it('should return the document search data and a presigned url', async () => {
       jest
         .spyOn(orpDal, 'getById')
-        .mockResolvedValue(getRawDocument({ object_key: 'thefile.pdf' }));
+        .mockResolvedValue(getRawDocument({ uri: 'thefile.pdf' }));
 
       const getUrlSpy = jest
         .spyOn(awsDal, 'getObjectUrl')
@@ -62,7 +62,7 @@ describe('DocumentService', () => {
         url: 'http://document',
         document: {
           title: 'Title',
-          object_key: 'thefile.pdf',
+          uri: 'thefile.pdf',
         },
       });
     });

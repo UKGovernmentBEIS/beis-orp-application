@@ -5,5 +5,6 @@ import { PrismaModule } from '../prisma/prisma.module';
 @Module({
   imports: [PrismaModule],
   providers: [RegulatorService],
+  exports: [RegulatorService],
 })
 export class RegulatorModule {}

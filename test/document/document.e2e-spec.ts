@@ -38,6 +38,7 @@ describe('DocumentController (e2e)', () => {
         expect(res.text).toContain(
           '<embed src="http://document" type="application/pdf" />',
         );
+        expect(res.text).toContain('<dd>Office of Communications</dd>');
       });
   });
 });

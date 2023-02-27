@@ -14,8 +14,7 @@ export const getRawDocument = (
     title: 'Title',
     summary: 'This is the summary',
     document_uid: '0001',
-    regulator_id: 'reg001',
-    s3_uri: '/bucket/doc.pdf',
+    regulator_id: 'ofcom',
     date_uploaded: '2019-08-06T00:00:00Z',
     date_published: '2018-08-06T00:00:00Z',
     legislative_origins: [
@@ -29,8 +28,9 @@ export const getRawDocument = (
     regulatory_topics: ['topic1', 'topic2'],
     version: 1,
     document_type: 'doc type',
-    object_key: 'doc.pdf',
+    uri: 'doc.pdf',
     keyword: ['keyword1', 'keyword2'],
+    status: 'published',
     ...overrides,
   };
 };
@@ -42,7 +42,7 @@ const getMappedDocument = (
     title: 'Title',
     summary: 'This is the summary',
     documentId: '0001',
-    regulatorId: 'reg001',
+    regulatorId: 'ofcom',
     dates: {
       uploaded: '2019-08-06T00:00:00Z',
       published: '2018-08-06T00:00:00Z',

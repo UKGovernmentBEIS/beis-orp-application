@@ -1,9 +1,10 @@
+import { OrpDocumentStatus } from '../../search/types/statusTypes';
+
 export interface RawOrpResponseEntry {
   title: string;
   summary: string;
   document_uid: string;
   regulator_id?: string;
-  s3_uri: string;
   date_uploaded: string;
   date_published?: string;
   legislative_origins: {
@@ -15,8 +16,9 @@ export interface RawOrpResponseEntry {
   regulatory_topics?: string[];
   version: number;
   document_type?: string;
-  object_key: string;
+  uri: string;
   keyword: string[];
+  status: OrpDocumentStatus;
 }
 
 export interface RawOrpResponse {
