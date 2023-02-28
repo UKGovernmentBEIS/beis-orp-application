@@ -20,7 +20,7 @@ import JwtAuthenticationGuard from '../auth/jwt.guard';
 import JwtRegulatorGuard from '../auth/jwt-regulator.guard';
 import { ApiAuthService } from '../auth/api-auth.service';
 import { RegulatorService } from '../regulator/regulator.service';
-import { mockTokens } from '../../../test/mocks/tokens.mock';
+import { mockTokens, mockTokensReturn } from '../../../test/mocks/tokens.mock';
 import { AuthService } from '../auth/auth.service';
 
 describe('ApiController', () => {
@@ -91,11 +91,15 @@ describe('ApiController', () => {
     });
 
     it('should call searchService and return response', async () => {
-      const expectedResult = {
-        nationalArchive: { totalSearchResults: 10, documents: [] },
-        orp: { totalSearchResults: 10, documents: [] },
+      const searchResponse = {
+        legislation: { totalSearchResults: 10, documents: [] },
+        regulatoryMaterial: { totalSearchResults: 10, documents: [] },
       };
-      jest.spyOn(searchService, 'search').mockResolvedValue(expectedResult);
+      const expectedResult = {
+        legislation: { total_search_results: 10, documents: [] },
+        regulatory_material: { total_search_results: 10, documents: [] },
+      };
+      jest.spyOn(searchService, 'search').mockResolvedValue(searchResponse);
 
       const result = await controller.search({
         title: 'title',
@@ -161,13 +165,16 @@ describe('ApiController', () => {
         .mockResolvedValue(mockTokens);
 
       const creds = {
-        clientId: 'clid',
-        clientSecret: 'cls',
+        client_id: 'clid',
+        client_secret: 'cls',
       };
       const result = await controller.login(creds);
 
-      expect(getTokensMock).toBeCalledWith(creds);
-      expect(result).toEqual(mockTokens);
+      expect(getTokensMock).toBeCalledWith({
+        clientId: 'clid',
+        clientSecret: 'cls',
+      });
+      expect(result).toEqual(mockTokensReturn);
     });
   });
 
@@ -182,7 +189,7 @@ describe('ApiController', () => {
       });
 
       expect(refreshTokensMock).toBeCalledWith(mockTokens.RefreshToken);
-      expect(result).toEqual(mockTokens);
+      expect(result).toEqual(mockTokensReturn);
     });
   });
 });

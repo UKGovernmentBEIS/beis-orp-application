@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TNA_URL, TnaDal } from './tna.dal';
 import { HttpModule } from '@nestjs/axios';
-import { expectedOutputForTnaStandardResponse } from '../../../test/mocks/tnaSearchMock';
+import { expectedInternalOutputForTnaStandardResponse } from '../../../test/mocks/tnaSearchMock';
 import { rest } from 'msw';
 import { server } from '../../../test/mocks/server';
 
@@ -19,7 +19,7 @@ describe('TNA data access layer', () => {
 
   it('should search the national archives and map to JS object with top 10 entries', async () => {
     expect(await tnaDal.searchTna({ title: 'a', keyword: 'b' })).toMatchObject(
-      expectedOutputForTnaStandardResponse,
+      expectedInternalOutputForTnaStandardResponse,
     );
   });
 

@@ -60,6 +60,7 @@
     "rxjs": "^7.2.0",
     "sass": "^1.55.0",
     "sass-loader": "^13.1.0",
+    "snakecase-keys": "^5.4.5",
     "terser-webpack-plugin": "^5.3.6",
     "uuid": "^9.0.0",
     "winston-cloudwatch": "^6.1.1",

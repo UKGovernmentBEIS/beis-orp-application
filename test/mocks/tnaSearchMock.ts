@@ -1,4 +1,6 @@
-import { SearchResponseDto } from '../../src/server/api/types/SearchResponse.dto';
+import { ApiSearchResponseDto } from '../../src/server/api/types/ApiSearchResponse.dto';
+import { SearchResponseDto } from '../../src/server/search/types/SearchResponse.dto';
+import * as snakecaseKeys from 'snakecase-keys';
 
 export const tnaStandardResponse = `
 <?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xmlns:leg="http://www.legislation.gov.uk/namespaces/legislation" xmlns:ukm="http://www.legislation.gov.uk/namespaces/metadata" xmlns:theme="http://www.legislation.gov.uk/namespaces/theme" xmlns:openSearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:parameters="http://a9.com/-/spec/opensearch/extensions/parameters/1.0/">
@@ -335,7 +337,7 @@ export const tnaStandardResponse = `
 </feed>
 `;
 
-export const expectedOutputForTnaStandardResponse: SearchResponseDto['nationalArchive'] =
+export const expectedInternalOutputForTnaStandardResponse: SearchResponseDto['legislation'] =
   {
     documents: [
       {
@@ -1021,3 +1023,5 @@ export const expectedOutputForTnaStandardResponse: SearchResponseDto['nationalAr
     ],
     totalSearchResults: 20,
   };
+export const expectedApiOutputForTnaStandardResponse: ApiSearchResponseDto['legislation'] =
+  snakecaseKeys(expectedInternalOutputForTnaStandardResponse);

@@ -11,7 +11,7 @@ import { ErrorFilter } from '../error.filter';
 import { SearchService } from './search.service';
 import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 import { RegulatorService } from '../regulator/regulator.service';
-import { SearchRequestDto } from '../api/types/SearchRequest.dto';
+import { SearchRequestDto } from './types/SearchRequest.dto';
 import { documentTypes } from './types/documentTypes';
 import { documentStatus } from './types/statusTypes';
 import { DateTransformPipe } from '../form-validation/date-transform.pipe';

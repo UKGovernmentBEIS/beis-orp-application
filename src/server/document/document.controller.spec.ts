@@ -37,7 +37,11 @@ describe('DocumentController', () => {
   describe('getDocument', () => {
     it('should return information from document service', async () => {
       const orpResponse = {
-        document: getRawDocument({ uri: 'thefile.pdf', regulator_id: 'reg' }),
+        document: getRawDocument({
+          uri: 'thefile.pdf',
+          regulator_id: 'reg',
+          document_type: 'GD',
+        }),
         url: 'http://document',
       };
       jest
@@ -50,7 +54,11 @@ describe('DocumentController', () => {
 
       const result = await controller.getDocument({ id: 'id' });
       expect(regMock).toBeCalledWith('reg');
-      expect(result).toEqual({ ...orpResponse, regulator: DEFAULT_REGULATOR });
+      expect(result).toEqual({
+        ...orpResponse,
+        regulator: DEFAULT_REGULATOR,
+        docType: 'Guidance',
+      });
     });
   });
 });

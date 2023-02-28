@@ -12,6 +12,7 @@ import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 import { RawOrpResponseEntry } from '../data/types/rawOrpSearchResponse';
 import { RegulatorService } from '../regulator/regulator.service';
 import { Regulator } from '@prisma/client';
+import { documentTypes } from '../search/types/documentTypes';
 
 @UseFilters(ErrorFilter)
 @UseInterceptors(ViewDataInterceptor)
@@ -27,14 +28,17 @@ export class DocumentController {
     document: RawOrpResponseEntry;
     url: string;
     regulator: Regulator;
+    docType: string;
   }> {
     const orpDoc = await this.documentService.getDocumentDetail(params.id);
     const regulator = await this.regulatorService.getRegulatorById(
       orpDoc.document.regulator_id,
     );
+    const docType = documentTypes[orpDoc.document.document_type] ?? '';
     return {
       ...orpDoc,
       regulator,
+      docType,
     };
   }
 }

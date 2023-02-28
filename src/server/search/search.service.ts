@@ -3,13 +3,13 @@ import { TnaDal } from '../data/tna.dal';
 import {
   SearchResponseDto,
   TnaSearchResponse,
-} from '../api/types/SearchResponse.dto';
+} from './types/SearchResponse.dto';
 import { OrpDal } from '../data/orp.dal';
 import {
   SearchViewModel,
   TnaSearchResponseViewModel,
 } from './types/SearchViewModel';
-import { SearchRequestDto } from '../api/types/SearchRequest.dto';
+import { SearchRequestDto } from './types/SearchRequest.dto';
 
 @Injectable()
 export class SearchService {
@@ -19,12 +19,12 @@ export class SearchService {
   ) {}
 
   async search(searchRequest: SearchRequestDto): Promise<SearchResponseDto> {
-    const [nationalArchive, orp] = await Promise.all([
+    const [legislation, regulatoryMaterial] = await Promise.all([
       this.tnaDal.searchTna(searchRequest),
       this.orpDal.searchOrp(searchRequest),
     ]);
 
-    return { nationalArchive, orp };
+    return { legislation, regulatoryMaterial };
   }
 
   toTnaViewModel(tnaItem: TnaSearchResponse): TnaSearchResponseViewModel {
@@ -41,11 +41,13 @@ export class SearchService {
   async searchForView(
     searchRequest: SearchRequestDto,
   ): Promise<SearchViewModel> {
-    const { nationalArchive, orp } = await this.search(searchRequest);
+    const { legislation, regulatoryMaterial } = await this.search(
+      searchRequest,
+    );
 
     return {
-      nationalArchive: this.toTnaViewModel(nationalArchive),
-      orp,
+      legislation: this.toTnaViewModel(legislation),
+      regulatoryMaterial,
     };
   }
 }

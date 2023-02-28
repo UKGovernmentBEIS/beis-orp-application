@@ -17,9 +17,8 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { SearchRequestDto } from './types/SearchRequest.dto';
+import { ApiSearchRequestDto } from './types/ApiSearchRequest.dto';
 import { SearchService } from '../search/search.service';
-import { SearchResponseDto } from './types/SearchResponse.dto';
 import { FileUploadDto } from './types/FileUpload.dto';
 import {
   ApiBody,
@@ -36,11 +35,15 @@ import { FileUpload } from '../data/types/FileUpload';
 import { Request } from 'express';
 import JwtAuthenticationGuard from '../auth/jwt.guard';
 import JwtRegulatorGuard from '../auth/jwt-regulator.guard';
-import AuthenticationResultDto from '../auth/types/AuthenticationResult.dto';
 import { ApiAuthService } from '../auth/api-auth.service';
-import ApiTokenRequestDto from '../auth/types/ApiTokenRequest.dto';
-import ApiRefreshTokenRequestDto from '../auth/types/ApiRefreshTokenRequest.dto';
-import ApiRefreshTokensResponseDto from '../auth/types/ApiRefreshTokensResponse.dto';
+import ApiTokenRequestDto from './types/ApiTokenRequest.dto';
+import ApiRefreshTokenRequestDto from './types/ApiRefreshTokenRequest.dto';
+import toSearchRequest from './utils/toSearchRequest';
+import toApiSearchResult from './utils/toApiSearchResult';
+import { ApiSearchResponseDto } from './types/ApiSearchResponse.dto';
+import * as snakecaseKeys from 'snakecase-keys';
+import ApiTokensDto from './types/ApiTokensDto';
+import ApiRefreshTokensDto from './types/ApiRefreshTokensDto';
 
 @UsePipes(new ValidationPipe())
 @Controller('api')
@@ -54,14 +57,18 @@ export class ApiController {
   @Get('search')
   @UseGuards(JwtAuthenticationGuard)
   @ApiTags('search')
-  @ApiOkResponse({ type: SearchResponseDto })
   @ApiBadRequestResponse({
     description:
       'Bad request. Request must include a query parameter for at least one of title or keyword',
   })
   @ApiInternalServerErrorResponse({ description: 'Unexpected error' })
-  search(@Query() searchRequest: SearchRequestDto): Promise<SearchResponseDto> {
-    return this.searchService.search(searchRequest);
+  async search(
+    @Query() apiSearchRequest: ApiSearchRequestDto,
+  ): Promise<ApiSearchResponseDto> {
+    const searchResult = await this.searchService.search(
+      toSearchRequest(apiSearchRequest),
+    );
+    return toApiSearchResult(searchResult);
   }
 
   @Put('upload')
@@ -107,16 +114,23 @@ export class ApiController {
   @Post('tokens')
   @ApiTags('auth')
   async login(
-    @Body() apiTokenRequestDto: ApiTokenRequestDto,
-  ): Promise<AuthenticationResultDto> {
-    return this.apiAuthService.authenticateApiClient(apiTokenRequestDto);
+    @Body() { client_id, client_secret }: ApiTokenRequestDto,
+  ): Promise<ApiTokensDto> {
+    return snakecaseKeys(
+      await this.apiAuthService.authenticateApiClient({
+        clientId: client_id,
+        clientSecret: client_secret,
+      }),
+    );
   }
 
   @Post('refresh-tokens')
   @ApiTags('auth')
   async refreshToken(
     @Body() apiRefreshTokenRequestDto: ApiRefreshTokenRequestDto,
-  ): Promise<ApiRefreshTokensResponseDto> {
-    return this.apiAuthService.refreshApiUser(apiRefreshTokenRequestDto.token);
+  ): Promise<ApiRefreshTokensDto> {
+    return snakecaseKeys(
+      await this.apiAuthService.refreshApiUser(apiRefreshTokenRequestDto.token),
+    );
   }
 }

@@ -12,17 +12,13 @@ import {
   ListUsersInGroupCommand,
   SignUpCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
-import AuthenticationResultDto, {
-  CognitoAuthResponse,
-} from './types/AuthenticationResult.dto';
+import { CognitoAuthResponse } from './types/CognitoAuthResponse';
 import { v4 as uuidv4 } from 'uuid';
 import { RegulatorService } from '../regulator/regulator.service';
 import CognitoUser from './types/CognitoUser';
 import { AuthService } from './auth.service';
 import { ApiClient, ListUsersInGroupCommandResponse } from './types/ApiClient';
-import ApiRefreshTokensResponseDto, {
-  CognitoRefreshResponse,
-} from './types/ApiRefreshTokensResponse.dto';
+import { CognitoRefreshResponse } from './types/CognitoRefreshResponse.dto';
 import { User } from './types/User';
 
 @Injectable()
@@ -81,7 +77,7 @@ export class ApiAuthService {
   }: {
     clientSecret: string;
     clientId: string;
-  }): Promise<AuthenticationResultDto> {
+  }): Promise<CognitoAuthResponse['AuthenticationResult']> {
     const adminInitiateAuthCommand = new AdminInitiateAuthCommand({
       AuthFlow: 'ADMIN_USER_PASSWORD_AUTH',
       ClientId: this.clientId,
@@ -169,7 +165,9 @@ export class ApiAuthService {
     }
   }
 
-  async refreshApiUser(token: string): Promise<ApiRefreshTokensResponseDto> {
+  async refreshApiUser(
+    token: string,
+  ): Promise<CognitoRefreshResponse['AuthenticationResult']> {
     const adminInitiateAuthCommand = new AdminInitiateAuthCommand({
       AuthFlow: 'REFRESH_TOKEN_AUTH',
       ClientId: this.clientId,
