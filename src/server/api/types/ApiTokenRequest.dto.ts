@@ -3,9 +3,9 @@ import { IsNotEmpty, IsString } from 'class-validator';
 export default class ApiTokenRequestDto {
   @IsString()
   @IsNotEmpty()
-  clientSecret: string;
+  client_secret: string;
 
   @IsString()
   @IsNotEmpty()
-  clientId: string;
+  client_id: string;
 }

@@ -1,6 +1,6 @@
 import { E2eFixture } from '../e2e.fixture';
-import { expectedOutputForTnaStandardResponse } from '../mocks/tnaSearchMock';
-import { expectedOutputForOrpStandardResponse } from '../mocks/orpSearchMock';
+import { expectedApiOutputForTnaStandardResponse } from '../mocks/tnaSearchMock';
+import { expectedApiOutputForOrpStandardResponse } from '../mocks/orpSearchMock';
 import { server } from '../mocks/server';
 import { rest } from 'msw';
 import { TNA_URL } from '../../src/server/data/tna.dal';
@@ -55,8 +55,8 @@ describe('api/search (GET)', () => {
         .query({ keyword: 'keyword', title: 'title' })
         .expect(200)
         .expect({
-          nationalArchive: expectedOutputForTnaStandardResponse,
-          orp: expectedOutputForOrpStandardResponse,
+          legislation: expectedApiOutputForTnaStandardResponse,
+          regulatory_material: expectedApiOutputForOrpStandardResponse,
         });
     });
 

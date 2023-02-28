@@ -14,7 +14,7 @@ import {
   ResendConfirmationCodeCommand,
   SignUpCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
-import { CognitoAuthResponse } from './types/AuthenticationResult.dto';
+import { CognitoAuthResponse } from './types/CognitoAuthResponse';
 import { RegulatorService } from '../regulator/regulator.service';
 import decodeJwt from './utils/decodeJwt';
 

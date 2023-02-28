@@ -51,6 +51,6 @@ interface OrpSearchResponse {
 }
 
 export interface SearchViewModel {
-  nationalArchive: TnaSearchResponseViewModel;
-  orp: OrpSearchResponse;
+  legislation: TnaSearchResponseViewModel;
+  regulatoryMaterial: OrpSearchResponse;
 }

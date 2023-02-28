@@ -5,7 +5,7 @@ import { firstValueFrom } from 'rxjs';
 import {
   OrpSearchItem,
   OrpSearchResponse,
-} from '../api/types/SearchResponse.dto';
+} from '../search/types/SearchResponse.dto';
 
 import { ApisConfig } from '../config';
 import { ConfigService } from '@nestjs/config';
@@ -13,8 +13,8 @@ import {
   RawOrpResponse,
   RawOrpResponseEntry,
 } from './types/rawOrpSearchResponse';
-import { SearchRequestDto } from '../api/types/SearchRequest.dto';
 import { OrpIdSearchBody, OrpSearchBody } from './types/orpSearchRequests';
+import { SearchRequestDto } from '../search/types/SearchRequest.dto';
 
 const MAX_ITEMS = 10;
 
@@ -92,7 +92,9 @@ export class OrpDal {
   }
 
   async searchOrp(searchRequest: SearchRequestDto): Promise<OrpSearchResponse> {
+    console.log(this.mapToOrpSearchBody(searchRequest));
     const data = await this.postSearch(this.mapToOrpSearchBody(searchRequest));
+
     return this.mapResponse(data);
   }
 

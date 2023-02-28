@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import * as convert from 'xml-js';
-import { TnaSearchResponse } from '../api/types/SearchResponse.dto';
+import { TnaSearchResponse } from '../search/types/SearchResponse.dto';
 
 import {
   isLanguageTitle,
   RawTitle,
   RawTnaResponse,
 } from './types/rawTnaSearchResponse';
-import { SearchRequestDto } from '../api/types/SearchRequest.dto';
+import { SearchRequestDto } from '../search/types/SearchRequest.dto';
 
 export const TNA_URL = 'https://www.legislation.gov.uk/all/data.feed';
 const MAX_ITEMS = 10;

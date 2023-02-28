@@ -52,6 +52,6 @@ export class OrpSearchResponse {
 }
 
 export class SearchResponseDto {
-  nationalArchive: TnaSearchResponse;
-  orp: OrpSearchResponse;
+  legislation: TnaSearchResponse;
+  regulatoryMaterial: OrpSearchResponse;
 }

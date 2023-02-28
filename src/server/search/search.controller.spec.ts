@@ -50,8 +50,8 @@ describe('SearchController', () => {
   describe('search', () => {
     it('should call search if title query is present', async () => {
       const expectedResult = {
-        nationalArchive: { totalSearchResults: 10, documents: [] },
-        orp: { totalSearchResults: 10, documents: [] },
+        legislation: { totalSearchResults: 10, documents: [] },
+        regulatoryMaterial: { totalSearchResults: 10, documents: [] },
       };
       jest.spyOn(searchService, 'search').mockResolvedValue(expectedResult);
       const result = await controller.search({ title: 'Title' });
@@ -64,8 +64,8 @@ describe('SearchController', () => {
 
     it('should be call search if keyword query is present', async () => {
       const expectedResult = {
-        nationalArchive: { totalSearchResults: 10, documents: [] },
-        orp: { totalSearchResults: 10, documents: [] },
+        legislation: { totalSearchResults: 10, documents: [] },
+        regulatoryMaterial: { totalSearchResults: 10, documents: [] },
       };
       jest.spyOn(searchService, 'search').mockResolvedValue(expectedResult);
       const result = await controller.search({ keyword: 'Keyword' });
@@ -78,8 +78,8 @@ describe('SearchController', () => {
 
     it('should be call search if both title and keyword queries are present', async () => {
       const expectedResult = {
-        nationalArchive: { totalSearchResults: 10, documents: [] },
-        orp: { totalSearchResults: 10, documents: [] },
+        legislation: { totalSearchResults: 10, documents: [] },
+        regulatoryMaterial: { totalSearchResults: 10, documents: [] },
       };
       jest.spyOn(searchService, 'search').mockResolvedValue(expectedResult);
       const result = await controller.search({
@@ -95,8 +95,8 @@ describe('SearchController', () => {
 
     it('should not call search if neither title or keyword queries are present', async () => {
       const expectedResult = {
-        nationalArchive: { totalSearchResults: 10, documents: [] },
-        orp: { totalSearchResults: 10, documents: [] },
+        legislation: { totalSearchResults: 10, documents: [] },
+        regulatoryMaterial: { totalSearchResults: 10, documents: [] },
       };
       jest.spyOn(searchService, 'search').mockResolvedValue(expectedResult);
       const result = await controller.search({});

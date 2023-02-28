@@ -30,8 +30,8 @@ describe('SearchService', () => {
       jest.spyOn(orpDal, 'searchOrp').mockResolvedValue(orpResponse);
 
       expect(await service.search({ title: 'a', keyword: 'b' })).toStrictEqual({
-        nationalArchive: tnaResponse,
-        orp: orpResponse,
+        legislation: tnaResponse,
+        regulatoryMaterial: orpResponse,
       });
     });
   });
@@ -76,7 +76,7 @@ describe('SearchService', () => {
       expect(
         await service.searchForView({ title: 'a', keyword: 'b' }),
       ).toStrictEqual({
-        nationalArchive: {
+        legislation: {
           ...tnaResponse,
           documents: [
             {
@@ -85,7 +85,7 @@ describe('SearchService', () => {
             },
           ],
         },
-        orp: orpResponse,
+        regulatoryMaterial: orpResponse,
       });
     });
   });

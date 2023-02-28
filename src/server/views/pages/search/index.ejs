@@ -15,10 +15,10 @@
     var selectedRegulators = searchedValues.regulators ?? []
     var selectedDocTypes = searchedValues.docTypes ?? []
     var selectedStatuses = searchedValues.status ?? []
-    var tnaResults = results?.nationalArchive.documents ?? []
-    var totalTnaResults = results?.nationalArchive.totalSearchResults ?? null
-    var orpResults = results?.orp.documents ?? []
-    var totalOrpResults = results?.orp.totalSearchResults ?? null
+    var tnaResults = results?.legislation.documents ?? []
+    var totalTnaResults = results?.legislation.totalSearchResults ?? null
+    var orpResults = results?.regulatoryMaterial.documents ?? []
+    var totalOrpResults = results?.regulatoryMaterial.totalSearchResults ?? null
     var noResults = !tnaResults.length && !orpResults.length
 %>
 
