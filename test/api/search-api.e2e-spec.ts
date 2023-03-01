@@ -47,8 +47,8 @@ describe('api/search (GET)', () => {
     });
   });
 
-  describe('tna search', () => {
-    it('calls the national archives and parses the xml returning first 10 items', () => {
+  describe('search', () => {
+    it('calls the national archives and orp and parses the values', () => {
       return fixture
         .request()
         .get('/api/search')

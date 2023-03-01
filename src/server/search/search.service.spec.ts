@@ -5,6 +5,16 @@ import { HttpModule } from '@nestjs/axios';
 import { OrpDal } from '../data/orp.dal';
 import { mockConfigService } from '../../../test/mocks/config.mock';
 import { mockLogger } from '../../../test/mocks/logger.mock';
+import { mockRegulatorService } from '../../../test/mocks/regulatorService.mock';
+import {
+  expectedInternalOutputForOrpStandardResponse,
+  orpStandardResponse,
+} from '../../../test/mocks/orpSearchMock';
+import {
+  expectedInternalOutputForLinkedDocs,
+  linkedDocsRawResponse,
+} from '../../../test/mocks/linkedDocumentsMock';
+import { RawOrpResponse } from '../data/types/rawOrpSearchResponse';
 
 describe('SearchService', () => {
   let service: SearchService;
@@ -13,7 +23,14 @@ describe('SearchService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [SearchService, TnaDal, OrpDal, mockConfigService, mockLogger],
+      providers: [
+        SearchService,
+        TnaDal,
+        OrpDal,
+        mockConfigService,
+        mockLogger,
+        mockRegulatorService,
+      ],
       imports: [HttpModule],
     }).compile();
 
@@ -25,13 +42,24 @@ describe('SearchService', () => {
   describe('search', () => {
     it('should search the national archives and orp', async () => {
       const tnaResponse = { totalSearchResults: 10, documents: [] };
-      const orpResponse = { totalSearchResults: 5, documents: [] };
+      const orpResponse = { total_search_results: 5, documents: [] };
       jest.spyOn(tnaDal, 'searchTna').mockResolvedValue(tnaResponse);
       jest.spyOn(orpDal, 'searchOrp').mockResolvedValue(orpResponse);
 
       expect(await service.search({ title: 'a', keyword: 'b' })).toStrictEqual({
         legislation: tnaResponse,
-        regulatoryMaterial: orpResponse,
+        regulatoryMaterial: { totalSearchResults: 5, documents: [] },
+      });
+    });
+
+    it('should map the response from orp', async () => {
+      const tnaResponse = { totalSearchResults: 10, documents: [] };
+      jest.spyOn(tnaDal, 'searchTna').mockResolvedValue(tnaResponse);
+      jest.spyOn(orpDal, 'searchOrp').mockResolvedValue(orpStandardResponse);
+
+      expect(await service.search({ title: 'a', keyword: 'b' })).toStrictEqual({
+        legislation: tnaResponse,
+        regulatoryMaterial: expectedInternalOutputForOrpStandardResponse,
       });
     });
   });
@@ -69,7 +97,7 @@ describe('SearchService', () => {
           },
         ],
       };
-      const orpResponse = { totalSearchResults: 5, documents: [] };
+      const orpResponse = { total_search_results: 5, documents: [] };
       jest.spyOn(tnaDal, 'searchTna').mockResolvedValue(tnaResponse);
       jest.spyOn(orpDal, 'searchOrp').mockResolvedValue(orpResponse);
 
@@ -85,8 +113,21 @@ describe('SearchService', () => {
             },
           ],
         },
-        regulatoryMaterial: orpResponse,
+        regulatoryMaterial: { totalSearchResults: 5, documents: [] },
       });
+    });
+  });
+
+  describe('getLinkedDocuments', () => {
+    it('should search the orp and map response', async () => {
+      // casting as jest is confused by overloaded function
+      jest
+        .spyOn(orpDal, 'postSearch')
+        .mockResolvedValue(linkedDocsRawResponse as unknown as RawOrpResponse);
+
+      expect(
+        await service.getLinkedDocuments({ legislation_href: ['href'] }),
+      ).toEqual(expectedInternalOutputForLinkedDocs);
     });
   });
 });

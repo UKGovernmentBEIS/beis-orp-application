@@ -1,3 +1,5 @@
+import { OrpSearchItem } from './SearchResponse.dto';
+
 interface TnaSearchItemViewModel {
   title?: string;
   author?: string;
@@ -21,28 +23,6 @@ interface TnaLink {
 export interface TnaSearchResponseViewModel {
   totalSearchResults?: number;
   documents: TnaSearchItemViewModel[];
-}
-
-interface OrpSearchItem {
-  title: string;
-  summary: string;
-  documentId: string;
-  regulatorId?: string;
-  dates: {
-    uploaded: string;
-    published: string;
-  };
-  legislativeOrigins: LegislativeOrigin[];
-  regulatoryTopics?: string[];
-  version: number;
-  documentType?: string;
-}
-
-interface LegislativeOrigin {
-  url: string;
-  title: string;
-  type: string;
-  division: string;
 }
 
 interface OrpSearchResponse {

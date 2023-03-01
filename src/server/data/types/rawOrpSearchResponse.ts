@@ -25,3 +25,15 @@ export interface RawOrpResponse {
   total_search_results: number;
   documents: RawOrpResponseEntry[];
 }
+
+export interface RawLinkedDocumentsResponse {
+  status_description: 'OK';
+  status_code: number;
+  documents: {
+    related_docs: RelatedDoc[];
+    legislation_href: string;
+  }[];
+  total_search_results: number;
+}
+
+type RelatedDoc = Omit<RawOrpResponseEntry, 'legislative_origins' | 'status'>;

@@ -3,7 +3,7 @@ import { HttpModule } from '@nestjs/axios';
 import { rest } from 'msw';
 import { server } from '../../../test/mocks/server';
 import { OrpDal } from './orp.dal';
-import { expectedInternalOutputForOrpStandardResponse } from '../../../test/mocks/orpSearchMock';
+import { orpStandardResponse } from '../../../test/mocks/orpSearchMock';
 import {
   mockConfigService,
   mockedSearchLambda,
@@ -27,9 +27,9 @@ describe('Orp data access layer', () => {
     jest.clearAllMocks();
   });
 
-  it('should search the orp db and map object with top 10 entries', async () => {
+  it('should search the orp db and return raw response', async () => {
     expect(await orpDal.searchOrp({ title: 'a', keyword: 'b' })).toMatchObject(
-      expectedInternalOutputForOrpStandardResponse,
+      orpStandardResponse,
     );
   });
 
@@ -44,11 +44,6 @@ describe('Orp data access layer', () => {
         );
       }),
     );
-
-    expect(await orpDal.searchOrp({ title: 'a', keyword: 'b' })).toMatchObject({
-      totalSearchResults: 0,
-      documents: [],
-    });
   });
 
   describe('mapping', () => {

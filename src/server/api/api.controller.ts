@@ -3,6 +3,7 @@ import {
   Controller,
   FileTypeValidator,
   Get,
+  HttpCode,
   Param,
   ParseFilePipe,
   Post,
@@ -44,6 +45,8 @@ import { ApiSearchResponseDto } from './types/ApiSearchResponse.dto';
 import * as snakecaseKeys from 'snakecase-keys';
 import ApiTokensDto from './types/ApiTokensDto';
 import ApiRefreshTokensDto from './types/ApiRefreshTokensDto';
+import { LinkedDocumentsRequestDto } from './types/LinkedDocumentsRequest.dto';
+import { ApiLinkedDocumentsResponseDto } from './types/ApiLinkedDocumentsResponse.dto';
 
 @UsePipes(new ValidationPipe())
 @Controller('api')
@@ -132,5 +135,17 @@ export class ApiController {
     return snakecaseKeys(
       await this.apiAuthService.refreshApiUser(apiRefreshTokenRequestDto.token),
     );
+  }
+
+  @Post('linked-documents')
+  @ApiTags('search')
+  @HttpCode(200)
+  async getLinkedDocuments(
+    @Body() linkedDocumentsRequestDto: LinkedDocumentsRequestDto,
+  ): Promise<ApiLinkedDocumentsResponseDto> {
+    const result = await this.searchService.getLinkedDocuments(
+      linkedDocumentsRequestDto,
+    );
+    return snakecaseKeys(result) as unknown as ApiLinkedDocumentsResponseDto;
   }
 }
