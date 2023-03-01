@@ -14,3 +14,7 @@ export type OrpSearchBody = {
 export type OrpIdSearchBody = {
   id: string;
 };
+
+export type OrpLinkedDocsSearchBody = {
+  legislation_href: string[];
+};

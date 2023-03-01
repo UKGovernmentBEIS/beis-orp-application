@@ -29,7 +29,7 @@ export const getRawDocument = (
     ],
     regulatory_topics: ['topic1', 'topic2'],
     version: 1,
-    document_type: 'doc type',
+    document_type: 'GD',
     uri: 'doc.pdf',
     keyword: ['keyword1', 'keyword2'],
     status: 'published',
@@ -42,9 +42,9 @@ const getMappedDocument = (
 ): OrpSearchItem => {
   return {
     title: 'Title',
-    summary: 'This is the summary',
+    description: 'This is the summary',
     documentId: '0001',
-    regulatorId: 'ofcom',
+    creator: 'Office of Communications',
     dates: {
       uploaded: '2019-08-06T00:00:00Z',
       published: '2018-08-06T00:00:00Z',
@@ -59,8 +59,9 @@ const getMappedDocument = (
     ],
     regulatoryTopics: ['topic1', 'topic2'],
     version: 1,
-    documentType: 'doc type',
+    documentType: 'Guidance',
     keyword: ['keyword1', 'keyword2'],
+    status: 'published',
     ...overrides,
   };
 };

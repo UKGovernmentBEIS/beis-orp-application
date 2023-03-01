@@ -2,21 +2,19 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 
-import {
-  OrpSearchItem,
-  OrpSearchResponse,
-} from '../search/types/SearchResponse.dto';
-
 import { ApisConfig } from '../config';
 import { ConfigService } from '@nestjs/config';
 import {
+  RawLinkedDocumentsResponse,
   RawOrpResponse,
   RawOrpResponseEntry,
 } from './types/rawOrpSearchResponse';
-import { OrpIdSearchBody, OrpSearchBody } from './types/orpSearchRequests';
+import {
+  OrpIdSearchBody,
+  OrpLinkedDocsSearchBody,
+  OrpSearchBody,
+} from './types/orpSearchRequests';
 import { SearchRequestDto } from '../search/types/SearchRequest.dto';
-
-const MAX_ITEMS = 10;
 
 function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
   return value !== null && value !== undefined;
@@ -34,32 +32,15 @@ export class OrpDal {
     this.orpSearchUrl = config.get<ApisConfig>('apis').orpSearch.url;
   }
 
-  private mapResponse(response: RawOrpResponse): OrpSearchResponse {
-    return {
-      documents: response.documents
-        .slice(0, MAX_ITEMS)
-        .map<OrpSearchItem>((document) => ({
-          title: document.title,
-          summary: document.summary,
-          documentId: document.document_uid,
-          regulatorId: document.regulator_id,
-          dates: {
-            uploaded: document.date_uploaded,
-            published: document.date_published,
-          },
-          legislativeOrigins: document.legislative_origins,
-          regulatoryTopics: document.regulatory_topics,
-          version: document.version,
-          documentType: document.document_type,
-          keyword: document.keyword,
-        })),
-      totalSearchResults: response.total_search_results,
-    };
-  }
-
-  private async postSearch(
+  async postSearch(
+    params: OrpLinkedDocsSearchBody,
+  ): Promise<RawLinkedDocumentsResponse>;
+  async postSearch(
     params: OrpSearchBody | OrpIdSearchBody,
-  ): Promise<RawOrpResponse> {
+  ): Promise<RawOrpResponse>;
+  async postSearch(
+    params: OrpSearchBody | OrpIdSearchBody | OrpLinkedDocsSearchBody,
+  ): Promise<RawOrpResponse | RawLinkedDocumentsResponse> {
     try {
       const { data } = await firstValueFrom(
         this.httpService.post<RawOrpResponse>(this.orpSearchUrl, params),
@@ -91,18 +72,15 @@ export class OrpDal {
     };
   }
 
-  async searchOrp(searchRequest: SearchRequestDto): Promise<OrpSearchResponse> {
-    console.log(this.mapToOrpSearchBody(searchRequest));
-    const data = await this.postSearch(this.mapToOrpSearchBody(searchRequest));
-
-    return this.mapResponse(data);
+  async searchOrp(searchRequest: SearchRequestDto): Promise<RawOrpResponse> {
+    return this.postSearch(this.mapToOrpSearchBody(searchRequest));
   }
 
   async getById(id: string): Promise<RawOrpResponseEntry> {
     const data = await this.postSearch({ id });
 
     if (!data.documents.length)
-      throw new NotFoundException(`Document not found`);
+      throw new NotFoundException('Document not found');
 
     return data.documents[0];
   }

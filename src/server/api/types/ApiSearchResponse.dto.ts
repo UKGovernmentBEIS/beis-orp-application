@@ -25,18 +25,19 @@ export class TnaSearchResponse {
 
 export class ApiOrpSearchItem {
   title: string;
-  summary: string;
+  description: string;
   document_id: string;
-  regulator_id?: string;
+  regulator?: string;
   dates: {
     uploaded: string;
     published: string;
   };
-  legislative_origins: LegislativeOrigin[];
+  legislative_origins?: LegislativeOrigin[];
   regulatory_topics?: string[];
   version: number;
   document_type?: string;
   keyword: string[];
+  status?: 'published' | 'draft';
 }
 
 class LegislativeOrigin {
