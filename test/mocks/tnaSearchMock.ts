@@ -26,7 +26,7 @@ export const tnaStandardResponse = `
     <link rel="first" type="application/atom+xml" href="http://www.legislation.gov.uk/title/construction/data.feed"/><link rel="next" type="application/atom+xml" href="http://www.legislation.gov.uk/title/construction/data.feed?page=2"/>
     <entry>
     <id>http://www.legislation.gov.uk/id/eudn/2020/1574</id>
-    <title>Commission Implementing Decision (EU) 2020/1574 of 28 October 2020 amending Implementing Decision (EU) 2019/450 as regards the publication of references of European Assessment Documents for waterproofing kits, ETICs, joints for road bridges, timber building kits, fire retardant products and other construction products (Text with EEA relevance)</title>
+    <title>TNA Title 1</title>
     <link rel="self" href="http://www.legislation.gov.uk/id/eudn/2020/1574"/>
     <link href="http://www.legislation.gov.uk/eudn/2020/1574/2020-10-28"/>
     <link rel="alternate" type="application/xml" href="http://www.legislation.gov.uk/eudn/2020/1574/2020-10-28/data.xml" title="XML"/><link rel="alternate" type="application/rdf+xml" href="http://www.legislation.gov.uk/eudn/2020/1574/2020-10-28/data.rdf" title="RDF/XML"/><link rel="alternate" type="application/akn+xml" href="http://www.legislation.gov.uk/eudn/2020/1574/2020-10-28/data.akn" title="AKN"/><link rel="alternate" type="application/xhtml+xml" href="http://www.legislation.gov.uk/eudn/2020/1574/2020-10-28/data.xht" title="HTML snippet"/><link rel="alternate" type="application/akn+xhtml" href="http://www.legislation.gov.uk/eudn/2020/1574/2020-10-28/data.html" title="HTML5 snippet"/><link rel="alternate" type="text/html" href="http://www.legislation.gov.uk/eudn/2020/1574/2020-10-28/data.htm" title="Website (XHTML) Default View"/><link rel="alternate" type="application/pdf" href="http://www.legislation.gov.uk/eudn/2020/1574/2020-10-28/data.pdf" title="PDF"/>
@@ -38,7 +38,7 @@ export const tnaStandardResponse = `
 
 
 
-    <summary>Commission Implementing Decision (EU) 2020/1574 of 28 October 2020 amending Implementing Decision (EU) 2019/450 as regards the publication of references of European Assessment Documents for waterproofing kits, ETICs, joints for road bridges, timber building kits, fire retardant products and other construction products (Text with EEA relevance)</summary>
+    <summary>TNA Title 1</summary>
 </entry><entry>
     <id>http://www.legislation.gov.uk/id/eudn/2020/1531</id>
     <title>Decision (EU) 2020/1531 of the European Parliament and of the Council of 21 October 2020 empowering France to negotiate, sign and conclude an international agreement supplementing the Treaty between France and the United Kingdom of Great Britain and Northern Ireland concerning the Construction and Operation by Private Concessionaires of a Channel Fixed Link</title>
@@ -341,13 +341,12 @@ export const expectedInternalOutputForTnaStandardResponse: SearchResponseDto['le
   {
     documents: [
       {
-        title:
-          'Commission Implementing Decision (EU) 2020/1574 of 28 October 2020 amending Implementing Decision (EU) 2019/450 as regards the publication of references of European Assessment Documents for waterproofing kits, ETICs, joints for road bridges, timber building kits, fire retardant products and other construction products (Text with EEA relevance)',
+        title: 'TNA Title 1',
         dates: {
           updated: '2020-12-11T01:30:02Z',
           published: '2020-10-28T00:00:00Z',
         },
-        legislationType: 'EuropeanUnionDecision',
+        legislationType: 'European Union Legislation',
         links: [
           {
             href: 'http://www.legislation.gov.uk/id/eudn/2020/1574',
@@ -415,7 +414,7 @@ export const expectedInternalOutputForTnaStandardResponse: SearchResponseDto['le
           updated: '2020-12-12T14:51:44Z',
           published: '2020-10-21T00:00:00Z',
         },
-        legislationType: 'EuropeanUnionDecision',
+        legislationType: 'European Union Legislation',
         links: [
           {
             href: 'http://www.legislation.gov.uk/id/eudn/2020/1531',
@@ -483,7 +482,7 @@ export const expectedInternalOutputForTnaStandardResponse: SearchResponseDto['le
           updated: '2020-12-12T23:07:45Z',
           published: '2020-07-16T00:00:00Z',
         },
-        legislationType: 'EuropeanUnionRegulation',
+        legislationType: 'European Union Legislation',
         links: [
           {
             href: 'http://www.legislation.gov.uk/id/eur/2020/1170',
@@ -551,7 +550,7 @@ export const expectedInternalOutputForTnaStandardResponse: SearchResponseDto['le
           updated: '2020-12-11T19:20:35Z',
           published: '2020-07-02T00:00:00Z',
         },
-        legislationType: 'EuropeanUnionDecision',
+        legislationType: 'European Union Legislation',
         links: [
           {
             href: 'http://www.legislation.gov.uk/id/eudn/2020/962',
@@ -619,7 +618,7 @@ export const expectedInternalOutputForTnaStandardResponse: SearchResponseDto['le
           updated: '2020-12-11T20:35:27Z',
           published: '2020-01-21T00:00:00Z',
         },
-        legislationType: 'EuropeanUnionDecision',
+        legislationType: 'European Union Legislation',
         links: [
           {
             href: 'http://www.legislation.gov.uk/id/eudn/2020/50',
@@ -687,7 +686,7 @@ export const expectedInternalOutputForTnaStandardResponse: SearchResponseDto['le
           updated: '2020-12-12T23:12:15Z',
           published: '2019-08-06T00:00:00Z',
         },
-        legislationType: 'EuropeanUnionRegulation',
+        legislationType: 'European Union Legislation',
         links: [
           {
             href: 'http://www.legislation.gov.uk/id/eur/2019/1397',
@@ -755,7 +754,7 @@ export const expectedInternalOutputForTnaStandardResponse: SearchResponseDto['le
           updated: '2020-12-11T20:57:27Z',
           published: '2019-03-19T00:00:00Z',
         },
-        legislationType: 'EuropeanUnionDecision',
+        legislationType: 'European Union Legislation',
         links: [
           {
             href: 'http://www.legislation.gov.uk/id/eudn/2019/451',
@@ -823,7 +822,7 @@ export const expectedInternalOutputForTnaStandardResponse: SearchResponseDto['le
           updated: '2020-12-11T21:12:01Z',
           published: '2019-03-19T00:00:00Z',
         },
-        legislationType: 'EuropeanUnionDecision',
+        legislationType: 'European Union Legislation',
         links: [
           {
             href: 'http://www.legislation.gov.uk/id/eudn/2019/450',
@@ -891,7 +890,7 @@ export const expectedInternalOutputForTnaStandardResponse: SearchResponseDto['le
           updated: '2020-12-12T15:27:02Z',
           published: '2019-03-14T00:00:00Z',
         },
-        legislationType: 'EuropeanUnionDecision',
+        legislationType: 'European Union Legislation',
         links: [
           {
             href: 'http://www.legislation.gov.uk/id/eudn/2019/1764',
@@ -959,7 +958,7 @@ export const expectedInternalOutputForTnaStandardResponse: SearchResponseDto['le
           updated: '2020-12-12T23:21:11Z',
           published: '2018-05-15T00:00:00Z',
         },
-        legislationType: 'EuropeanUnionRegulation',
+        legislationType: 'European Union Legislation',
         links: [
           {
             href: 'http://www.legislation.gov.uk/id/eur/2018/773',

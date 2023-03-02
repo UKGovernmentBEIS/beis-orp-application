@@ -109,7 +109,7 @@ describe('SearchService', () => {
           documents: [
             {
               ...tnaResponse.documents[0],
-              href: 'http://www.legislation.gov.uk/eur/2019/1397/2020-08-31',
+              href: 'http://www.legislation.gov.uk/id/eur/2019/1397',
             },
           ],
         },

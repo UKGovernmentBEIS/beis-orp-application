@@ -5,24 +5,39 @@ import { AwsDal } from '../data/aws.dal';
 import { HttpModule } from '@nestjs/axios';
 import { mockConfigService } from '../../../test/mocks/config.mock';
 import { Logger } from '@nestjs/common';
-import { getRawDocument } from '../../../test/mocks/orpSearchMock';
+import { getRawOrpDocument } from '../../../test/mocks/orpSearchMock';
 import { getPdfBuffer } from '../../../test/mocks/uploadMocks';
 import { Readable } from 'stream';
+import { TnaDal } from '../data/tna.dal';
+import {
+  tnaEuDocumentMockJson,
+  tnaUkDocumentMockJson,
+} from '../../../test/mocks/tnaDocumentsMock';
+import { TnaEuDoc } from '../data/types/tnaDocs';
 
 describe('DocumentService', () => {
   let service: DocumentService;
   let orpDal: OrpDal;
   let awsDal: AwsDal;
+  let tnaDal: TnaDal;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [HttpModule],
-      providers: [DocumentService, OrpDal, AwsDal, mockConfigService, Logger],
+      providers: [
+        DocumentService,
+        OrpDal,
+        AwsDal,
+        mockConfigService,
+        Logger,
+        TnaDal,
+      ],
     }).compile();
 
     service = module.get<DocumentService>(DocumentService);
     orpDal = module.get<OrpDal>(OrpDal);
     awsDal = module.get<AwsDal>(AwsDal);
+    tnaDal = module.get<TnaDal>(TnaDal);
   });
 
   describe('getDocument', () => {
@@ -31,7 +46,7 @@ describe('DocumentService', () => {
 
       jest
         .spyOn(orpDal, 'getById')
-        .mockResolvedValue(getRawDocument({ uri: 'thefile.pdf' }));
+        .mockResolvedValue(getRawOrpDocument({ uri: 'thefile.pdf' }));
 
       const getObjSpy = jest
         .spyOn(awsDal, 'getObject')
@@ -48,7 +63,7 @@ describe('DocumentService', () => {
     it('should return the document search data and a presigned url', async () => {
       jest
         .spyOn(orpDal, 'getById')
-        .mockResolvedValue(getRawDocument({ uri: 'thefile.pdf' }));
+        .mockResolvedValue(getRawOrpDocument({ uri: 'thefile.pdf' }));
 
       const getUrlSpy = jest
         .spyOn(awsDal, 'getObjectUrl')
@@ -140,6 +155,38 @@ describe('DocumentService', () => {
 
       expect(updateSpy).toBeCalledWith('key', { status: 'published' });
       expect(result).toEqual({ updated: 'key' });
+    });
+  });
+
+  describe('getTnaDocument', () => {
+    it('should request and map when EU document', async () => {
+      jest
+        .spyOn(tnaDal, 'getDocumentById')
+        .mockResolvedValueOnce(tnaEuDocumentMockJson);
+
+      const result = await service.getTnaDocument('href');
+
+      expect(result).toEqual({
+        docType: 'European Union Legislation',
+        number: '18',
+        title: 'EU Doc Title',
+        year: '2003',
+      });
+    });
+
+    it('should request and map when UK document', async () => {
+      // done to avoid confusing jest mocking
+      const resp = tnaUkDocumentMockJson as unknown as TnaEuDoc;
+      jest.spyOn(tnaDal, 'getDocumentById').mockResolvedValueOnce(resp);
+
+      const result = await service.getTnaDocument('href');
+
+      expect(result).toEqual({
+        docType: 'Secondary',
+        number: '632',
+        title: 'UK Doc Title',
+        year: '2012',
+      });
     });
   });
 });

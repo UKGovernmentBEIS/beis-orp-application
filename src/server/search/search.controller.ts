@@ -3,6 +3,7 @@ import {
   Get,
   Query,
   Render,
+  Req,
   UseFilters,
   UseInterceptors,
   UsePipes,
@@ -28,14 +29,13 @@ export class SearchController {
   @Get('')
   @UsePipes(DateTransformPipe)
   @Render('pages/search')
-  async search(
-    @Query()
-    searchRequestDto?: SearchRequestDto,
-  ) {
+  async search(@Req() request, @Query() searchRequestDto?: SearchRequestDto) {
     const results =
       searchRequestDto.title || searchRequestDto.keyword
         ? await this.searchService.searchForView(searchRequestDto)
         : null;
+
+    request.session.latestSearch = request.url;
 
     return {
       searchedValues: searchRequestDto,

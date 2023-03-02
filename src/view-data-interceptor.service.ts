@@ -32,6 +32,7 @@ export class ViewDataInterceptor<T> implements NestInterceptor<T, Response<T>> {
     const values = request.session.values;
     request.session.errors = undefined;
     request.session.values = undefined;
+    const latestSearch = request.session.latestSearch ?? '/search';
 
     return next.handle().pipe(
       map((data) => ({
@@ -40,6 +41,7 @@ export class ViewDataInterceptor<T> implements NestInterceptor<T, Response<T>> {
         errors,
         values,
         menuItem: getMenuItem(request.url),
+        latestSearch,
       })),
     );
   }

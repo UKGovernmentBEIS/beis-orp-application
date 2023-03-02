@@ -4,6 +4,10 @@ import { HttpModule } from '@nestjs/axios';
 import { expectedInternalOutputForTnaStandardResponse } from '../../../test/mocks/tnaSearchMock';
 import { rest } from 'msw';
 import { server } from '../../../test/mocks/server';
+import {
+  tnaUkDocumentMock,
+  tnaUkDocumentMockJson,
+} from '../../../test/mocks/tnaDocumentsMock';
 
 describe('TNA data access layer', () => {
   let tnaDal: TnaDal;
@@ -58,7 +62,7 @@ describe('TNA data access layer', () => {
               <author><name>NAME</name></author>
               <updated>2022-01-24T12:54:49Z</updated>
               <published>2015-07-01T00:00:00Z</published>
-              <ukm:DocumentMainType Value="LEGISLATION_TYPE"/>
+              <ukm:DocumentMainType Value="UnitedKingdomStatutoryInstrument"/>
               <ukm:Year Value="2016"/>
               <ukm:Number Value="364"/>
               <ukm:CreationDate Date="2015-07-01"/>
@@ -72,7 +76,7 @@ describe('TNA data access layer', () => {
               <author><name>NAME</name></author>
               <updated>2022-01-24T12:54:49Z</updated>
               <published>2015-07-01T00:00:00Z</published>
-              <ukm:DocumentMainType Value="LEGISLATION_TYPE"/>
+              <ukm:DocumentMainType Value="UnitedKingdomStatutoryInstrument"/>
               <ukm:Year Value="2016"/>
               <ukm:Number Value="364"/>
               <ukm:CreationDate Date="2015-07-01"/>
@@ -89,7 +93,7 @@ describe('TNA data access layer', () => {
       documents: [
         {
           title: 'TITLE',
-          legislationType: 'LEGISLATION_TYPE',
+          legislationType: 'Secondary',
           dates: {
             published: '2015-07-01T00:00:00Z',
             updated: '2022-01-24T12:54:49Z',
@@ -114,7 +118,7 @@ describe('TNA data access layer', () => {
         },
         {
           title: 'TITLE2',
-          legislationType: 'LEGISLATION_TYPE',
+          legislationType: 'Secondary',
           dates: {
             published: '2015-07-01T00:00:00Z',
             updated: '2022-01-24T12:54:49Z',
@@ -155,7 +159,7 @@ describe('TNA data access layer', () => {
               <author><name>NAME</name></author>
               <updated>2022-01-24T12:54:49Z</updated>
               <published>2015-07-01T00:00:00Z</published>
-              <ukm:DocumentMainType Value="LEGISLATION_TYPE"/>
+              <ukm:DocumentMainType Value="EnglandPrivateOrPersonalAct"/>
               <ukm:Year Value="2016"/>
               <ukm:Number Value="364"/>
               <ukm:CreationDate Date="2015-07-01"/>
@@ -172,7 +176,7 @@ describe('TNA data access layer', () => {
       documents: [
         {
           title: 'TITLE',
-          legislationType: 'LEGISLATION_TYPE',
+          legislationType: 'Primary',
           dates: {
             published: '2015-07-01T00:00:00Z',
             updated: '2022-01-24T12:54:49Z',
@@ -206,7 +210,7 @@ describe('TNA data access layer', () => {
               <author><name>NAME</name></author>
               <updated>2022-01-24T12:54:49Z</updated>
               <published>2015-07-01T00:00:00Z</published>
-              <ukm:DocumentMainType Value="LEGISLATION_TYPE"/>
+              <ukm:DocumentMainType Value="EnglandPrivateOrPersonalAct"/>
               <ukm:Year Value="2016"/>
               <ukm:Number Value="364"/>
               <ukm:CreationDate Date="2015-07-01"/>
@@ -223,7 +227,7 @@ describe('TNA data access layer', () => {
       documents: [
         {
           title: 'TITLE',
-          legislationType: 'LEGISLATION_TYPE',
+          legislationType: 'Primary',
           dates: {
             published: '2015-07-01T00:00:00Z',
             updated: '2022-01-24T12:54:49Z',
@@ -269,6 +273,20 @@ describe('TNA data access layer', () => {
           year: undefined,
         },
       ],
+    });
+  });
+
+  describe('getDocumentById', () => {
+    it('requests xml data and converts to JS', async () => {
+      server.use(
+        rest.get('https://www.tna-id.com/data.xml', (req, res, ctx) => {
+          return res(ctx.xml(tnaUkDocumentMock));
+        }),
+      );
+
+      const result = await tnaDal.getDocumentById('https://www.tna-id.com');
+
+      expect(result).toEqual(tnaUkDocumentMockJson);
     });
   });
 });

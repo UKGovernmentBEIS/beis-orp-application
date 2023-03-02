@@ -9,6 +9,7 @@ import { OrpDal } from '../data/orp.dal';
 import { HttpModule } from '@nestjs/axios';
 import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/prismaService.mock';
 import { documentTypes } from '../search/types/documentTypes';
+import { TnaDal } from '../data/tna.dal';
 
 describe('IngestController', () => {
   let controller: IngestController;
@@ -17,7 +18,14 @@ describe('IngestController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [IngestController],
-      providers: [DocumentService, AwsDal, OrpDal, mockConfigService, Logger],
+      providers: [
+        DocumentService,
+        AwsDal,
+        OrpDal,
+        mockConfigService,
+        Logger,
+        TnaDal,
+      ],
       imports: [HttpModule],
     }).compile();
 

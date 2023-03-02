@@ -1,0 +1,57 @@
+<%- include('../../partials/header'); %>
+
+<div class="govuk-width-container">
+    <a href="<%=locals.latestSearch%>#tna" class="govuk-back-link">Back</a>
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <% if(documentData.docType) { %>
+                    <span class="govuk-caption-l govuk-!-padding-bottom-3"><%= documentData.docType %></span>
+                <% } %>
+                <h1 class="govuk-heading-l"><%= documentData.title %></h1>
+
+                <% if (linkedDocuments.length) { %>
+                    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+                    <h2 class="govuk-heading-m">Documents linked to this legislation</h2>
+
+                    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+                    <% linkedDocuments.forEach((doc) => { %>
+                        <div>
+                            <a href="/document/view/<%= doc.documentId %>">
+                                <h3><%= doc.title %></h3>
+                            </a>
+                            <p class="search-result-info govuk-!-font-size-16">
+                                <% if (doc.creator) { %><span><%= doc.creator %></span><% } %>
+                                <span><%= doc.documentType %></span>
+                                <span> <%- include('../../partials/components/dateDisplay', { dateString: doc.dates.published }); %></span>
+                            </p>
+                        </div>
+                        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+                    <% }); %>
+                <% } %>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <a href="<%= href %>" target="_blank" rel="noopener noreferrer" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                    <div class="vertical-align">
+                        <img src="/assets/images/external-open.svg" aria-hidden="true" class="govuk-!-padding-right-1"/>
+                        <span>View on National Archives</span>
+                    </div>
+                </a>
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+                <div>
+                    <h3 class="govuk-heading-s">Details</h3>
+                    <dl class="govuk-body heading-field-list govuk-!-font-size-16">
+                        <dt class="govuk-summary-list__key">Published date</dt>
+                        <dd> - </dd>
+                        <dt class="govuk-summary-list__key">Number</dt>
+                        <dd><%= documentData.year %> No. <%= documentData.number %></dd>
+                        <dt class="govuk-summary-list__key">Status</dt>
+                        <dd> - </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<%- include('../../partials/footer'); %>

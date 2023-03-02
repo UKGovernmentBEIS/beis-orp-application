@@ -30,7 +30,7 @@ describe('api/search (GET)', () => {
         });
     });
 
-    it('displays search results with link to document page for each orp doc', () => {
+    it('displays search results with link to document page for each doc', () => {
       return fixture
         .request()
         .get('/search')
@@ -46,7 +46,16 @@ describe('api/search (GET)', () => {
           );
           expect($('.orp-search-result').length).toEqual(10);
           expect($('.tna-search-result').length).toEqual(10);
-          expect($("a[href='/document/0']").text().trim()).toEqual('Title1');
+          expect($("a[href='/document/view/0']").text().trim()).toEqual(
+            'Title1',
+          );
+          expect(
+            $(
+              "a[href='/document/linked-documents?id=http://www.legislation.gov.uk/id/eudn/2020/1574']",
+            )
+              .text()
+              .trim(),
+          ).toEqual('TNA Title 1');
         });
     });
   });

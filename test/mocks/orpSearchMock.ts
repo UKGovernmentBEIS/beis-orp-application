@@ -9,8 +9,8 @@ import {
   SearchResponseDto,
 } from '../../src/server/search/types/SearchResponse.dto';
 
-export const getRawDocument = (
-  overrides: Partial<RawOrpResponseEntry>,
+export const getRawOrpDocument = (
+  overrides: Partial<RawOrpResponseEntry> = {},
 ): RawOrpResponseEntry => {
   return {
     title: 'Title',
@@ -37,8 +37,8 @@ export const getRawDocument = (
   };
 };
 
-const getMappedDocument = (
-  overrides: Partial<OrpSearchItem>,
+export const getMappedOrpDocument = (
+  overrides: Partial<OrpSearchItem> = {},
 ): OrpSearchItem => {
   return {
     title: 'Title',
@@ -82,14 +82,14 @@ const docTitles = [
 export const orpStandardResponse: RawOrpResponse = {
   total_search_results: 13,
   documents: docTitles.map((title, index) =>
-    getRawDocument({ title, document_uid: String(index) }),
+    getRawOrpDocument({ title, document_uid: String(index) }),
   ),
 };
 
 export const expectedApiOutputForOrpStandardResponse: ApiSearchResponseDto['regulatory_material'] =
   snakecaseKeys({
     documents: docTitles.map((title, index) =>
-      getMappedDocument({ title, documentId: String(index) }),
+      getMappedOrpDocument({ title, documentId: String(index) }),
     ),
     total_search_results: 13,
   }) as unknown as ApiSearchResponseDto['regulatory_material'];
@@ -97,7 +97,7 @@ export const expectedApiOutputForOrpStandardResponse: ApiSearchResponseDto['regu
 export const expectedInternalOutputForOrpStandardResponse: SearchResponseDto['regulatoryMaterial'] =
   {
     documents: docTitles.map((title, index) =>
-      getMappedDocument({ title, documentId: String(index) }),
+      getMappedOrpDocument({ title, documentId: String(index) }),
     ),
     totalSearchResults: 13,
   };

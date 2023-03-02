@@ -10,6 +10,7 @@ import { RegulatorService } from '../regulator/regulator.service';
 import { Regulator } from '@prisma/client';
 import { documentTypes } from './types/documentTypes';
 import { documentStatus } from './types/statusTypes';
+import * as mocks from 'node-mocks-http';
 
 const MOCK_REGULATORS: Regulator[] = [
   { id: 'id', name: 'reg', domain: 'reg@reg.com' },
@@ -20,6 +21,10 @@ const FILTERS = {
   docTypes: documentTypes,
   statuses: documentStatus,
 };
+
+const req = mocks.createRequest({
+  session: {},
+});
 describe('SearchController', () => {
   let controller: SearchController;
   let searchService: SearchService;
@@ -53,8 +58,9 @@ describe('SearchController', () => {
         legislation: { totalSearchResults: 10, documents: [] },
         regulatoryMaterial: { totalSearchResults: 10, documents: [] },
       };
+
       jest.spyOn(searchService, 'search').mockResolvedValue(expectedResult);
-      const result = await controller.search({ title: 'Title' });
+      const result = await controller.search(req, { title: 'Title' });
       expect(result).toEqual({
         searchedValues: { title: 'Title', keyword: undefined },
         filters: FILTERS,
@@ -68,7 +74,7 @@ describe('SearchController', () => {
         regulatoryMaterial: { totalSearchResults: 10, documents: [] },
       };
       jest.spyOn(searchService, 'search').mockResolvedValue(expectedResult);
-      const result = await controller.search({ keyword: 'Keyword' });
+      const result = await controller.search(req, { keyword: 'Keyword' });
       expect(result).toEqual({
         searchedValues: { title: undefined, keyword: 'Keyword' },
         filters: FILTERS,
@@ -82,7 +88,7 @@ describe('SearchController', () => {
         regulatoryMaterial: { totalSearchResults: 10, documents: [] },
       };
       jest.spyOn(searchService, 'search').mockResolvedValue(expectedResult);
-      const result = await controller.search({
+      const result = await controller.search(req, {
         keyword: 'Keyword',
         title: 'Title',
       });
@@ -99,7 +105,7 @@ describe('SearchController', () => {
         regulatoryMaterial: { totalSearchResults: 10, documents: [] },
       };
       jest.spyOn(searchService, 'search').mockResolvedValue(expectedResult);
-      const result = await controller.search({});
+      const result = await controller.search(req, {});
       expect(result).toEqual({
         searchedValues: { title: undefined, keyword: undefined },
         filters: FILTERS,
