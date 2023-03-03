@@ -58,6 +58,20 @@
                         <% }) %>
                     </ul>
                 </div>
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+                <div>
+                    <h3 class="govuk-heading-s">Linked to Legislation</h3>
+                    <% if(document.legislative_origins.length) { %>
+                        <% document.legislative_origins.forEach(function(lo) { %>
+                        <div class="govuk-!-margin-bottom-4">
+                            <a href="<%= lo.url %>" target="_blank" rel="noopener noreferrer" class="govuk-link govuk-link--no-visited-state" ><%= lo.title %></a>
+                        </div>
+
+                        <% }); %>
+                    <% } else { %>
+                        <p>There are no linked legislative documents</p>
+                    <% } %>
+                </div>
             </div>
         </div>
     </main>
