@@ -1,5 +1,10 @@
 exports.regulators = [
   {
+    id: 'zoonou',
+    name: 'Zoonou',
+    domain: 'zoonou.com',
+  },
+  {
     id: 'public',
     name: 'Public',
     domain: 'public.io',
