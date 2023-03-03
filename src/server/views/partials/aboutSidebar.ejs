@@ -1,14 +1,11 @@
 <div class="govuk-grid-column-one-third">
-    <div class="side-bar-item">
-        <h3 class="govuk-heading-s">About the Open Regulation Platform</h3>
-        <p>Brief description of the ORP service. Four to five lines.</p>
-        <a href="/about" class="govuk-link">Find out more</a>.
-    </div>
-<!--    <div class="side-bar-item">-->
-<!--        <h3 class="govuk-heading-s">Register your interest</h3>-->
-<!--        <p>Register your interest to test and use the Open Regulation Platform beta.</p>-->
-<!--        <a href="/subscribe" class="govuk-link">Find out more</a>.-->
-<!--    </div>-->
+    <% if(!locals.excludeAbout) { %>
+        <div class="side-bar-item">
+            <h3 class="govuk-heading-s">About the Open Regulation Platform</h3>
+            <p>he Open Regulation Platform (ORP) is a product which seeks to provide UK regulation as enriched machine-readable data, allowing government, businesses and third parties to develop tools that can help others navigate and comply with regulation in smarter and less burdensome ways. It is currently in its private Beta phase.</p>
+            <a href="/about" class="govuk-link">Find out more</a>.
+        </div>
+    <% } %>
     <div class="side-bar-item">
         <h3 class="govuk-heading-s">Contact us</h3>
         <p>If you have questions about the Open Regulation Platform, or would like to support or use the service, please contact us.</p>
