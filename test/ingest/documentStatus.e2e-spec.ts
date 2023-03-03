@@ -71,7 +71,7 @@ describe('Ingest document status', () => {
           .get('/ingest/document-status?key=unconfirmeddoc')
           .set('Cookie', nonRegulatorSession)
           .expect(302)
-          .expect('Location', '/auth/logout');
+          .expect('Location', 'unauthorised/ingest');
       });
 
       it('redirects unauthenticated users', () => {
@@ -79,7 +79,7 @@ describe('Ingest document status', () => {
           .request()
           .get('/ingest/document-status?key=unconfirmeddoc')
           .expect(302)
-          .expect('Location', '/auth/logout');
+          .expect('Location', 'unauthorised/ingest');
       });
     });
   });
@@ -109,7 +109,7 @@ describe('Ingest document status', () => {
           .set('Cookie', nonRegulatorSession)
           .send({ key: 'unconfirmed/key', status: 'published' })
           .expect(302)
-          .expect('Location', '/auth/logout');
+          .expect('Location', 'unauthorised/ingest');
       });
 
       it('redirects unauthenticated users', () => {
@@ -118,7 +118,7 @@ describe('Ingest document status', () => {
           .post('/ingest/document-status')
           .send({ key: 'unconfirmed/key', status: 'published' })
           .expect(302)
-          .expect('Location', '/auth/logout');
+          .expect('Location', 'unauthorised/ingest');
       });
     });
   });

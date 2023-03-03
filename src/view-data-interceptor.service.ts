@@ -11,6 +11,15 @@ export interface Response<T> {
   data: T;
 }
 
+type MenuItem = 'search' | 'upload' | 'dev' | 'blog';
+const getMenuItem = (url: string): MenuItem | null => {
+  if (url === '' || url.includes('blog')) return 'blog';
+  if (url.includes('search') || url.includes('document')) return 'search';
+  if (url.includes('ingest') || url.includes('document')) return 'upload';
+  if (url.includes('developer')) return 'dev';
+  return null;
+};
+
 // adds the user object and flash errors to response for views to display
 @Injectable()
 export class ViewDataInterceptor<T> implements NestInterceptor<T, Response<T>> {
@@ -30,6 +39,7 @@ export class ViewDataInterceptor<T> implements NestInterceptor<T, Response<T>> {
         user: request.user,
         errors,
         values,
+        menuItem: getMenuItem(request.url),
       })),
     );
   }
