@@ -73,7 +73,7 @@ describe('Ingest submit', () => {
           .get('/ingest/submit?key=unconfirmeddoc')
           .set('Cookie', nonRegulatorSession)
           .expect(302)
-          .expect('Location', '/auth/logout');
+          .expect('Location', 'unauthorised/ingest');
       });
 
       it('redirects unauthenticated users', () => {
@@ -81,7 +81,7 @@ describe('Ingest submit', () => {
           .request()
           .get('/ingest/submit?key=unconfirmeddoc')
           .expect(302)
-          .expect('Location', '/auth/logout');
+          .expect('Location', 'unauthorised/ingest');
       });
     });
   });
@@ -111,7 +111,7 @@ describe('Ingest submit', () => {
           .set('Cookie', nonRegulatorSession)
           .send({ key: 'unconfirmed/key' })
           .expect(302)
-          .expect('Location', '/auth/logout');
+          .expect('Location', 'unauthorised/ingest');
       });
 
       it('redirects unauthenticated users', () => {
@@ -120,7 +120,7 @@ describe('Ingest submit', () => {
           .post('/ingest/submit')
           .send({ key: 'unconfirmed/key' })
           .expect(302)
-          .expect('Location', '/auth/logout');
+          .expect('Location', 'unauthorised/ingest');
       });
     });
   });

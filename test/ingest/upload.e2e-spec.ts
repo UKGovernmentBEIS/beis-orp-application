@@ -55,7 +55,7 @@ describe('Ingest upload', () => {
           .get('/ingest/upload')
           .set('Cookie', nonRegulatorSession)
           .expect(302)
-          .expect('Location', '/auth/logout');
+          .expect('Location', 'unauthorised/ingest');
       });
 
       it('redirects unauthenticated users', () => {
@@ -63,7 +63,7 @@ describe('Ingest upload', () => {
           .request()
           .get('/ingest/upload')
           .expect(302)
-          .expect('Location', '/auth/logout');
+          .expect('Location', 'unauthorised/ingest');
       });
     });
   });
@@ -130,7 +130,7 @@ describe('Ingest upload', () => {
           .attach('file', file, 'testfile.pdf')
           .set('Cookie', nonRegulatorSession)
           .expect(302)
-          .expect('Location', '/auth/logout');
+          .expect('Location', 'unauthorised/ingest');
       });
 
       it('redirects unauthenticated users', async () => {
@@ -142,7 +142,7 @@ describe('Ingest upload', () => {
           .post('/ingest/upload')
           .attach('file', file, 'testfile.pdf')
           .expect(302)
-          .expect('Location', '/auth/logout');
+          .expect('Location', 'unauthorised/ingest');
       });
     });
   });

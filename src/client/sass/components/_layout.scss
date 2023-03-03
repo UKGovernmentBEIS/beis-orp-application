@@ -11,7 +11,7 @@
 
 .primary-navigation__container {
   max-width: 1220px;
-  margin: 0 15px;
+  margin: 0;
   font-size: 0;
   text-align: justify;
 }
@@ -32,11 +32,10 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
-  font-size: 16px;
   font-size: 1rem;
   line-height: 1.25;
   display: inline-block;
-  margin-right: 20px;
+  margin-right: 15px;
   margin-top: 0;
 }
 
@@ -56,10 +55,14 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: block;
-  padding-bottom: 15px;
-  padding-top: 15px;
+  padding: 15px 10px;
   text-decoration: none;
   font-weight: bold;
+
+  &.primary-navigation__link--current {
+    border-bottom: 4px solid #1d70b8;
+    padding-bottom: 11px;
+  }
 }
 
 .header-title-container {

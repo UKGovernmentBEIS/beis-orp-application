@@ -2,6 +2,7 @@ import {
   ArgumentsHost,
   Catch,
   ExceptionFilter,
+  ForbiddenException,
   HttpException,
   HttpStatus,
   Logger,
@@ -42,6 +43,18 @@ export class ErrorFilter<T extends Error> implements ExceptionFilter {
       return response
         .status(HttpStatus.BAD_REQUEST)
         .redirect(request.originalUrl);
+    }
+
+    if (exception instanceof ForbiddenException) {
+      const redirectUrl = request.originalUrl.includes('ingest')
+        ? 'unauthorised/ingest'
+        : request.originalUrl.includes('developer')
+        ? 'unauthorised/developer'
+        : null;
+
+      if (redirectUrl) {
+        return response.redirect(redirectUrl);
+      }
     }
 
     const status =

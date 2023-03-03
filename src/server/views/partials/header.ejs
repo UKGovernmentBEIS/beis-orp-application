@@ -68,20 +68,21 @@
                 <nav class="primary-navigation" aria-label="Primary navigation">
                     <ul class="primary-navigation__list">
                         <li class="primary-navigation__item">
-                            <a class="primary-navigation__link" aria-current="page" href="/search">Search</a>
+                            <a class="primary-navigation__link <% if (locals.menuItem === 'search') { %>primary-navigation__link--current" aria-current="page<% } %>" aria-current="page" href="/search">
+                                Search
+                            </a>
                         </li>
-                        <% if (locals?.user?.regulator) { %>
-                            <li class="primary-navigation__item">
-                                <a class="primary-navigation__link" href="/ingest">Upload</a>
-                            </li>
-                        <% }%>
-                        <% if (locals?.user) { %>
-                            <li class="primary-navigation__item">
-                                <a class="primary-navigation__link" href="/developer">Developer Portal</a>
-                            </li>
-                        <% }%>
+
                         <li class="primary-navigation__item">
-                            <a class="primary-navigation__link" href="/blog">Blog</a>
+                            <a class="primary-navigation__link <% if (locals.menuItem === 'upload') { %>primary-navigation__link--current" aria-current="page<% } %>" href="/ingest">Upload</a>
+                        </li>
+
+                        <li class="primary-navigation__item">
+                            <a class="primary-navigation__link <% if (locals.menuItem === 'dev') { %>primary-navigation__link--current" aria-current="page<% } %>" href="/developer">Developer Portal</a>
+                        </li>
+
+                        <li class="primary-navigation__item">
+                            <a class="primary-navigation__link <% if (locals.menuItem === 'blog') { %>primary-navigation__link--current" aria-current="page<% } %>" href="/blog">Blog</a>
                         </li>
                     </ul>
                 </nav>
