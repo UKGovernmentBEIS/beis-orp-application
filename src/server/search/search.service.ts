@@ -44,8 +44,10 @@ export class SearchService {
       ...tnaItem,
       documents: tnaItem.documents.map((document) => ({
         ...document,
-        href: (document.links.find((link) => !link.rel) ?? document.links[0])
-          .href,
+        href: (
+          document.links.find((link) => link.rel === 'self') ??
+          document.links[0]
+        ).href,
       })),
     };
   }

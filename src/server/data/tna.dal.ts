@@ -10,6 +10,8 @@ import {
   RawTnaResponse,
 } from './types/rawTnaSearchResponse';
 import { SearchRequestDto } from '../search/types/SearchRequest.dto';
+import { TnaEuDoc, TnaUkDoc } from './types/tnaDocs';
+import { getTnaDocType } from '../document/utils/tnaDocumentType.config';
 
 export const TNA_URL = 'https://www.legislation.gov.uk/all/data.feed';
 const MAX_ITEMS = 10;
@@ -48,7 +50,9 @@ export class TnaDal {
             updated: entry.updated?._text,
             published: entry.published?._text,
           },
-          legislationType: entry['ukm:DocumentMainType']?._attributes?.Value,
+          legislationType: getTnaDocType(
+            entry['ukm:DocumentMainType']?._attributes?.Value,
+          ).legType,
           links: [entry.link]
             .flat()
             .filter((item) => item)
@@ -76,5 +80,12 @@ export class TnaDal {
     );
 
     return this.mapResponse(convert.xml2json(data, { compact: true }));
+  }
+
+  async getDocumentById(href): Promise<TnaUkDoc | TnaEuDoc> {
+    const { data } = await firstValueFrom(
+      this.httpService.get(`${href}/data.xml`),
+    );
+    return JSON.parse(convert.xml2json(data, { compact: true }));
   }
 }

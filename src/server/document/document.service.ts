@@ -6,6 +6,10 @@ import { FileUpload } from '../data/types/FileUpload';
 import { Readable } from 'stream';
 import { RawOrpResponseEntry } from '../data/types/rawOrpSearchResponse';
 import { MetaItem, ObjectMetaData } from '../data/types/ObjectMetaData';
+import { TnaDal } from '../data/tna.dal';
+import { isEuDocument } from '../data/types/tnaDocs';
+import TnaDocMeta from './types/TnaDocMeta';
+import { getMetaFromEuDoc, getMetaFromUkDoc } from './utils/tnaMeta';
 
 @Injectable()
 export class DocumentService {
@@ -13,6 +17,7 @@ export class DocumentService {
     private readonly orpDal: OrpDal,
     private readonly awsDal: AwsDal,
     private readonly logger: Logger,
+    private readonly tnaDal: TnaDal,
   ) {}
 
   async upload(
@@ -62,5 +67,12 @@ export class DocumentService {
 
   async updateMeta(key: string, meta: Partial<Record<MetaItem, string>>) {
     return this.awsDal.updateMetaData(key, meta);
+  }
+
+  async getTnaDocument(href: string): Promise<TnaDocMeta> {
+    const document = await this.tnaDal.getDocumentById(href);
+    return isEuDocument(document)
+      ? getMetaFromEuDoc(document)
+      : getMetaFromUkDoc(document);
   }
 }
