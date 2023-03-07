@@ -4,6 +4,7 @@
         title = locals.document.title ?? "Title"
         uid = locals.document.document_uid ?? ""
         key = locals.document.object_key ?? ""
+        summary = locals.document.summary ?? ""
     %>
 <div class="govuk-width-container">
     <a href="<%=locals.latestSearch%>" class="govuk-back-link">Back</a>
@@ -12,6 +13,7 @@
             <div class="govuk-grid-column-two-thirds">
                 <span class="govuk-caption-l"><%= locals.docType %></span>
                 <h1 class="govuk-heading-l"><%= title %></h1>
+                <p><%= summary %></p>
 
                 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
