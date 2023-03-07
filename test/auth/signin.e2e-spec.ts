@@ -8,10 +8,6 @@ describe('AuthController (e2e)', () => {
     await fixture.init();
   });
 
-  afterAll(() => {
-    fixture.tearDown();
-  });
-
   describe('auth/login (GET)', () => {
     it('displays login form', () => {
       return fixture

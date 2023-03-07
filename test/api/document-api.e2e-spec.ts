@@ -21,10 +21,6 @@ describe('api/document/:id (GET)', () => {
     await fixture.init();
   });
 
-  afterAll(() => {
-    fixture.tearDown();
-  });
-
   beforeEach(async () => {
     jest.clearAllMocks();
     mockS3.send.mockResolvedValueOnce({ Body: getPdfBuffer() });

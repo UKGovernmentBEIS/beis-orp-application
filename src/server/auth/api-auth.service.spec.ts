@@ -4,11 +4,10 @@ import { ApiAuthService } from './api-auth.service';
 import {
   DEFAULT_USER,
   DEFAULT_USER_WITH_REGULATOR,
-} from '../../../test/mocks/prismaService.mock';
+} from '../../../test/mocks/user.mock';
 import { AuthService } from './auth.service';
 import { mockLogger } from '../../../test/mocks/logger.mock';
 import { mockConfigService } from '../../../test/mocks/config.mock';
-import { PrismaService } from '../prisma/prisma.service';
 import { DEFAULT_API_CREDENTIAL } from '../../../test/mocks/cognitoApiCred.mock';
 import { mockTokens } from '../../../test/mocks/tokens.mock';
 
@@ -62,7 +61,6 @@ describe('ApiAuthService', () => {
         ApiAuthService,
         AuthService,
         mockConfigService,
-        PrismaService,
         mockLogger,
         RegulatorService,
       ],

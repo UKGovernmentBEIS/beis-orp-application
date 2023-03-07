@@ -7,10 +7,10 @@ import { HttpModule } from '@nestjs/axios';
 import { mockConfigService } from '../../../test/mocks/config.mock';
 import { mockLogger } from '../../../test/mocks/logger.mock';
 import { RegulatorService } from '../regulator/regulator.service';
-import { Regulator } from '@prisma/client';
 import { documentTypes } from './types/documentTypes';
 import { documentStatus } from './types/statusTypes';
 import * as mocks from 'node-mocks-http';
+import { Regulator } from '../regulator/types/Regulator';
 
 const MOCK_REGULATORS: Regulator[] = [
   { id: 'id', name: 'reg', domain: 'reg@reg.com' },

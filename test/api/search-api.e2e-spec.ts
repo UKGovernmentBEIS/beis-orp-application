@@ -13,10 +13,6 @@ describe('api/search (GET)', () => {
     await fixture.init();
   });
 
-  afterAll(() => {
-    fixture.tearDown();
-  });
-
   describe('validation', () => {
     it('returns bad request if both title and keyword is empty', async () => {
       return fixture.request().get('/api/search').send({}).expect(400);

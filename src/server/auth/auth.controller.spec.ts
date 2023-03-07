@@ -3,10 +3,9 @@ import { AuthController } from './auth.controller';
 import * as mocks from 'node-mocks-http';
 import { mockConfigService } from '../../../test/mocks/config.mock';
 import { mockAuthService } from '../../../test/mocks/authService.mock';
-import { PrismaService } from '../prisma/prisma.service';
 import { mockLogger } from '../../../test/mocks/logger.mock';
 import { AuthService } from './auth.service';
-import { DEFAULT_USER } from '../../../test/mocks/prismaService.mock';
+import { DEFAULT_USER } from '../../../test/mocks/user.mock';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -15,12 +14,7 @@ describe('AuthController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
-      providers: [
-        mockAuthService,
-        mockConfigService,
-        PrismaService,
-        mockLogger,
-      ],
+      providers: [mockAuthService, mockConfigService, mockLogger],
     }).compile();
 
     controller = module.get<AuthController>(AuthController);

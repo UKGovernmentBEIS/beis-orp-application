@@ -35,10 +35,6 @@ describe('Ingest confirm', () => {
     nonRegulatorSession = await getNonRegulatorSession(fixture);
   });
 
-  afterAll(() => {
-    fixture.tearDown();
-  });
-
   beforeEach(async () => {
     jest.clearAllMocks();
   });

@@ -14,7 +14,6 @@ import { DocumentService } from '../document/document.service';
 import { Readable } from 'stream';
 import { StreamableFile } from '@nestjs/common';
 import { mockLogger } from '../../../test/mocks/logger.mock';
-import { PrismaService } from '../prisma/prisma.service';
 import JwtAuthenticationGuard from '../auth/jwt.guard';
 import JwtRegulatorGuard from '../auth/jwt-regulator.guard';
 import { ApiAuthService } from '../auth/api-auth.service';
@@ -39,7 +38,6 @@ describe('ApiController', () => {
         mockConfigService,
         DocumentService,
         mockLogger,
-        PrismaService,
         AuthService,
         ApiAuthService,
         RegulatorService,

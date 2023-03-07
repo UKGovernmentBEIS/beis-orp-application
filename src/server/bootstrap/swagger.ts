@@ -14,6 +14,7 @@ export function useSwagger(app: NestExpressApplication) {
     .addTag('search')
     .addTag('document')
     .addTag('auth')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(
     app,

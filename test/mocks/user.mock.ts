@@ -1,7 +1,7 @@
 import { User } from '../../src/server/auth/types/User';
-import { PrismaService } from '../../src/server/prisma/prisma.service';
+import { Regulator } from '../../src/server/regulator/types/Regulator';
 
-export const DEFAULT_REGULATOR = {
+export const DEFAULT_REGULATOR: Regulator = {
   name: 'Regulator',
   id: 'rid',
   domain: 'regulator.com',
@@ -18,16 +18,4 @@ export const DEFAULT_USER_WITH_REGULATOR: User = {
   email: 'e@mail.com',
   regulator: DEFAULT_REGULATOR,
   accessToken: 'token',
-};
-export const mockPrismaService = {
-  provide: PrismaService,
-  useValue: {
-    regulator: {
-      findUnique: () => DEFAULT_REGULATOR,
-    },
-    user: {
-      create: (): User => DEFAULT_USER,
-      findUnique: () => DEFAULT_USER,
-    },
-  },
 };

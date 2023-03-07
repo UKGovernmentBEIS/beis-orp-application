@@ -8,10 +8,9 @@ import { JwtStrategy } from './jwt.strategy';
 import { RegulatorService } from '../regulator/regulator.service';
 import JwtRegulatorStrategy from './jwt-regulator.strategy';
 import { ApiAuthService } from './api-auth.service';
-import { PrismaModule } from '../prisma/prisma.module';
 
 @Module({
-  imports: [PassportModule.register({ session: true }), PrismaModule],
+  imports: [PassportModule.register({ session: true })],
   providers: [
     AuthService,
     LocalStrategy,

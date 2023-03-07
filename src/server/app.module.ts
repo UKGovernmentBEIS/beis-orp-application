@@ -13,7 +13,6 @@ import { UserModule } from './user/user.module';
 import { IngestModule } from './ingest/ingest.module';
 import { RegulatorModule } from './regulator/regulator.module';
 import { DeveloperModule } from './developer/developer.module';
-import { PrismaModule } from './prisma/prisma.module';
 import { UnauthorisedModule } from './unauthorised/unauthorised.module';
 
 @Module({
@@ -31,7 +30,6 @@ import { UnauthorisedModule } from './unauthorised/unauthorised.module';
     IngestModule,
     RegulatorModule,
     DeveloperModule,
-    PrismaModule,
     UnauthorisedModule,
   ],
   providers: [Logger],

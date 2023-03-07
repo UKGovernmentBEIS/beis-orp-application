@@ -22,10 +22,6 @@ describe('api/search (GET)', () => {
     );
   });
 
-  afterAll(() => {
-    fixture.tearDown();
-  });
-
   describe('validation', () => {
     it('returns bad request if no hrefs', async () => {
       return fixture

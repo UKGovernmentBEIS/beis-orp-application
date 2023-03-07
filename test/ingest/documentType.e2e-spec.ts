@@ -37,10 +37,6 @@ describe('Ingest document type', () => {
     nonRegulatorSession = await getNonRegulatorSession(fixture);
   });
 
-  afterAll(() => {
-    fixture.tearDown();
-  });
-
   beforeEach(async () => {
     jest.clearAllMocks();
   });

@@ -12,10 +12,6 @@ describe('Forgot Reset (e2e)', () => {
     jest.clearAllMocks();
   });
 
-  afterAll(() => {
-    fixture.tearDown();
-  });
-
   describe('auth/new-password (GET)', () => {
     it('displays the forgotten password form', () => {
       return fixture

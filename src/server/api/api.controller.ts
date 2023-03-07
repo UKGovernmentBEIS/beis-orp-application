@@ -21,11 +21,13 @@ import { ApiSearchRequestDto } from './types/ApiSearchRequest.dto';
 import { SearchService } from '../search/search.service';
 import { FileUploadDto } from './types/FileUpload.dto';
 import {
+  ApiBearerAuth,
   ApiBody,
   ApiConsumes,
   ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
 import { ApiBadRequestResponse } from '@nestjs/swagger/dist/decorators/api-response.decorator';
@@ -59,6 +61,11 @@ export class ApiController {
 
   @Get('search')
   @UseGuards(JwtAuthenticationGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary:
+      'Search across the ORP and The National Archives. Not all filters will work for the National Archive search',
+  })
   @ApiTags('search')
   @ApiBadRequestResponse({
     description:
@@ -77,6 +84,10 @@ export class ApiController {
   @Put('upload')
   @UseGuards(JwtRegulatorGuard)
   @UseInterceptors(FileInterceptor('file'))
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Upload a document to be incorporated into The ORP',
+  })
   @ApiTags('document')
   @ApiConsumes('multipart/form-data')
   @ApiBody({ description: 'Document to be ingested', type: FileUploadDto })
@@ -101,6 +112,7 @@ export class ApiController {
 
   @Get('document/:id')
   @UseGuards(JwtAuthenticationGuard)
+  @ApiBearerAuth()
   @ApiTags('document')
   @ApiOkResponse({
     description: 'Returns the document in PDF format',
@@ -117,6 +129,10 @@ export class ApiController {
 
   @Post('tokens')
   @ApiTags('auth')
+  @ApiOperation({
+    summary:
+      'Get tokens to enable access to ORP endpoints. API credentials can be generated in the developer portal of the site',
+  })
   async login(
     @Body() { client_id, client_secret }: ApiTokenRequestDto,
   ): Promise<ApiTokensDto> {
@@ -139,6 +155,11 @@ export class ApiController {
   }
 
   @Post('linked-documents')
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary:
+      'Get documents from the ORP that are linked to a piece of legislation',
+  })
   @ApiTags('search')
   @HttpCode(200)
   async getLinkedDocuments(

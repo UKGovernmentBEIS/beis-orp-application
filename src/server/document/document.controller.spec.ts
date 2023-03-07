@@ -11,7 +11,7 @@ import {
   getRawOrpDocument,
 } from '../../../test/mocks/orpSearchMock';
 import { RegulatorModule } from '../regulator/regulator.module';
-import { DEFAULT_REGULATOR } from '../../../test/mocks/prismaService.mock';
+import { DEFAULT_REGULATOR } from '../../../test/mocks/user.mock';
 import { RegulatorService } from '../regulator/regulator.service';
 import { SearchService } from '../search/search.service';
 import { TnaDal } from '../data/tna.dal';
@@ -60,7 +60,7 @@ describe('DocumentController', () => {
 
       const regMock = jest
         .spyOn(regulatorService, 'getRegulatorById')
-        .mockResolvedValue(DEFAULT_REGULATOR);
+        .mockReturnValue(DEFAULT_REGULATOR);
 
       const result = await controller.getDocument({ id: 'id' });
       expect(regMock).toBeCalledWith('reg');

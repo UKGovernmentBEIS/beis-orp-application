@@ -1,12 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { mockConfigService } from '../../../test/mocks/config.mock';
-import { PrismaService } from '../prisma/prisma.service';
 import { mockLogger } from '../../../test/mocks/logger.mock';
-import {
-  DEFAULT_REGULATOR,
-  DEFAULT_USER,
-} from '../../../test/mocks/prismaService.mock';
+import { DEFAULT_REGULATOR, DEFAULT_USER } from '../../../test/mocks/user.mock';
 import { AuthException } from './types/AuthException';
 import { RegulatorService } from '../regulator/regulator.service';
 import { COGNITO_SUCCESSFUL_RESPONSE_REGULATOR } from '../../../test/mocks/cognitoSuccessfulResponse';
@@ -51,13 +47,7 @@ describe('AuthService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        AuthService,
-        mockConfigService,
-        PrismaService,
-        mockLogger,
-        RegulatorService,
-      ],
+      providers: [AuthService, mockConfigService, mockLogger, RegulatorService],
     }).compile();
 
     service = module.get<AuthService>(AuthService);
@@ -104,7 +94,7 @@ describe('AuthService', () => {
 
       jest
         .spyOn(regulatorService, 'getRegulatorByEmail')
-        .mockResolvedValue(DEFAULT_REGULATOR);
+        .mockReturnValue(DEFAULT_REGULATOR);
 
       const user = {
         email: 'e@mail.com',
