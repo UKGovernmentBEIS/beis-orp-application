@@ -32,9 +32,6 @@ describe('Ingest upload', () => {
     nonRegulatorSession = await getNonRegulatorSession(fixture);
   });
 
-  afterAll(() => {
-    fixture.tearDown();
-  });
   describe('upload/ (GET)', () => {
     it('upload/ (GET)', () => {
       return fixture

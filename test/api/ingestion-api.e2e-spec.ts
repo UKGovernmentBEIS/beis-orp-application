@@ -21,10 +21,6 @@ describe('api/upload (PUT)', () => {
     await fixture.init('API_REG');
   });
 
-  afterAll(() => {
-    fixture.tearDown();
-  });
-
   it('accepts and uploads pdfs', async () => {
     mockS3.send.mockResolvedValueOnce('fake response');
 

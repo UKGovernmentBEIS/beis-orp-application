@@ -4,7 +4,7 @@ import { mockConfigService } from '../../../test/mocks/config.mock';
 import { LocalStrategy } from './local.strategy';
 import { CORRECT_EMAIL, CORRECT_PW } from '../../../test/e2e.fixture';
 import { mockAuthService } from '../../../test/mocks/authService.mock';
-import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/prismaService.mock';
+import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/user.mock';
 
 describe('AuthService', () => {
   let strategy: LocalStrategy;

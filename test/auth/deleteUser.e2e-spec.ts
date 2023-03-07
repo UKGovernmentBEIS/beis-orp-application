@@ -15,10 +15,6 @@ describe('Register (e2e)', () => {
     jest.clearAllMocks();
   });
 
-  afterAll(() => {
-    fixture.tearDown();
-  });
-
   describe('auth/delete-user (GET)', () => {
     it('displays confirmation link', () => {
       return fixture

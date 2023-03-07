@@ -63,7 +63,6 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npx prisma migrate deploy
-    - run: npm run seed
     - run: npm run test:e2e
 
 

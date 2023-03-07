@@ -2,12 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { DeveloperController } from './developer.controller';
 import { ApiAuthService } from '../auth/api-auth.service';
 import { DEFAULT_API_CREDENTIAL } from '../../../test/mocks/cognitoApiCred.mock';
-import { DEFAULT_USER } from '../../../test/mocks/prismaService.mock';
+import { DEFAULT_USER } from '../../../test/mocks/user.mock';
 import { mockConfigService } from '../../../test/mocks/config.mock';
 import { RegulatorService } from '../regulator/regulator.service';
 import { mockLogger } from '../../../test/mocks/logger.mock';
 import { AuthService } from '../auth/auth.service';
-import { PrismaService } from '../prisma/prisma.service';
 
 describe('DeveloperController', () => {
   let controller: DeveloperController;
@@ -22,7 +21,6 @@ describe('DeveloperController', () => {
         RegulatorService,
         mockLogger,
         AuthService,
-        PrismaService,
       ],
     }).compile();
 

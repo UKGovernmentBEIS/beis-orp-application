@@ -6,7 +6,7 @@ import {
 import { OrpSearchItem, OrpSearchResponse } from '../types/SearchResponse.dto';
 import { LinkedDocumentsResponseDto } from '../types/LinkedDocumentsResponse.dto';
 import { documentTypes } from '../types/documentTypes';
-import { Regulator } from '@prisma/client';
+import { Regulator } from '../../regulator/types/Regulator';
 
 const MAX_ITEMS = 10;
 function mapOrpDocument(regulators: Regulator[]) {

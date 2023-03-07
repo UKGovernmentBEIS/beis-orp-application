@@ -1,4 +1,4 @@
-import { Regulator } from '@prisma/client';
+import { Regulator } from '../../regulator/types/Regulator';
 
 export type User = {
   cognitoUsername: string;

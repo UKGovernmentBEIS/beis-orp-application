@@ -12,11 +12,11 @@ import { ErrorFilter } from '../error.filter';
 import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 import { RawOrpResponseEntry } from '../data/types/rawOrpSearchResponse';
 import { RegulatorService } from '../regulator/regulator.service';
-import { Regulator } from '@prisma/client';
 import { documentTypes } from '../search/types/documentTypes';
 import { SearchService } from '../search/search.service';
 import { OrpSearchItem } from '../search/types/SearchResponse.dto';
 import TnaDocMeta from './types/TnaDocMeta';
+import { Regulator } from '../regulator/types/Regulator';
 
 @UseFilters(ErrorFilter)
 @UseInterceptors(ViewDataInterceptor)

@@ -8,10 +8,6 @@ describe('api/search (GET)', () => {
     await fixture.init();
   });
 
-  afterAll(() => {
-    fixture.tearDown();
-  });
-
   describe('search', () => {
     it('displays instruction if no query passed in', () => {
       return fixture

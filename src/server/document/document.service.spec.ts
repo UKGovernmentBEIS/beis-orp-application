@@ -17,7 +17,7 @@ import {
   tnaUkDocumentMockJson,
 } from '../../../test/mocks/tnaDocumentsMock';
 import { TnaEuDoc } from '../data/types/tnaDocs';
-import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/prismaService.mock';
+import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/user.mock';
 
 describe('DocumentService', () => {
   let service: DocumentService;

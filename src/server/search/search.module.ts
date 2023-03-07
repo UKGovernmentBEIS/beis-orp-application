@@ -4,10 +4,9 @@ import { HttpModule } from '@nestjs/axios';
 import { DataModule } from '../data/data.module';
 import { SearchController } from './search.controller';
 import { RegulatorService } from '../regulator/regulator.service';
-import { PrismaModule } from '../prisma/prisma.module';
 
 @Module({
-  imports: [HttpModule, DataModule, PrismaModule],
+  imports: [HttpModule, DataModule],
   providers: [SearchService, Logger, RegulatorService],
   exports: [SearchService],
   controllers: [SearchController],

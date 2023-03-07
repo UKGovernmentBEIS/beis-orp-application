@@ -5,11 +5,10 @@ import { DocumentModule } from '../document/document.module';
 import { AuthService } from '../auth/auth.service';
 import { RegulatorService } from '../regulator/regulator.service';
 import { ApiAuthService } from '../auth/api-auth.service';
-import { PrismaModule } from '../prisma/prisma.module';
 
 @Module({
   controllers: [ApiController],
-  imports: [SearchModule, DocumentModule, PrismaModule],
+  imports: [SearchModule, DocumentModule],
   providers: [Logger, AuthService, RegulatorService, ApiAuthService],
 })
 export class ApiModule {}

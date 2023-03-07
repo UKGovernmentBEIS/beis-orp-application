@@ -7,7 +7,7 @@ import { Logger } from '@nestjs/common';
 import { getPdfAsMulterFile } from '../../../test/mocks/uploadMocks';
 import { OrpDal } from '../data/orp.dal';
 import { HttpModule } from '@nestjs/axios';
-import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/prismaService.mock';
+import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/user.mock';
 import { documentTypes } from '../search/types/documentTypes';
 import { TnaDal } from '../data/tna.dal';
 

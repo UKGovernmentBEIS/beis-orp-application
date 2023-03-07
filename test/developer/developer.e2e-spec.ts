@@ -11,10 +11,6 @@ describe('Developer Portal (e2e)', () => {
     regulatorSession = await getRegulatorSession(fixture);
   });
 
-  afterAll(() => {
-    fixture.tearDown();
-  });
-
   describe('developer/ (GET)', () => {
     it('displays create credentials form', () => {
       return fixture

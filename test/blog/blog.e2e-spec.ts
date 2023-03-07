@@ -7,10 +7,6 @@ describe('BlogController (e2e)', () => {
     await fixture.init();
   });
 
-  afterAll(() => {
-    fixture.tearDown();
-  });
-
   it('blog/:id (GET)', () => {
     return fixture
       .request()

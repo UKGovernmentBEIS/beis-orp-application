@@ -27,10 +27,6 @@ describe('DocumentController (e2e)', () => {
     await fixture.init();
   });
 
-  afterAll(() => {
-    fixture.tearDown();
-  });
-
   describe('document/view/:id (GET)', () => {
     it('should get document and display it', () => {
       return fixture

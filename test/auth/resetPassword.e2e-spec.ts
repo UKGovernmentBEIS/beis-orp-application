@@ -15,10 +15,6 @@ describe('Password Reset (e2e)', () => {
     jest.clearAllMocks();
   });
 
-  afterAll(() => {
-    fixture.tearDown();
-  });
-
   describe('auth/reset-password (GET)', () => {
     it('displays the reset password form', () => {
       return fixture

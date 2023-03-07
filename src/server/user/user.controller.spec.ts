@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
-import { DEFAULT_USER } from '../../../test/mocks/prismaService.mock';
+import { DEFAULT_USER } from '../../../test/mocks/user.mock';
 
 describe('UserController', () => {
   let controller: UserController;

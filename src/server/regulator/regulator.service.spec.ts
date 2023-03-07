@@ -1,16 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RegulatorService } from './regulator.service';
-import {
-  DEFAULT_REGULATOR,
-  mockPrismaService,
-} from '../../../test/mocks/prismaService.mock';
 
 describe('RegulatorService', () => {
   let service: RegulatorService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [RegulatorService, mockPrismaService],
+      providers: [RegulatorService],
     }).compile();
 
     service = module.get<RegulatorService>(RegulatorService);
@@ -22,16 +18,24 @@ describe('RegulatorService', () => {
       expect(result).toEqual(null);
     });
 
-    it('should return value from prisma', async () => {
-      const result = await service.getRegulatorByEmail('email@regulator.com');
-      expect(result).toEqual(DEFAULT_REGULATOR);
+    it('should return value from config', async () => {
+      const result = await service.getRegulatorByEmail('email@ofcom.org.uk');
+      expect(result).toEqual({
+        id: 'ofcom',
+        name: 'Office of Communications',
+        domain: 'ofcom.org.uk',
+      });
     });
   });
 
   describe('getRegulatorById', () => {
-    it('should return value from prisma', async () => {
-      const result = await service.getRegulatorById('regId');
-      expect(result).toEqual(DEFAULT_REGULATOR);
+    it('should return value from config', async () => {
+      const result = await service.getRegulatorById('ofcom');
+      expect(result).toEqual({
+        id: 'ofcom',
+        name: 'Office of Communications',
+        domain: 'ofcom.org.uk',
+      });
     });
   });
 });

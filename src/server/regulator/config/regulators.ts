@@ -1,4 +1,6 @@
-exports.regulators = [
+import { Regulator } from '../types/Regulator';
+
+const regulators: Regulator[] = [
   {
     id: 'zoonou',
     name: 'Zoonou',
@@ -360,3 +362,5 @@ exports.regulators = [
     domain: 'onr.gov.uk',
   },
 ];
+
+export default regulators;

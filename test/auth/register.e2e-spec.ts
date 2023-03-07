@@ -8,10 +8,6 @@ describe('Register (e2e)', () => {
     await fixture.init();
   });
 
-  afterAll(() => {
-    fixture.tearDown();
-  });
-
   describe('auth/register (GET)', () => {
     it('displays registration form', () => {
       return fixture

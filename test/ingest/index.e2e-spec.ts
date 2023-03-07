@@ -12,10 +12,6 @@ describe('Ingest index', () => {
     await fixture.init();
   });
 
-  afterAll(() => {
-    fixture.tearDown();
-  });
-
   it('ingest/ (GET)', async () => {
     const session = await getRegulatorSession(fixture);
     return fixture

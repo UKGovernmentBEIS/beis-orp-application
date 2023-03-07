@@ -8,7 +8,6 @@ import { getMockedConfig } from './mocks/config.mock';
 import { ConfigService } from '@nestjs/config';
 import { useSession } from '../src/server/bootstrap/session';
 import { usePassport } from '../src/server/bootstrap/passport';
-import { PrismaService } from '../src/server/prisma/prisma.service';
 import { CognitoAuthError } from './mocks/cognitoAuthError';
 import {
   COGNITO_SUCCESSFUL_RESPONSE_NON_REGULATOR,
@@ -78,7 +77,6 @@ jest.mock('@aws-sdk/client-cognito-identity-provider', () => {
 });
 export class E2eFixture {
   private app: NestExpressApplication;
-  private prismaService: PrismaService;
 
   async init(user?: 'API_REG' | 'API_NON_REG') {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -101,7 +99,6 @@ export class E2eFixture {
       .compile();
 
     this.app = moduleFixture.createNestApplication<NestExpressApplication>();
-    this.prismaService = moduleFixture.get(PrismaService);
     useGovUi(this.app);
     useSession(this.app);
     usePassport(this.app);
@@ -130,10 +127,5 @@ export class E2eFixture {
 
   request() {
     return request(this.app.getHttpServer());
-  }
-
-  tearDown() {
-    this.app.close();
-    this.prismaService.$disconnect();
   }
 }
