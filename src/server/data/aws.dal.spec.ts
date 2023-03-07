@@ -63,7 +63,9 @@ describe('AwsDal', () => {
       mockS3.send.mockResolvedValueOnce('fake response');
       const file = await getPdfAsMulterFile();
 
-      const result = await service.upload(file);
+      const result = await service.upload(file, 'cogun', 'regid', {
+        status: 'published',
+      });
 
       expect(result).toEqual({
         key: 'uuid-original-filename',
@@ -77,8 +79,11 @@ describe('AwsDal', () => {
         Body: file.buffer,
         Metadata: {
           uuid: 'UUID',
-          uploadedDate: date.toTimeString(),
-          fileName: 'Original-Filename',
+          uploaded_date: date.toTimeString(),
+          file_name: 'Original-Filename',
+          regulator_id: 'regid',
+          user_id: 'cogun',
+          status: 'published',
         },
         ACL: 'authenticated-read',
       });
@@ -93,7 +98,7 @@ describe('AwsDal', () => {
       mockS3.send.mockResolvedValueOnce('fake response');
       const file = await getPdfAsMulterFile();
 
-      const result = await service.upload(file, true);
+      const result = await service.upload(file, 'cogun', 'regid', {}, true);
 
       expect(result).toEqual({
         key: 'unconfirmed/uuid-original-filename',
@@ -107,8 +112,10 @@ describe('AwsDal', () => {
         Body: file.buffer,
         Metadata: {
           uuid: 'UUID',
-          uploadedDate: date.toTimeString(),
-          fileName: 'Original-Filename',
+          uploaded_date: date.toTimeString(),
+          file_name: 'Original-Filename',
+          regulator_id: 'regid',
+          user_id: 'cogun',
         },
         ACL: 'authenticated-read',
       });

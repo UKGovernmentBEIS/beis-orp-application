@@ -98,10 +98,10 @@ describe('IngestController', () => {
         const metaMock = jest
           .spyOn(documentService, 'getDocumentMeta')
           .mockResolvedValue({
-            filename: 'fn',
+            file_name: 'fn',
             uuid: 'id',
-            uploadeddate: 'data',
-            documenttype: 'GD',
+            uploaded_date: 'data',
+            document_type: 'GD',
           });
 
         const expectedResult = await controller.chooseDocType({
@@ -129,7 +129,7 @@ describe('IngestController', () => {
         });
 
         expect(updateMock).toBeCalledTimes(1);
-        expect(updateMock).toBeCalledWith('key', { documenttype: 'GD' });
+        expect(updateMock).toBeCalledWith('key', { document_type: 'GD' });
         expect(expectedResult).toEqual({
           url: `/ingest/document-status?key=key`,
         });
@@ -143,10 +143,10 @@ describe('IngestController', () => {
         const metaMock = jest
           .spyOn(documentService, 'getDocumentMeta')
           .mockResolvedValue({
-            filename: 'fn',
+            file_name: 'fn',
             uuid: 'id',
-            uploadeddate: 'data',
-            documenttype: 'GD',
+            uploaded_date: 'data',
+            document_type: 'GD',
             status: 'published',
           });
 
@@ -186,9 +186,9 @@ describe('IngestController', () => {
         const metaMock = jest
           .spyOn(documentService, 'getDocumentMeta')
           .mockResolvedValue({
-            filename: 'fn',
+            file_name: 'fn',
             uuid: 'id',
-            uploadeddate: 'data',
+            uploaded_date: 'data',
             status: 'published',
           });
 
@@ -226,9 +226,9 @@ describe('IngestController', () => {
       const metaMock = jest
         .spyOn(documentService, 'getDocumentMeta')
         .mockResolvedValue({
-          filename: 'fn',
+          file_name: 'fn',
           uuid: 'id',
-          uploadeddate: 'data',
+          uploaded_date: 'data',
         });
 
       const expectedResult = await controller.success({

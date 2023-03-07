@@ -9,7 +9,6 @@ import {
   Post,
   Put,
   Query,
-  Req,
   StreamableFile,
   UploadedFile,
   UseGuards,
@@ -33,7 +32,6 @@ import { ApiBadRequestResponse } from '@nestjs/swagger/dist/decorators/api-respo
 import { DocumentRequestDto } from './types/DocumentRequest.dto';
 import { DocumentService } from '../document/document.service';
 import { FileUpload } from '../data/types/FileUpload';
-import { Request } from 'express';
 import JwtAuthenticationGuard from '../auth/jwt.guard';
 import JwtRegulatorGuard from '../auth/jwt-regulator.guard';
 import { ApiAuthService } from '../auth/api-auth.service';
@@ -47,6 +45,8 @@ import ApiTokensDto from './types/ApiTokensDto';
 import ApiRefreshTokensDto from './types/ApiRefreshTokensDto';
 import { LinkedDocumentsRequestDto } from './types/LinkedDocumentsRequest.dto';
 import { ApiLinkedDocumentsResponseDto } from './types/ApiLinkedDocumentsResponse.dto';
+import { User } from '../user/user.decorator';
+import { ApiUser as UserType } from '../auth/types/User';
 
 @UsePipes(new ValidationPipe())
 @Controller('api')
@@ -86,15 +86,16 @@ export class ApiController {
   })
   @ApiInternalServerErrorResponse({ description: 'Unexpected error' })
   async uploadFile(
-    @Req() request: Request & { regulator: string },
+    @User() user: UserType,
     @UploadedFile(
       new ParseFilePipe({
         validators: [new FileTypeValidator({ fileType: 'pdf' })],
       }),
     )
     file: FileUpload,
+    @Body() fileMeta: FileUploadDto,
   ) {
-    await this.documentService.upload(file, request.regulator);
+    await this.documentService.uploadFromApi(file, user, fileMeta);
     return 'success';
   }
 

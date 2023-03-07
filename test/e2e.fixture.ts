@@ -10,12 +10,14 @@ import { useSession } from '../src/server/bootstrap/session';
 import { usePassport } from '../src/server/bootstrap/passport';
 import { PrismaService } from '../src/server/prisma/prisma.service';
 import { CognitoAuthError } from './mocks/cognitoAuthError';
-import JwtAuthenticationGuard from '../src/server/auth/jwt.guard';
-import JwtRegulatorGuard from '../src/server/auth/jwt-regulator.guard';
 import {
   COGNITO_SUCCESSFUL_RESPONSE_NON_REGULATOR,
   COGNITO_SUCCESSFUL_RESPONSE_REGULATOR,
 } from './mocks/cognitoSuccessfulResponse';
+import JwtAuthenticationGuard from '../src/server/auth/jwt.guard';
+import JwtRegulatorGuard from '../src/server/auth/jwt-regulator.guard';
+import { NextFunction } from 'express';
+import { ApiUser } from '../src/server/auth/types/User';
 
 export const CORRECT_EMAIL = 'reg@ofcom.org.uk';
 export const CORRECT_NON_REG_EMAIL = 'noreg@email.com';
@@ -78,7 +80,7 @@ export class E2eFixture {
   private app: NestExpressApplication;
   private prismaService: PrismaService;
 
-  async init() {
+  async init(user?: 'API_REG' | 'API_NON_REG') {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     })
@@ -92,7 +94,9 @@ export class E2eFixture {
       })
       .overrideGuard(JwtRegulatorGuard)
       .useValue({
-        canActivate: () => true,
+        canActivate: () => ({
+          help: 'me',
+        }),
       })
       .compile();
 
@@ -101,6 +105,23 @@ export class E2eFixture {
     useGovUi(this.app);
     useSession(this.app);
     usePassport(this.app);
+
+    if (user === 'API_REG') {
+      this.app.use(
+        (
+          req: Request & { user?: ApiUser },
+          res: Response,
+          next: NextFunction,
+        ) => {
+          req.user = {
+            cognitoUsername: 'cogun',
+            regulator: 'regulator',
+          };
+
+          return next();
+        },
+      );
+    }
     this.app.setBaseViewsDir(
       path.join(__dirname, '..', 'src', 'server', 'views'),
     );

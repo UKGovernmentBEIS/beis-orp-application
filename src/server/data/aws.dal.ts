@@ -19,6 +19,7 @@ import { UploadedFile } from './types/UploadedFile';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Readable } from 'stream';
 import { ObjectMetaData } from './types/ObjectMetaData';
+import { User } from '../auth/types/User';
 
 @Injectable()
 export class AwsDal {
@@ -34,6 +35,9 @@ export class AwsDal {
 
   async upload(
     { mimetype, buffer, originalname }: FileUpload,
+    cognitoUsername: User['cognitoUsername'],
+    regulatorId: User['regulator']['id'],
+    meta: Partial<ObjectMetaData> = {},
     unconfirmed = false,
   ): Promise<UploadedFile> {
     try {
@@ -48,8 +52,11 @@ export class AwsDal {
         Body: buffer,
         Metadata: {
           uuid,
-          uploadedDate: new Date().toTimeString(),
-          fileName: originalname,
+          uploaded_date: new Date().toTimeString(),
+          file_name: originalname,
+          regulator_id: regulatorId,
+          user_id: cognitoUsername,
+          ...meta,
         },
         ACL: 'authenticated-read',
       });

@@ -28,6 +28,7 @@ export function getMockedConfig(key): Partial<Config> {
     },
     aws: {
       ingestionBucket: 'bucket',
+      region: 'eu-west-2',
       cognito: {
         userPoolId: 'upid',
         clientId: 'clid',

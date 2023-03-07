@@ -46,7 +46,7 @@ describe('Ingest submit', () => {
   });
 
   describe('GET', () => {
-    mockS3.send.mockResolvedValueOnce({ Metadata: { filename: 'file.pdf' } });
+    mockS3.send.mockResolvedValueOnce({ Metadata: { file_name: 'file.pdf' } });
 
     it('gets a the meta and displays the filename', () => {
       return fixture

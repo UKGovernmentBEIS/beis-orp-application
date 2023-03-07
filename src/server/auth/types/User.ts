@@ -7,3 +7,10 @@ export type User = {
 
   accessToken: string;
 };
+
+export type ApiUser = Omit<User, 'email' | 'accessToken' | 'regulator'> & {
+  regulator: string;
+};
+
+export const isApiUser = (user: User | ApiUser): user is ApiUser =>
+  typeof user.regulator === 'string';

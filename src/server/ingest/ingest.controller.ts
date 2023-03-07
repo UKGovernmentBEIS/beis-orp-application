@@ -59,11 +59,7 @@ export class IngestController {
     file: Express.Multer.File,
     @User() user: UserType,
   ) {
-    const { key } = await this.documentService.upload(
-      file,
-      user.regulator.name,
-      true,
-    );
+    const { key } = await this.documentService.upload(file, user, true);
     return { url: `/ingest/confirm?key=${key}` };
   }
 
@@ -94,7 +90,7 @@ export class IngestController {
   @Render('pages/ingest/documentType')
   async chooseDocType(@Query() { key }: { key: string }) {
     const meta = await this.documentService.getDocumentMeta(key);
-    return { key, documentTypes, selected: meta.documenttype };
+    return { key, documentTypes, selected: meta.document_type };
   }
 
   @Post('document-type')
@@ -102,7 +98,7 @@ export class IngestController {
   @ValidateForm()
   async postDocType(@Body() documentTypeDto: DocumentTypeDto) {
     const { key, documentType } = documentTypeDto;
-    await this.documentService.updateMeta(key, { documenttype: documentType });
+    await this.documentService.updateMeta(key, { document_type: documentType });
 
     return { url: `/ingest/document-status?key=${key}` };
   }
@@ -130,8 +126,8 @@ export class IngestController {
     const meta = await this.documentService.getDocumentMeta(key);
     return {
       key,
-      file: meta.filename,
-      documentType: documentTypes[meta.documenttype] ?? 'Other',
+      file: meta.file_name,
+      documentType: documentTypes[meta.document_type] ?? 'Other',
       documentStatus: orpDocumentStatus[meta.status] ?? '',
     };
   }

@@ -14,7 +14,6 @@ import { DocumentService } from '../document/document.service';
 import { Readable } from 'stream';
 import { StreamableFile } from '@nestjs/common';
 import { mockLogger } from '../../../test/mocks/logger.mock';
-import * as mocks from 'node-mocks-http';
 import { PrismaService } from '../prisma/prisma.service';
 import JwtAuthenticationGuard from '../auth/jwt.guard';
 import JwtRegulatorGuard from '../auth/jwt-regulator.guard';
@@ -67,14 +66,25 @@ describe('ApiController', () => {
 
     it('should call aws uploader with file', async () => {
       const result = { key: 'file.pdf', id: '123' };
-      jest.spyOn(documentService, 'upload').mockResolvedValue(result);
+      const docMock = jest
+        .spyOn(documentService, 'uploadFromApi')
+        .mockResolvedValue(result);
 
       const file = await getPdfAsMulterFile();
+      const apiRegUser = { cognitoUsername: 'cogName', regulator: 'regName' };
+      const fileMeta = {
+        status: 'published' as const,
+        document_type: 'GD' as const,
+        file: file,
+      };
+
       const expectedResult = await controller.uploadFile(
-        mocks.createRequest(),
+        apiRegUser,
         file,
+        fileMeta,
       );
 
+      expect(docMock).toBeCalledWith(file, apiRegUser, fileMeta);
       expect(expectedResult).toEqual('success');
     });
   });
