@@ -3,10 +3,11 @@ import { OrpDocumentStatus } from '../../search/types/statusTypes';
 
 export interface ObjectMetaData {
   uuid: string;
-  uploadeddate: string;
-  filename: string;
-  documenttype?: DocumentType | 'OTHER';
+  uploaded_date: string;
+  file_name: string;
+  document_type?: DocumentType | 'OTHER';
   status?: OrpDocumentStatus;
+  api_user?: string;
 }
 
 export type MetaItem = keyof ObjectMetaData;

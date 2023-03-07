@@ -10,6 +10,7 @@ import { TnaDal } from '../data/tna.dal';
 import { isEuDocument } from '../data/types/tnaDocs';
 import TnaDocMeta from './types/TnaDocMeta';
 import { getMetaFromEuDoc, getMetaFromUkDoc } from './utils/tnaMeta';
+import { ApiUser, User } from '../auth/types/User';
 
 @Injectable()
 export class DocumentService {
@@ -22,11 +23,37 @@ export class DocumentService {
 
   async upload(
     fileUpload: FileUpload,
-    regulator: string,
+    user: User,
     unconfirmed?: boolean,
   ): Promise<UploadedFile> {
-    const upload = await this.awsDal.upload(fileUpload, unconfirmed);
-    this.logger.log(`file uploaded by ${regulator}, ${upload.key}`);
+    const upload = await this.awsDal.upload(
+      fileUpload,
+      user.cognitoUsername,
+      user.regulator.id,
+      {},
+      unconfirmed,
+    );
+    this.logger.log(
+      `UI: file uploaded by ${user.regulator.name}, ${upload.key}`,
+    );
+    return upload;
+  }
+
+  async uploadFromApi(
+    fileUpload: FileUpload,
+    { regulator, cognitoUsername }: ApiUser,
+    meta: Partial<ObjectMetaData>,
+  ): Promise<UploadedFile> {
+    const upload = await this.awsDal.upload(
+      fileUpload,
+      cognitoUsername,
+      regulator,
+      {
+        ...meta,
+        api_user: 'true',
+      },
+    );
+    this.logger.log(`API: file uploaded by ${regulator}, ${upload.key}`);
     return upload;
   }
 

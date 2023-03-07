@@ -6,7 +6,10 @@ import { HttpModule } from '@nestjs/axios';
 import { mockConfigService } from '../../../test/mocks/config.mock';
 import { Logger } from '@nestjs/common';
 import { getRawOrpDocument } from '../../../test/mocks/orpSearchMock';
-import { getPdfBuffer } from '../../../test/mocks/uploadMocks';
+import {
+  getPdfAsMulterFile,
+  getPdfBuffer,
+} from '../../../test/mocks/uploadMocks';
 import { Readable } from 'stream';
 import { TnaDal } from '../data/tna.dal';
 import {
@@ -14,6 +17,7 @@ import {
   tnaUkDocumentMockJson,
 } from '../../../test/mocks/tnaDocumentsMock';
 import { TnaEuDoc } from '../data/types/tnaDocs';
+import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/prismaService.mock';
 
 describe('DocumentService', () => {
   let service: DocumentService;
@@ -38,6 +42,55 @@ describe('DocumentService', () => {
     orpDal = module.get<OrpDal>(OrpDal);
     awsDal = module.get<AwsDal>(AwsDal);
     tnaDal = module.get<TnaDal>(TnaDal);
+  });
+
+  describe('upload', () => {
+    it('call upload on aws dal', async () => {
+      const file = await getPdfAsMulterFile();
+      const awsSpy = jest
+        .spyOn(awsDal, 'upload')
+        .mockResolvedValue({ key: 'key', id: 'id' });
+
+      const result = await service.upload(
+        file,
+        DEFAULT_USER_WITH_REGULATOR,
+        true,
+      );
+
+      expect(awsSpy).toBeCalledWith(
+        file,
+        DEFAULT_USER_WITH_REGULATOR.cognitoUsername,
+        DEFAULT_USER_WITH_REGULATOR.regulator.id,
+        {},
+        true,
+      );
+      expect(result).toEqual({ key: 'key', id: 'id' });
+    });
+  });
+
+  describe('uploadFromApi', () => {
+    it('call upload on aws dal with api_user as true', async () => {
+      const file = await getPdfAsMulterFile();
+      const apiRegUser = { cognitoUsername: 'cogName', regulator: 'regName' };
+      const fileMeta = {
+        status: 'published' as const,
+        document_type: 'GD' as const,
+      };
+
+      const awsSpy = jest
+        .spyOn(awsDal, 'upload')
+        .mockResolvedValue({ key: 'key', id: 'id' });
+
+      const result = await service.uploadFromApi(file, apiRegUser, fileMeta);
+
+      expect(awsSpy).toBeCalledWith(
+        file,
+        apiRegUser.cognitoUsername,
+        apiRegUser.regulator,
+        { ...fileMeta, api_user: 'true' },
+      );
+      expect(result).toEqual({ key: 'key', id: 'id' });
+    });
   });
 
   describe('getDocument', () => {
@@ -100,8 +153,8 @@ describe('DocumentService', () => {
     it('should request and return the object meta data', async () => {
       const response = {
         uuid: 'id',
-        uploadeddate: 'data',
-        filename: 'file',
+        uploaded_date: 'data',
+        file_name: 'file',
       };
       const getMetaSpy = jest
         .spyOn(awsDal, 'getObjectMeta')

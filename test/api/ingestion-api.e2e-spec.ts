@@ -18,7 +18,7 @@ describe('api/upload (PUT)', () => {
 
   beforeAll(async () => {
     file = await getPdfBuffer();
-    await fixture.init();
+    await fixture.init('API_REG');
   });
 
   afterAll(() => {
@@ -27,10 +27,12 @@ describe('api/upload (PUT)', () => {
 
   it('accepts and uploads pdfs', async () => {
     mockS3.send.mockResolvedValueOnce('fake response');
+
     return fixture
       .request()
       .put('/api/upload')
       .attach('file', file, 'testfile.pdf')
+      .field({ status: 'draft', document_type: 'GD' })
       .expect(200)
       .expect('success');
   });
@@ -40,6 +42,7 @@ describe('api/upload (PUT)', () => {
       .request()
       .put('/api/upload')
       .attach('file', '')
+      .field({ status: 'draft', document_type: 'GD' })
       .expect(400)
       .expect(
         '{"statusCode":400,"message":"File is required","error":"Bad Request"}',
@@ -51,9 +54,34 @@ describe('api/upload (PUT)', () => {
       .request()
       .put('/api/upload')
       .attach('file', file, 'testfile.png')
+      .field({ status: 'draft', document_type: 'GD' })
       .expect(400)
       .expect(
         '{"statusCode":400,"message":"Validation failed (expected type is pdf)","error":"Bad Request"}',
+      );
+  });
+
+  it('returns error when wrong status provided', async () => {
+    return fixture
+      .request()
+      .put('/api/upload')
+      .attach('file', file, 'testfile.png')
+      .field({ status: 'wrong', document_type: 'GD' })
+      .expect(400)
+      .expect(
+        '{"statusCode":400,"message":["status must be one of the following values: draft, published"],"error":"Bad Request"}',
+      );
+  });
+
+  it('returns error when document_type status provided', async () => {
+    return fixture
+      .request()
+      .put('/api/upload')
+      .attach('file', file, 'testfile.png')
+      .field({ status: 'published', document_type: 'wrong' })
+      .expect(400)
+      .expect(
+        '{"statusCode":400,"message":["document_type must be one of the following values: GD, MSI, HS, OTHER"],"error":"Bad Request"}',
       );
   });
 });
