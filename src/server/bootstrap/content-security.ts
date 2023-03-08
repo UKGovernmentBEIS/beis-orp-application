@@ -25,6 +25,7 @@ export function useHelmet(app: NestExpressApplication) {
           frameSrc: [
             "'self'",
             'youtube.com',
+            'www.youtube.com',
             `${awsConfig.ingestionBucket}.s3.${awsConfig.region}.amazonaws.com`,
           ],
           objectSrc: [
