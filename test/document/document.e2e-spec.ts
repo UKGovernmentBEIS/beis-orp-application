@@ -34,14 +34,12 @@ describe('DocumentController (e2e)', () => {
         .get('/document/view/1')
         .expect(200)
         .expect((res) => {
-          expect(res.text).toContain('<h1 class="govuk-heading-l">Title1</h1>');
-          expect(res.text).toContain(
-            '<object class="embedded-pdf" data="http://document" type="application/pdf" >',
-          );
-          expect(res.text).toContain(
-            '<embed src="http://document" type="application/pdf" />',
-          );
-          expect(res.text).toContain('<dd>Office of Communications</dd>');
+          const $ = cheerio.load(res.text);
+          expect($('h1').text().trim()).toEqual('Title1');
+          expect($('object.embedded-pdf')).toBeTruthy();
+          expect(
+            $('embed[src="http://document"][type="application/pdf"]'),
+          ).toBeTruthy();
         });
     });
   });

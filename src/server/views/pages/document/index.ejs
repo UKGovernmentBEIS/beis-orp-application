@@ -7,7 +7,8 @@
         summary = locals.document.summary ?? ""
     %>
 <div class="govuk-width-container">
-    <a href="<%=locals.latestSearch%>" class="govuk-back-link">Back</a>
+    <%- include('../../partials/components/backButton' , {href: locals.latestSearch}); %>
+
     <main class="govuk-main-wrapper " id="main-content" role="main">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
@@ -29,7 +30,7 @@
                     </div>
                 </details>
 
-                <object class="embedded-pdf" data="<%= url %>" type="application/pdf" >
+                <object class="embedded-pdf" data="<%= url %>" type="application/pdf" title="<%= title %>">
                     <embed src="<%= url %>" type="application/pdf" />
                 </object>
             </div>

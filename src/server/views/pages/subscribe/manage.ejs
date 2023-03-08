@@ -10,7 +10,7 @@
 %>
 
 <div class="govuk-width-container">
-    <a href="/blog" class="govuk-back-link">Back</a>
+    <%- include('../../partials/components/backButton' , {href: "/subscribe"}); %>
 
     <% if (locals.mailchimpError) { %>
         <%- include('./partials/mailchimpError');%>
