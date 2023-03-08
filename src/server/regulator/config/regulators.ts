@@ -7,6 +7,11 @@ const regulators: Regulator[] = [
     domain: 'zoonou.com',
   },
   {
+    id: 'trustmarque',
+    name: 'Trustmarque',
+    domain: 'trustmarque.com',
+  },
+  {
     id: 'public',
     name: 'Public',
     domain: 'public.io',
