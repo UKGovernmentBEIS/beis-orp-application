@@ -20,6 +20,10 @@ import { ApiAuthService } from '../auth/api-auth.service';
 import { RegulatorService } from '../regulator/regulator.service';
 import { mockTokens, mockTokensReturn } from '../../../test/mocks/tokens.mock';
 import { AuthService } from '../auth/auth.service';
+import {
+  getMappedOrpDocument,
+  getMappedOrpDocumentForApi,
+} from '../../../test/mocks/orpSearchMock';
 
 describe('ApiController', () => {
   let controller: ApiController;
@@ -129,37 +133,36 @@ describe('ApiController', () => {
       expect(guard).toBeInstanceOf(JwtAuthenticationGuard);
     });
 
-    it('should call searchService and return response', async () => {
-      const buffer = await getPdfBuffer();
+    it('should call documentService and return response', async () => {
       const getDocMock = jest
-        .spyOn(documentService, 'getDocument')
-        .mockResolvedValue(Readable.from(buffer));
+        .spyOn(documentService, 'getDocumentById')
+        .mockResolvedValue(getMappedOrpDocument());
 
       const result = await controller.getDocument({ id: 'id' });
 
       expect(getDocMock).toBeCalledWith('id');
-      expect(result).toBeInstanceOf(StreamableFile);
+      expect(result).toEqual(getMappedOrpDocumentForApi());
     });
   });
 
-  describe('login', () => {
+  describe('downloadDocument', () => {
     it('should apply JwtRegulatorGuard', async () => {
       const guards = Reflect.getMetadata(
         '__guards__',
-        ApiController.prototype.getDocument,
+        ApiController.prototype.downloadDocument,
       );
       const guard = new guards[0]();
 
       expect(guard).toBeInstanceOf(JwtAuthenticationGuard);
     });
 
-    it('should return response from authService', async () => {
+    it('should return response from documentService', async () => {
       const buffer = await getPdfBuffer();
       const getDocMock = jest
-        .spyOn(documentService, 'getDocument')
+        .spyOn(documentService, 'getDocumentStream')
         .mockResolvedValue(Readable.from(buffer));
 
-      const result = await controller.getDocument({ id: 'id' });
+      const result = await controller.downloadDocument({ id: 'id' });
 
       expect(getDocMock).toBeCalledWith('id');
       expect(result).toBeInstanceOf(StreamableFile);

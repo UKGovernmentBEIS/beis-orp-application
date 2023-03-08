@@ -2,8 +2,10 @@ import {
   RawOrpResponse,
   RawOrpResponseEntry,
 } from '../../src/server/data/types/rawOrpSearchResponse';
-import { ApiSearchResponseDto } from '../../src/server/api/types/ApiSearchResponse.dto';
-import * as snakecaseKeys from 'snakecase-keys';
+import {
+  ApiOrpSearchItem,
+  ApiSearchResponseDto,
+} from '../../src/server/api/types/ApiSearchResponse.dto';
 import {
   OrpSearchItem,
   SearchResponseDto,
@@ -66,6 +68,35 @@ export const getMappedOrpDocument = (
   };
 };
 
+export const getMappedOrpDocumentForApi = (
+  overrides: Partial<ApiOrpSearchItem> = {},
+): ApiOrpSearchItem => {
+  return {
+    title: 'Title',
+    description: 'This is the summary',
+    document_id: '0001',
+    creator: 'Office of Communications',
+    dates: {
+      uploaded: '2019-08-06T00:00:00Z',
+      published: '2018-08-06T00:00:00Z',
+    },
+    legislative_origins: [
+      {
+        url: 'www.lo.com',
+        title: 'Lo Title',
+        type: 'Lo Type',
+        division: 'Lo division',
+      },
+    ],
+    regulatory_topics: ['topic1', 'topic2'],
+    version: 1,
+    document_type: 'Guidance',
+    keyword: ['keyword1', 'keyword2'],
+    status: 'published',
+    ...overrides,
+  };
+};
+
 const docTitles = [
   'Title1',
   'Title2',
@@ -87,12 +118,12 @@ export const orpStandardResponse: RawOrpResponse = {
 };
 
 export const expectedApiOutputForOrpStandardResponse: ApiSearchResponseDto['regulatory_material'] =
-  snakecaseKeys({
+  {
     documents: docTitles.map((title, index) =>
-      getMappedOrpDocument({ title, documentId: String(index) }),
+      getMappedOrpDocumentForApi({ title, document_id: String(index) }),
     ),
     total_search_results: 13,
-  }) as unknown as ApiSearchResponseDto['regulatory_material'];
+  };
 
 export const expectedInternalOutputForOrpStandardResponse: SearchResponseDto['regulatoryMaterial'] =
   {

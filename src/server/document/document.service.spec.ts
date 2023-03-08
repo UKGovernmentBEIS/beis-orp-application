@@ -5,7 +5,10 @@ import { AwsDal } from '../data/aws.dal';
 import { HttpModule } from '@nestjs/axios';
 import { mockConfigService } from '../../../test/mocks/config.mock';
 import { Logger } from '@nestjs/common';
-import { getRawOrpDocument } from '../../../test/mocks/orpSearchMock';
+import {
+  getMappedOrpDocument,
+  getRawOrpDocument,
+} from '../../../test/mocks/orpSearchMock';
 import {
   getPdfAsMulterFile,
   getPdfBuffer,
@@ -105,10 +108,20 @@ describe('DocumentService', () => {
         .spyOn(awsDal, 'getObject')
         .mockResolvedValueOnce(Readable.from(buffer));
 
-      const result = await service.getDocument('id');
+      const result = await service.getDocumentStream('id');
 
       expect(getObjSpy).toBeCalledWith('thefile.pdf');
       expect(result).toBeInstanceOf(Readable);
+    });
+  });
+
+  describe('getDocumentById', () => {
+    it('should return the document search data', async () => {
+      jest.spyOn(orpDal, 'getById').mockResolvedValue(getRawOrpDocument());
+
+      const result = await service.getDocumentById('id');
+
+      expect(result).toEqual(getMappedOrpDocument());
     });
   });
 
@@ -122,7 +135,7 @@ describe('DocumentService', () => {
         .spyOn(awsDal, 'getObjectUrl')
         .mockResolvedValueOnce('http://document');
 
-      const result = await service.getDocumentDetail('id');
+      const result = await service.getDocumentWithPresignedUrl('id');
 
       expect(getUrlSpy).toBeCalledWith('thefile.pdf');
 
@@ -130,7 +143,6 @@ describe('DocumentService', () => {
         url: 'http://document',
         document: {
           title: 'Title',
-          uri: 'thefile.pdf',
         },
       });
     });

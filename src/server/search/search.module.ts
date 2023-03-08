@@ -3,11 +3,10 @@ import { SearchService } from './search.service';
 import { HttpModule } from '@nestjs/axios';
 import { DataModule } from '../data/data.module';
 import { SearchController } from './search.controller';
-import { RegulatorService } from '../regulator/regulator.service';
 
 @Module({
   imports: [HttpModule, DataModule],
-  providers: [SearchService, Logger, RegulatorService],
+  providers: [SearchService, Logger],
   exports: [SearchService],
   controllers: [SearchController],
 })

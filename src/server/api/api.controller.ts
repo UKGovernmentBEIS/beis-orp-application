@@ -41,7 +41,10 @@ import ApiTokenRequestDto from './types/ApiTokenRequest.dto';
 import ApiRefreshTokenRequestDto from './types/ApiRefreshTokenRequest.dto';
 import toSearchRequest from './utils/toSearchRequest';
 import toApiSearchResult from './utils/toApiSearchResult';
-import { ApiSearchResponseDto } from './types/ApiSearchResponse.dto';
+import {
+  ApiOrpSearchItem,
+  ApiSearchResponseDto,
+} from './types/ApiSearchResponse.dto';
 import * as snakecaseKeys from 'snakecase-keys';
 import ApiTokensDto from './types/ApiTokensDto';
 import ApiRefreshTokensDto from './types/ApiRefreshTokensDto';
@@ -114,16 +117,34 @@ export class ApiController {
   @UseGuards(JwtAuthenticationGuard)
   @ApiBearerAuth()
   @ApiTags('document')
-  @ApiOkResponse({
-    description: 'Returns the document in PDF format',
-    schema: { type: 'string', format: 'binary' },
+  @ApiOperation({
+    summary: 'Returns the document meta data for a given id',
   })
   @ApiNotFoundResponse({ description: 'The requested document was not found' })
   async getDocument(
+    @Param() { id }: DocumentRequestDto,
+  ): Promise<ApiOrpSearchItem> {
+    const document = await this.documentService.getDocumentById(id);
+    return snakecaseKeys(document);
+  }
+
+  @Get('document-download/:id')
+  @UseGuards(JwtAuthenticationGuard)
+  @ApiBearerAuth()
+  @ApiTags('document')
+  @ApiOperation({
+    summary: 'Returns the document as a streamable file',
+  })
+  @ApiOkResponse({
+    description: 'Returns the document as a streamable file',
+    schema: { type: 'string', format: 'binary' },
+  })
+  @ApiNotFoundResponse({ description: 'The requested document was not found' })
+  async downloadDocument(
     @Param() params: DocumentRequestDto,
   ): Promise<StreamableFile> {
     return new StreamableFile(
-      await this.documentService.getDocument(params.id),
+      await this.documentService.getDocumentStream(params.id),
     );
   }
 
