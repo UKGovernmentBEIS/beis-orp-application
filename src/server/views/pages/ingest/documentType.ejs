@@ -32,7 +32,7 @@
                                 <% Object.keys(documentTypes).forEach(function(docType) { %>
                                     <div class="govuk-radios__item">
                                         <input class="govuk-radios__input" id="document-type-<%= docType %>" name="documentType" type="radio" value="<%= docType %>" <% if (selected === docType) { %>checked<% } %>>
-                                        <label class="govuk-label govuk-radios__label" for="document-type">
+                                        <label class="govuk-label govuk-radios__label" for="document-type-<%= docType %>">
                                             <%= documentTypes[docType] %>
                                         </label>
                                         <% if (hint[docType]) { %>
@@ -44,7 +44,7 @@
                                 <% }); %>
                                 <div class="govuk-radios__item">
                                     <input class="govuk-radios__input" id="document-type-other" name="documentType" type="radio" value="OTHER" <% if (selected === 'OTHER') { %>checked<% } %>>
-                                    <label class="govuk-label govuk-radios__label" for="document-type">
+                                    <label class="govuk-label govuk-radios__label" for="document-type-other">
                                         Other
                                     </label>
                                     <div id="other-hint" class="govuk-hint govuk-radios__hint">

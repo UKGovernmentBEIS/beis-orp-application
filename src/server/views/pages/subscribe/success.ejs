@@ -3,7 +3,7 @@
 <% var message = locals.subscription === 'subscribed' ? 'You have been subscribed to receive email updates' : 'You have been unsubscribed from all email updates.' %>
 
 <div class="govuk-width-container">
-    <a href="/blog" class="govuk-back-link">Back</a>
+    <%- include('../../partials/components/backButton' , {href: "/blog"}); %>
     <main class="govuk-main-wrapper " id="main-content" role="main">
 
         <hr class="govuk-section-break govuk-section-break--xl">

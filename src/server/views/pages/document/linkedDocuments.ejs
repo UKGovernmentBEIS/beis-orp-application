@@ -1,7 +1,8 @@
 <%- include('../../partials/header'); %>
 
 <div class="govuk-width-container">
-    <a href="<%=locals.latestSearch%>#tna" class="govuk-back-link">Back</a>
+    <%- include('../../partials/components/backButton' , {href: `${locals.latestSearch}#tna`}); %>
+
     <main class="govuk-main-wrapper " id="main-content" role="main">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">

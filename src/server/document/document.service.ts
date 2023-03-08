@@ -67,9 +67,11 @@ export class DocumentService {
     id: string,
   ): Promise<{ document: RawOrpResponseEntry; url: string }> {
     const document = await this.orpDal.getById(id);
+    const url = await this.awsDal.getObjectUrl(document.uri);
+
     return {
       document,
-      url: await this.awsDal.getObjectUrl(document.uri),
+      url,
     };
   }
 
