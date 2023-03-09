@@ -4,21 +4,20 @@ import {
   Param,
   Query,
   Render,
+  StreamableFile,
   UseFilters,
   UseInterceptors,
 } from '@nestjs/common';
 import { DocumentService } from './document.service';
-import { ErrorFilter } from '../error.filter';
-import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 import { documentTypes } from '../search/types/documentTypes';
 import { SearchService } from '../search/search.service';
 import { OrpSearchItem } from '../search/types/SearchResponse.dto';
 import TnaDocMeta from './types/TnaDocMeta';
 import { Regulator } from '../regulator/types/Regulator';
 import regulators from '../regulator/config/regulators';
+import { ErrorFilter } from '../error.filter';
+import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 
-@UseFilters(ErrorFilter)
-@UseInterceptors(ViewDataInterceptor)
 @Controller('document')
 export class DocumentController {
   constructor(
@@ -26,6 +25,8 @@ export class DocumentController {
     private readonly searchService: SearchService,
   ) {}
   @Get('/view/:id')
+  @UseFilters(ErrorFilter)
+  @UseInterceptors(ViewDataInterceptor)
   @Render('pages/document')
   async getDocument(@Param() params: { id: string }): Promise<{
     document: OrpSearchItem;
@@ -46,6 +47,17 @@ export class DocumentController {
       docType,
     };
   }
+
+  @Get('/download/:id')
+  async downloadDocument(
+    @Param() params: { id: string },
+  ): Promise<StreamableFile> {
+    return new StreamableFile(
+      await this.documentService.getDocumentStream(params.id),
+    );
+  }
+  @UseFilters(ErrorFilter)
+  @UseInterceptors(ViewDataInterceptor)
   @Get('/linked-documents')
   @Render('pages/document/linkedDocuments')
   async getLinkedDocuments(@Query() { id }: { id: string }): Promise<{
