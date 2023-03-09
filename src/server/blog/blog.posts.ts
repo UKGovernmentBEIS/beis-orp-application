@@ -8,6 +8,10 @@ const BlogPosts = {
     description:
       'The Open Regulation Platform (ORP) has a simple objective: to create a platform which provides UK regulation as enriched, machine-readable data. By meeting this objective, the ORP will be an enabling service that can support the development of a range of tools that ensure regulation in the UK is digital-first and accessible to business in smarter ways.',
     // youtubeId: 'X2juNBpHtaU',
+    image: {
+      name: 'laptop.jpg',
+      alt: 'man looking at an ipad',
+    },
     content:
       '<p>The Open Regulation Platform (ORP) has a simple objective: to create a platform which provides UK regulation as enriched, machine-readable data. By meeting this objective, the ORP will be an enabling service that can support the development of a range of tools that ensure regulation in the UK is digital-first and accessible to business in smarter ways.</p>' +
       '<p><a href="https://www.gov.uk/government/publications/build-back-better-our-plan-for-growth/build-back-better-our-plan-for-growth-html" target="_blank" rel="noopener noreferrer">Less than a third</a> of UK businesses believe that the UK Government’s approach to regulation supports them in bringing new products and services to market. For the UK to have a regulatory system that is pro-innovation and provides a supportive environment to dynamic entrepreneurial business across all industries, regulatory reform needs to encourage new processes, products and business models.</p>' +
