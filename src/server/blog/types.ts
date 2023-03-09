@@ -19,5 +19,5 @@ export interface BlogPost {
   date: string;
   tags: { name: string; href: string }[];
   description: string;
-  youtubeId: string;
+  youtubeId?: string;
 }

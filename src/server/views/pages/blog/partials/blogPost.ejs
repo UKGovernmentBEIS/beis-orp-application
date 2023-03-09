@@ -10,9 +10,11 @@
         <%= post.date %>
     </p>
 
-    <div class="embed-container">
-        <iframe src="https://www.youtube.com/embed/<%= post.youtubeId %>" title="<%= post.title%> (video)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
+    <% if(post.youtubeId) { %>
+        <div class="embed-container">
+            <iframe src="https://www.youtube.com/embed/<%= post.youtubeId %>" title="<%= post.title%> (video)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    <% } %>
 
     <% if (summary === true) { %>
         <p><%= post.description %></p>
