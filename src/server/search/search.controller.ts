@@ -11,20 +11,17 @@ import {
 import { ErrorFilter } from '../error.filter';
 import { SearchService } from './search.service';
 import { ViewDataInterceptor } from '../../view-data-interceptor.service';
-import { RegulatorService } from '../regulator/regulator.service';
 import { SearchRequestDto } from './types/SearchRequest.dto';
 import { documentTypes } from './types/documentTypes';
 import { documentStatus } from './types/statusTypes';
 import { DateTransformPipe } from '../form-validation/date-transform.pipe';
+import regulators from '../regulator/config/regulators';
 
 @UseFilters(ErrorFilter)
 @UseInterceptors(ViewDataInterceptor)
 @Controller('search')
 export class SearchController {
-  constructor(
-    private readonly searchService: SearchService,
-    private readonly regulatorService: RegulatorService,
-  ) {}
+  constructor(private readonly searchService: SearchService) {}
 
   @Get('')
   @UsePipes(DateTransformPipe)
@@ -41,7 +38,7 @@ export class SearchController {
       searchedValues: searchRequestDto,
       results,
       filters: {
-        regulators: await this.regulatorService.getRegulators(),
+        regulators,
         docTypes: documentTypes,
         statuses: documentStatus,
       },

@@ -16,14 +16,12 @@ import {
   mapLinkedDocuments,
   mapOrpSearchResponse,
 } from './utils/orpSearchMapper';
-import { RegulatorService } from '../regulator/regulator.service';
 
 @Injectable()
 export class SearchService {
   constructor(
     private readonly tnaDal: TnaDal,
     private readonly orpDal: OrpDal,
-    private readonly regulatorService: RegulatorService,
   ) {}
 
   async search(searchRequest: SearchRequestDto): Promise<SearchResponseDto> {
@@ -31,11 +29,10 @@ export class SearchService {
       this.tnaDal.searchTna(searchRequest),
       this.orpDal.searchOrp(searchRequest),
     ]);
-    const regulators = await this.regulatorService.getRegulators();
 
     return {
       legislation,
-      regulatoryMaterial: mapOrpSearchResponse(regulatoryMaterial, regulators),
+      regulatoryMaterial: mapOrpSearchResponse(regulatoryMaterial),
     };
   }
 
@@ -71,8 +68,7 @@ export class SearchService {
     const data = await this.orpDal.postSearch({
       legislation_href: [legislation_href].flat(),
     });
-    const regulators = await this.regulatorService.getRegulators();
 
-    return mapLinkedDocuments(data, regulators);
+    return mapLinkedDocuments(data);
   }
 }

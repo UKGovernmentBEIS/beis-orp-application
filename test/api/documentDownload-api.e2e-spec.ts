@@ -3,10 +3,6 @@ import { getPdfBuffer } from '../mocks/uploadMocks';
 import { server } from '../mocks/server';
 import { rest } from 'msw';
 import { mockedSearchLambda } from '../mocks/config.mock';
-import {
-  getMappedOrpDocumentForApi,
-  getRawOrpDocument,
-} from '../mocks/orpSearchMock';
 
 const mockS3 = {
   send: jest.fn(),
@@ -19,7 +15,7 @@ jest.mock('@aws-sdk/client-s3', () => {
     GetObjectCommand: jest.fn((args) => ({ ...args, getObjectCommand: true })),
   };
 });
-describe('api/document/:id (GET)', () => {
+describe('api/document-download/:id (GET)', () => {
   const fixture = new E2eFixture();
   beforeAll(async () => {
     await fixture.init();
@@ -32,33 +28,32 @@ describe('api/document/:id (GET)', () => {
 
   describe('validation', () => {
     it('returns bad request if id not supplied', async () => {
-      return fixture.request().get('/api/document').send({}).expect(404);
+      return fixture
+        .request()
+        .get('/api/document-download')
+        .send({})
+        .expect(404);
     });
 
     it('is successful if id is provided', async () => {
-      return fixture.request().get('/api/document/1').expect(200);
+      return fixture.request().get('/api/document-download/1').expect(200);
     });
   });
 
   describe('get document', () => {
-    it('should call search and then get document meta with returned id', () => {
-      server.use(
-        rest.post(mockedSearchLambda, (req, res, ctx) => {
-          return res(
-            ctx.status(200),
-            ctx.json({
-              total_search_results: 1,
-              documents: [getRawOrpDocument()],
-            }),
-          );
-        }),
-      );
-
+    it('should call search and then get document with returned id', () => {
       return fixture
         .request()
-        .get('/api/document/1')
+        .get('/api/document-download/1')
         .expect(200)
-        .expect(getMappedOrpDocumentForApi());
+        .expect((res) => {
+          expect(mockS3.send).toBeCalledWith({
+            getObjectCommand: true,
+            Bucket: 'bucket',
+            Key: 'doc.pdf',
+          });
+          expect(res.body).toBeInstanceOf(Buffer);
+        });
     });
 
     it('should return a 404 if the orp search doesnt return a document', () => {
@@ -75,7 +70,7 @@ describe('api/document/:id (GET)', () => {
 
       return fixture
         .request()
-        .get('/api/document/1')
+        .get('/api/document-download/1')
         .expect(404)
         .expect(
           '{"statusCode":404,"message":"Document not found","error":"Not Found"}',

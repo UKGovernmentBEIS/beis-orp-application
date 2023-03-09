@@ -4,13 +4,14 @@ import { AwsDal } from '../data/aws.dal';
 import { UploadedFile } from '../data/types/UploadedFile';
 import { FileUpload } from '../data/types/FileUpload';
 import { Readable } from 'stream';
-import { RawOrpResponseEntry } from '../data/types/rawOrpSearchResponse';
 import { MetaItem, ObjectMetaData } from '../data/types/ObjectMetaData';
 import { TnaDal } from '../data/tna.dal';
 import { isEuDocument } from '../data/types/tnaDocs';
 import TnaDocMeta from './types/TnaDocMeta';
 import { getMetaFromEuDoc, getMetaFromUkDoc } from './utils/tnaMeta';
 import { ApiUser, User } from '../auth/types/User';
+import { mapOrpDocument } from '../search/utils/orpSearchMapper';
+import { OrpSearchItem } from '../search/types/SearchResponse.dto';
 
 @Injectable()
 export class DocumentService {
@@ -57,20 +58,25 @@ export class DocumentService {
     return upload;
   }
 
-  async getDocument(id: string): Promise<Readable> {
+  async getDocumentStream(id: string): Promise<Readable> {
     const { uri } = await this.orpDal.getById(id);
 
     return this.awsDal.getObject(uri);
   }
 
-  async getDocumentDetail(
+  async getDocumentById(id: string): Promise<OrpSearchItem> {
+    const document = await this.orpDal.getById(id);
+    return mapOrpDocument(document);
+  }
+
+  async getDocumentWithPresignedUrl(
     id: string,
-  ): Promise<{ document: RawOrpResponseEntry; url: string }> {
+  ): Promise<{ document: OrpSearchItem; url: string }> {
     const document = await this.orpDal.getById(id);
     const url = await this.awsDal.getObjectUrl(document.uri);
 
     return {
-      document,
+      document: mapOrpDocument(document),
       url,
     };
   }

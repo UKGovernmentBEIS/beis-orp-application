@@ -27,7 +27,7 @@ export class ApiOrpSearchItem {
   title: string;
   description: string;
   document_id: string;
-  regulator?: string;
+  creator?: string;
   dates: {
     uploaded: string;
     published: string;

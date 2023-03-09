@@ -6,18 +6,13 @@ import { OrpDal } from '../data/orp.dal';
 import { HttpModule } from '@nestjs/axios';
 import { mockConfigService } from '../../../test/mocks/config.mock';
 import { mockLogger } from '../../../test/mocks/logger.mock';
-import { RegulatorService } from '../regulator/regulator.service';
 import { documentTypes } from './types/documentTypes';
 import { documentStatus } from './types/statusTypes';
 import * as mocks from 'node-mocks-http';
-import { Regulator } from '../regulator/types/Regulator';
-
-const MOCK_REGULATORS: Regulator[] = [
-  { id: 'id', name: 'reg', domain: 'reg@reg.com' },
-];
+import regulators from '../regulator/config/regulators';
 
 const FILTERS = {
-  regulators: MOCK_REGULATORS,
+  regulators: regulators,
   docTypes: documentTypes,
   statuses: documentStatus,
 };
@@ -32,21 +27,9 @@ describe('SearchController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [SearchController],
-      providers: [
-        SearchService,
-        TnaDal,
-        OrpDal,
-        mockConfigService,
-        mockLogger,
-        RegulatorService,
-      ],
+      providers: [SearchService, TnaDal, OrpDal, mockConfigService, mockLogger],
       imports: [HttpModule],
-    })
-      .overrideProvider(RegulatorService)
-      .useValue({
-        getRegulators: () => MOCK_REGULATORS,
-      })
-      .compile();
+    }).compile();
 
     controller = module.get<SearchController>(SearchController);
     searchService = module.get<SearchService>(SearchService);

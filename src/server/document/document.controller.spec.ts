@@ -6,12 +6,8 @@ import { AwsDal } from '../data/aws.dal';
 import { mockConfigService } from '../../../test/mocks/config.mock';
 import { mockLogger } from '../../../test/mocks/logger.mock';
 import { HttpModule } from '@nestjs/axios';
-import {
-  getMappedOrpDocument,
-  getRawOrpDocument,
-} from '../../../test/mocks/orpSearchMock';
+import { getMappedOrpDocument } from '../../../test/mocks/orpSearchMock';
 import { RegulatorModule } from '../regulator/regulator.module';
-import { DEFAULT_REGULATOR } from '../../../test/mocks/user.mock';
 import { RegulatorService } from '../regulator/regulator.service';
 import { SearchService } from '../search/search.service';
 import { TnaDal } from '../data/tna.dal';
@@ -47,26 +43,24 @@ describe('DocumentController', () => {
   describe('getDocument', () => {
     it('should return information from document service', async () => {
       const orpResponse = {
-        document: getRawOrpDocument({
-          uri: 'thefile.pdf',
-          regulator_id: 'reg',
-          document_type: 'GD',
+        document: getMappedOrpDocument({
+          creator: 'Water Services Regulation Authority',
+          documentType: 'GD',
         }),
         url: 'http://document',
       };
       jest
-        .spyOn(documentService, 'getDocumentDetail')
+        .spyOn(documentService, 'getDocumentWithPresignedUrl')
         .mockResolvedValue(orpResponse);
 
-      const regMock = jest
-        .spyOn(regulatorService, 'getRegulatorById')
-        .mockReturnValue(DEFAULT_REGULATOR);
-
       const result = await controller.getDocument({ id: 'id' });
-      expect(regMock).toBeCalledWith('reg');
       expect(result).toEqual({
         ...orpResponse,
-        regulator: DEFAULT_REGULATOR,
+        regulator: {
+          domain: 'ofwat.gov.uk',
+          id: 'ofwat',
+          name: 'Water Services Regulation Authority',
+        },
         docType: 'Guidance',
       });
     });

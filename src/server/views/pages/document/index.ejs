@@ -2,9 +2,9 @@
     <%
         url = locals.url
         title = locals.document.title ?? "Title"
-        uid = locals.document.document_uid ?? ""
-        key = locals.document.object_key ?? ""
-        summary = locals.document.summary ?? ""
+        uid = locals.document.documentId ?? ""
+        summary = locals.document.description ?? ""
+        legislativeOrigins = locals.legislativeOrigins ?? []
     %>
 <div class="govuk-width-container">
     <%- include('../../partials/components/backButton' , {href: locals.latestSearch}); %>
@@ -35,7 +35,7 @@
                 </object>
             </div>
             <div class="govuk-grid-column-one-third">
-                <a href="/api/document/<%= uid %>" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button" download="<%= key %>">
+                <a href="/api/document-download/<%= uid %>" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button" download="<%= uid %>.pdf">
                     <div class="vertical-align">
                         <img src="/assets/images/download.svg" aria-label="download icon" class="govuk-!-padding-right-1"/>
                         <span>Download</span>
@@ -65,8 +65,8 @@
                 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
                 <div>
                     <h3 class="govuk-heading-s">Linked to Legislation</h3>
-                    <% if(document.legislative_origins.length) { %>
-                        <% document.legislative_origins.forEach(function(lo) { %>
+                    <% if(legislativeOrigins.length) { %>
+                        <% legislativeOrigins.forEach(function(lo) { %>
                         <div class="govuk-!-margin-bottom-4">
                             <a href="<%= lo.url %>" target="_blank" rel="noopener noreferrer" class="govuk-link govuk-link--no-visited-state" ><%= lo.title %></a>
                         </div>

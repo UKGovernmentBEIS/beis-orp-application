@@ -10,13 +10,12 @@ import {
 import { DocumentService } from './document.service';
 import { ErrorFilter } from '../error.filter';
 import { ViewDataInterceptor } from '../../view-data-interceptor.service';
-import { RawOrpResponseEntry } from '../data/types/rawOrpSearchResponse';
-import { RegulatorService } from '../regulator/regulator.service';
 import { documentTypes } from '../search/types/documentTypes';
 import { SearchService } from '../search/search.service';
 import { OrpSearchItem } from '../search/types/SearchResponse.dto';
 import TnaDocMeta from './types/TnaDocMeta';
 import { Regulator } from '../regulator/types/Regulator';
+import regulators from '../regulator/config/regulators';
 
 @UseFilters(ErrorFilter)
 @UseInterceptors(ViewDataInterceptor)
@@ -24,22 +23,23 @@ import { Regulator } from '../regulator/types/Regulator';
 export class DocumentController {
   constructor(
     private readonly documentService: DocumentService,
-    private readonly regulatorService: RegulatorService,
     private readonly searchService: SearchService,
   ) {}
   @Get('/view/:id')
   @Render('pages/document')
   async getDocument(@Param() params: { id: string }): Promise<{
-    document: RawOrpResponseEntry;
+    document: OrpSearchItem;
     url: string;
     regulator: Regulator;
     docType: string;
   }> {
-    const orpDoc = await this.documentService.getDocumentDetail(params.id);
-    const regulator = await this.regulatorService.getRegulatorById(
-      orpDoc.document.regulator_id,
+    const orpDoc = await this.documentService.getDocumentWithPresignedUrl(
+      params.id,
     );
-    const docType = documentTypes[orpDoc.document.document_type] ?? '';
+    const regulator = regulators.find(
+      (reg) => reg.name === orpDoc.document.creator,
+    );
+    const docType = documentTypes[orpDoc.document.documentType] ?? '';
     return {
       ...orpDoc,
       regulator,
