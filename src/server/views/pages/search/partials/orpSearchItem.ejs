@@ -1,8 +1,3 @@
-<%
- var regulator = allRegulators.find(reg => reg.id === item.regulatorId) ?? {}
- var documentType = allDocTypes[item.documentType]
-%>
-
 <div class="search-result orp-search-result govuk-!-margin-bottom-2">
     <div class="search-result-top-panel vertical-align-right">
         <a href="/api/document/<%= item.documentId %>" role="button" draggable="false" download="<%= item.documentId %>.pdf">
@@ -11,9 +6,9 @@
     </div>
     <div class="govuk-!-padding-3">
         <a href="/document/view/<%= item.documentId %>"><h3><%= item.title %></h3></a>
-        <p class="govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-2"><%= regulator.name %></p>
+        <p class="govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-2"><%= item.creator %></p>
         <p class="search-result-info govuk-!-font-size-16">
-            <span><%= documentType %></span>
+            <span><%= item.documentType %></span>
             <span> <%- include('../../../partials/components/dateDisplay', { dateString: item.dates.published }); %></span>
         </p>
         <div class="search-result-keywords">

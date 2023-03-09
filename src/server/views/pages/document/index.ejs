@@ -4,7 +4,7 @@
         title = locals.document.title ?? "Title"
         uid = locals.document.documentId ?? ""
         summary = locals.document.description ?? ""
-        legislativeOrigins = locals.legislativeOrigins ?? []
+        legislativeOrigins = locals.document.legislativeOrigins ?? []
     %>
 <div class="govuk-width-container">
     <%- include('../../partials/components/backButton' , {href: locals.latestSearch}); %>
@@ -46,7 +46,7 @@
                     <h3 class="govuk-heading-s">Details</h3>
                     <dl class="govuk-body heading-field-list govuk-!-font-size-16">
                         <dt class="govuk-summary-list__key">Published date</dt>
-                        <dd> <%- include('../../partials/components/dateDisplay', { dateString: locals.document.date_published }); %></dd>
+                        <dd> <%- include('../../partials/components/dateDisplay', { dateString: locals.document.dates.published }); %></dd>
                         <dt class="govuk-summary-list__key">Regulator</dt>
                         <dd><%= locals.regulator.name %></dd>
                         <dt class="govuk-summary-list__key">Status</dt>
