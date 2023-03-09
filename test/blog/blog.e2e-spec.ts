@@ -14,7 +14,7 @@ describe('BlogController (e2e)', () => {
       .expect(200)
       .expect((res) => {
         expect(res.text).toContain(
-          '<h2 class="govuk-heading-l">Building the Open Regulation Platform</h2>',
+          '<h2 class="govuk-heading-l">Making regulation more accessible: Value driven by the ORP</h2>',
         );
       });
   });

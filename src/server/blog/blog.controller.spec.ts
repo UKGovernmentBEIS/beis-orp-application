@@ -31,13 +31,13 @@ describe('AppController', () => {
         post: posts['1'],
         social: {
           email:
-            'mailto:?to=&body=https://test.com/blog/1&subject=Building the Open Regulation Platform',
+            'mailto:?to=&body=https://test.com/blog/1&subject=Making regulation more accessible: Value driven by the ORP',
           facebook:
             'https://www.facebook.com/sharer/sharer.php?u=https://test.com/blog/1',
           linkedIn:
-            'https://www.linkedin.com/shareArticle/?url=https://test.com/blog/1&title=Building the Open Regulation Platform',
+            'https://www.linkedin.com/shareArticle/?url=https://test.com/blog/1&title=Making regulation more accessible: Value driven by the ORP',
           twitter:
-            'https://twitter.com/share?text=Building the Open Regulation Platform&url=https://test.com/blog/1',
+            'https://twitter.com/share?text=Making regulation more accessible: Value driven by the ORP&url=https://test.com/blog/1',
         },
       });
     });
