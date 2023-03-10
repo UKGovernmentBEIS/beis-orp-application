@@ -167,6 +167,7 @@ describe('DocumentService', () => {
         uuid: 'id',
         uploaded_date: 'data',
         file_name: 'file',
+        document_format: 'application/pdf',
       };
       const getMetaSpy = jest
         .spyOn(awsDal, 'getObjectMeta')

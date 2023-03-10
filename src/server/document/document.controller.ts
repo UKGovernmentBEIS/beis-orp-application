@@ -40,6 +40,7 @@ export class DocumentController {
     const regulator = regulators.find(
       (reg) => reg.name === orpDoc.document.creator,
     );
+
     const docType = documentTypes[orpDoc.document.documentType] ?? '';
     return {
       ...orpDoc,
