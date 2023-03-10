@@ -56,6 +56,7 @@ export class AwsDal {
           file_name: originalname,
           regulator_id: regulatorId,
           user_id: cognitoUsername,
+          document_format: mimetype,
           ...meta,
         },
         ACL: 'authenticated-read',
@@ -124,6 +125,7 @@ export class AwsDal {
       Key: key,
       MetadataDirective: 'REPLACE',
       CopySource: `${this.awsConfig.ingestionBucket}/${key}`,
+      ContentType: meta.document_format,
       Metadata: {
         ...meta,
         ...newMeta,

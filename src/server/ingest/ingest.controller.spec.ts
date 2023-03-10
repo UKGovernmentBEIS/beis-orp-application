@@ -102,6 +102,7 @@ describe('IngestController', () => {
             uuid: 'id',
             uploaded_date: 'data',
             document_type: 'GD',
+            document_format: 'application/pdf',
           });
 
         const expectedResult = await controller.chooseDocType({
@@ -148,6 +149,7 @@ describe('IngestController', () => {
             uploaded_date: 'data',
             document_type: 'GD',
             status: 'published',
+            document_format: 'application/pdf',
           });
 
         const expectedResult = await controller.chooseDraft({
@@ -190,6 +192,7 @@ describe('IngestController', () => {
             uuid: 'id',
             uploaded_date: 'data',
             status: 'published',
+            document_format: 'application/pdf',
           });
 
         const expectedResult = await controller.submit({
@@ -229,6 +232,7 @@ describe('IngestController', () => {
           file_name: 'fn',
           uuid: 'id',
           uploaded_date: 'data',
+          document_format: 'application/pdf',
         });
 
       const expectedResult = await controller.success({

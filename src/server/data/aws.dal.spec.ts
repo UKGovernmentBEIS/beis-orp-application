@@ -84,6 +84,7 @@ describe('AwsDal', () => {
           regulator_id: 'regid',
           user_id: 'cogun',
           status: 'published',
+          document_format: file.mimetype,
         },
         ACL: 'authenticated-read',
       });
@@ -116,6 +117,7 @@ describe('AwsDal', () => {
           file_name: 'Original-Filename',
           regulator_id: 'regid',
           user_id: 'cogun',
+          document_format: file.mimetype,
         },
         ACL: 'authenticated-read',
       });
