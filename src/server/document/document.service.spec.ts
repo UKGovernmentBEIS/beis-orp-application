@@ -17,7 +17,8 @@ import { Readable } from 'stream';
 import { TnaDal } from '../data/tna.dal';
 import {
   tnaEuDocumentMockJson,
-  tnaUkDocumentMockJson,
+  tnaUkPrimaryLegislationDocumentMockJson,
+  tnaUkSecondaryLegislationDocumentMockJson,
 } from '../../../test/mocks/tnaDocumentsMock';
 import { TnaEuDoc } from '../data/types/tnaDocs';
 import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/user.mock';
@@ -240,9 +241,26 @@ describe('DocumentService', () => {
       });
     });
 
-    it('should request and map when UK document', async () => {
+    it('should request and map when UK Primary legislation document', async () => {
       // done to avoid confusing jest mocking
-      const resp = tnaUkDocumentMockJson as unknown as TnaEuDoc;
+      const resp =
+        tnaUkPrimaryLegislationDocumentMockJson as unknown as TnaEuDoc;
+      jest.spyOn(tnaDal, 'getDocumentById').mockResolvedValueOnce(resp);
+
+      const result = await service.getTnaDocument('href');
+
+      expect(result).toEqual({
+        docType: 'Primary',
+        number: '42',
+        title: 'Human Rights Act 1998',
+        year: '1998',
+      });
+    });
+
+    it('should request and map when UK Secondary legislation document', async () => {
+      // done to avoid confusing jest mocking
+      const resp =
+        tnaUkSecondaryLegislationDocumentMockJson as unknown as TnaEuDoc;
       jest.spyOn(tnaDal, 'getDocumentById').mockResolvedValueOnce(resp);
 
       const result = await service.getTnaDocument('href');
