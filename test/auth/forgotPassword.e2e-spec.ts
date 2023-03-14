@@ -35,7 +35,7 @@ describe('Forgot Reset (e2e)', () => {
         })
         .expect(302)
         .expect('Location', 'set-new-password')
-        .expect((res) => {
+        .expect(() => {
           expect(mockCognito.send).toBeCalledTimes(1);
           expect(mockCognito.send).toBeCalledWith({
             forgotPasswordCommand: true,
@@ -109,7 +109,7 @@ describe('Forgot Reset (e2e)', () => {
         })
         .expect(302)
         .expect('Location', 'forgot-password-success')
-        .expect((res) => {
+        .expect(() => {
           expect(mockCognito.send).toBeCalledTimes(1);
           expect(mockCognito.send).toBeCalledWith({
             confirmForgotPasswordCommand: true,

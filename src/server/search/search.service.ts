@@ -1,14 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { TnaDal } from '../data/tna.dal';
-import {
-  SearchResponseDto,
-  TnaSearchResponse,
-} from './types/SearchResponse.dto';
+import { SearchResponseDto } from './types/SearchResponse.dto';
 import { OrpDal } from '../data/orp.dal';
-import {
-  SearchViewModel,
-  TnaSearchResponseViewModel,
-} from './types/SearchViewModel';
 import { SearchRequestDto } from './types/SearchRequest.dto';
 import { LinkedDocumentsRequestDto } from '../api/types/LinkedDocumentsRequest.dto';
 import { LinkedDocumentsResponseDto } from './types/LinkedDocumentsResponse.dto';
@@ -16,6 +9,7 @@ import {
   mapLinkedDocuments,
   mapOrpSearchResponse,
 } from './utils/orpSearchMapper';
+import { mapTnaSearchResponse } from './utils/tnaSearchMapper';
 
 @Injectable()
 export class SearchService {
@@ -31,34 +25,8 @@ export class SearchService {
     ]);
 
     return {
-      legislation,
+      legislation: mapTnaSearchResponse(legislation),
       regulatoryMaterial: mapOrpSearchResponse(regulatoryMaterial),
-    };
-  }
-
-  toTnaViewModel(tnaItem: TnaSearchResponse): TnaSearchResponseViewModel {
-    return {
-      ...tnaItem,
-      documents: tnaItem.documents.map((document) => ({
-        ...document,
-        href: (
-          document.links.find((link) => link.rel === 'self') ??
-          document.links[0]
-        ).href,
-      })),
-    };
-  }
-
-  async searchForView(
-    searchRequest: SearchRequestDto,
-  ): Promise<SearchViewModel> {
-    const { legislation, regulatoryMaterial } = await this.search(
-      searchRequest,
-    );
-
-    return {
-      legislation: this.toTnaViewModel(legislation),
-      regulatoryMaterial,
     };
   }
 

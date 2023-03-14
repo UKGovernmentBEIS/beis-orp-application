@@ -15,6 +15,11 @@ import {
   linkedDocsRawResponse,
 } from '../../../test/mocks/linkedDocumentsMock';
 import { RawOrpResponse } from '../data/types/rawOrpSearchResponse';
+import { RawTnaResponse } from '../data/types/rawTnaSearchResponse';
+import {
+  expectedInternalOutputForTnaStandardResponse,
+  tnaStandardResponseJson,
+} from '../../../test/mocks/tnaSearchMock';
 
 describe('SearchService', () => {
   let service: SearchService;
@@ -41,78 +46,41 @@ describe('SearchService', () => {
 
   describe('search', () => {
     it('should search the national archives and orp', async () => {
-      const tnaResponse = { totalSearchResults: 10, documents: [] };
-      const orpResponse = { total_search_results: 5, documents: [] };
-      jest.spyOn(tnaDal, 'searchTna').mockResolvedValue(tnaResponse);
-      jest.spyOn(orpDal, 'searchOrp').mockResolvedValue(orpResponse);
-
-      expect(await service.search({ title: 'a', keyword: 'b' })).toStrictEqual({
-        legislation: tnaResponse,
-        regulatoryMaterial: { totalSearchResults: 5, documents: [] },
-      });
-    });
-
-    it('should map the response from orp', async () => {
-      const tnaResponse = { totalSearchResults: 10, documents: [] };
-      jest.spyOn(tnaDal, 'searchTna').mockResolvedValue(tnaResponse);
-      jest.spyOn(orpDal, 'searchOrp').mockResolvedValue(orpStandardResponse);
-
-      expect(await service.search({ title: 'a', keyword: 'b' })).toStrictEqual({
-        legislation: tnaResponse,
-        regulatoryMaterial: expectedInternalOutputForOrpStandardResponse,
-      });
-    });
-  });
-
-  describe('searchForView', () => {
-    it('should search the national archives and orp and map to view object', async () => {
-      const tnaResponse = {
-        totalSearchResults: 10,
-        documents: [
-          {
-            legislationType: 'EuropeanUnionRegulation',
-            links: [
-              {
-                href: 'http://www.legislation.gov.uk/id/eur/2019/1397',
-                rel: 'self',
-              },
-              {
-                href: 'http://www.legislation.gov.uk/eur/2019/1397/2020-08-31',
-              },
-              {
-                href: 'http://www.legislation.gov.uk/eur/2019/1397/2020-08-31/data.xml',
-                title: 'XML',
-                type: 'application/xml',
-                rel: 'alternate',
-              },
-            ],
-            dates: {
-              published: '2019-08-06T00:00:00Z',
-              updated: '2020-12-12T23:12:15Z',
-            },
-            number: 1397,
-            year: 2019,
-            title:
-              'Commission Implementing Regulation (EU) 2019/1397 of 6 August 2019 on design, construction and performance requirements and testing standards for marine equipment and repealing Implementing Regulation (EU) 2018/773 (Text with EEA relevance) (repealed)',
-          },
-        ],
+      const tnaResponse: RawTnaResponse = {
+        feed: { entry: [], 'openSearch:totalResults': { _text: '0' } },
       };
       const orpResponse = { total_search_results: 5, documents: [] };
       jest.spyOn(tnaDal, 'searchTna').mockResolvedValue(tnaResponse);
       jest.spyOn(orpDal, 'searchOrp').mockResolvedValue(orpResponse);
 
-      expect(
-        await service.searchForView({ title: 'a', keyword: 'b' }),
-      ).toStrictEqual({
-        legislation: {
-          ...tnaResponse,
-          documents: [
-            {
-              ...tnaResponse.documents[0],
-              href: 'http://www.legislation.gov.uk/id/eur/2019/1397',
-            },
-          ],
-        },
+      expect(await service.search({ title: 'a', keyword: 'b' })).toStrictEqual({
+        legislation: { totalSearchResults: 0, documents: [] },
+        regulatoryMaterial: { totalSearchResults: 5, documents: [] },
+      });
+    });
+
+    it('should map the response from orp', async () => {
+      const tnaResponse: RawTnaResponse = {
+        feed: { entry: [], 'openSearch:totalResults': { _text: '0' } },
+      };
+      jest.spyOn(tnaDal, 'searchTna').mockResolvedValue(tnaResponse);
+      jest.spyOn(orpDal, 'searchOrp').mockResolvedValue(orpStandardResponse);
+
+      expect(await service.search({ title: 'a', keyword: 'b' })).toStrictEqual({
+        legislation: { totalSearchResults: 0, documents: [] },
+        regulatoryMaterial: expectedInternalOutputForOrpStandardResponse,
+      });
+    });
+
+    it('should map TNA response', async () => {
+      const orpResponse = { total_search_results: 5, documents: [] };
+      jest
+        .spyOn(tnaDal, 'searchTna')
+        .mockResolvedValue(tnaStandardResponseJson);
+      jest.spyOn(orpDal, 'searchOrp').mockResolvedValue(orpResponse);
+
+      expect(await service.search({ title: 'a', keyword: 'b' })).toEqual({
+        legislation: expectedInternalOutputForTnaStandardResponse,
         regulatoryMaterial: { totalSearchResults: 5, documents: [] },
       });
     });

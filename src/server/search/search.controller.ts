@@ -29,7 +29,7 @@ export class SearchController {
   async search(@Req() request, @Query() searchRequestDto?: SearchRequestDto) {
     const results =
       searchRequestDto.title || searchRequestDto.keyword
-        ? await this.searchService.searchForView(searchRequestDto)
+        ? await this.searchService.search(searchRequestDto)
         : null;
 
     request.session.latestSearch = request.url;

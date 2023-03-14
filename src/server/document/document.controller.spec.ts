@@ -8,7 +8,6 @@ import { mockLogger } from '../../../test/mocks/logger.mock';
 import { HttpModule } from '@nestjs/axios';
 import { getMappedOrpDocument } from '../../../test/mocks/orpSearchMock';
 import { RegulatorModule } from '../regulator/regulator.module';
-import { RegulatorService } from '../regulator/regulator.service';
 import { SearchService } from '../search/search.service';
 import { TnaDal } from '../data/tna.dal';
 import TnaDocMeta from './types/TnaDocMeta';
@@ -16,7 +15,6 @@ import TnaDocMeta from './types/TnaDocMeta';
 describe('DocumentController', () => {
   let controller: DocumentController;
   let documentService: DocumentService;
-  let regulatorService: RegulatorService;
   let searchService: SearchService;
 
   beforeEach(async () => {
@@ -36,7 +34,6 @@ describe('DocumentController', () => {
 
     controller = module.get<DocumentController>(DocumentController);
     documentService = module.get<DocumentService>(DocumentService);
-    regulatorService = module.get<RegulatorService>(RegulatorService);
     searchService = module.get<SearchService>(SearchService);
   });
 

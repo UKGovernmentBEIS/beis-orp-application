@@ -36,7 +36,7 @@ describe('Register (e2e)', () => {
         })
         .expect(302)
         .expect('Location', '/auth/unconfirmed')
-        .expect((res) => {
+        .expect(() => {
           expect(mockCognito.send).toBeCalledTimes(1);
           expect(mockCognito.send).toBeCalledWith({
             signUpCommand: true,
