@@ -5,8 +5,8 @@ import { expectedInternalOutputForTnaStandardResponse } from '../../../test/mock
 import { rest } from 'msw';
 import { server } from '../../../test/mocks/server';
 import {
-  tnaUkDocumentMock,
-  tnaUkDocumentMockJson,
+  tnaUkSecondaryLegislationDocumentMock,
+  tnaUkSecondaryLegislationDocumentMockJson,
 } from '../../../test/mocks/tnaDocumentsMock';
 
 describe('TNA data access layer', () => {
@@ -277,16 +277,16 @@ describe('TNA data access layer', () => {
   });
 
   describe('getDocumentById', () => {
-    it('requests xml data and converts to JS', async () => {
+    it('requests xml data and converts to JS secondary legislation', async () => {
       server.use(
         rest.get('https://www.tna-id.com/data.xml', (req, res, ctx) => {
-          return res(ctx.xml(tnaUkDocumentMock));
+          return res(ctx.xml(tnaUkSecondaryLegislationDocumentMock));
         }),
       );
 
       const result = await tnaDal.getDocumentById('https://www.tna-id.com');
 
-      expect(result).toEqual(tnaUkDocumentMockJson);
+      expect(result).toEqual(tnaUkSecondaryLegislationDocumentMockJson);
     });
   });
 });

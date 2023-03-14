@@ -10,7 +10,7 @@ import {
   RawTnaResponse,
 } from './types/rawTnaSearchResponse';
 import { SearchRequestDto } from '../search/types/SearchRequest.dto';
-import { TnaEuDoc, TnaUkDoc } from './types/tnaDocs';
+import { TnaEuDoc, TnaPrimaryUkDoc, TnaSecondaryUkDoc } from './types/tnaDocs';
 import { getTnaDocType } from '../document/utils/tnaDocumentType.config';
 
 export const TNA_URL = 'https://www.legislation.gov.uk/all/data.feed';
@@ -82,7 +82,9 @@ export class TnaDal {
     return this.mapResponse(convert.xml2json(data, { compact: true }));
   }
 
-  async getDocumentById(href): Promise<TnaUkDoc | TnaEuDoc> {
+  async getDocumentById(
+    href,
+  ): Promise<TnaPrimaryUkDoc | TnaSecondaryUkDoc | TnaEuDoc> {
     const { data } = await firstValueFrom(
       this.httpService.get(`${href}/data.xml`),
     );

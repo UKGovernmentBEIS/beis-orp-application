@@ -1,46 +1,4 @@
-export const tnaEuDocumentMock = `<Legislation xmlns="http://www.legislation.gov.uk/namespaces/legislation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" DocumentURI="http://www.legislation.gov.uk/eudr/2003/18/adopted" IdURI="http://www.legislation.gov.uk/id/eudr/2003/18" NumberOfProvisions="0" SchemaVersion="1.0" xsi:schemaLocation="http://www.legislation.gov.uk/namespaces/legislation http://www.legislation.gov.uk/schema/legislation.xsd">
-  <ukm:Metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:ukm="http://www.legislation.gov.uk/namespaces/metadata">
-  <dc:identifier>http://www.legislation.gov.uk/eudr/2003/18/adopted</dc:identifier>
-<dc:title>EU Doc Title</dc:title>
-<dct:alternative>Directive 2003/18/EC of the European Parliament and of the Council</dct:alternative>
-<dc:language>en</dc:language>
-<dc:publisher>Queen's Printer of Acts of Parliament</dc:publisher>
-<dc:modified>2019-09-08</dc:modified>
-<atom:link rel="self" href="http://www.legislation.gov.uk/eudr/2003/18/adopted/data.xml" type="application/xml"/>
-  <atom:link rel="http://www.legislation.gov.uk/def/navigation/resources" href="http://www.legislation.gov.uk/eudr/2003/18/resources" title="More Resources"/>
-  <atom:link rel="http://www.legislation.gov.uk/def/date/euexitday" href="http://www.legislation.gov.uk/eudr/2003/18/adopted/2020-01-31" title="2020-01-31"/>
-  <atom:link rel="alternate" type="application/rdf+xml" href="http://www.legislation.gov.uk/eudr/2003/18/adopted/data.rdf" title="RDF/XML"/>
-  <atom:link rel="alternate" type="application/akn+xml" href="http://www.legislation.gov.uk/eudr/2003/18/adopted/data.akn" title="AKN"/>
-  <atom:link rel="alternate" type="text/html" href="http://www.legislation.gov.uk/eudr/2003/18/adopted/data.htm" title="Website (XHTML) Default View"/>
-  <atom:link rel="alternate" href="http://www.legislation.gov.uk/eudr/2003/18/pdfs/eudr_20030018_adopted_en.pdf" type="application/pdf" title="Original PDF"/>
-  <ukm:EUMetadata>
-<ukm:DocumentClassification>
-<ukm:DocumentCategory Value="euretained"/>
-  <ukm:DocumentMainType Value="EuropeanUnionDirective"/>
-  <ukm:DocumentStatus Value="final"/>
-  </ukm:DocumentClassification>
-  <ukm:Year Value="2003"/>
-  <ukm:Number Value="18"/>
-  <ukm:UnappliedEffects>
-<ukm:UnappliedEffect EffectId="key-622cb53180bcb2a31ff7e97dc130d811" AffectedURI="http://www.legislation.gov.uk/id/eudr/2003/18" AffectedClass="EuropeanUnionDirective" AffectingURI="http://www.legislation.gov.uk/id/eudr/2009/148" AffectingClass="EuropeanUnionDirective" URI="http://www.legislation.gov.uk/id/effect/upload-07iiobn4-1" Row="1" Type="repeal" AffectingYear="2009" AffectingNumber="148" AffectedYear="2003" AffectedNumber="18" AffectedProvisions="Directive" AffectingProvisions="Directive" RequiresApplied="true" Created="2020-12-12T05:30:24Z" Comments="date unknown" Modified="2020-12-12T05:30:24Z">
-  <ukm:AffectedTitle>EU Doc Title</ukm:AffectedTitle>
-<ukm:AffectedProvisions>Directive</ukm:AffectedProvisions>
-<ukm:AffectingTitle>Directive 2009/148/EC of the European Parliament and of the Council of 30 November 2009 on the protection of workers from the risks related to exposure to asbestos at work (Text with EEA relevance)</ukm:AffectingTitle>
-<ukm:AffectingProvisions>Directive</ukm:AffectingProvisions>
-<ukm:InForceDates>
-<ukm:InForce Prospective="true" Qualification="" Applied="false"/>
-  </ukm:InForceDates>
-  </ukm:UnappliedEffect>
-  </ukm:UnappliedEffects>
-  </ukm:EUMetadata>
-  <ukm:Alternatives>
-<ukm:Alternative URI="http://www.legislation.gov.uk/eudr/2003/18/pdfs/eudr_20030018_adopted_en.pdf" Date="2003-03-27" Size="122610"/>
-  </ukm:Alternatives>
-  </ukm:Metadata>
-  </Legislation>
-`;
-
-export const tnaUkDocumentMock = `
+export const tnaUkSecondaryLegislationDocumentMock = `
 <Legislation xmlns="http://www.legislation.gov.uk/namespaces/legislation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" DocumentURI="http://www.legislation.gov.uk/uksi/2012/632" IdURI="http://www.legislation.gov.uk/id/uksi/2012/632" NumberOfProvisions="53" xsi:schemaLocation="http://www.legislation.gov.uk/namespaces/legislation http://www.legislation.gov.uk/schema/legislation.xsd" SchemaVersion="1.0" RestrictExtent="E+W+S+N.I." RestrictStartDate="2020-12-31">
 <ukm:Metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:ukm="http://www.legislation.gov.uk/namespaces/metadata">
 <dc:identifier>http://www.legislation.gov.uk/uksi/2012/632/contents</dc:identifier>
@@ -606,7 +564,7 @@ export const tnaEuDocumentMockJson = {
   },
 };
 
-export const tnaUkDocumentMockJson = {
+export const tnaUkSecondaryLegislationDocumentMockJson = {
   Legislation: {
     _attributes: {
       xmlns: 'http://www.legislation.gov.uk/namespaces/legislation',
@@ -2088,6 +2046,2828 @@ export const tnaUkDocumentMockJson = {
                 _text: 'S.I. 2006/608',
               },
               _text: '\n.\n',
+            },
+          },
+        },
+      ],
+    },
+  },
+};
+export const tnaUkPrimaryLegislationDocumentMockJson = {
+  Legislation: {
+    _attributes: {
+      xmlns: 'http://www.legislation.gov.uk/namespaces/legislation',
+      'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+      DocumentURI: 'http://www.legislation.gov.uk/ukpga/1998/42',
+      IdURI: 'http://www.legislation.gov.uk/id/ukpga/1998/42',
+      NumberOfProvisions: '57',
+      'xsi:schemaLocation':
+        'http://www.legislation.gov.uk/namespaces/legislation http://www.legislation.gov.uk/schema/legislation.xsd',
+      SchemaVersion: '1.0',
+      RestrictExtent: 'E+W+S+N.I.',
+      RestrictStartDate: '2021-06-30',
+    },
+    'ukm:Metadata': {
+      _attributes: {
+        'xmlns:dc': 'http://purl.org/dc/elements/1.1/',
+        'xmlns:dct': 'http://purl.org/dc/terms/',
+        'xmlns:atom': 'http://www.w3.org/2005/Atom',
+        'xmlns:ukm': 'http://www.legislation.gov.uk/namespaces/metadata',
+      },
+      'dc:identifier': {
+        _text: 'http://www.legislation.gov.uk/ukpga/1998/42/contents',
+      },
+      'dc:title': {
+        _text: 'Human Rights Act 1998',
+      },
+      'dc:description': {
+        _text:
+          'An Act to give further effect to rights and freedoms guaranteed under the European Convention on Human Rights; to make provision with respect to holders of certain judicial offices who become judges of the European Court of Human Rights; and for connected purposes.',
+      },
+      'dc:date': {
+        _text: '1998-11-09',
+      },
+      'dc:type': {
+        _text: 'text',
+      },
+      'dc:format': {
+        _text: 'text/xml',
+      },
+      'dc:language': {
+        _text: 'en',
+      },
+      'dc:publisher': {
+        _text: 'Statute Law Database',
+      },
+      'dc:modified': {
+        _text: '2021-08-18',
+      },
+      'dc:contributor': {
+        _text: 'Expert Participation',
+      },
+      'dct:valid': {
+        _text: '2021-06-30',
+      },
+      'atom:link': [
+        {
+          _attributes: {
+            rel: 'self',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/data.xml',
+            type: 'application/xml',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://www.legislation.gov.uk/def/navigation/resources',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/resources',
+            title: 'More Resources',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://www.legislation.gov.uk/def/navigation/act',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42',
+            title: 'whole act',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://www.legislation.gov.uk/def/navigation/introduction',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/introduction',
+            title: 'introduction',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://www.legislation.gov.uk/def/navigation/body',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/body',
+            title: 'body',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://www.legislation.gov.uk/def/navigation/schedules',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/schedules',
+            title: 'schedules',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'alternate',
+            type: 'application/akn+xml',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/data.akn',
+            title: 'AKN',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'alternate',
+            type: 'application/xhtml+xml',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/data.xht',
+            title: 'HTML snippet',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'alternate',
+            type: 'text/html',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/data.htm',
+            title: 'Website (XHTML) Default View',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'alternate',
+            type: 'application/pdf',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/data.pdf',
+            title: 'PDF',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'alternate',
+            type: 'application/akn+xhtml',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/data.html',
+            title: 'HTML5 snippet',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/tableOfContents',
+            hreflang: 'en',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents',
+            title: 'Table of Contents',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/replaces',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2020-12-31',
+            title: '2020-12-31',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/enacted',
+            title: 'enacted',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/1998-11-09',
+            title: '1998-11-09',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/1998-11-24',
+            title: '1998-11-24',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2000-07-27',
+            title: '2000-07-27',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2000-10-02',
+            title: '2000-10-02',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2001-04-01',
+            title: '2001-04-01',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2001-11-26',
+            title: '2001-11-26',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2001-12-20',
+            title: '2001-12-20',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2003-08-19',
+            title: '2003-08-19',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2004-06-22',
+            title: '2004-06-22',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2005-04-01',
+            title: '2005-04-01',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2005-04-08',
+            title: '2005-04-08',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2006-01-12',
+            title: '2006-01-12',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2006-04-03',
+            title: '2006-04-03',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2007-05-03',
+            title: '2007-05-03',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2007-10-01',
+            title: '2007-10-01',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2009-03-28',
+            title: '2009-03-28',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2009-10-01',
+            title: '2009-10-01',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2009-10-31',
+            title: '2009-10-31',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2013-10-01',
+            title: '2013-10-01',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2014-04-01',
+            title: '2014-04-01',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2015-03-05',
+            title: '2015-03-05',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2015-04-01',
+            title: '2015-04-01',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2018-04-01',
+            title: '2018-04-01',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2020-01-30',
+            title: '2020-01-30',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2020-10-21',
+            title: '2020-10-21',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2020-12-31',
+            title: '2020-12-31',
+          },
+        },
+        {
+          _attributes: {
+            rel: 'http://purl.org/dc/terms/hasVersion',
+            href: 'http://www.legislation.gov.uk/ukpga/1998/42/contents/2021-06-30',
+            title: '2021-06-30',
+          },
+        },
+      ],
+      'ukm:PrimaryMetadata': {
+        'ukm:DocumentClassification': {
+          'ukm:DocumentCategory': {
+            _attributes: {
+              Value: 'primary',
+            },
+          },
+          'ukm:DocumentMainType': {
+            _attributes: {
+              Value: 'UnitedKingdomPublicGeneralAct',
+            },
+          },
+          'ukm:DocumentStatus': {
+            _attributes: {
+              Value: 'revised',
+            },
+          },
+        },
+        'ukm:Year': {
+          _attributes: {
+            Value: '1998',
+          },
+        },
+        'ukm:Number': {
+          _attributes: {
+            Value: '42',
+          },
+        },
+        'ukm:EnactmentDate': {
+          _attributes: {
+            Date: '1998-11-09',
+          },
+        },
+        'ukm:ISBN': {
+          _attributes: {
+            Value: '0105442984',
+          },
+        },
+      },
+      'ukm:Alternatives': {
+        'ukm:Alternative': {
+          _attributes: {
+            URI: 'http://www.legislation.gov.uk/ukpga/1998/42/pdfs/ukpga_19980042_en.pdf',
+            Date: '2015-02-15',
+          },
+        },
+      },
+      'ukm:Statistics': {
+        'ukm:TotalParagraphs': {
+          _attributes: {
+            Value: '79',
+          },
+        },
+        'ukm:BodyParagraphs': {
+          _attributes: {
+            Value: '23',
+          },
+        },
+        'ukm:ScheduleParagraphs': {
+          _attributes: {
+            Value: '56',
+          },
+        },
+        'ukm:AttachmentParagraphs': {
+          _attributes: {
+            Value: '0',
+          },
+        },
+        'ukm:TotalImages': {
+          _attributes: {
+            Value: '0',
+          },
+        },
+      },
+    },
+    Contents: {
+      ContentsTitle: {
+        _text: 'Human Rights Act 1998',
+      },
+      ContentsPblock: [
+        {
+          _attributes: {
+            ContentRef: 'crossheading-introduction',
+            IdURI:
+              'http://www.legislation.gov.uk/id/ukpga/1998/42/crossheading/introduction',
+            DocumentURI:
+              'http://www.legislation.gov.uk/ukpga/1998/42/crossheading/introduction',
+            RestrictExtent: 'E+W+S+N.I.',
+          },
+          ContentsTitle: {
+            _text: ' Introduction',
+          },
+          ContentsItem: [
+            {
+              _attributes: {
+                ContentRef: 'section-1',
+                IdURI:
+                  'http://www.legislation.gov.uk/id/ukpga/1998/42/section/1',
+                RestrictExtent: 'E+W+S+N.I.',
+                ConfersPower: 'true',
+                DocumentURI:
+                  'http://www.legislation.gov.uk/ukpga/1998/42/section/1',
+              },
+              ContentsNumber: {
+                _text: '1',
+              },
+              ContentsTitle: {
+                _text: ' The Convention Rights.',
+              },
+            },
+            {
+              _attributes: {
+                ContentRef: 'section-2',
+                IdURI:
+                  'http://www.legislation.gov.uk/id/ukpga/1998/42/section/2',
+                RestrictExtent: 'E+W+S+N.I.',
+                ConfersPower: 'true',
+                BlanketAmendment: 'true',
+                DocumentURI:
+                  'http://www.legislation.gov.uk/ukpga/1998/42/section/2',
+              },
+              ContentsNumber: {
+                _text: '2',
+              },
+              ContentsTitle: {
+                _text: ' Interpretation of Convention rights.',
+              },
+            },
+          ],
+        },
+        {
+          _attributes: {
+            ContentRef: 'crossheading-legislation',
+            IdURI:
+              'http://www.legislation.gov.uk/id/ukpga/1998/42/crossheading/legislation',
+            DocumentURI:
+              'http://www.legislation.gov.uk/ukpga/1998/42/crossheading/legislation',
+            RestrictExtent: 'E+W+S+N.I.',
+          },
+          ContentsTitle: {
+            _text: ' Legislation',
+          },
+          ContentsItem: [
+            {
+              _attributes: {
+                ContentRef: 'section-3',
+                IdURI:
+                  'http://www.legislation.gov.uk/id/ukpga/1998/42/section/3',
+                BlanketAmendment: 'true',
+                DocumentURI:
+                  'http://www.legislation.gov.uk/ukpga/1998/42/section/3',
+                RestrictExtent: 'E+W+S+N.I.',
+              },
+              ContentsNumber: {
+                _text: '3',
+              },
+              ContentsTitle: {
+                _text: ' Interpretation of legislation.',
+              },
+            },
+            {
+              _attributes: {
+                ContentRef: 'section-4',
+                IdURI:
+                  'http://www.legislation.gov.uk/id/ukpga/1998/42/section/4',
+                RestrictExtent: 'E+W+S+N.I.',
+                DocumentURI:
+                  'http://www.legislation.gov.uk/ukpga/1998/42/section/4',
+              },
+              ContentsNumber: {
+                _text: '4',
+              },
+              ContentsTitle: {
+                _text: ' Declaration of incompatibility.',
+              },
+            },
+            {
+              _attributes: {
+                ContentRef: 'section-5',
+                IdURI:
+                  'http://www.legislation.gov.uk/id/ukpga/1998/42/section/5',
+                RestrictExtent: 'E+W+S+N.I.',
+                DocumentURI:
+                  'http://www.legislation.gov.uk/ukpga/1998/42/section/5',
+              },
+              ContentsNumber: {
+                _text: '5',
+              },
+              ContentsTitle: {
+                _text: ' Right of Crown to intervene.',
+              },
+            },
+          ],
+        },
+        {
+          _attributes: {
+            ContentRef: 'crossheading-public-authorities',
+            IdURI:
+              'http://www.legislation.gov.uk/id/ukpga/1998/42/crossheading/public-authorities',
+            RestrictStartDate: '2021-06-30',
+            DocumentURI:
+              'http://www.legislation.gov.uk/ukpga/1998/42/crossheading/public-authorities',
+            RestrictExtent: 'E+W+S+N.I.',
+          },
+          ContentsTitle: {
+            _text: ' Public authorities',
+          },
+          ContentsItem: [
+            {
+              _attributes: {
+                ContentRef: 'section-6',
+                IdURI:
+                  'http://www.legislation.gov.uk/id/ukpga/1998/42/section/6',
+                RestrictStartDate: '2015-04-01',
+                RestrictExtent: 'E+W+S+N.I.',
+                DocumentURI:
+                  'http://www.legislation.gov.uk/ukpga/1998/42/section/6',
+              },
+              ContentsNumber: {
+                _text: '6',
+              },
+              ContentsTitle: {
+                _text: ' Acts of public authorities.',
+              },
+            },
+            {
+              _attributes: {
+                ContentRef: 'section-7',
+                IdURI:
+                  'http://www.legislation.gov.uk/id/ukpga/1998/42/section/7',
+                RestrictStartDate: '2006-01-12',
+                RestrictExtent: 'E+W+S+N.I.',
+                ConfersPower: 'true',
+                DocumentURI:
+                  'http://www.legislation.gov.uk/ukpga/1998/42/section/7',
+              },
+              ContentsNumber: {
+                _text: '7',
+              },
+              ContentsTitle: {
+                _text: ' Proceedings.',
+              },
+            },
+            {
+              _attributes: {
+                ContentRef: 'section-7A',
+                IdURI:
+                  'http://www.legislation.gov.uk/id/ukpga/1998/42/section/7A',
+                RestrictStartDate: '2021-06-30',
+                DocumentURI:
+                  'http://www.legislation.gov.uk/ukpga/1998/42/section/7A',
+                RestrictExtent: 'E+W+S+N.I.',
+              },
+              ContentsNumber: {
+                _text: '7A',
+              },
+              ContentsTitle: {
+                _text: 'Limitation: overseas armed forces proceedings',
+              },
+            },
+            {
+              _attributes: {
+                ContentRef: 'section-8',
+                IdURI:
+                  'http://www.legislation.gov.uk/id/ukpga/1998/42/section/8',
+                RestrictStartDate: '2000-10-02',
+                DocumentURI:
+                  'http://www.legislation.gov.uk/ukpga/1998/42/section/8',
+                RestrictExtent: 'E+W+S+N.I.',
+              },
+              ContentsNumber: {
+                _text: '8',
+              },
+              ContentsTitle: {
+                _text: ' Judicial remedies.',
+              },
+            },
+            {
+              _attributes: {
+                ContentRef: 'section-9',
+                IdURI:
+                  'http://www.legislation.gov.uk/id/ukpga/1998/42/section/9',
+                RestrictStartDate: '2020-10-21',
+                RestrictExtent: 'E+W+S+N.I.',
+                ConfersPower: 'true',
+                DocumentURI:
+                  'http://www.legislation.gov.uk/ukpga/1998/42/section/9',
+              },
+              ContentsNumber: {
+                _text: '9',
+              },
+              ContentsTitle: {
+                _text: ' Judicial acts.',
+              },
+            },
+          ],
+        },
+        {
+          _attributes: {
+            ContentRef: 'crossheading-remedial-action',
+            IdURI:
+              'http://www.legislation.gov.uk/id/ukpga/1998/42/crossheading/remedial-action',
+            DocumentURI:
+              'http://www.legislation.gov.uk/ukpga/1998/42/crossheading/remedial-action',
+            RestrictExtent: 'E+W+S+N.I.',
+          },
+          ContentsTitle: {
+            _text: ' Remedial action',
+          },
+          ContentsItem: {
+            _attributes: {
+              ContentRef: 'section-10',
+              IdURI:
+                'http://www.legislation.gov.uk/id/ukpga/1998/42/section/10',
+              ConfersPower: 'true',
+              DocumentURI:
+                'http://www.legislation.gov.uk/ukpga/1998/42/section/10',
+              RestrictExtent: 'E+W+S+N.I.',
+            },
+            ContentsNumber: {
+              _text: '10',
+            },
+            ContentsTitle: {
+              _text: ' Power to take remedial action.',
+            },
+          },
+        },
+        {
+          _attributes: {
+            ContentRef: 'crossheading-other-rights-and-proceedings',
+            IdURI:
+              'http://www.legislation.gov.uk/id/ukpga/1998/42/crossheading/other-rights-and-proceedings',
+            DocumentURI:
+              'http://www.legislation.gov.uk/ukpga/1998/42/crossheading/other-rights-and-proceedings',
+            RestrictExtent: 'E+W+S+N.I.',
+          },
+          ContentsTitle: {
+            _text: ' Other rights and proceedings',
+          },
+          ContentsItem: [
+            {
+              _attributes: {
+                ContentRef: 'section-11',
+                IdURI:
+                  'http://www.legislation.gov.uk/id/ukpga/1998/42/section/11',
+                DocumentURI:
+                  'http://www.legislation.gov.uk/ukpga/1998/42/section/11',
+                RestrictExtent: 'E+W+S+N.I.',
+              },
+              ContentsNumber: {
+                _text: '11',
+              },
+              ContentsTitle: {
+                _text: ' Safeguard for existing human rights.',
+              },
+            },
+            {
+              _attributes: {
+                ContentRef: 'section-12',
+                IdURI:
+                  'http://www.legislation.gov.uk/id/ukpga/1998/42/section/12',
+                DocumentURI:
+                  'http://www.legislation.gov.uk/ukpga/1998/42/section/12',
+                RestrictExtent: 'E+W+S+N.I.',
+              },
+              ContentsNumber: {
+                _text: '12',
+              },
+              ContentsTitle: {
+                _text: ' Freedom of expression.',
+              },
+            },
+            {
+              _attributes: {
+                ContentRef: 'section-13',
+                IdURI:
+                  'http://www.legislation.gov.uk/id/ukpga/1998/42/section/13',
+                DocumentURI:
+                  'http://www.legislation.gov.uk/ukpga/1998/42/section/13',
+                RestrictExtent: 'E+W+S+N.I.',
+              },
+              ContentsNumber: {
+                _text: '13',
+              },
+              ContentsTitle: {
+                _text: ' Freedom of thought, conscience and religion.',
+              },
+            },
+          ],
+        },
+        {
+          _attributes: {
+            ContentRef: 'crossheading-derogations-and-reservations',
+            IdURI:
+              'http://www.legislation.gov.uk/id/ukpga/1998/42/crossheading/derogations-and-reservations',
+            DocumentURI:
+              'http://www.legislation.gov.uk/ukpga/1998/42/crossheading/derogations-and-reservations',
+            RestrictExtent: 'E+W+S+N.I.',
+          },
+          ContentsTitle: {
+            _text: ' Derogations and reservations',
+          },
+          ContentsItem: [
+            {
+              _attributes: {
+                ContentRef: 'section-14',
+                IdURI:
+                  'http://www.legislation.gov.uk/id/ukpga/1998/42/section/14',
+                RestrictExtent: 'E+W+S+N.I.',
+                ConfersPower: 'true',
+                DocumentURI:
+                  'http://www.legislation.gov.uk/ukpga/1998/42/section/14',
+              },
+              ContentsNumber: {
+                _text: '14',
+              },
+              ContentsTitle: {
+                _text: ' Derogations.',
+              },
+            },
+            {
+              _attributes: {
+                ContentRef: 'section-15',
+                IdURI:
+                  'http://www.legislation.gov.uk/id/ukpga/1998/42/section/15',
+                RestrictExtent: 'E+W+S+N.I.',
+                ConfersPower: 'true',
+                DocumentURI:
+                  'http://www.legislation.gov.uk/ukpga/1998/42/section/15',
+              },
+              ContentsNumber: {
+                _text: '15',
+              },
+              ContentsTitle: {
+                _text: ' Reservations.',
+              },
+            },
+            {
+              _attributes: {
+                ContentRef: 'section-16',
+                IdURI:
+                  'http://www.legislation.gov.uk/id/ukpga/1998/42/section/16',
+                RestrictExtent: 'E+W+S+N.I.',
+                ConfersPower: 'true',
+                BlanketAmendment: 'true',
+                DocumentURI:
+                  'http://www.legislation.gov.uk/ukpga/1998/42/section/16',
+              },
+              ContentsNumber: {
+                _text: '16',
+              },
+              ContentsTitle: {
+                _text: ' Period for which designated derogations have effect.',
+              },
+            },
+            {
+              _attributes: {
+                ContentRef: 'section-17',
+                IdURI:
+                  'http://www.legislation.gov.uk/id/ukpga/1998/42/section/17',
+                DocumentURI:
+                  'http://www.legislation.gov.uk/ukpga/1998/42/section/17',
+                RestrictExtent: 'E+W+S+N.I.',
+              },
+              ContentsNumber: {
+                _text: '17',
+              },
+              ContentsTitle: {
+                _text: ' Periodic review of designated reservations.',
+              },
+            },
+          ],
+        },
+        {
+          _attributes: {
+            ContentRef:
+              'crossheading-judges-of-the-european-court-of-human-rights',
+            IdURI:
+              'http://www.legislation.gov.uk/id/ukpga/1998/42/crossheading/judges-of-the-european-court-of-human-rights',
+            DocumentURI:
+              'http://www.legislation.gov.uk/ukpga/1998/42/crossheading/judges-of-the-european-court-of-human-rights',
+            RestrictExtent: 'E+W+S+N.I.',
+          },
+          ContentsTitle: {
+            _text: ' Judges of the European Court of Human Rights',
+          },
+          ContentsItem: {
+            _attributes: {
+              ContentRef: 'section-18',
+              IdURI:
+                'http://www.legislation.gov.uk/id/ukpga/1998/42/section/18',
+              RestrictExtent: 'E+W+S+N.I.',
+              ConfersPower: 'true',
+              DocumentURI:
+                'http://www.legislation.gov.uk/ukpga/1998/42/section/18',
+            },
+            ContentsNumber: {
+              _text: '18',
+            },
+            ContentsTitle: {
+              _text: ' Appointment to European Court of Human Rights.',
+            },
+          },
+        },
+        {
+          _attributes: {
+            ContentRef: 'crossheading-parliamentary-procedure',
+            IdURI:
+              'http://www.legislation.gov.uk/id/ukpga/1998/42/crossheading/parliamentary-procedure',
+            DocumentURI:
+              'http://www.legislation.gov.uk/ukpga/1998/42/crossheading/parliamentary-procedure',
+            RestrictExtent: 'E+W+S+N.I.',
+          },
+          ContentsTitle: {
+            _text: ' Parliamentary procedure',
+          },
+          ContentsItem: {
+            _attributes: {
+              ContentRef: 'section-19',
+              IdURI:
+                'http://www.legislation.gov.uk/id/ukpga/1998/42/section/19',
+              DocumentURI:
+                'http://www.legislation.gov.uk/ukpga/1998/42/section/19',
+              RestrictExtent: 'E+W+S+N.I.',
+            },
+            ContentsNumber: {
+              _text: '19',
+            },
+            ContentsTitle: {
+              _text: ' Statements of compatibility.',
+            },
+          },
+        },
+        {
+          _attributes: {
+            ContentRef: 'crossheading-supplemental',
+            IdURI:
+              'http://www.legislation.gov.uk/id/ukpga/1998/42/crossheading/supplemental',
+            DocumentURI:
+              'http://www.legislation.gov.uk/ukpga/1998/42/crossheading/supplemental',
+            RestrictExtent: 'E+W+S+N.I.',
+          },
+          ContentsTitle: {
+            _text: ' Supplemental',
+          },
+          ContentsItem: [
+            {
+              _attributes: {
+                ContentRef: 'section-20',
+                IdURI:
+                  'http://www.legislation.gov.uk/id/ukpga/1998/42/section/20',
+                RestrictExtent: 'E+W+S+N.I.',
+                ConfersPower: 'true',
+                DocumentURI:
+                  'http://www.legislation.gov.uk/ukpga/1998/42/section/20',
+              },
+              ContentsNumber: {
+                _text: '20',
+              },
+              ContentsTitle: {
+                _text: [' Orders ', ' under this Act.'],
+                Abbreviation: {
+                  _attributes: {
+                    Expansion: 'et cetera',
+                    'xml:lang': 'la',
+                  },
+                  _text: 'etc.',
+                },
+              },
+            },
+            {
+              _attributes: {
+                ContentRef: 'section-21',
+                IdURI:
+                  'http://www.legislation.gov.uk/id/ukpga/1998/42/section/21',
+                RestrictExtent: 'E+W+S+N.I.',
+                DocumentURI:
+                  'http://www.legislation.gov.uk/ukpga/1998/42/section/21',
+              },
+              ContentsNumber: {
+                _text: '21',
+              },
+              ContentsTitle: {
+                _text: ' Interpretation, etc.',
+              },
+            },
+            {
+              _attributes: {
+                ContentRef: 'section-22',
+                IdURI:
+                  'http://www.legislation.gov.uk/id/ukpga/1998/42/section/22',
+                RestrictStartDate: '2021-06-30',
+                RestrictExtent: 'E+W+S+N.I.',
+                ConfersPower: 'true',
+                DocumentURI:
+                  'http://www.legislation.gov.uk/ukpga/1998/42/section/22',
+              },
+              ContentsNumber: {
+                _text: '22',
+              },
+              ContentsTitle: {
+                _text: ' Short title, commencement, application and extent.',
+              },
+            },
+          ],
+        },
+      ],
+      ContentsSchedules: {
+        _attributes: {
+          RestrictExtent: 'E+W+S+N.I.',
+        },
+        ContentsTitle: {
+          _text: ' SCHEDULES',
+        },
+        ContentsSchedule: [
+          {
+            _attributes: {
+              ContentRef: 'schedule-1',
+              IdURI:
+                'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1',
+              RestrictExtent: 'E+W+S+N.I.',
+              DocumentURI:
+                'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1',
+            },
+            ContentsNumber: {
+              _text: 'SCHEDULE 1',
+            },
+            ContentsTitle: {
+              _text: ' The Articles',
+            },
+            ContentsPart: [
+              {
+                _attributes: {
+                  ContentRef: 'schedule-1-part-I',
+                  IdURI:
+                    'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I',
+                  DocumentURI:
+                    'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I',
+                  RestrictExtent: 'E+W+S+N.I.',
+                },
+                ContentsNumber: {
+                  _text: 'PART I',
+                },
+                ContentsTitle: [
+                  {
+                    _text: 'The Convention',
+                  },
+                  {
+                    _text: ' Rights and Freedoms',
+                  },
+                ],
+                ContentsChapter: [
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-1-part-I-chapter-1',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/1',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/1',
+                      RestrictExtent: 'E+W+S+N.I.',
+                    },
+                    ContentsNumber: {
+                      _text: 'Article 2',
+                    },
+                    ContentsTitle: {
+                      Emphasis: {
+                        _text: 'Right to life',
+                      },
+                    },
+                    ContentsItem: [
+                      {
+                        _attributes: {
+                          ContentRef: 'schedule-1-part-I-chapter-1-paragraph-1',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/1/paragraph/1',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/1/paragraph/1',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '1',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'Everyone’s right to life shall be protected by law. No...',
+                        },
+                      },
+                      {
+                        _attributes: {
+                          ContentRef: 'schedule-1-part-I-chapter-1-paragraph-2',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/1/paragraph/2',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/1/paragraph/2',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '2',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'Deprivation of life shall not be regarded as inflicted in...',
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-1-part-I-chapter-2',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/2',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/2',
+                      RestrictExtent: 'E+W+S+N.I.',
+                    },
+                    ContentsNumber: {
+                      _text: 'Article 3',
+                    },
+                    ContentsTitle: {
+                      Emphasis: {
+                        _text: 'Prohibition of torture',
+                      },
+                    },
+                  },
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-1-part-I-chapter-3',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/3',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/3',
+                      RestrictExtent: 'E+W+S+N.I.',
+                    },
+                    ContentsNumber: {
+                      _text: 'Article 4',
+                    },
+                    ContentsTitle: {
+                      Emphasis: {
+                        _text: 'Prohibition of slavery and forced labour',
+                      },
+                    },
+                    ContentsItem: [
+                      {
+                        _attributes: {
+                          ContentRef: 'schedule-1-part-I-chapter-3-paragraph-1',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/3/paragraph/1',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/3/paragraph/1',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '1',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'No one shall be held in slavery or servitude. ',
+                        },
+                      },
+                      {
+                        _attributes: {
+                          ContentRef: 'schedule-1-part-I-chapter-3-paragraph-2',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/3/paragraph/2',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/3/paragraph/2',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '2',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'No one shall be required to perform forced or compulsory...',
+                        },
+                      },
+                      {
+                        _attributes: {
+                          ContentRef: 'schedule-1-part-I-chapter-3-paragraph-3',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/3/paragraph/3',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/3/paragraph/3',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '3',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'For the purpose of this Article the term “forced or...',
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-1-part-I-chapter-4',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/4',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/4',
+                      RestrictExtent: 'E+W+S+N.I.',
+                    },
+                    ContentsNumber: {
+                      _text: 'Article 5',
+                    },
+                    ContentsTitle: {
+                      Emphasis: {
+                        _text: 'Right to liberty and security',
+                      },
+                    },
+                    ContentsItem: [
+                      {
+                        _attributes: {
+                          ContentRef: 'schedule-1-part-I-chapter-4-paragraph-1',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/4/paragraph/1',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/4/paragraph/1',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '1',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'Everyone has the right to liberty and security of person....',
+                        },
+                      },
+                      {
+                        _attributes: {
+                          ContentRef: 'schedule-1-part-I-chapter-4-paragraph-2',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/4/paragraph/2',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/4/paragraph/2',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '2',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'Everyone who is arrested shall be informed promptly, in a...',
+                        },
+                      },
+                      {
+                        _attributes: {
+                          ContentRef: 'schedule-1-part-I-chapter-4-paragraph-3',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/4/paragraph/3',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/4/paragraph/3',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '3',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'Everyone arrested or detained in accordance with the provisions of...',
+                        },
+                      },
+                      {
+                        _attributes: {
+                          ContentRef: 'schedule-1-paragraph-4',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/paragraph/4',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/paragraph/4',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '4',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'Everyone who is deprived of his liberty by arrest or...',
+                        },
+                      },
+                      {
+                        _attributes: {
+                          ContentRef: 'schedule-1-paragraph-5',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/paragraph/5',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/paragraph/5',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '5',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'Everyone who has been the victim of arrest or detention...',
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-1-part-I-chapter-5',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/5',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/5',
+                      RestrictExtent: 'E+W+S+N.I.',
+                    },
+                    ContentsNumber: {
+                      _text: 'Article 6',
+                    },
+                    ContentsTitle: {
+                      Emphasis: {
+                        _text: 'Right to a fair trial',
+                      },
+                    },
+                    ContentsItem: [
+                      {
+                        _attributes: {
+                          ContentRef: 'schedule-1-part-I-chapter-5-paragraph-1',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/5/paragraph/1',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/5/paragraph/1',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '1',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'In the determination of his civil rights and obligations or...',
+                        },
+                      },
+                      {
+                        _attributes: {
+                          ContentRef: 'schedule-1-part-I-chapter-5-paragraph-2',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/5/paragraph/2',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/5/paragraph/2',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '2',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'Everyone charged with a criminal offence shall be presumed innocent...',
+                        },
+                      },
+                      {
+                        _attributes: {
+                          ContentRef: 'schedule-1-part-I-chapter-5-paragraph-3',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/5/paragraph/3',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/5/paragraph/3',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '3',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'Everyone charged with a criminal offence has the following minimum...',
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-1-part-I-chapter-6',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/6',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/6',
+                      RestrictExtent: 'E+W+S+N.I.',
+                    },
+                    ContentsNumber: {
+                      _text: 'Article 7',
+                    },
+                    ContentsTitle: {
+                      Emphasis: {
+                        _text: 'No punishment without law',
+                      },
+                    },
+                    ContentsItem: [
+                      {
+                        _attributes: {
+                          ContentRef: 'schedule-1-part-I-chapter-6-paragraph-1',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/6/paragraph/1',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/6/paragraph/1',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '1',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'No one shall be held guilty of any criminal offence...',
+                        },
+                      },
+                      {
+                        _attributes: {
+                          ContentRef: 'schedule-1-part-I-chapter-6-paragraph-2',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/6/paragraph/2',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/6/paragraph/2',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '2',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'This Article shall not prejudice the trial and punishment of...',
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-1-part-I-chapter-7',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/7',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/7',
+                      RestrictExtent: 'E+W+S+N.I.',
+                    },
+                    ContentsNumber: {
+                      _text: 'Article 8',
+                    },
+                    ContentsTitle: {
+                      Emphasis: {
+                        _text: 'Right to respect for private and family life',
+                      },
+                    },
+                    ContentsItem: [
+                      {
+                        _attributes: {
+                          ContentRef: 'schedule-1-part-I-chapter-7-paragraph-1',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/7/paragraph/1',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/7/paragraph/1',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '1',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'Everyone has the right to respect for his private and...',
+                        },
+                      },
+                      {
+                        _attributes: {
+                          ContentRef: 'schedule-1-part-I-chapter-7-paragraph-2',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/7/paragraph/2',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/7/paragraph/2',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '2',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'There shall be no interference by a public authority with...',
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-1-part-I-chapter-8',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/8',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/8',
+                      RestrictExtent: 'E+W+S+N.I.',
+                    },
+                    ContentsNumber: {
+                      _text: 'Article 9',
+                    },
+                    ContentsTitle: {
+                      Emphasis: {
+                        _text: 'Freedom of thought, conscience and religion',
+                      },
+                    },
+                    ContentsItem: [
+                      {
+                        _attributes: {
+                          ContentRef: 'schedule-1-part-I-chapter-8-paragraph-1',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/8/paragraph/1',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/8/paragraph/1',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '1',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'Everyone has the right to freedom of thought, conscience and...',
+                        },
+                      },
+                      {
+                        _attributes: {
+                          ContentRef: 'schedule-1-part-I-chapter-8-paragraph-2',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/8/paragraph/2',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/8/paragraph/2',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '2',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'Freedom to manifest one’s religion or beliefs shall be subject...',
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-1-part-I-chapter-9',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/9',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/9',
+                      RestrictExtent: 'E+W+S+N.I.',
+                    },
+                    ContentsNumber: {
+                      _text: 'Article 10',
+                    },
+                    ContentsTitle: {
+                      Emphasis: {
+                        _text: 'Freedom of expression',
+                      },
+                    },
+                    ContentsItem: [
+                      {
+                        _attributes: {
+                          ContentRef: 'schedule-1-part-I-chapter-9-paragraph-1',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/9/paragraph/1',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/9/paragraph/1',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '1',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'Everyone has the right to freedom of expression. This right...',
+                        },
+                      },
+                      {
+                        _attributes: {
+                          ContentRef: 'schedule-1-part-I-chapter-9-paragraph-2',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/9/paragraph/2',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/9/paragraph/2',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '2',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'The exercise of these freedoms, since it carries with it...',
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-1-part-I-chapter-10',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/10',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/10',
+                      RestrictExtent: 'E+W+S+N.I.',
+                    },
+                    ContentsNumber: {
+                      _text: 'Article 11',
+                    },
+                    ContentsTitle: {
+                      Emphasis: {
+                        _text: 'Freedom of assembly and association',
+                      },
+                    },
+                    ContentsItem: [
+                      {
+                        _attributes: {
+                          ContentRef:
+                            'schedule-1-part-I-chapter-10-paragraph-1',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/10/paragraph/1',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/10/paragraph/1',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '1',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'Everyone has the right to freedom of peaceful assembly and...',
+                        },
+                      },
+                      {
+                        _attributes: {
+                          ContentRef:
+                            'schedule-1-part-I-chapter-10-paragraph-2',
+                          IdURI:
+                            'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/10/paragraph/2',
+                          DocumentURI:
+                            'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/10/paragraph/2',
+                          RestrictExtent: 'E+W+S+N.I.',
+                        },
+                        ContentsNumber: {
+                          _text: '2',
+                        },
+                        ContentsTitle: {
+                          _attributes: {
+                            Generated: 'true',
+                          },
+                          _text:
+                            'No restrictions shall be placed on the exercise of these...',
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-1-part-I-chapter-11',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/11',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/11',
+                      RestrictExtent: 'E+W+S+N.I.',
+                    },
+                    ContentsNumber: {
+                      _text: 'Article 12',
+                    },
+                    ContentsTitle: {
+                      Emphasis: {
+                        _text: 'Right to marry',
+                      },
+                    },
+                  },
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-1-part-I-chapter-12',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/12',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/12',
+                      RestrictExtent: 'E+W+S+N.I.',
+                    },
+                    ContentsNumber: {
+                      _text: 'Article 14',
+                    },
+                    ContentsTitle: {
+                      Emphasis: {
+                        _text: 'Prohibition of discrimination',
+                      },
+                    },
+                  },
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-1-part-I-chapter-13',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/13',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/13',
+                      RestrictExtent: 'E+W+S+N.I.',
+                    },
+                    ContentsNumber: {
+                      _text: 'Article 16',
+                    },
+                    ContentsTitle: {
+                      Emphasis: {
+                        _text: 'Restrictions on political activity of aliens',
+                      },
+                    },
+                  },
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-1-part-I-chapter-14',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/14',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/14',
+                      RestrictExtent: 'E+W+S+N.I.',
+                    },
+                    ContentsNumber: {
+                      _text: 'Article 17',
+                    },
+                    ContentsTitle: {
+                      Emphasis: {
+                        _text: 'Prohibition of abuse of rights',
+                      },
+                    },
+                  },
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-1-part-I-chapter-15',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/I/chapter/15',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/I/chapter/15',
+                      RestrictExtent: 'E+W+S+N.I.',
+                    },
+                    ContentsNumber: {
+                      _text: 'Article 18',
+                    },
+                    ContentsTitle: {
+                      Emphasis: {
+                        _text: 'Limitation on use of restrictions on rights',
+                      },
+                    },
+                  },
+                ],
+              },
+              {
+                _attributes: {
+                  ContentRef: 'schedule-1-part-II',
+                  IdURI:
+                    'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/II',
+                  DocumentURI:
+                    'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/II',
+                  RestrictExtent: 'E+W+S+N.I.',
+                },
+                ContentsNumber: {
+                  _text: 'Part II',
+                },
+                ContentsTitle: {
+                  _text: ' The First Protocol',
+                },
+                ContentsChapter: [
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-1-part-II-chapter-1',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/II/chapter/1',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/II/chapter/1',
+                      RestrictExtent: 'E+W+S+N.I.',
+                    },
+                    ContentsNumber: {
+                      _text: 'Article 1',
+                    },
+                    ContentsTitle: {
+                      Emphasis: {
+                        _text: 'Protection of property',
+                      },
+                    },
+                  },
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-1-part-II-chapter-2',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/II/chapter/2',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/II/chapter/2',
+                      RestrictExtent: 'E+W+S+N.I.',
+                    },
+                    ContentsNumber: {
+                      _text: 'Article 2',
+                    },
+                    ContentsTitle: {
+                      Emphasis: {
+                        _text: 'Right to education',
+                      },
+                    },
+                  },
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-1-part-II-chapter-3',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/II/chapter/3',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/II/chapter/3',
+                      RestrictExtent: 'E+W+S+N.I.',
+                    },
+                    ContentsNumber: {
+                      _text: 'Article 3',
+                    },
+                    ContentsTitle: {
+                      Emphasis: {
+                        _text: 'Right to free elections',
+                      },
+                    },
+                  },
+                ],
+              },
+              {
+                _attributes: {
+                  ContentRef: 'schedule-1-part-3',
+                  IdURI:
+                    'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/3',
+                  DocumentURI:
+                    'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/3',
+                  RestrictExtent: 'E+W+S+N.I.',
+                },
+                ContentsNumber: {
+                  _text: 'PART 3',
+                },
+                ContentsTitle: [
+                  {
+                    Emphasis: {
+                      _text: 'ARTICLE 1 OF THE THIRTEENTH PROTOCOL',
+                    },
+                  },
+                  {
+                    Emphasis: {
+                      _text: 'Abolition of the death penalty',
+                    },
+                  },
+                ],
+                ContentsItem: {
+                  _attributes: {
+                    ContentRef: 'schedule-1-part-3-paragraph-wrapper1n2',
+                    IdURI:
+                      'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/3/paragraph/wrapper1n2',
+                    DocumentURI:
+                      'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/3/paragraph/wrapper1n2',
+                    RestrictExtent: 'E+W+S+N.I.',
+                  },
+                  ContentsNumber: {},
+                  ContentsTitle: {
+                    _attributes: {
+                      Generated: 'true',
+                    },
+                    _text:
+                      'The death penalty shall be abolished. No one shall be...',
+                  },
+                },
+              },
+              {
+                _attributes: {
+                  ContentRef: 'schedule-1-part-III',
+                  IdURI:
+                    'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/III',
+                  RestrictEndDate: '2004-06-22',
+                  RestrictExtent: 'E+W+S+N.I.',
+                  DocumentURI:
+                    'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/III',
+                },
+                ContentsNumber: {
+                  _text: 'Part III',
+                },
+                ContentsTitle: {
+                  _text: ' The Sixth Protocol',
+                },
+                ContentsChapter: [
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-1-part-III-chapter-Article-1',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/III/chapter/Article/1',
+                      RestrictEndDate: '2004-06-22',
+                      RestrictExtent: 'E+W+S+N.I.',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/III/chapter/Article/1',
+                    },
+                    ContentsNumber: {
+                      _text: 'Article 1',
+                    },
+                    ContentsTitle: {
+                      Emphasis: {
+                        _text: 'Abolition of the death penalty',
+                      },
+                    },
+                  },
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-1-part-III-chapter-Article-2',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/1/part/III/chapter/Article/2',
+                      RestrictEndDate: '2004-06-22',
+                      RestrictExtent: 'E+W+S+N.I.',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/1/part/III/chapter/Article/2',
+                    },
+                    ContentsNumber: {
+                      _text: 'Article 2',
+                    },
+                    ContentsTitle: {
+                      Emphasis: {
+                        _text: 'Death penalty in time of war',
+                      },
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            _attributes: {
+              ContentRef: 'schedule-2',
+              IdURI:
+                'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/2',
+              RestrictExtent: 'E+W+S+N.I.',
+              DocumentURI:
+                'http://www.legislation.gov.uk/ukpga/1998/42/schedule/2',
+            },
+            ContentsNumber: {
+              _text: 'SCHEDULE 2',
+            },
+            ContentsTitle: {
+              _text: ' Remedial Orders',
+            },
+            ContentsPblock: [
+              {
+                _attributes: {
+                  ContentRef: 'schedule-2-crossheading-orders',
+                  IdURI:
+                    'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/2/crossheading/orders',
+                  DocumentURI:
+                    'http://www.legislation.gov.uk/ukpga/1998/42/schedule/2/crossheading/orders',
+                  RestrictExtent: 'E+W+S+N.I.',
+                },
+                ContentsTitle: {
+                  _text: ' Orders',
+                },
+                ContentsItem: {
+                  _attributes: {
+                    ContentRef: 'schedule-2-paragraph-1',
+                    IdURI:
+                      'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/2/paragraph/1',
+                    ConfersPower: 'true',
+                    DocumentURI:
+                      'http://www.legislation.gov.uk/ukpga/1998/42/schedule/2/paragraph/1',
+                    RestrictExtent: 'E+W+S+N.I.',
+                  },
+                  ContentsNumber: {
+                    _text: '1',
+                  },
+                  ContentsTitle: {
+                    _attributes: {
+                      Generated: 'true',
+                    },
+                    _text:
+                      '(1) A remedial order may— (a) contain such incidental, supplemental,...',
+                  },
+                },
+              },
+              {
+                _attributes: {
+                  ContentRef: 'schedule-2-crossheading-procedure',
+                  IdURI:
+                    'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/2/crossheading/procedure',
+                  DocumentURI:
+                    'http://www.legislation.gov.uk/ukpga/1998/42/schedule/2/crossheading/procedure',
+                  RestrictExtent: 'E+W+S+N.I.',
+                },
+                ContentsTitle: {
+                  _text: ' Procedure',
+                },
+                ContentsItem: {
+                  _attributes: {
+                    ContentRef: 'schedule-2-paragraph-2',
+                    IdURI:
+                      'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/2/paragraph/2',
+                    ConfersPower: 'true',
+                    DocumentURI:
+                      'http://www.legislation.gov.uk/ukpga/1998/42/schedule/2/paragraph/2',
+                    RestrictExtent: 'E+W+S+N.I.',
+                  },
+                  ContentsNumber: {
+                    _text: '2',
+                  },
+                  ContentsTitle: {
+                    _attributes: {
+                      Generated: 'true',
+                    },
+                    _text: 'No remedial order may be made unless— ',
+                  },
+                },
+              },
+              {
+                _attributes: {
+                  ContentRef: 'schedule-2-crossheading-orders-laid-in-draft',
+                  IdURI:
+                    'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/2/crossheading/orders-laid-in-draft',
+                  DocumentURI:
+                    'http://www.legislation.gov.uk/ukpga/1998/42/schedule/2/crossheading/orders-laid-in-draft',
+                  RestrictExtent: 'E+W+S+N.I.',
+                },
+                ContentsTitle: {
+                  _text: ' Orders laid in draft',
+                },
+                ContentsItem: {
+                  _attributes: {
+                    ContentRef: 'schedule-2-paragraph-3',
+                    IdURI:
+                      'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/2/paragraph/3',
+                    ConfersPower: 'true',
+                    DocumentURI:
+                      'http://www.legislation.gov.uk/ukpga/1998/42/schedule/2/paragraph/3',
+                    RestrictExtent: 'E+W+S+N.I.',
+                  },
+                  ContentsNumber: {
+                    _text: '3',
+                  },
+                  ContentsTitle: {
+                    _attributes: {
+                      Generated: 'true',
+                    },
+                    _text:
+                      '(1) No draft may be laid under paragraph 2(a) unless—...',
+                  },
+                },
+              },
+              {
+                _attributes: {
+                  ContentRef: 'schedule-2-crossheading-urgent-cases',
+                  IdURI:
+                    'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/2/crossheading/urgent-cases',
+                  DocumentURI:
+                    'http://www.legislation.gov.uk/ukpga/1998/42/schedule/2/crossheading/urgent-cases',
+                  RestrictExtent: 'E+W+S+N.I.',
+                },
+                ContentsTitle: {
+                  _text: ' Urgent cases',
+                },
+                ContentsItem: {
+                  _attributes: {
+                    ContentRef: 'schedule-2-paragraph-4',
+                    IdURI:
+                      'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/2/paragraph/4',
+                    DocumentURI:
+                      'http://www.legislation.gov.uk/ukpga/1998/42/schedule/2/paragraph/4',
+                    RestrictExtent: 'E+W+S+N.I.',
+                  },
+                  ContentsNumber: {
+                    _text: '4',
+                  },
+                  ContentsTitle: {
+                    _attributes: {
+                      Generated: 'true',
+                    },
+                    _text:
+                      '(1) If a remedial order (“the original order”) is made...',
+                  },
+                },
+              },
+              {
+                _attributes: {
+                  ContentRef: 'schedule-2-crossheading-definitions',
+                  IdURI:
+                    'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/2/crossheading/definitions',
+                  DocumentURI:
+                    'http://www.legislation.gov.uk/ukpga/1998/42/schedule/2/crossheading/definitions',
+                  RestrictExtent: 'E+W+S+N.I.',
+                },
+                ContentsTitle: {
+                  _text: ' Definitions',
+                },
+                ContentsItem: {
+                  _attributes: {
+                    ContentRef: 'schedule-2-paragraph-5',
+                    IdURI:
+                      'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/2/paragraph/5',
+                    DocumentURI:
+                      'http://www.legislation.gov.uk/ukpga/1998/42/schedule/2/paragraph/5',
+                    RestrictExtent: 'E+W+S+N.I.',
+                  },
+                  ContentsNumber: {
+                    _text: '5',
+                  },
+                  ContentsTitle: {
+                    _attributes: {
+                      Generated: 'true',
+                    },
+                    _text:
+                      'In this Schedule— “representations” means representations about a remedial order...',
+                  },
+                },
+              },
+              {
+                _attributes: {
+                  ContentRef: 'schedule-2-crossheading-calculating-periods',
+                  IdURI:
+                    'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/2/crossheading/calculating-periods',
+                  RestrictExtent: 'E+W+S+N.I.',
+                  DocumentURI:
+                    'http://www.legislation.gov.uk/ukpga/1998/42/schedule/2/crossheading/calculating-periods',
+                },
+                ContentsTitle: {
+                  _text: ' Calculating periods',
+                },
+                ContentsItem: [
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-2-paragraph-6',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/2/paragraph/6',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/2/paragraph/6',
+                      RestrictExtent: 'E+W+S+N.I.',
+                    },
+                    ContentsNumber: {
+                      _text: '6',
+                    },
+                    ContentsTitle: {
+                      _attributes: {
+                        Generated: 'true',
+                      },
+                      _text:
+                        'In calculating any period for the purposes of this Schedule,...',
+                    },
+                  },
+                  {
+                    _attributes: {
+                      ContentRef: 'schedule-2-paragraph-7',
+                      IdURI:
+                        'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/2/paragraph/7',
+                      DocumentURI:
+                        'http://www.legislation.gov.uk/ukpga/1998/42/schedule/2/paragraph/7',
+                      RestrictExtent: 'E+W+S+N.I.',
+                    },
+                    ContentsNumber: {
+                      _text: '7',
+                    },
+                    ContentsTitle: {
+                      _attributes: {
+                        Generated: 'true',
+                      },
+                      _text: '(1) This paragraph applies in relation to– ',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            _attributes: {
+              ContentRef: 'schedule-3',
+              IdURI:
+                'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/3',
+              RestrictExtent: 'E+W+S+N.I.',
+              DocumentURI:
+                'http://www.legislation.gov.uk/ukpga/1998/42/schedule/3',
+            },
+            ContentsNumber: {
+              _text: 'SCHEDULE 3',
+            },
+            ContentsTitle: {
+              _text: ' Derogation and Reservation',
+            },
+            ContentsPart: [
+              {
+                _attributes: {
+                  ContentRef: 'schedule-3-part-I',
+                  IdURI:
+                    'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/3/part/I',
+                  RestrictExtent: 'E+W+S+N.I.',
+                  DocumentURI:
+                    'http://www.legislation.gov.uk/ukpga/1998/42/schedule/3/part/I',
+                },
+                ContentsNumber: {
+                  _text: 'PART I',
+                },
+                ContentsTitle: {
+                  _text: ' DEROGATION',
+                },
+                ContentsPblock: {
+                  _attributes: {
+                    ContentRef:
+                      'schedule-3-part-I-crossheading-united-kingdoms-derogation-from-article-51',
+                    IdURI:
+                      'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/3/part/I/crossheading/united-kingdoms-derogation-from-article-51',
+                    RestrictEndDate: '2005-04-08',
+                    RestrictExtent: 'E+W+S+N.I.',
+                    DocumentURI:
+                      'http://www.legislation.gov.uk/ukpga/1998/42/schedule/3/part/I/crossheading/united-kingdoms-derogation-from-article-51',
+                  },
+                  ContentsTitle: {
+                    _text: 'United Kingdom’s derogation from Article 5(1)',
+                  },
+                  ContentsItem: [
+                    {
+                      _attributes: {
+                        ContentRef: 'schedule-3-paragraph-p36',
+                        IdURI:
+                          'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/3/paragraph/p36',
+                        RestrictEndDate: '2005-04-08',
+                        RestrictExtent: 'E+W+S+N.I.',
+                        DocumentURI:
+                          'http://www.legislation.gov.uk/ukpga/1998/42/schedule/3/paragraph/p36',
+                      },
+                      ContentsNumber: {},
+                      ContentsTitle: {
+                        _attributes: {
+                          Generated: 'true',
+                        },
+                        _text:
+                          'The United Kingdom Permanent Representative to the Council of Europe...',
+                      },
+                    },
+                    {
+                      _attributes: {
+                        ContentRef:
+                          'schedule-3-part-I-crossheading-united-kingdoms-derogation-from-article-51_paragraph-wrapper2n2',
+                        IdURI:
+                          'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/3/part/I/crossheading/united-kingdoms-derogation-from-article-51/paragraph/wrapper2n2',
+                        RestrictEndDate: '2005-04-08',
+                        RestrictExtent: 'E+W+S+N.I.',
+                        DocumentURI:
+                          'http://www.legislation.gov.uk/ukpga/1998/42/schedule/3/part/I/crossheading/united-kingdoms-derogation-from-article-51/paragraph/wrapper2n2',
+                      },
+                      ContentsNumber: {},
+                      ContentsTitle: {
+                        _text: ' Public emergency in the United Kingdom',
+                      },
+                    },
+                    {
+                      _attributes: {
+                        ContentRef:
+                          'schedule-3-part-I-crossheading-united-kingdoms-derogation-from-article-51_paragraph-wrapper3n2',
+                        IdURI:
+                          'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/3/part/I/crossheading/united-kingdoms-derogation-from-article-51/paragraph/wrapper3n2',
+                        RestrictEndDate: '2005-04-08',
+                        RestrictExtent: 'E+W+S+N.I.',
+                        DocumentURI:
+                          'http://www.legislation.gov.uk/ukpga/1998/42/schedule/3/part/I/crossheading/united-kingdoms-derogation-from-article-51/paragraph/wrapper3n2',
+                      },
+                      ContentsNumber: {},
+                      ContentsTitle: {
+                        _text:
+                          ' The Anti-terrorism, Crime and Security Act 2001',
+                      },
+                    },
+                    {
+                      _attributes: {
+                        ContentRef:
+                          'schedule-3-part-I-crossheading-united-kingdoms-derogation-from-article-51_paragraph-wrapper4n2',
+                        IdURI:
+                          'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/3/part/I/crossheading/united-kingdoms-derogation-from-article-51/paragraph/wrapper4n2',
+                        RestrictEndDate: '2005-04-08',
+                        RestrictExtent: 'E+W+S+N.I.',
+                        DocumentURI:
+                          'http://www.legislation.gov.uk/ukpga/1998/42/schedule/3/part/I/crossheading/united-kingdoms-derogation-from-article-51/paragraph/wrapper4n2',
+                      },
+                      ContentsNumber: {},
+                      ContentsTitle: {
+                        _text:
+                          ' Domestic law powers of detention (other than under the Anti-terrorism, Crime and Security Act 2001)',
+                      },
+                    },
+                    {
+                      _attributes: {
+                        ContentRef:
+                          'schedule-3-part-I-crossheading-united-kingdoms-derogation-from-article-51_paragraph-wrapper5n2',
+                        IdURI:
+                          'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/3/part/I/crossheading/united-kingdoms-derogation-from-article-51/paragraph/wrapper5n2',
+                        RestrictEndDate: '2005-04-08',
+                        RestrictExtent: 'E+W+S+N.I.',
+                        DocumentURI:
+                          'http://www.legislation.gov.uk/ukpga/1998/42/schedule/3/part/I/crossheading/united-kingdoms-derogation-from-article-51/paragraph/wrapper5n2',
+                      },
+                      ContentsNumber: {},
+                      ContentsTitle: {
+                        _text: ' Article 5(1)(f) of the Convention',
+                      },
+                    },
+                    {
+                      _attributes: {
+                        ContentRef:
+                          'schedule-3-part-I-crossheading-united-kingdoms-derogation-from-article-51_paragraph-wrapper6n2',
+                        IdURI:
+                          'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/3/part/I/crossheading/united-kingdoms-derogation-from-article-51/paragraph/wrapper6n2',
+                        RestrictEndDate: '2005-04-08',
+                        RestrictExtent: 'E+W+S+N.I.',
+                        DocumentURI:
+                          'http://www.legislation.gov.uk/ukpga/1998/42/schedule/3/part/I/crossheading/united-kingdoms-derogation-from-article-51/paragraph/wrapper6n2',
+                      },
+                      ContentsNumber: {},
+                      ContentsTitle: {
+                        _text: ' Derogation under Article 15 of the Convention',
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                _attributes: {
+                  ContentRef: 'schedule-3-part-II',
+                  IdURI:
+                    'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/3/part/II',
+                  DocumentURI:
+                    'http://www.legislation.gov.uk/ukpga/1998/42/schedule/3/part/II',
+                  RestrictExtent: 'E+W+S+N.I.',
+                },
+                ContentsNumber: {
+                  _text: 'Part II',
+                },
+                ContentsTitle: {
+                  _text: ' Reservation',
+                },
+              },
+            ],
+          },
+          {
+            _attributes: {
+              ContentRef: 'schedule-4',
+              IdURI:
+                'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/4',
+              DocumentURI:
+                'http://www.legislation.gov.uk/ukpga/1998/42/schedule/4',
+              RestrictExtent: 'E+W+S+N.I.',
+            },
+            ContentsNumber: {
+              _text: 'SCHEDULE 4',
+            },
+            ContentsTitle: {
+              _text: ' Judicial Pensions',
+            },
+            ContentsPblock: [
+              {
+                _attributes: {
+                  ContentRef:
+                    'schedule-4-crossheading-duty-to-make-orders-about-pensions',
+                  IdURI:
+                    'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/4/crossheading/duty-to-make-orders-about-pensions',
+                  DocumentURI:
+                    'http://www.legislation.gov.uk/ukpga/1998/42/schedule/4/crossheading/duty-to-make-orders-about-pensions',
+                  RestrictExtent: 'E+W+S+N.I.',
+                },
+                ContentsTitle: {
+                  _text: ' Duty to make orders about pensions',
+                },
+                ContentsItem: {
+                  _attributes: {
+                    ContentRef: 'schedule-4-paragraph-1',
+                    IdURI:
+                      'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/4/paragraph/1',
+                    ConfersPower: 'true',
+                    DocumentURI:
+                      'http://www.legislation.gov.uk/ukpga/1998/42/schedule/4/paragraph/1',
+                    RestrictExtent: 'E+W+S+N.I.',
+                  },
+                  ContentsNumber: {
+                    _text: '1',
+                  },
+                  ContentsTitle: {
+                    _attributes: {
+                      Generated: 'true',
+                    },
+                    _text:
+                      '(1) The appropriate Minister must by order make provision with...',
+                  },
+                },
+              },
+              {
+                _attributes: {
+                  ContentRef: 'schedule-4-crossheading-contributions',
+                  IdURI:
+                    'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/4/crossheading/contributions',
+                  DocumentURI:
+                    'http://www.legislation.gov.uk/ukpga/1998/42/schedule/4/crossheading/contributions',
+                  RestrictExtent: 'E+W+S+N.I.',
+                },
+                ContentsTitle: {
+                  _text: ' Contributions',
+                },
+                ContentsItem: {
+                  _attributes: {
+                    ContentRef: 'schedule-4-paragraph-2',
+                    IdURI:
+                      'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/4/paragraph/2',
+                    ConfersPower: 'true',
+                    DocumentURI:
+                      'http://www.legislation.gov.uk/ukpga/1998/42/schedule/4/paragraph/2',
+                    RestrictExtent: 'E+W+S+N.I.',
+                  },
+                  ContentsNumber: {
+                    _text: '2',
+                  },
+                  ContentsTitle: {
+                    _attributes: {
+                      Generated: 'true',
+                    },
+                    _text:
+                      'A pensions order may, in particular, make provision— ',
+                  },
+                },
+              },
+              {
+                _attributes: {
+                  ContentRef:
+                    'schedule-4-crossheading-amendments-of-other-enactments',
+                  IdURI:
+                    'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/4/crossheading/amendments-of-other-enactments',
+                  DocumentURI:
+                    'http://www.legislation.gov.uk/ukpga/1998/42/schedule/4/crossheading/amendments-of-other-enactments',
+                  RestrictExtent: 'E+W+S+N.I.',
+                },
+                ContentsTitle: {
+                  _text: ' Amendments of other enactments',
+                },
+                ContentsItem: {
+                  _attributes: {
+                    ContentRef: 'schedule-4-paragraph-3',
+                    IdURI:
+                      'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/4/paragraph/3',
+                    ConfersPower: 'true',
+                    DocumentURI:
+                      'http://www.legislation.gov.uk/ukpga/1998/42/schedule/4/paragraph/3',
+                    RestrictExtent: 'E+W+S+N.I.',
+                  },
+                  ContentsNumber: {
+                    _text: '3',
+                  },
+                  ContentsTitle: {
+                    _attributes: {
+                      Generated: 'true',
+                    },
+                    _text:
+                      'A pensions order may amend any provision of, or made...',
+                  },
+                },
+              },
+              {
+                _attributes: {
+                  ContentRef: 'schedule-4-crossheading-definitions',
+                  IdURI:
+                    'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/4/crossheading/definitions',
+                  DocumentURI:
+                    'http://www.legislation.gov.uk/ukpga/1998/42/schedule/4/crossheading/definitions',
+                  RestrictExtent: 'E+W+S+N.I.',
+                },
+                ContentsTitle: {
+                  _text: ' Definitions',
+                },
+                ContentsItem: {
+                  _attributes: {
+                    ContentRef: 'schedule-4-paragraph-4',
+                    IdURI:
+                      'http://www.legislation.gov.uk/id/ukpga/1998/42/schedule/4/paragraph/4',
+                    RestrictExtent: 'E+W+S+N.I.',
+                    DocumentURI:
+                      'http://www.legislation.gov.uk/ukpga/1998/42/schedule/4/paragraph/4',
+                  },
+                  ContentsNumber: {
+                    _text: '4',
+                  },
+                  ContentsTitle: {
+                    _attributes: {
+                      Generated: 'true',
+                    },
+                    _text:
+                      'In this Schedule— “appropriate Minister” means— in relation to any...',
+                  },
+                },
+              },
+            ],
+          },
+        ],
+      },
+    },
+    Primary: {
+      PrimaryPrelims: {
+        _attributes: {
+          DocumentURI:
+            'http://www.legislation.gov.uk/ukpga/1998/42/introduction',
+          IdURI: 'http://www.legislation.gov.uk/id/ukpga/1998/42/introduction',
+          RestrictExtent: 'E+W+S+N.I.',
+          RestrictStartDate: '2020-12-31',
+        },
+        Title: {
+          _text: 'Human Rights Act 1998',
+        },
+        Number: {
+          _text: '1998 c. 42',
+        },
+        LongTitle: {
+          CommentaryRef: [
+            {
+              _attributes: {
+                Ref: 'c11199551',
+              },
+            },
+            {
+              _attributes: {
+                Ref: 'c11199561',
+              },
+            },
+            {
+              _attributes: {
+                Ref: 'c18822121',
+              },
+            },
+          ],
+          _text:
+            'An Act to give further effect to rights and freedoms guaranteed under the European Convention on Human Rights; to make provision with respect to holders of certain judicial offices who become judges of the European Court of Human Rights; and for connected purposes.',
+        },
+        DateOfEnactment: {
+          DateText: {
+            _text: '[9th November 1998]',
+          },
+        },
+        PrimaryPreamble: {
+          EnactingText: {
+            Para: {
+              Text: {
+                _text:
+                  'Be it enacted by the Queen’s most Excellent Majesty, by and with the advice and consent of the Lords Spiritual and Temporal, and Commons, in this present Parliament assembled, and by the authority of the same, as follows:—',
+                CommentaryRef: [
+                  {
+                    _attributes: {
+                      Ref: 'key-e4d68d195dffd8b4be37add4ee6fba0d',
+                    },
+                  },
+                  {
+                    _attributes: {
+                      Ref: 'key-d6f823acbf266c19eb374e367f553fc7',
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+    },
+    Commentaries: {
+      Commentary: [
+        {
+          _attributes: {
+            id: 'c11199551',
+            Type: 'E',
+          },
+          Para: {
+            Text: {
+              _text:
+                'For the extent of this Act outside the U.K., see s. 22(6)(7)',
+            },
+          },
+        },
+        {
+          _attributes: {
+            id: 'c11199561',
+            Type: 'C',
+          },
+          Para: {
+            Text: {
+              _text: [
+                'Act: certain functions of the Secretary of State transferred to the Lord Chancellor (26.11.2001) by ',
+                ', ',
+                ', ',
+                ', ',
+              ],
+              Citation: {
+                _attributes: {
+                  URI: 'http://www.legislation.gov.uk/id/uksi/2001/3500',
+                  id: 'c00002',
+                  Class: 'UnitedKingdomStatutoryInstrument',
+                  Year: '2001',
+                  Number: '3500',
+                },
+                _text: 'S.I. 2001/3500',
+              },
+              CitationSubRef: [
+                {
+                  _attributes: {
+                    id: 'c00003',
+                    CitationRef: 'c00002',
+                    URI: 'http://www.legislation.gov.uk/id/uksi/2001/3500/article/3',
+                    SectionRef: 'article-3',
+                  },
+                  _text: 'arts. 3',
+                },
+                {
+                  _attributes: {
+                    id: 'c00004',
+                    CitationRef: 'c00002',
+                    URI: 'http://www.legislation.gov.uk/id/uksi/2001/3500/article/4',
+                    SectionRef: 'article-4',
+                  },
+                  _text: '4',
+                },
+                {
+                  _attributes: {
+                    id: 'c00005',
+                    CitationRef: 'c00002',
+                    URI: 'http://www.legislation.gov.uk/id/uksi/2001/3500/schedule/1/paragraph/5',
+                    Operative: 'true',
+                    SectionRef: 'schedule-1-paragraph-5',
+                  },
+                  _text: 'Sch. 1 para. 5',
+                },
+              ],
+            },
+          },
+        },
+        {
+          _attributes: {
+            id: 'c18822121',
+            Type: 'C',
+          },
+          Para: {
+            Text: {
+              _text: [
+                'Act (except ss. 5, 10, 18, 19 and Sch. 4): functions of the  Lord Chancellor transferred to the Secretary of State, and all property, rights and liabilities to which the Lord Chancellor is entitled or subject to in connection with any such function transferred to the Secretary of State for Constitutional Affairs (19.8.2003) by ',
+                ', ',
+                ', ',
+              ],
+              Citation: {
+                _attributes: {
+                  URI: 'http://www.legislation.gov.uk/id/uksi/2003/1887',
+                  id: 'c00006',
+                  Class: 'UnitedKingdomStatutoryInstrument',
+                  Year: '2003',
+                  Number: '1887',
+                },
+                _text: 'S.I. 2003/1887',
+              },
+              CitationSubRef: [
+                {
+                  _attributes: {
+                    id: 'c00007',
+                    CitationRef: 'c00006',
+                    URI: 'http://www.legislation.gov.uk/id/uksi/2003/1887/article/4',
+                    SectionRef: 'article-4',
+                  },
+                  _text: 'art. 4',
+                },
+                {
+                  _attributes: {
+                    id: 'c00008',
+                    CitationRef: 'c00006',
+                    URI: 'http://www.legislation.gov.uk/id/uksi/2003/1887/schedule/1',
+                    SectionRef: 'schedule-1',
+                    Operative: 'true',
+                  },
+                  _text: 'Sch. 1',
+                },
+              ],
+            },
+          },
+        },
+        {
+          _attributes: {
+            id: 'key-e4d68d195dffd8b4be37add4ee6fba0d',
+            Type: 'C',
+          },
+          Para: {
+            Text: {
+              _text: ['Act modified (30.1.2020) by ', ', ', ', '],
+              Citation: {
+                _attributes: {
+                  URI: 'http://www.legislation.gov.uk/id/ukpga/2020/2',
+                  id: 'd13e2',
+                  Year: '2020',
+                  Class: 'UnitedKingdomPublicGeneralAct',
+                  Number: '2',
+                  Title: 'Farmers (Legislative Continuity) Act 2020',
+                },
+                _text:
+                  'Direct Payments to Farmers (Legislative Continuity) Act 2020 (c. 2)',
+              },
+              CitationSubRef: [
+                {
+                  _attributes: {
+                    id: 'cc00010',
+                    CitationRef: 'd13e2',
+                    URI: 'http://www.legislation.gov.uk/id/ukpga/2020/2/section/2/8',
+                    Operative: 'true',
+                    SectionRef: 'section-2-8',
+                  },
+                  _text: 'ss. 2(8)',
+                },
+                {
+                  _attributes: {
+                    id: 'cc00011',
+                    CitationRef: 'd13e2',
+                    URI: 'http://www.legislation.gov.uk/id/ukpga/2020/2/section/9/3',
+                    SectionRef: 'section-9-3',
+                  },
+                  _text: '9(3)',
+                },
+              ],
+            },
+          },
+        },
+        {
+          _attributes: {
+            id: 'key-d6f823acbf266c19eb374e367f553fc7',
+            Type: 'C',
+          },
+          Para: {
+            Text: {
+              CitationSubRef: [
+                {
+                  _attributes: {
+                    SectionRef: 'introduction',
+                    URI: 'http://www.legislation.gov.uk/id/ukpga/1998/42',
+                    id: 'c5nq3k1j4-00006',
+                  },
+                  _text: 'Act',
+                },
+                {
+                  _attributes: {
+                    SectionRef: 'section-25-4',
+                    URI: 'http://www.legislation.gov.uk/id/ukpga/2018/16/section/25/4',
+                    CitationRef: 'c5nq3k1j4-00007',
+                    id: 'c5nq3k1j4-00008',
+                  },
+                  _text: 's. 25(4)',
+                },
+                {
+                  _attributes: {
+                    SectionRef: 'schedule-8-paragraph-30',
+                    URI: 'http://www.legislation.gov.uk/id/ukpga/2018/16/schedule/8/paragraph/30',
+                    CitationRef: 'c5nq3k1j4-00007',
+                    Operative: 'true',
+                    id: 'c5nq3k1j4-00009',
+                  },
+                  _text: 'Sch. 8 para. 30',
+                },
+                {
+                  _attributes: {
+                    SectionRef: 'section-19',
+                    URI: 'http://www.legislation.gov.uk/id/ukpga/2018/16/section/19',
+                    CitationRef: 'c5nq3k1j4-00007',
+                    id: 'c5nq3k1j4-00010',
+                  },
+                  _text: 's. 19',
+                },
+                {
+                  _attributes: {
+                    SectionRef: 'schedule-8-paragraph-37',
+                    URI: 'http://www.legislation.gov.uk/id/ukpga/2018/16/schedule/8/paragraph/37',
+                    CitationRef: 'c5nq3k1j4-00007',
+                    id: 'c5nq3k1j4-00011',
+                  },
+                  _text: 'Sch. 8 para. 37',
+                },
+                {
+                  _attributes: {
+                    SectionRef: 'regulation-3-n',
+                    URI: 'http://www.legislation.gov.uk/id/uksi/2020/1622/regulation/3/n',
+                    CitationRef: 'c5nq3k1j4-00012',
+                    id: 'c5nq3k1j4-00013',
+                  },
+                  _text: 'reg. 3(n)',
+                },
+              ],
+              _text: [
+                ' modified (31.12.2020) by ',
+                ', ',
+                ', ',
+                ' (with ',
+                ', ',
+                '); ',
+                ', ',
+              ],
+              Citation: [
+                {
+                  _attributes: {
+                    URI: 'http://www.legislation.gov.uk/id/ukpga/2018/16',
+                    Class: 'UnitedKingdomPublicGeneralAct',
+                    Year: '2018',
+                    Number: '16',
+                    Title: 'European Union (Withdrawal) Act 2018',
+                    id: 'c5nq3k1j4-00007',
+                  },
+                  _text: 'European Union (Withdrawal) Act 2018 (c. 16)',
+                },
+                {
+                  _attributes: {
+                    URI: 'http://www.legislation.gov.uk/id/uksi/2020/1622',
+                    Class: 'UnitedKingdomStatutoryInstrument',
+                    Year: '2020',
+                    Number: '1622',
+                    Title:
+                      'The European Union (Withdrawal) Act 2018 and European Union (Withdrawal Agreement) Act 2020 (Commencement, Transitional and Savings Provisions) Regulations 2020',
+                    id: 'c5nq3k1j4-00012',
+                  },
+                  _text: 'S.I. 2020/1622',
+                },
+              ],
             },
           },
         },
