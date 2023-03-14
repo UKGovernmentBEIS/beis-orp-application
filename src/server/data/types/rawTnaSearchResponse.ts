@@ -3,8 +3,9 @@ interface RawTnaResponseLink {
 }
 
 interface RawTnaResponseEntry {
+  id?: { _text: string };
   title?: RawTitle;
-  author?: { name: { _text: string } };
+  author?: { name?: { _text?: string } };
   updated?: { _text: string };
   published?: { _text: string };
   creation?: { _text: string };
@@ -13,6 +14,7 @@ interface RawTnaResponseEntry {
   'ukm:Year'?: { _attributes?: { Value: string } };
   'ukm:CreationDate'?: { _attributes?: { Date: string } };
   link: RawTnaResponseLink | RawTnaResponseLink[];
+  summary: { _text?: string };
 }
 
 interface LanguageTitle {

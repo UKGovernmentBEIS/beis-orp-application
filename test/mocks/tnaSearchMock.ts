@@ -1,6 +1,7 @@
 import { ApiSearchResponseDto } from '../../src/server/api/types/ApiSearchResponse.dto';
 import { SearchResponseDto } from '../../src/server/search/types/SearchResponse.dto';
 import * as snakecaseKeys from 'snakecase-keys';
+import * as convert from 'xml-js';
 
 export const tnaStandardResponse = `
 <?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xmlns:leg="http://www.legislation.gov.uk/namespaces/legislation" xmlns:ukm="http://www.legislation.gov.uk/namespaces/metadata" xmlns:theme="http://www.legislation.gov.uk/namespaces/theme" xmlns:openSearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:parameters="http://a9.com/-/spec/opensearch/extensions/parameters/1.0/">
@@ -337,77 +338,26 @@ export const tnaStandardResponse = `
 </feed>
 `;
 
+export const tnaStandardResponseJson = JSON.parse(
+  convert.xml2json(tnaStandardResponse, { compact: true }),
+);
+
 export const expectedInternalOutputForTnaStandardResponse: SearchResponseDto['legislation'] =
   {
     documents: [
       {
+        id: 'http://www.legislation.gov.uk/id/eudn/2020/1574',
         title: 'TNA Title 1',
         dates: {
           updated: '2020-12-11T01:30:02Z',
           published: '2020-10-28T00:00:00Z',
         },
         legislationType: 'European Union Legislation',
-        links: [
-          {
-            href: 'http://www.legislation.gov.uk/id/eudn/2020/1574',
-            rel: 'self',
-          },
-          {
-            href: 'http://www.legislation.gov.uk/eudn/2020/1574/2020-10-28',
-          },
-          {
-            title: 'XML',
-            href: 'http://www.legislation.gov.uk/eudn/2020/1574/2020-10-28/data.xml',
-            type: 'application/xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'RDF/XML',
-            href: 'http://www.legislation.gov.uk/eudn/2020/1574/2020-10-28/data.rdf',
-            type: 'application/rdf+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'AKN',
-            href: 'http://www.legislation.gov.uk/eudn/2020/1574/2020-10-28/data.akn',
-            type: 'application/akn+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'HTML snippet',
-            href: 'http://www.legislation.gov.uk/eudn/2020/1574/2020-10-28/data.xht',
-            type: 'application/xhtml+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'HTML5 snippet',
-            href: 'http://www.legislation.gov.uk/eudn/2020/1574/2020-10-28/data.html',
-            type: 'application/akn+xhtml',
-            rel: 'alternate',
-          },
-          {
-            title: 'Website (XHTML) Default View',
-            href: 'http://www.legislation.gov.uk/eudn/2020/1574/2020-10-28/data.htm',
-            type: 'text/html',
-            rel: 'alternate',
-          },
-          {
-            title: 'PDF',
-            href: 'http://www.legislation.gov.uk/eudn/2020/1574/2020-10-28/data.pdf',
-            type: 'application/pdf',
-            rel: 'alternate',
-          },
-          {
-            title: 'Table of Contents',
-            href: 'http://www.legislation.gov.uk/eudn/2020/1574/contents',
-            type: 'application/xml',
-            rel: 'http://purl.org/dc/terms/tableOfContents',
-          },
-        ],
         number: 1574,
         year: 2020,
       },
       {
+        id: 'http://www.legislation.gov.uk/id/eudn/2020/1531',
         title:
           'Decision (EU) 2020/1531 of the European Parliament and of the Council of 21 October 2020 empowering France to negotiate, sign and conclude an international agreement supplementing the Treaty between France and the United Kingdom of Great Britain and Northern Ireland concerning the Construction and Operation by Private Concessionaires of a Channel Fixed Link',
         dates: {
@@ -415,67 +365,11 @@ export const expectedInternalOutputForTnaStandardResponse: SearchResponseDto['le
           published: '2020-10-21T00:00:00Z',
         },
         legislationType: 'European Union Legislation',
-        links: [
-          {
-            href: 'http://www.legislation.gov.uk/id/eudn/2020/1531',
-            rel: 'self',
-          },
-          {
-            href: 'http://www.legislation.gov.uk/eudn/2020/1531/2020-10-21',
-          },
-          {
-            title: 'XML',
-            href: 'http://www.legislation.gov.uk/eudn/2020/1531/2020-10-21/data.xml',
-            type: 'application/xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'RDF/XML',
-            href: 'http://www.legislation.gov.uk/eudn/2020/1531/2020-10-21/data.rdf',
-            type: 'application/rdf+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'AKN',
-            href: 'http://www.legislation.gov.uk/eudn/2020/1531/2020-10-21/data.akn',
-            type: 'application/akn+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'HTML snippet',
-            href: 'http://www.legislation.gov.uk/eudn/2020/1531/2020-10-21/data.xht',
-            type: 'application/xhtml+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'HTML5 snippet',
-            href: 'http://www.legislation.gov.uk/eudn/2020/1531/2020-10-21/data.html',
-            type: 'application/akn+xhtml',
-            rel: 'alternate',
-          },
-          {
-            title: 'Website (XHTML) Default View',
-            href: 'http://www.legislation.gov.uk/eudn/2020/1531/2020-10-21/data.htm',
-            type: 'text/html',
-            rel: 'alternate',
-          },
-          {
-            title: 'PDF',
-            href: 'http://www.legislation.gov.uk/eudn/2020/1531/2020-10-21/data.pdf',
-            type: 'application/pdf',
-            rel: 'alternate',
-          },
-          {
-            title: 'Table of Contents',
-            href: 'http://www.legislation.gov.uk/eudn/2020/1531/contents',
-            type: 'application/xml',
-            rel: 'http://purl.org/dc/terms/tableOfContents',
-          },
-        ],
         number: 1531,
         year: 2020,
       },
       {
+        id: 'http://www.legislation.gov.uk/id/eur/2020/1170',
         title:
           'Commission Implementing Regulation (EU) 2020/1170 of 16 July 2020 on design, construction and performance requirements and testing standards for marine equipment and repealing Implementing Regulation (EU) 2019/1397 (Text with EEA relevance)',
         dates: {
@@ -483,67 +377,11 @@ export const expectedInternalOutputForTnaStandardResponse: SearchResponseDto['le
           published: '2020-07-16T00:00:00Z',
         },
         legislationType: 'European Union Legislation',
-        links: [
-          {
-            href: 'http://www.legislation.gov.uk/id/eur/2020/1170',
-            rel: 'self',
-          },
-          {
-            href: 'http://www.legislation.gov.uk/eur/2020/1170/2020-07-16',
-          },
-          {
-            title: 'XML',
-            href: 'http://www.legislation.gov.uk/eur/2020/1170/2020-07-16/data.xml',
-            type: 'application/xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'RDF/XML',
-            href: 'http://www.legislation.gov.uk/eur/2020/1170/2020-07-16/data.rdf',
-            type: 'application/rdf+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'AKN',
-            href: 'http://www.legislation.gov.uk/eur/2020/1170/2020-07-16/data.akn',
-            type: 'application/akn+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'HTML snippet',
-            href: 'http://www.legislation.gov.uk/eur/2020/1170/2020-07-16/data.xht',
-            type: 'application/xhtml+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'HTML5 snippet',
-            href: 'http://www.legislation.gov.uk/eur/2020/1170/2020-07-16/data.html',
-            type: 'application/akn+xhtml',
-            rel: 'alternate',
-          },
-          {
-            title: 'Website (XHTML) Default View',
-            href: 'http://www.legislation.gov.uk/eur/2020/1170/2020-07-16/data.htm',
-            type: 'text/html',
-            rel: 'alternate',
-          },
-          {
-            title: 'PDF',
-            href: 'http://www.legislation.gov.uk/eur/2020/1170/2020-07-16/data.pdf',
-            type: 'application/pdf',
-            rel: 'alternate',
-          },
-          {
-            title: 'Table of Contents',
-            href: 'http://www.legislation.gov.uk/eur/2020/1170/contents',
-            type: 'application/xml',
-            rel: 'http://purl.org/dc/terms/tableOfContents',
-          },
-        ],
         number: 1170,
         year: 2020,
       },
       {
+        id: 'http://www.legislation.gov.uk/id/eudn/2020/962',
         title:
           'Commission Implementing Decision (EU) 2020/962 of 2 July 2020 amending Implementing Decision (EU) 2019/450 as regards the publication of references of European Assessment Documents for certain construction products (Text with EEA relevance)',
         dates: {
@@ -551,67 +389,11 @@ export const expectedInternalOutputForTnaStandardResponse: SearchResponseDto['le
           published: '2020-07-02T00:00:00Z',
         },
         legislationType: 'European Union Legislation',
-        links: [
-          {
-            href: 'http://www.legislation.gov.uk/id/eudn/2020/962',
-            rel: 'self',
-          },
-          {
-            href: 'http://www.legislation.gov.uk/eudn/2020/962/2020-07-02',
-          },
-          {
-            title: 'XML',
-            href: 'http://www.legislation.gov.uk/eudn/2020/962/2020-07-02/data.xml',
-            type: 'application/xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'RDF/XML',
-            href: 'http://www.legislation.gov.uk/eudn/2020/962/2020-07-02/data.rdf',
-            type: 'application/rdf+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'AKN',
-            href: 'http://www.legislation.gov.uk/eudn/2020/962/2020-07-02/data.akn',
-            type: 'application/akn+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'HTML snippet',
-            href: 'http://www.legislation.gov.uk/eudn/2020/962/2020-07-02/data.xht',
-            type: 'application/xhtml+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'HTML5 snippet',
-            href: 'http://www.legislation.gov.uk/eudn/2020/962/2020-07-02/data.html',
-            type: 'application/akn+xhtml',
-            rel: 'alternate',
-          },
-          {
-            title: 'Website (XHTML) Default View',
-            href: 'http://www.legislation.gov.uk/eudn/2020/962/2020-07-02/data.htm',
-            type: 'text/html',
-            rel: 'alternate',
-          },
-          {
-            title: 'PDF',
-            href: 'http://www.legislation.gov.uk/eudn/2020/962/2020-07-02/data.pdf',
-            type: 'application/pdf',
-            rel: 'alternate',
-          },
-          {
-            title: 'Table of Contents',
-            href: 'http://www.legislation.gov.uk/eudn/2020/962/contents',
-            type: 'application/xml',
-            rel: 'http://purl.org/dc/terms/tableOfContents',
-          },
-        ],
         number: 962,
         year: 2020,
       },
       {
+        id: 'http://www.legislation.gov.uk/id/eudn/2020/50',
         title:
           'Commission Implementing Decision (EU) 2020/50 of 21 January 2020 amending Implementing Decision (EU) 2019/919 on the harmonised standards for recreational craft and personal watercraft drafted in support of Directive 2013/53/EU of the European Parliament and of the Council as regards small craft identification, coding system, hull construction and scantlings for monohulls',
         dates: {
@@ -619,67 +401,11 @@ export const expectedInternalOutputForTnaStandardResponse: SearchResponseDto['le
           published: '2020-01-21T00:00:00Z',
         },
         legislationType: 'European Union Legislation',
-        links: [
-          {
-            href: 'http://www.legislation.gov.uk/id/eudn/2020/50',
-            rel: 'self',
-          },
-          {
-            href: 'http://www.legislation.gov.uk/eudn/2020/50/2020-01-21',
-          },
-          {
-            title: 'XML',
-            href: 'http://www.legislation.gov.uk/eudn/2020/50/2020-01-21/data.xml',
-            type: 'application/xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'RDF/XML',
-            href: 'http://www.legislation.gov.uk/eudn/2020/50/2020-01-21/data.rdf',
-            type: 'application/rdf+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'AKN',
-            href: 'http://www.legislation.gov.uk/eudn/2020/50/2020-01-21/data.akn',
-            type: 'application/akn+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'HTML snippet',
-            href: 'http://www.legislation.gov.uk/eudn/2020/50/2020-01-21/data.xht',
-            type: 'application/xhtml+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'HTML5 snippet',
-            href: 'http://www.legislation.gov.uk/eudn/2020/50/2020-01-21/data.html',
-            type: 'application/akn+xhtml',
-            rel: 'alternate',
-          },
-          {
-            title: 'Website (XHTML) Default View',
-            href: 'http://www.legislation.gov.uk/eudn/2020/50/2020-01-21/data.htm',
-            type: 'text/html',
-            rel: 'alternate',
-          },
-          {
-            title: 'PDF',
-            href: 'http://www.legislation.gov.uk/eudn/2020/50/2020-01-21/data.pdf',
-            type: 'application/pdf',
-            rel: 'alternate',
-          },
-          {
-            title: 'Table of Contents',
-            href: 'http://www.legislation.gov.uk/eudn/2020/50/contents',
-            type: 'application/xml',
-            rel: 'http://purl.org/dc/terms/tableOfContents',
-          },
-        ],
         number: 50,
         year: 2020,
       },
       {
+        id: 'http://www.legislation.gov.uk/id/eur/2019/1397',
         title:
           'Commission Implementing Regulation (EU) 2019/1397 of 6 August 2019 on design, construction and performance requirements and testing standards for marine equipment and repealing Implementing Regulation (EU) 2018/773 (Text with EEA relevance) (repealed)',
         dates: {
@@ -687,67 +413,11 @@ export const expectedInternalOutputForTnaStandardResponse: SearchResponseDto['le
           published: '2019-08-06T00:00:00Z',
         },
         legislationType: 'European Union Legislation',
-        links: [
-          {
-            href: 'http://www.legislation.gov.uk/id/eur/2019/1397',
-            rel: 'self',
-          },
-          {
-            href: 'http://www.legislation.gov.uk/eur/2019/1397/2020-08-31',
-          },
-          {
-            title: 'XML',
-            href: 'http://www.legislation.gov.uk/eur/2019/1397/2020-08-31/data.xml',
-            type: 'application/xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'RDF/XML',
-            href: 'http://www.legislation.gov.uk/eur/2019/1397/2020-08-31/data.rdf',
-            type: 'application/rdf+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'AKN',
-            href: 'http://www.legislation.gov.uk/eur/2019/1397/2020-08-31/data.akn',
-            type: 'application/akn+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'HTML snippet',
-            href: 'http://www.legislation.gov.uk/eur/2019/1397/2020-08-31/data.xht',
-            type: 'application/xhtml+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'HTML5 snippet',
-            href: 'http://www.legislation.gov.uk/eur/2019/1397/2020-08-31/data.html',
-            type: 'application/akn+xhtml',
-            rel: 'alternate',
-          },
-          {
-            title: 'Website (XHTML) Default View',
-            href: 'http://www.legislation.gov.uk/eur/2019/1397/2020-08-31/data.htm',
-            type: 'text/html',
-            rel: 'alternate',
-          },
-          {
-            title: 'PDF',
-            href: 'http://www.legislation.gov.uk/eur/2019/1397/2020-08-31/data.pdf',
-            type: 'application/pdf',
-            rel: 'alternate',
-          },
-          {
-            title: 'Table of Contents',
-            href: 'http://www.legislation.gov.uk/eur/2019/1397/contents',
-            type: 'application/xml',
-            rel: 'http://purl.org/dc/terms/tableOfContents',
-          },
-        ],
         number: 1397,
         year: 2019,
       },
       {
+        id: 'http://www.legislation.gov.uk/id/eudn/2019/451',
         title:
           'Commission Implementing Decision (EU) 2019/451 of 19 March 2019 on the harmonised standards for construction products drafted in support of Regulation (EU) No 305/2011 of the European Parliament and of the Council (Text with EEA relevance)',
         dates: {
@@ -755,67 +425,11 @@ export const expectedInternalOutputForTnaStandardResponse: SearchResponseDto['le
           published: '2019-03-19T00:00:00Z',
         },
         legislationType: 'European Union Legislation',
-        links: [
-          {
-            href: 'http://www.legislation.gov.uk/id/eudn/2019/451',
-            rel: 'self',
-          },
-          {
-            href: 'http://www.legislation.gov.uk/eudn/2019/451/2019-03-20',
-          },
-          {
-            title: 'XML',
-            href: 'http://www.legislation.gov.uk/eudn/2019/451/2019-03-20/data.xml',
-            type: 'application/xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'RDF/XML',
-            href: 'http://www.legislation.gov.uk/eudn/2019/451/2019-03-20/data.rdf',
-            type: 'application/rdf+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'AKN',
-            href: 'http://www.legislation.gov.uk/eudn/2019/451/2019-03-20/data.akn',
-            type: 'application/akn+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'HTML snippet',
-            href: 'http://www.legislation.gov.uk/eudn/2019/451/2019-03-20/data.xht',
-            type: 'application/xhtml+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'HTML5 snippet',
-            href: 'http://www.legislation.gov.uk/eudn/2019/451/2019-03-20/data.html',
-            type: 'application/akn+xhtml',
-            rel: 'alternate',
-          },
-          {
-            title: 'Website (XHTML) Default View',
-            href: 'http://www.legislation.gov.uk/eudn/2019/451/2019-03-20/data.htm',
-            type: 'text/html',
-            rel: 'alternate',
-          },
-          {
-            title: 'PDF',
-            href: 'http://www.legislation.gov.uk/eudn/2019/451/2019-03-20/data.pdf',
-            type: 'application/pdf',
-            rel: 'alternate',
-          },
-          {
-            title: 'Table of Contents',
-            href: 'http://www.legislation.gov.uk/eudn/2019/451/contents',
-            type: 'application/xml',
-            rel: 'http://purl.org/dc/terms/tableOfContents',
-          },
-        ],
         number: 451,
         year: 2019,
       },
       {
+        id: 'http://www.legislation.gov.uk/id/eudn/2019/450',
         title:
           'Commission Implementing Decision (EU) 2019/450 of 19 March 2019 on publication of the European Assessment Documents (EADs) for construction products drafted in support of Regulation (EU) No 305/2011 of the European Parliament and of the Council (Text with EEA relevance)',
         dates: {
@@ -823,67 +437,11 @@ export const expectedInternalOutputForTnaStandardResponse: SearchResponseDto['le
           published: '2019-03-19T00:00:00Z',
         },
         legislationType: 'European Union Legislation',
-        links: [
-          {
-            href: 'http://www.legislation.gov.uk/id/eudn/2019/450',
-            rel: 'self',
-          },
-          {
-            href: 'http://www.legislation.gov.uk/eudn/2019/450/2020-10-29',
-          },
-          {
-            title: 'XML',
-            href: 'http://www.legislation.gov.uk/eudn/2019/450/2020-10-29/data.xml',
-            type: 'application/xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'RDF/XML',
-            href: 'http://www.legislation.gov.uk/eudn/2019/450/2020-10-29/data.rdf',
-            type: 'application/rdf+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'AKN',
-            href: 'http://www.legislation.gov.uk/eudn/2019/450/2020-10-29/data.akn',
-            type: 'application/akn+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'HTML snippet',
-            href: 'http://www.legislation.gov.uk/eudn/2019/450/2020-10-29/data.xht',
-            type: 'application/xhtml+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'HTML5 snippet',
-            href: 'http://www.legislation.gov.uk/eudn/2019/450/2020-10-29/data.html',
-            type: 'application/akn+xhtml',
-            rel: 'alternate',
-          },
-          {
-            title: 'Website (XHTML) Default View',
-            href: 'http://www.legislation.gov.uk/eudn/2019/450/2020-10-29/data.htm',
-            type: 'text/html',
-            rel: 'alternate',
-          },
-          {
-            title: 'PDF',
-            href: 'http://www.legislation.gov.uk/eudn/2019/450/2020-10-29/data.pdf',
-            type: 'application/pdf',
-            rel: 'alternate',
-          },
-          {
-            title: 'Table of Contents',
-            href: 'http://www.legislation.gov.uk/eudn/2019/450/contents',
-            type: 'application/xml',
-            rel: 'http://purl.org/dc/terms/tableOfContents',
-          },
-        ],
         number: 450,
         year: 2019,
       },
       {
+        id: 'http://www.legislation.gov.uk/id/eudn/2019/1764',
         title:
           'Commission Delegated Decision (EU) 2019/1764 of 14 March 2019 supplementing Regulation (EU) No 305/2011 of the European Parliament and of the Council with regard to the applicable systems to assess and verify constancy of performance of balustrade kits and railing kits intended to be used in construction works solely to prevent falls and not submitted to vertical loads from the structure (Text with EEA relevance)',
         dates: {
@@ -891,67 +449,11 @@ export const expectedInternalOutputForTnaStandardResponse: SearchResponseDto['le
           published: '2019-03-14T00:00:00Z',
         },
         legislationType: 'European Union Legislation',
-        links: [
-          {
-            href: 'http://www.legislation.gov.uk/id/eudn/2019/1764',
-            rel: 'self',
-          },
-          {
-            href: 'http://www.legislation.gov.uk/eudn/2019/1764/2019-03-14',
-          },
-          {
-            title: 'XML',
-            href: 'http://www.legislation.gov.uk/eudn/2019/1764/2019-03-14/data.xml',
-            type: 'application/xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'RDF/XML',
-            href: 'http://www.legislation.gov.uk/eudn/2019/1764/2019-03-14/data.rdf',
-            type: 'application/rdf+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'AKN',
-            href: 'http://www.legislation.gov.uk/eudn/2019/1764/2019-03-14/data.akn',
-            type: 'application/akn+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'HTML snippet',
-            href: 'http://www.legislation.gov.uk/eudn/2019/1764/2019-03-14/data.xht',
-            type: 'application/xhtml+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'HTML5 snippet',
-            href: 'http://www.legislation.gov.uk/eudn/2019/1764/2019-03-14/data.html',
-            type: 'application/akn+xhtml',
-            rel: 'alternate',
-          },
-          {
-            title: 'Website (XHTML) Default View',
-            href: 'http://www.legislation.gov.uk/eudn/2019/1764/2019-03-14/data.htm',
-            type: 'text/html',
-            rel: 'alternate',
-          },
-          {
-            title: 'PDF',
-            href: 'http://www.legislation.gov.uk/eudn/2019/1764/2019-03-14/data.pdf',
-            type: 'application/pdf',
-            rel: 'alternate',
-          },
-          {
-            title: 'Table of Contents',
-            href: 'http://www.legislation.gov.uk/eudn/2019/1764/contents',
-            type: 'application/xml',
-            rel: 'http://purl.org/dc/terms/tableOfContents',
-          },
-        ],
         number: 1764,
         year: 2019,
       },
       {
+        id: 'http://www.legislation.gov.uk/id/eur/2018/773',
         title:
           'Commission Implementing Regulation (EU) 2018/773 of 15 May 2018 on design, construction and performance requirements and testing standards for marine equipment and repealing Implementing Regulation (EU) 2017/306 (Text with EEA relevance) (repealed)',
         dates: {
@@ -959,63 +461,6 @@ export const expectedInternalOutputForTnaStandardResponse: SearchResponseDto['le
           published: '2018-05-15T00:00:00Z',
         },
         legislationType: 'European Union Legislation',
-        links: [
-          {
-            href: 'http://www.legislation.gov.uk/id/eur/2018/773',
-            rel: 'self',
-          },
-          {
-            href: 'http://www.legislation.gov.uk/eur/2018/773/2019-10-02',
-          },
-          {
-            title: 'XML',
-            href: 'http://www.legislation.gov.uk/eur/2018/773/2019-10-02/data.xml',
-            type: 'application/xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'RDF/XML',
-            href: 'http://www.legislation.gov.uk/eur/2018/773/2019-10-02/data.rdf',
-            type: 'application/rdf+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'AKN',
-            href: 'http://www.legislation.gov.uk/eur/2018/773/2019-10-02/data.akn',
-            type: 'application/akn+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'HTML snippet',
-            href: 'http://www.legislation.gov.uk/eur/2018/773/2019-10-02/data.xht',
-            type: 'application/xhtml+xml',
-            rel: 'alternate',
-          },
-          {
-            title: 'HTML5 snippet',
-            href: 'http://www.legislation.gov.uk/eur/2018/773/2019-10-02/data.html',
-            type: 'application/akn+xhtml',
-            rel: 'alternate',
-          },
-          {
-            title: 'Website (XHTML) Default View',
-            href: 'http://www.legislation.gov.uk/eur/2018/773/2019-10-02/data.htm',
-            type: 'text/html',
-            rel: 'alternate',
-          },
-          {
-            title: 'PDF',
-            href: 'http://www.legislation.gov.uk/eur/2018/773/2019-10-02/data.pdf',
-            type: 'application/pdf',
-            rel: 'alternate',
-          },
-          {
-            title: 'Table of Contents',
-            href: 'http://www.legislation.gov.uk/eur/2018/773/contents',
-            type: 'application/xml',
-            rel: 'http://purl.org/dc/terms/tableOfContents',
-          },
-        ],
         number: 773,
         year: 2018,
       },

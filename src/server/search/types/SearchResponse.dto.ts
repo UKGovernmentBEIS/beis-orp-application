@@ -1,4 +1,5 @@
 class TnaSearchItem {
+  id: string;
   title?: string;
   author?: string;
   dates: {
@@ -6,16 +7,8 @@ class TnaSearchItem {
     published?: string;
   };
   legislationType?: string;
-  links: TnaLink[];
   number?: number;
   year?: number;
-}
-
-class TnaLink {
-  title?: string;
-  type?: string;
-  href: string;
-  rel?: string;
 }
 
 export class TnaSearchResponse {

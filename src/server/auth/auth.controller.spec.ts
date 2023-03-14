@@ -130,9 +130,6 @@ describe('AuthController', () => {
     });
 
     it('should confirm new password', async () => {
-      const req = mocks.createRequest({
-        session: {},
-      });
       const result = await controller.confirmForgottenPassword({
         verificationCode: 'code',
         email: 'email@e.com',
