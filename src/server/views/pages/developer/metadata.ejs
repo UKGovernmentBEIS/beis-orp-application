@@ -1,0 +1,128 @@
+<%- include('../../partials/header'); %>
+<div class="govuk-width-container">
+    <%- include('../../partials/components/backButton' , {href: "/developer"}); %>
+
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h1 class="govuk-heading-l">Metadata Schema</h1>
+                <p>The ORP Metadata Schema is used to identify, describe, and link regulatory material within the ORP. It is designed to provide a standardized way to identify and describe the context and content of regulatory data, including its purpose, scope, and relationships with legislation. This will stimulate easier identification, access, exchange, and reuse of regulatory data for public authorities, regulators, professional users, academics, RegTechs, and citizens.  </p>
+
+                <table class="govuk-table">
+                    <caption class="govuk-table__caption govuk-table__caption--m">ORP metadata schema</caption>
+                    <thead class="govuk-table__head">
+                    <tr class="govuk-table__row">
+                        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Schema item</th>
+                        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Data type</th>
+                        <th scope="col" class="govuk-table__header govuk-!-width-one-half">Description</th>
+                    </tr>
+                    </thead>
+                    <tbody class="govuk-table__body">
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">title</th>
+                        <td class="govuk-table__cell">string</td>
+                        <td class="govuk-table__cell">Title of the document</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">description</th>
+                        <td class="govuk-table__cell">string</td>
+                        <td class="govuk-table__cell">An account of the resource (definition from Dublin Core), e.g. a summary</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">creator</th>
+                        <td class="govuk-table__cell">string</td>
+                        <td class="govuk-table__cell">Organisation that has responsibility for the document</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">document_id</th>
+                        <td class="govuk-table__cell">string <span class="govuk-!-font-size-14">(UUID v4)</span></td>
+                        <td class="govuk-table__cell">Document unique identifier</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">dates</th>
+                        <td class="govuk-table__cell">
+                            <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
+                                <summary class="govuk-details__summary">
+                                <span class="govuk-details__summary-text">
+                                  object
+                                </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    <ul class="govuk-list"><li>published: string (<a href="https://www.w3.org/TR/NOTE-datetime-970915.html" target="_blank" rel="noopener noreferrer" class="govuk-!-font-size-14">ISO 8601</a>)</li><li>uploaded: string (<a href="https://www.w3.org/TR/NOTE-datetime-970915.html" class="govuk-!-font-size-14" target="_blank" rel="noopener noreferrer">ISO 8601</a>)</li><li>modified: string (<a href="https://www.w3.org/TR/NOTE-datetime-970915.html" class="govuk-!-font-size-14" target="_blank" rel="noopener noreferrer">ISO 8601</a>)</li></ul>
+                                </div>
+                            </details>
+                        </td>
+                        <td class="govuk-table__cell">Date that the document was uploaded, created and modified</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">status</th>
+                        <td class="govuk-table__cell">
+                            <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
+                                <summary class="govuk-details__summary">
+                                <span class="govuk-details__summary-text">
+                                  document status
+                                </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    string limited to:
+                                    <ul class="govuk-list govuk-list--bullet"><li>enforced</li><li>reappealed</li><li>draft</li><li>published</li></ul>
+                                </div>
+                            </details>
+                        </td>
+                        <td class="govuk-table__cell">A version status for the resource.</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">version</th>
+                        <td class="govuk-table__cell">string</td>
+                        <td class="govuk-table__cell">The point in time at which the provided resource is valid </td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">legislative_origins</th>
+                        <td class="govuk-table__cell">
+                            <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
+                                <summary class="govuk-details__summary">
+                                <span class="govuk-details__summary-text">
+                                  object array
+                                </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                   <ul class="govuk-list"><li>url: string</li><li>title: string</li><li>type: string</li><li>division: string</li></ul>
+                                </div>
+                            </details>
+                        </td>
+                        <td class="govuk-table__cell">List of legislative origins of the regulation, i.e. the title of any legislation document that is related</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">document_type</th>
+                        <td class="govuk-table__cell">
+                            <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
+                                <summary class="govuk-details__summary">
+                                <span class="govuk-details__summary-text">
+                                  document type
+                                </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    limited to:
+                                    <ul class="govuk-list govuk-list--bullet"><li>guidance</li><li>market data, standards and information</li><li>horizon scanning</li></ul>
+                                </div>
+                            </details>
+                        </td>
+                        <td class="govuk-table__cell">Type of document</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">topics</th>
+                        <td class="govuk-table__cell">string array</td>
+                        <td class="govuk-table__cell">Topics that apply to the document</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">keywords</th>
+                        <td class="govuk-table__cell">string array</td>
+                        <td class="govuk-table__cell">Five most repeated words within the document</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+<%- include('../../partials/footer'); %>
