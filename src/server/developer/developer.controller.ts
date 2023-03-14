@@ -46,4 +46,10 @@ export class DeveloperController {
       removeApiCredentialsDto.username,
     );
   }
+
+  @Get('metadata-schema')
+  @Render('pages/developer/metadata')
+  getSchema() {
+    return {};
+  }
 }
