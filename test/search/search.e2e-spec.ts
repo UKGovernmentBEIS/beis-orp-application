@@ -17,9 +17,13 @@ describe('api/search (GET)', () => {
         .expect(200)
         .expect((res) => {
           const $ = cheerio.load(res.text);
-          expect($("form[method='get']")).toBeTruthy();
-          expect($("form[method='get'] > input[name='title']")).toBeTruthy();
-          expect($("form[method='get'] > input[name='keyword']")).toBeTruthy();
+          expect($("form[method='get']").length).toBeTruthy();
+          expect(
+            $("form[method='get'] input[name='title']").length,
+          ).toBeTruthy();
+          expect(
+            $("form[method='get'] input[name='keyword']").length,
+          ).toBeTruthy();
           expect($('.search-no-content').text().trim()).toEqual(
             'Enter your keywords into one of the search bars and press search to see results.',
           );

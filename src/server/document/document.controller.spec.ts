@@ -45,6 +45,7 @@ describe('DocumentController', () => {
           documentType: 'GD',
         }),
         url: 'http://document',
+        documentFormat: 'application/pdf',
       };
       jest
         .spyOn(documentService, 'getDocumentWithPresignedUrl')

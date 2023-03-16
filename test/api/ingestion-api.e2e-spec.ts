@@ -53,7 +53,7 @@ describe('api/upload (PUT)', () => {
       .field({ status: 'draft', document_type: 'GD' })
       .expect(400)
       .expect(
-        '{"statusCode":400,"message":"Validation failed (expected type is pdf)","error":"Bad Request"}',
+        '{"statusCode":400,"message":"The uploaded file must be a PDF, Microsoft Word or Open Office document","error":"Bad Request"}',
       );
   });
 

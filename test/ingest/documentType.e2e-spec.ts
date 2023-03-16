@@ -55,7 +55,8 @@ describe('Ingest document type', () => {
           expect($('input[name="documentType"]').length).toEqual(4);
           expect($('button[type="submit"]').text().trim()).toEqual('Continue');
           expect(
-            $('input[type="hidden"][value="unconfirmeddoc"][name="key"]'),
+            $('input[type="hidden"][value="unconfirmeddoc"][name="key"]')
+              .length,
           ).toBeTruthy();
         });
     });
@@ -67,7 +68,7 @@ describe('Ingest document type', () => {
           .get('/ingest/document-type?key=unconfirmeddoc')
           .set('Cookie', nonRegulatorSession)
           .expect(302)
-          .expect('Location', 'unauthorised/ingest');
+          .expect('Location', '/unauthorised/ingest');
       });
 
       it('redirects unauthenticated users', () => {
@@ -75,7 +76,7 @@ describe('Ingest document type', () => {
           .request()
           .get('/ingest/document-type?key=unconfirmeddoc')
           .expect(302)
-          .expect('Location', 'unauthorised/ingest');
+          .expect('Location', '/unauthorised/ingest');
       });
     });
   });
@@ -105,7 +106,7 @@ describe('Ingest document type', () => {
           .set('Cookie', nonRegulatorSession)
           .send({ key: 'unconfirmed/key', documentType: { new: 'meta' } })
           .expect(302)
-          .expect('Location', 'unauthorised/ingest');
+          .expect('Location', '/unauthorised/ingest');
       });
 
       it('redirects unauthenticated users', () => {
@@ -114,7 +115,7 @@ describe('Ingest document type', () => {
           .post('/ingest/document-type')
           .send({ key: 'unconfirmed/key', documentType: { new: 'meta' } })
           .expect(302)
-          .expect('Location', 'unauthorised/ingest');
+          .expect('Location', '/unauthorised/ingest');
       });
     });
   });

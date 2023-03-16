@@ -47,9 +47,9 @@ export class ErrorFilter<T extends Error> implements ExceptionFilter {
 
     if (exception instanceof ForbiddenException) {
       const redirectUrl = request.originalUrl.includes('ingest')
-        ? 'unauthorised/ingest'
+        ? '/unauthorised/ingest'
         : request.originalUrl.includes('developer')
-        ? 'unauthorised/developer'
+        ? '/unauthorised/developer'
         : null;
 
       if (redirectUrl) {

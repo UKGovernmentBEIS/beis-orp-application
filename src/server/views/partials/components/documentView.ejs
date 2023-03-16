@@ -1,0 +1,10 @@
+<% var embedClass = locals.small ? 'embedded-pdf-small' : 'embedded-pdf' %>
+
+<% if (documentFormat === locals.objectMimeType) { %>
+    <object class="<%= embedClass %>" data="<%= url %>" type="application/pdf" title="<%= title %>">
+        <embed src="<%= url %>" type="application/pdf" />
+    </object>
+<% } else if (locals.iframeMimeTypes.includes(documentFormat)) { %>
+    <iframe class="<%= embedClass %>" src="https://docs.google.com/gview?url=<%= encodeURIComponent(locals.url) %>&embedded=true" data-module="iframe-content"></iframe>
+<% } %>
+

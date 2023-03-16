@@ -28,22 +28,22 @@ export class DocumentController {
   @UseFilters(ErrorFilter)
   @UseInterceptors(ViewDataInterceptor)
   @Render('pages/document')
-  async getDocument(@Param() params: { id: string }): Promise<{
+  async getDocument(@Param() { id }: { id: string }): Promise<{
     document: OrpSearchItem;
     url: string;
     regulator: Regulator;
     docType: string;
+    documentFormat: string;
   }> {
-    const orpDoc = await this.documentService.getDocumentWithPresignedUrl(
-      params.id,
-    );
-    const regulator = regulators.find(
-      (reg) => reg.name === orpDoc.document.creator,
-    );
+    const { document, documentFormat, url } =
+      await this.documentService.getDocumentWithPresignedUrl(id);
+    const regulator = regulators.find((reg) => reg.name === document.creator);
+    const docType = documentTypes[document.documentType] ?? '';
 
-    const docType = documentTypes[orpDoc.document.documentType] ?? '';
     return {
-      ...orpDoc,
+      document,
+      url,
+      documentFormat,
       regulator,
       docType,
     };

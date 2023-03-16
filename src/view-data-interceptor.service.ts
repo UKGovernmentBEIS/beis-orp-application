@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { pdfMimeType, wordMimeTypes } from './server/document/utils/mimeTypes';
 
 export interface Response<T> {
   data: T;
@@ -42,6 +43,8 @@ export class ViewDataInterceptor<T> implements NestInterceptor<T, Response<T>> {
         values,
         menuItem: getMenuItem(request.url),
         latestSearch,
+        iframeMimeTypes: wordMimeTypes,
+        objectMimeType: pdfMimeType,
       })),
     );
   }
