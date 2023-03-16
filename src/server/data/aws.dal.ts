@@ -94,7 +94,10 @@ export class AwsDal {
       Key: key,
     });
     const headObject = await this.client.send(command);
-    return headObject.Metadata as unknown as ObjectMetaData;
+    return {
+      ...headObject.Metadata,
+      document_format: headObject.ContentType,
+    } as unknown as ObjectMetaData;
   }
 
   async copyObject(key: string, newKey: string) {

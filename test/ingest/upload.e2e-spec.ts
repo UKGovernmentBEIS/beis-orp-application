@@ -41,7 +41,7 @@ describe('Ingest upload', () => {
         .expect(200)
         .expect((res) => {
           const $ = cheerio.load(res.text);
-          expect($("input[name='file'][type='file']")).toBeTruthy();
+          expect($("input[name='file'][type='file']").length).toBeTruthy();
         });
     });
 
@@ -52,7 +52,7 @@ describe('Ingest upload', () => {
           .get('/ingest/upload')
           .set('Cookie', nonRegulatorSession)
           .expect(302)
-          .expect('Location', 'unauthorised/ingest');
+          .expect('Location', '/unauthorised/ingest');
       });
 
       it('redirects unauthenticated users', () => {
@@ -60,7 +60,7 @@ describe('Ingest upload', () => {
           .request()
           .get('/ingest/upload')
           .expect(302)
-          .expect('Location', 'unauthorised/ingest');
+          .expect('Location', '/unauthorised/ingest');
       });
     });
   });
@@ -78,7 +78,7 @@ describe('Ingest upload', () => {
         .expect(302)
         .expect(
           'Location',
-          '/ingest/confirm?key=unconfirmed/uuid-testfile.pdf',
+          '/ingest/document-type?key=unconfirmed/uuid-testfile.pdf',
         );
     });
 
@@ -111,7 +111,7 @@ describe('Ingest upload', () => {
         .expect((res) => {
           const $ = cheerio.load(res.text);
           expect($('p.govuk-error-message').text().trim()).toEqual(
-            'Error: The selected file must be a pdf',
+            'Error: The selected file must be a PDF, Microsoft Word or Open Office document',
           );
         });
     });
@@ -127,7 +127,7 @@ describe('Ingest upload', () => {
           .attach('file', file, 'testfile.pdf')
           .set('Cookie', nonRegulatorSession)
           .expect(302)
-          .expect('Location', 'unauthorised/ingest');
+          .expect('Location', '/unauthorised/ingest');
       });
 
       it('redirects unauthenticated users', async () => {
@@ -139,7 +139,7 @@ describe('Ingest upload', () => {
           .post('/ingest/upload')
           .attach('file', file, 'testfile.pdf')
           .expect(302)
-          .expect('Location', 'unauthorised/ingest');
+          .expect('Location', '/unauthorised/ingest');
       });
     });
   });

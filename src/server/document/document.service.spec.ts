@@ -126,11 +126,18 @@ describe('DocumentService', () => {
     });
   });
 
-  describe('getDocumentDetail', () => {
+  describe('getDocumentWithPresignedUrl', () => {
     it('should return the document search data and a presigned url', async () => {
       jest
         .spyOn(orpDal, 'getById')
         .mockResolvedValue(getRawOrpDocument({ uri: 'thefile.pdf' }));
+
+      jest.spyOn(awsDal, 'getObjectMeta').mockResolvedValueOnce({
+        document_format: 'application/pdf',
+        uuid: '1',
+        uploaded_date: '2022-01-24T12:54:49Z',
+        file_name: 'fn',
+      });
 
       const getUrlSpy = jest
         .spyOn(awsDal, 'getObjectUrl')
@@ -142,6 +149,7 @@ describe('DocumentService', () => {
 
       expect(result).toMatchObject({
         url: 'http://document',
+        documentFormat: 'application/pdf',
         document: {
           title: 'Title',
         },
@@ -150,7 +158,19 @@ describe('DocumentService', () => {
   });
 
   describe('getDocumentUrl', () => {
-    it('should return the presigned url', async () => {
+    test.each`
+      format     | mime
+      ${'pdf'}   | ${'application/pdf'}
+      ${'.doc'}  | ${'application/msword'}
+      ${'.docx'} | ${'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}
+    `('should return the presigned url if doc is $format', async ({ mime }) => {
+      jest.spyOn(awsDal, 'getObjectMeta').mockResolvedValueOnce({
+        document_format: mime,
+        uuid: '1',
+        uploaded_date: '2022-01-24T12:54:49Z',
+        file_name: 'fn',
+      });
+
       const getUrlSpy = jest
         .spyOn(awsDal, 'getObjectUrl')
         .mockResolvedValueOnce('http://document');
@@ -158,7 +178,31 @@ describe('DocumentService', () => {
       const result = await service.getDocumentUrl('key');
 
       expect(getUrlSpy).toBeCalledWith('key');
-      expect(result).toEqual('http://document');
+      expect(result).toEqual({
+        url: 'http://document',
+        documentFormat: mime,
+      });
+    });
+
+    it('should not get presignedUrl if undisplayable type', async () => {
+      jest.spyOn(awsDal, 'getObjectMeta').mockResolvedValueOnce({
+        document_format: 'application/vnd.oasis.opendocument.text',
+        uuid: '1',
+        uploaded_date: '2022-01-24T12:54:49Z',
+        file_name: 'fn',
+      });
+
+      const getUrlSpy = jest
+        .spyOn(awsDal, 'getObjectUrl')
+        .mockResolvedValueOnce('http://document');
+
+      const result = await service.getDocumentUrl('key');
+
+      expect(getUrlSpy).toBeCalledTimes(0);
+      expect(result).toEqual({
+        url: null,
+        documentFormat: 'application/vnd.oasis.opendocument.text',
+      });
     });
   });
 

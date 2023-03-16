@@ -20,7 +20,9 @@ describe('Developer Portal (e2e)', () => {
         .expect(200)
         .expect((res) => {
           const $ = cheerio.load(res.text);
-          expect($("form[action='/developer/new-credentials']")).toBeTruthy();
+          expect(
+            $("form[action='/developer/new-credentials']").length,
+          ).toBeTruthy();
         });
     });
 
@@ -39,9 +41,9 @@ describe('Developer Portal (e2e)', () => {
               .first()
               .find(
                 '.existing-api-credentials__top ' +
-                  '> form[action="/developer/remove-credentials"] ' +
-                  '> input[name="username"][value="CLIENT"]',
-              ),
+                  'form[action="/developer/remove-credentials"] ' +
+                  'input[name="username"][value="CLIENT2"]',
+              ).length,
           ).toBeTruthy();
         });
     });

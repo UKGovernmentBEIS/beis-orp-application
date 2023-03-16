@@ -26,6 +26,12 @@ jest.mock('@aws-sdk/client-s3', () => {
     })),
   };
 });
+const mockUrl = 'http://document';
+jest.mock('@aws-sdk/s3-request-presigner', () => {
+  return {
+    getSignedUrl: () => mockUrl,
+  };
+});
 describe('Ingest submit', () => {
   const fixture = new E2eFixture();
   let regulatorSession = null;
@@ -42,7 +48,10 @@ describe('Ingest submit', () => {
   });
 
   describe('GET', () => {
-    mockS3.send.mockResolvedValueOnce({ Metadata: { file_name: 'file.pdf' } });
+    mockS3.send.mockResolvedValue({
+      Metadata: { file_name: 'file.pdf' },
+      ContentType: 'application/pdf',
+    });
 
     it('gets a the meta and displays the filename', () => {
       return fixture
@@ -57,7 +66,8 @@ describe('Ingest submit', () => {
           expect($(allValues.get(1)).text().trim()).toEqual('Other');
           expect($('button[type="submit"]').text().trim()).toEqual('Upload');
           expect(
-            $('input[type="hidden"][value="unconfirmeddoc"][name="key"]'),
+            $('input[type="hidden"][value="unconfirmeddoc"][name="key"]')
+              .length,
           ).toBeTruthy();
         });
     });
@@ -69,7 +79,7 @@ describe('Ingest submit', () => {
           .get('/ingest/submit?key=unconfirmeddoc')
           .set('Cookie', nonRegulatorSession)
           .expect(302)
-          .expect('Location', 'unauthorised/ingest');
+          .expect('Location', '/unauthorised/ingest');
       });
 
       it('redirects unauthenticated users', () => {
@@ -77,7 +87,7 @@ describe('Ingest submit', () => {
           .request()
           .get('/ingest/submit?key=unconfirmeddoc')
           .expect(302)
-          .expect('Location', 'unauthorised/ingest');
+          .expect('Location', '/unauthorised/ingest');
       });
     });
   });
@@ -107,7 +117,7 @@ describe('Ingest submit', () => {
           .set('Cookie', nonRegulatorSession)
           .send({ key: 'unconfirmed/key' })
           .expect(302)
-          .expect('Location', 'unauthorised/ingest');
+          .expect('Location', '/unauthorised/ingest');
       });
 
       it('redirects unauthenticated users', () => {
@@ -116,7 +126,7 @@ describe('Ingest submit', () => {
           .post('/ingest/submit')
           .send({ key: 'unconfirmed/key' })
           .expect(302)
-          .expect('Location', 'unauthorised/ingest');
+          .expect('Location', '/unauthorised/ingest');
       });
     });
   });

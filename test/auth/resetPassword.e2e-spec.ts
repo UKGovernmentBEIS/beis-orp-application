@@ -24,18 +24,14 @@ describe('Password Reset (e2e)', () => {
         .expect(200)
         .expect((res) => {
           const $ = cheerio.load(res.text);
-          expect($("form[method='post'] > input[name='email']")).toBeTruthy();
           expect(
-            $("form[method='post'] > input[name='verificationCode']"),
+            $("form[method='post'] input[name='previousPassword']").length,
           ).toBeTruthy();
           expect(
-            $("form[method='post'] > input[name='previousPassword']"),
+            $("form[method='post'] input[name='newPassword']").length,
           ).toBeTruthy();
           expect(
-            $("form[method='post'] > input[name='newPassword']"),
-          ).toBeTruthy();
-          expect(
-            $("form[method='post'] > input[name='confirmPassword']"),
+            $("form[method='post'] input[name='confirmPassword']").length,
           ).toBeTruthy();
         });
     });
@@ -59,7 +55,6 @@ describe('Password Reset (e2e)', () => {
         .set('Cookie', loggedInSession)
         .send({
           previousPassword: '9.PAssworD1',
-          email: 'e@mail.com',
           newPassword: '9.PAssworD',
           confirmPassword: '9.PAssworD',
         })
@@ -73,7 +68,6 @@ describe('Password Reset (e2e)', () => {
         .set('Cookie', loggedInSession)
         .send({
           previousPassword: '9.PAssworD1',
-          email: 'e@mail.com',
           newPassword: 'rubbishpw',
           confirmPassword: 'rubbishpw',
         })
@@ -88,7 +82,6 @@ describe('Password Reset (e2e)', () => {
         .set('Cookie', loggedInSession)
         .send({
           previousPassword: '',
-          email: 'e@mail.com',
           newPassword: '9.PAssworD',
           confirmPassword: '9.PAssworD',
         })
@@ -96,14 +89,12 @@ describe('Password Reset (e2e)', () => {
         .expect('Location', '/auth/reset-password');
     });
 
-    it('redirects back if no email address', () => {
+    it('redirects back if no previous password', () => {
       return fixture
         .request()
         .post('/auth/reset-password')
         .set('Cookie', loggedInSession)
         .send({
-          verificationCode: 'code',
-          email: '',
           newPassword: '9.PAssworD',
           confirmPassword: '9.PAssworD',
         })
@@ -117,8 +108,6 @@ describe('Password Reset (e2e)', () => {
         .post('/auth/reset-password')
         .set('Cookie', loggedInSession)
         .send({
-          verificationCode: 'code',
-          email: '',
           newPassword: '9.PAssworD',
           confirmPassword: '9.PAssworD4',
         })

@@ -16,9 +16,11 @@ describe('Register (e2e)', () => {
         .expect(200)
         .expect((res) => {
           const $ = cheerio.load(res.text);
-          expect($("form[method='post'] > input[name='email']")).toBeTruthy();
           expect(
-            $("form[method='post'] > input[name='password']"),
+            $("form[method='post'] input[name='email']").length,
+          ).toBeTruthy();
+          expect(
+            $("form[method='post'] input[name='password']").length,
           ).toBeTruthy();
         });
     });

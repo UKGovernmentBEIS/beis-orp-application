@@ -5,6 +5,7 @@
         uid = locals.document.documentId ?? ""
         summary = locals.document.description ?? ""
         legislativeOrigins = locals.document.legislativeOrigins ?? []
+        documentFormat = locals.documentFormat ?? ""
     %>
 <div class="govuk-width-container">
     <%- include('../../partials/components/backButton' , {href: locals.latestSearch}); %>
@@ -30,9 +31,7 @@
                     </div>
                 </details>
 
-                <object class="embedded-pdf" data="<%= url %>" type="application/pdf" title="<%= title %>">
-                    <embed src="<%= url %>" type="application/pdf" />
-                </object>
+                <%- include('../../partials/components/documentView', {url, documentFormat, title, small:false}); %>
             </div>
             <div class="govuk-grid-column-one-third">
                 <a href="/document/download/<%= uid %>" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button" download="<%= uid %>.pdf">

@@ -33,7 +33,7 @@ describe('Ingest index', () => {
         .get('/ingest')
         .set('Cookie', session)
         .expect(302)
-        .expect('Location', 'unauthorised/ingest');
+        .expect('Location', '/unauthorised/ingest');
     });
 
     it('redirects unauthenticated users', () => {
@@ -41,7 +41,7 @@ describe('Ingest index', () => {
         .request()
         .get('/ingest')
         .expect(302)
-        .expect('Location', 'unauthorised/ingest');
+        .expect('Location', '/unauthorised/ingest');
     });
   });
 });

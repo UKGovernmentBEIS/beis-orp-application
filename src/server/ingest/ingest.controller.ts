@@ -21,12 +21,12 @@ import { RegulatorGuard } from '../auth/regulator.guard';
 import { User } from '../user/user.decorator';
 import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 import { ValidateForm } from '../form-validation';
-import IngestionConfirmationDto from './types/IngestionConfirmation.dto';
 import type { User as UserType } from '../auth/types/User';
 import { documentTypes } from '../search/types/documentTypes';
 import DocumentTypeDto from './types/DocumentType.dto';
 import DocumentStatusDto from './types/DocumentStatus.dto';
 import { orpDocumentStatus } from '../search/types/statusTypes';
+import { acceptedMimeTypesRegex } from '../document/utils/mimeTypes';
 
 @Controller('ingest')
 @UseGuards(RegulatorGuard)
@@ -53,37 +53,18 @@ export class IngestController {
     @UploadedFile(
       new ParseFilePipe({
         exceptionFactory: FileValidationExceptionFactory,
-        validators: [new FileTypeValidator({ fileType: 'pdf' })],
+        validators: [
+          new FileTypeValidator({
+            fileType: acceptedMimeTypesRegex,
+          }),
+        ],
       }),
     )
     file: Express.Multer.File,
     @User() user: UserType,
   ) {
     const { key } = await this.documentService.upload(file, user, true);
-    return { url: `/ingest/confirm?key=${key}` };
-  }
-
-  @Get('confirm')
-  @Render('pages/ingest/confirm')
-  async confirm(@Query() { key }: { key: string }) {
-    return {
-      url: await this.documentService.getDocumentUrl(key),
-      key,
-    };
-  }
-
-  @Post('confirm')
-  @Redirect('/ingest/document-type', 302)
-  @ValidateForm()
-  async confirmPost(@Body() confirmDto: IngestionConfirmationDto) {
-    const { confirm, key } = confirmDto;
-
-    if (confirm === 'yes') {
-      return { url: `/ingest/document-type?key=${key}` };
-    }
-
-    await this.documentService.deleteDocument(key);
-    return { url: '/ingest/upload' };
+    return { url: `/ingest/document-type?key=${key}` };
   }
 
   @Get('document-type')
@@ -124,11 +105,17 @@ export class IngestController {
   @Render('pages/ingest/submit')
   async submit(@Query() { key }: { key: string }) {
     const meta = await this.documentService.getDocumentMeta(key);
+    const { documentFormat, url } = await this.documentService.getDocumentUrl(
+      key,
+    );
+    console.log(meta.file_name);
     return {
       key,
       file: meta.file_name,
       documentType: documentTypes[meta.document_type] ?? 'Other',
       documentStatus: orpDocumentStatus[meta.status] ?? '',
+      url,
+      documentFormat,
     };
   }
 

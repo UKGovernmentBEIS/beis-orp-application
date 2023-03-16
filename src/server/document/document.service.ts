@@ -12,6 +12,7 @@ import { getMetaFromEuDoc, getMetaFromUkDoc } from './utils/tnaMeta';
 import { ApiUser, User } from '../auth/types/User';
 import { mapOrpDocument } from '../search/utils/orpSearchMapper';
 import { OrpSearchItem } from '../search/types/SearchResponse.dto';
+import { displayableMimeTypes } from './utils/mimeTypes';
 
 @Injectable()
 export class DocumentService {
@@ -69,20 +70,32 @@ export class DocumentService {
     return mapOrpDocument(document);
   }
 
-  async getDocumentWithPresignedUrl(
-    id: string,
-  ): Promise<{ document: OrpSearchItem; url: string }> {
+  async getDocumentWithPresignedUrl(id: string): Promise<{
+    document: OrpSearchItem;
+    url: string;
+    documentFormat: string;
+  }> {
     const document = await this.orpDal.getById(id);
-    const url = await this.awsDal.getObjectUrl(document.uri);
+    const { url, documentFormat } = await this.getDocumentUrl(document.uri);
 
     return {
       document: mapOrpDocument(document),
       url,
+      documentFormat,
     };
   }
 
-  async getDocumentUrl(key: string): Promise<string> {
-    return this.awsDal.getObjectUrl(key);
+  async getDocumentUrl(
+    key: string,
+  ): Promise<{ documentFormat: string; url: string }> {
+    const meta = await this.getDocumentMeta(key);
+
+    return {
+      url: displayableMimeTypes.includes(meta.document_format)
+        ? await this.awsDal.getObjectUrl(key)
+        : null,
+      documentFormat: meta.document_format,
+    };
   }
 
   getDocumentMeta(key: string): Promise<ObjectMetaData> {

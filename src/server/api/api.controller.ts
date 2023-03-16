@@ -52,6 +52,8 @@ import { LinkedDocumentsRequestDto } from './types/LinkedDocumentsRequest.dto';
 import { ApiLinkedDocumentsResponseDto } from './types/ApiLinkedDocumentsResponse.dto';
 import { User } from '../user/user.decorator';
 import { ApiUser as UserType } from '../auth/types/User';
+import { acceptedMimeTypesRegex } from '../document/utils/mimeTypes';
+import ApiFileValidationExceptionFactory from './utils/ApiFileValidationExceptionFactory';
 
 @UsePipes(new ValidationPipe())
 @Controller('api')
@@ -96,14 +98,20 @@ export class ApiController {
   @ApiBody({ description: 'Document to be ingested', type: FileUploadDto })
   @ApiOkResponse({ description: 'The document has been uploaded' })
   @ApiBadRequestResponse({
-    description: 'Bad request. multipart/form-data must include a pdf file',
+    description:
+      'Bad request. multipart/form-data must include a pdf, microsoft word or open office file',
   })
   @ApiInternalServerErrorResponse({ description: 'Unexpected error' })
   async uploadFile(
     @User() user: UserType,
     @UploadedFile(
       new ParseFilePipe({
-        validators: [new FileTypeValidator({ fileType: 'pdf' })],
+        exceptionFactory: ApiFileValidationExceptionFactory,
+        validators: [
+          new FileTypeValidator({
+            fileType: acceptedMimeTypesRegex,
+          }),
+        ],
       }),
     )
     file: FileUpload,

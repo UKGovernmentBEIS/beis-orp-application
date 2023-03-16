@@ -20,7 +20,9 @@ describe('Forgot Reset (e2e)', () => {
         .expect(200)
         .expect((res) => {
           const $ = cheerio.load(res.text);
-          expect($("form[method='post'] > input[name='email']")).toBeTruthy();
+          expect(
+            $("form[method='post'] input[name='email']").length,
+          ).toBeTruthy();
         });
     });
   });
@@ -75,22 +77,23 @@ describe('Forgot Reset (e2e)', () => {
       const emailSetSession = await getEmailSetSession();
       return fixture
         .request()
-        .get('/auth/new-password')
+        .get('/auth/set-new-password')
         .set('Cookie', emailSetSession)
         .expect(200)
         .expect((res) => {
           const $ = cheerio.load(res.text);
           expect(
-            $("form[method='post'] > input[name='email'][value='e@mail.com']"),
+            $("form[method='post'] input[name='email'][value='e@mail.com']")
+              .length,
           ).toBeTruthy();
           expect(
-            $("form[method='post'] > input[name='verificationCode']"),
+            $("form[method='post'] input[name='verificationCode']").length,
           ).toBeTruthy();
           expect(
-            $("form[method='post'] > input[name='newPassword']"),
+            $("form[method='post'] input[name='newPassword']").length,
           ).toBeTruthy();
           expect(
-            $("form[method='post'] > input[name='confirmPassword']"),
+            $("form[method='post'] input[name='confirmPassword']").length,
           ).toBeTruthy();
         });
     });

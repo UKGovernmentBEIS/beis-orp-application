@@ -34,7 +34,7 @@ describe('IngestController', () => {
   });
 
   describe('uploadFile', () => {
-    it('should call aws uploader with file and redirect to confirm page', async () => {
+    it('should call aws uploader with file and redirect to document-type page', async () => {
       const result = { key: 'file.pdf', id: '123' };
       jest.spyOn(documentService, 'upload').mockResolvedValue(result);
 
@@ -44,50 +44,8 @@ describe('IngestController', () => {
         DEFAULT_USER_WITH_REGULATOR,
       );
 
-      expect(expectedResult).toEqual({ url: '/ingest/confirm?key=file.pdf' });
-    });
-  });
-
-  describe('confirm', () => {
-    describe('confirm GET', () => {
-      it('should call aws uploader with file and redirect to confirm page', async () => {
-        jest.spyOn(documentService, 'getDocumentUrl').mockResolvedValue('url');
-
-        const expectedResult = await controller.confirm({ key: 'key' });
-
-        expect(expectedResult).toEqual({ url: 'url', key: 'key' });
-      });
-    });
-
-    describe('confirm POST', () => {
-      it('should delete doc and redirect to upload page if answer no', async () => {
-        const deleteMock = jest
-          .spyOn(documentService, 'deleteDocument')
-          .mockResolvedValue({ deleted: 'key' });
-
-        const expectedResult = await controller.confirmPost({
-          confirm: 'no',
-          key: 'key',
-        });
-
-        expect(deleteMock).toBeCalledTimes(1);
-        expect(expectedResult).toEqual({ url: '/ingest/upload' });
-      });
-
-      it('should redirect to doc type page if answer is yes without deleting doc', async () => {
-        const deleteMock = jest
-          .spyOn(documentService, 'deleteDocument')
-          .mockResolvedValue({ deleted: 'key' });
-
-        const expectedResult = await controller.confirmPost({
-          confirm: 'yes',
-          key: 'key',
-        });
-
-        expect(deleteMock).toBeCalledTimes(0);
-        expect(expectedResult).toEqual({
-          url: '/ingest/document-type?key=key',
-        });
+      expect(expectedResult).toEqual({
+        url: '/ingest/document-type?key=file.pdf',
       });
     });
   });
@@ -195,16 +153,26 @@ describe('IngestController', () => {
             document_format: 'application/pdf',
           });
 
+        const getUrlMock = jest
+          .spyOn(documentService, 'getDocumentUrl')
+          .mockResolvedValue({
+            documentFormat: 'application/pdf',
+            url: 'url',
+          });
+
         const expectedResult = await controller.submit({
           key: 'key',
         });
 
         expect(metaMock).toBeCalledTimes(1);
+        expect(getUrlMock).toBeCalledTimes(1);
         expect(expectedResult).toEqual({
+          documentFormat: 'application/pdf',
           file: 'fn',
           key: 'key',
           documentType: 'Other',
           documentStatus: 'Active',
+          url: 'url',
         });
       });
     });
