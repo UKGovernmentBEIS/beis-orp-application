@@ -1,5 +1,19 @@
 import { Injectable, PipeTransform } from '@nestjs/common';
 
+const daysForMonth = {
+  '01': '31',
+  '02': '28',
+  '03': '31',
+  '04': '30',
+  '05': '31',
+  '06': '30',
+  '07': '31',
+  '08': '31',
+  '09': '30',
+  '10': '31',
+  '11': '30',
+  '12': '31',
+};
 @Injectable()
 export class DateTransformPipe implements PipeTransform {
   private getDateField(fieldKey: string): string {
@@ -23,10 +37,30 @@ export class DateTransformPipe implements PipeTransform {
 
     return Object.keys(groupedDateFields).reduce((mergedValue, dateKey) => {
       const { day, month, year } = groupedDateFields[dateKey];
-      if (!day || !month || !year) return mergedValue;
+      const isFromDate = dateKey.toLowerCase().includes('from');
+      const isToDate = dateKey.toLowerCase().includes('to');
 
-      const paddedDay = String(day).padStart(2, '0');
-      const paddedMonth = String(month).padStart(2, '0');
+      if (!year) return mergedValue;
+
+      const sanitisedMonth = month
+        ? month
+        : isFromDate
+        ? '01'
+        : isToDate
+        ? '12'
+        : null;
+      const santitisedDay = day
+        ? day
+        : isFromDate
+        ? '01'
+        : isToDate
+        ? daysForMonth[sanitisedMonth]
+        : null;
+
+      if (!santitisedDay || !sanitisedMonth || !year) return mergedValue;
+
+      const paddedDay = String(santitisedDay).padStart(2, '0');
+      const paddedMonth = String(sanitisedMonth).padStart(2, '0');
 
       return {
         ...mergedValue,
