@@ -81,7 +81,7 @@
                                     </p>
                                 </div>
                             <% } else { %>
-                                <%- include('./partials/searchInfoBar', { total: totalOrpResults }); %>
+                                <%- include('./partials/searchInfoBar', { total: totalOrpResults, returnedResults: orpResults.length }); %>
 
                                 <% orpResults.forEach(function(item) {  %>
                                     <%- include('./partials/orpSearchItem', { item, allRegulators, allDocTypes }); %>
@@ -101,7 +101,7 @@
                                     </p>
                                 </div>
                             <% } else { %>
-                                <%- include('./partials/searchInfoBar', { total: totalTnaResults }); %>
+                                <%- include('./partials/searchInfoBar', { total: totalTnaResults, returnedResults: tnaResults.length }); %>
                                 <% tnaResults.forEach(function(item) {  %>
                                     <%- include('./partials/tnaSearchItem', { item }); %>
                                 <% }); %>
