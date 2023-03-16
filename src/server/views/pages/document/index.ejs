@@ -6,6 +6,7 @@
         summary = locals.document.description ?? ""
         legislativeOrigins = locals.document.legislativeOrigins ?? []
         documentFormat = locals.documentFormat ?? ""
+        ingested = locals.ingested ?? false
     %>
 <div class="govuk-width-container">
     <%- include('../../partials/components/backButton' , {href: locals.latestSearch}); %>
@@ -13,6 +14,25 @@
     <main class="govuk-main-wrapper " id="main-content" role="main">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
+                <% if(ingested) { %>
+                    <div class="govuk-notification-banner" role="region"
+                         aria-labelledby="govuk-notification-banner-title"
+                         data-module="govuk-notification-banner">
+                        <div class="govuk-notification-banner__header">
+                            <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                                Important
+                            </h2>
+                        </div>
+                        <div class="govuk-notification-banner__content">
+                            <p class="govuk-notification-banner__heading">
+                                Let us know if there is a problem
+                            </p>
+                            <p>
+                                We have extracted information from the document you provided. Review this page and contact <a class="govuk-link" href="mailto:openregulationplatform@beis.gov.uk">openregulationplatform@beis.gov.uk</a> if you think there’s a problem. No further action is needed if the information on this page is correct.
+                            </p>
+                        </div>
+                    </div>
+                <% } %>
                 <span class="govuk-caption-l"><%= locals.docType %></span>
                 <h1 class="govuk-heading-l"><%= title %></h1>
                 <p><%= summary %></p>

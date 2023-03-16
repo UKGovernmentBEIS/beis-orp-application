@@ -28,12 +28,16 @@ export class DocumentController {
   @UseFilters(ErrorFilter)
   @UseInterceptors(ViewDataInterceptor)
   @Render('pages/document')
-  async getDocument(@Param() { id }: { id: string }): Promise<{
+  async getDocument(
+    @Param() { id }: { id: string },
+    @Query() { ingested }: { ingested?: string },
+  ): Promise<{
     document: OrpSearchItem;
     url: string;
     regulator: Regulator;
     docType: string;
     documentFormat: string;
+    ingested: boolean;
   }> {
     const { document, documentFormat, url } =
       await this.documentService.getDocumentWithPresignedUrl(id);
@@ -46,6 +50,7 @@ export class DocumentController {
       documentFormat,
       regulator,
       docType,
+      ingested: ingested === 'true',
     };
   }
 

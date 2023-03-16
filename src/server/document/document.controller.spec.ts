@@ -51,7 +51,7 @@ describe('DocumentController', () => {
         .spyOn(documentService, 'getDocumentWithPresignedUrl')
         .mockResolvedValue(orpResponse);
 
-      const result = await controller.getDocument({ id: 'id' });
+      const result = await controller.getDocument({ id: 'id' }, {});
       expect(result).toEqual({
         ...orpResponse,
         regulator: {
@@ -60,6 +60,26 @@ describe('DocumentController', () => {
           name: 'Water Services Regulation Authority',
         },
         docType: 'Guidance',
+        ingested: false,
+      });
+    });
+
+    it('should return ingested as true of in query params', async () => {
+      const orpResponse = {
+        document: getMappedOrpDocument(),
+        url: 'http://document',
+        documentFormat: 'application/pdf',
+      };
+      jest
+        .spyOn(documentService, 'getDocumentWithPresignedUrl')
+        .mockResolvedValue(orpResponse);
+
+      const result = await controller.getDocument(
+        { id: 'id' },
+        { ingested: 'true' },
+      );
+      expect(result).toMatchObject({
+        ingested: true,
       });
     });
   });
