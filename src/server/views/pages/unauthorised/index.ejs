@@ -2,21 +2,40 @@
 
 <div class="govuk-width-container" xmlns="http://www.w3.org/1999/html">
     <main class="govuk-main-wrapper " id="main-content" role="main">
-        <h1 class="govuk-heading-l">Sign in to access this page</h1>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
+
                 <% if (locals.page === 'ingest') { %>
-                    <p class="govuk-!-margin-bottom-6">To upload documents to the Open Regulation Platform, please sign in or create an account. You will need to use your work email address to verify you work for a UK regulator.</p>
-                <% } %>
-                <% if (locals.page === 'developer') { %>
-                    <p class="govuk-!-margin-bottom-6"> You need an Open Regulation Platform account to access the developer portal. Please sign in or create an account.</p>
+                    <% if (locals?.user) { %>
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-two-thirds">
+                            <h1 class="govuk-heading-l">You do not have permission to upload documents</h1>
+                            <p class="govuk-!-margin-bottom-6">To upload documents to the Open Regulation Platform you must work for a UK regulator.</p>
+                            </div>
+                        </div>
+                    <% } else {%>
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-two-thirds">
+                                <h1 class="govuk-heading-l">Uploading documents as a UK regulator</h1>
+                                <p class="govuk-!-margin-bottom-6">To upload documents to the Open Regulation Platform, you must work for a UK regulator. Please sign in or create an account. You will need to use your work email address to verify you work for a UK regulator.</p>
+                            </div>
+                        </div>
+                    <% } %>
                 <% } %>
 
-                <a href="/auth/login" role="button" class="govuk-button" data-module="govuk-button">
-                    Sign in
-                </a>
-            </div>
-        </div>
+                <% if (locals.page === 'developer') { %>
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-two-thirds">
+                            <h1 class="govuk-heading-l">Sign in to access this page</h1>
+                            <p class="govuk-!-margin-bottom-6"> You need an Open Regulation Platform account to access the developer portal. Please sign in or create an account.</p>
+                        </div>
+                    </div>
+                <% } %>
+
+                <% if (!locals?.user) { %>
+                    <a href="/auth/login" role="button" class="govuk-button" data-module="govuk-button">
+                        Sign in
+                    </a>
+                 <% } %>
+
     </main>
 </div>
 
