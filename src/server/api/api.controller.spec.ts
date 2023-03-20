@@ -24,6 +24,7 @@ import {
   getMappedOrpDocument,
   getMappedOrpDocumentForApi,
 } from '../../../test/mocks/orpSearchMock';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 describe('ApiController', () => {
   let controller: ApiController;
@@ -46,7 +47,13 @@ describe('ApiController', () => {
         ApiAuthService,
         RegulatorService,
       ],
-      imports: [HttpModule],
+      imports: [
+        HttpModule,
+        ThrottlerModule.forRoot({
+          ttl: 60,
+          limit: 30,
+        }),
+      ],
     }).compile();
 
     controller = module.get<ApiController>(ApiController);

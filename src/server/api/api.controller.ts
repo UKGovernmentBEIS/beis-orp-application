@@ -54,7 +54,9 @@ import { User } from '../user/user.decorator';
 import { ApiUser as UserType } from '../auth/types/User';
 import { acceptedMimeTypesRegex } from '../document/utils/mimeTypes';
 import ApiFileValidationExceptionFactory from './utils/ApiFileValidationExceptionFactory';
+import { ThrottlerGuard } from '@nestjs/throttler';
 
+@UseGuards(ThrottlerGuard)
 @UsePipes(new ValidationPipe())
 @Controller('api')
 export class ApiController {
