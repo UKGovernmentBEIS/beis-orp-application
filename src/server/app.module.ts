@@ -14,6 +14,7 @@ import { IngestModule } from './ingest/ingest.module';
 import { RegulatorModule } from './regulator/regulator.module';
 import { DeveloperModule } from './developer/developer.module';
 import { UnauthorisedModule } from './unauthorised/unauthorised.module';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -31,6 +32,10 @@ import { UnauthorisedModule } from './unauthorised/unauthorised.module';
     RegulatorModule,
     DeveloperModule,
     UnauthorisedModule,
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 30,
+    }),
   ],
   providers: [Logger],
   exports: [Logger],
