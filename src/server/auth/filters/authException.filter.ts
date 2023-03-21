@@ -9,9 +9,9 @@ export class AuthExceptionFilter implements ExceptionFilter {
     const request = host.switchToHttp().getRequest();
 
     if (exception.isNotAuthorized() || exception.isNotFound()) {
-      if (request.url === 'auth/reset-password') {
-        request.session.previousPassword = {
-          global: 'Incorrect password',
+      if (request.url === '/auth/reset-password') {
+        request.session.errors = {
+          previousPassword: 'Incorrect password entered',
         };
         return response.redirect('/auth/reset-password');
       }
@@ -20,6 +20,13 @@ export class AuthExceptionFilter implements ExceptionFilter {
         global: 'Incorrect email address or password',
       };
       return response.redirect('/auth/login');
+    }
+
+    if (exception.isCodeMismatch()) {
+      request.session.errors = {
+        verificationCode: 'Incorrect security code entered',
+      };
+      return response.redirect(request.url);
     }
 
     if (exception.isBadRequest()) {

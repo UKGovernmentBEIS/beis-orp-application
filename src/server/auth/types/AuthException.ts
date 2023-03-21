@@ -5,7 +5,8 @@ export type AuthExceptionCode =
   | 'UsernameExistsException'
   | 'PasswordResetRequiredException'
   | 'UserNotFoundException'
-  | 'LimitExceededException';
+  | 'LimitExceededException'
+  | 'CodeMismatchException';
 
 export class AuthException extends Error {
   constructor(
@@ -36,5 +37,9 @@ export class AuthException extends Error {
 
   isLimitExceeded() {
     return this.errorObj.code === 'LimitExceededException';
+  }
+
+  isCodeMismatch() {
+    return this.errorObj.code === 'CodeMismatchException';
   }
 }
