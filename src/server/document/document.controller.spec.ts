@@ -110,11 +110,15 @@ describe('DocumentController', () => {
         totalSearchResults: 1,
       });
 
-      const result = await controller.getLinkedDocuments({ id: 'id' });
+      const result = await controller.getLinkedDocuments({
+        id: 'id',
+        published: '2022-01-01',
+      });
       expect(result).toEqual({
         href: 'id',
         documentData: tnaDoc,
         linkedDocuments: relatedDocs,
+        publishedDate: '2022-01-01',
       });
     });
   });

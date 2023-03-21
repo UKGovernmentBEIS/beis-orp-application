@@ -1,9 +1,10 @@
 <%
-    var dateText = item.dates.updated ?? item.dates.published ?? null
+    var dateText = item.dates.published ?? null
     const date = new Date(dateText)
     const dateDay = date.getDate();
     const dateMonth = date.toLocaleString('default', {month: 'long'});
     const dateYear = date.getFullYear();
+    const dateString = `${dateDay} ${dateMonth} ${dateYear}`
 %>
 
 <div class="search-result tna-search-result govuk-!-margin-bottom-2">
@@ -13,12 +14,12 @@
         </a>
     </div>
     <div class="govuk-!-padding-3">
-        <a href="/document/linked-documents?id=<%= item.id %>">
+        <a href="/document/linked-documents?id=<%= item.id %>&published=<%= dateString %>">
             <h3><%= item.title %></h3>
         </a>
         <p class="search-result-info govuk-!-font-size-16">
             <span><%= item.legislationType %></span>
-            <span><%= dateDay %> <%= dateMonth %> <%= dateYear %></span>
+            <span><%= dateString %></span>
             <span><%= item.number %></span>
         </p>
     </div>
