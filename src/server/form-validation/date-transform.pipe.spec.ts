@@ -61,4 +61,56 @@ describe('DateTransformPipe', () => {
       someDateDate: '1985-03-01',
     });
   });
+
+  it('a From date should accept just a year', () => {
+    const input = {
+      'someFrom-day': '',
+      'someFrom-month': '',
+      'someFrom-year': '1985',
+    };
+    const result = pipe.transform(input);
+    expect(result).toEqual({
+      ...input,
+      someFromDate: '1985-01-01',
+    });
+  });
+
+  it('a From date should accept a year and month', () => {
+    const input = {
+      'someFrom-day': '',
+      'someFrom-month': '04',
+      'someFrom-year': '1985',
+    };
+    const result = pipe.transform(input);
+    expect(result).toEqual({
+      ...input,
+      someFromDate: '1985-04-01',
+    });
+  });
+
+  it('a To date should accept just a year', () => {
+    const input = {
+      'someTo-day': '',
+      'someTo-month': '',
+      'someTo-year': '1985',
+    };
+    const result = pipe.transform(input);
+    expect(result).toEqual({
+      ...input,
+      someToDate: '1985-12-31',
+    });
+  });
+
+  it('a To date should accept just a year', () => {
+    const input = {
+      'someTo-day': '',
+      'someTo-month': '04',
+      'someTo-year': '1985',
+    };
+    const result = pipe.transform(input);
+    expect(result).toEqual({
+      ...input,
+      someToDate: '1985-04-30',
+    });
+  });
 });
