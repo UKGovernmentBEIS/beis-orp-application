@@ -43,7 +43,7 @@
                     <h3 class="govuk-heading-s">Details</h3>
                     <dl class="govuk-body heading-field-list govuk-!-font-size-16">
                         <dt class="govuk-summary-list__key">Published date</dt>
-                        <dd> - </dd>
+                        <dd>  <% if(publishedDate) { %><%= publishedDate %><% } else { %> - <% } %> </dd>
                         <dt class="govuk-summary-list__key">Number</dt>
                         <dd><%= documentData.year %> No. <%= documentData.number %></dd>
                         <dt class="govuk-summary-list__key">Status</dt>

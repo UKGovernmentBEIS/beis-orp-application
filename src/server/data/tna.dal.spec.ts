@@ -21,10 +21,23 @@ describe('TNA data access layer', () => {
     tnaDal = module.get<TnaDal>(TnaDal);
   });
 
-  it('should search the national archives and return as JS object', async () => {
-    expect(await tnaDal.searchTna({ title: 'a', keyword: 'b' })).toMatchObject(
-      tnaStandardResponseJson,
-    );
+  describe('search', () => {
+    it('should search the national archives and return as JS object', async () => {
+      expect(
+        await tnaDal.searchTna({ title: 'a', keyword: 'b' }),
+      ).toMatchObject(tnaStandardResponseJson);
+    });
+
+    it('should include year ranges if supplied', async () => {
+      expect(
+        await tnaDal.searchTna({
+          title: 'a',
+          keyword: 'b',
+          publishedToDate: '2002-01-13',
+          publishedFromDate: '2000-03-13',
+        }),
+      ).toMatchObject(tnaStandardResponseJson);
+    });
   });
 
   describe('getDocumentById', () => {

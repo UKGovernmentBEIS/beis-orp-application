@@ -73,7 +73,7 @@ describe('api/search (GET)', () => {
 
     it('returns 500 if tna call fails', () => {
       server.use(
-        rest.get(TNA_URL, (req, res, ctx) => {
+        rest.get(`${TNA_URL}/data.feed`, (req, res, ctx) => {
           return res(ctx.status(500));
         }),
       );

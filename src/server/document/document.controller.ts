@@ -66,10 +66,13 @@ export class DocumentController {
   @UseInterceptors(ViewDataInterceptor)
   @Get('/linked-documents')
   @Render('pages/document/linkedDocuments')
-  async getLinkedDocuments(@Query() { id }: { id: string }): Promise<{
+  async getLinkedDocuments(
+    @Query() { id, published }: { id: string; published?: string },
+  ): Promise<{
     documentData: TnaDocMeta;
     linkedDocuments: OrpSearchItem[];
     href: string;
+    publishedDate: string;
   }> {
     const documentData = await this.documentService.getTnaDocument(id);
     const { documents } = await this.searchService.getLinkedDocuments({
@@ -80,6 +83,7 @@ export class DocumentController {
       href: id,
       documentData,
       linkedDocuments: documents?.[0]?.relatedDocuments || [],
+      publishedDate: published,
     };
   }
 }
