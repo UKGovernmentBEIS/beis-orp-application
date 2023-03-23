@@ -55,6 +55,8 @@ describe('Orp data access layer', () => {
       status: ['active', 'draft'],
       publishedFromDate: '1985-03-12',
       publishedToDate: '1986-03-12',
+      topic1: '/topic',
+      topic2: '/topic/topic2',
     };
 
     const SEARCH_RES: OrpSearchBody = {
@@ -67,6 +69,7 @@ describe('Orp data access layer', () => {
         start_date: '1985-03-12',
         end_date: '1986-03-12',
       },
+      regulatory_topic: '/topic/topic2',
     };
 
     it('should map to required lambda format', async () => {
@@ -107,6 +110,18 @@ describe('Orp data access layer', () => {
         document_types: undefined,
         status: undefined,
         date_published: {},
+      });
+    });
+
+    it('should use topic 1 if there is no topic 2', async () => {
+      await orpDal.searchOrp({
+        ...SEARCH_REQ,
+        topic1: '/topic',
+        topic2: undefined,
+      });
+      expect(searchMock).toBeCalledWith({
+        ...SEARCH_RES,
+        regulatory_topic: '/topic',
       });
     });
   });

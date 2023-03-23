@@ -1,6 +1,6 @@
 import { IsString, ValidateIf } from 'class-validator';
-import { DocumentType } from '../../search/types/documentTypes';
-import { DocumentStatus } from '../../search/types/statusTypes';
+import { DocumentType } from './documentTypes';
+import { DocumentStatus } from './statusTypes';
 
 export class SearchRequestDto {
   @ValidateIf((o) => !o.keyword)
@@ -19,4 +19,7 @@ export class SearchRequestDto {
 
   publishedFromDate?: string;
   publishedToDate?: string;
+
+  topic1?: string;
+  topic2?: string;
 }

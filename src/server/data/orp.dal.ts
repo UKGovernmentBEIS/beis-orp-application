@@ -56,6 +56,12 @@ export class OrpDal {
     const regulatorIdArray = [searchRequest.regulators].flat().filter(notEmpty);
     const docTypeArray = [searchRequest.docTypes].flat().filter(notEmpty);
     const statusArray = [searchRequest.status].flat().filter(notEmpty);
+    const topic =
+      searchRequest.topic2 && searchRequest.topic2 !== 'all'
+        ? searchRequest.topic2
+        : searchRequest.topic1 && searchRequest.topic1 !== 'all'
+        ? searchRequest.topic1
+        : undefined;
 
     return {
       keyword: searchRequest.keyword,
@@ -69,6 +75,7 @@ export class OrpDal {
         start_date: searchRequest.publishedFromDate,
         end_date: searchRequest.publishedToDate,
       },
+      regulatory_topic: topic || undefined,
     };
   }
 

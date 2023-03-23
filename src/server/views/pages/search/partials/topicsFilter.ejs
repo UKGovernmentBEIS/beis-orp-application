@@ -1,0 +1,33 @@
+<div class="govuk-form-group filter-item govuk-!-padding-top-4 govuk-!-margin-bottom-0">
+    <fieldset class="govuk-fieldset" data-module="count-selections">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+            <h3 class="govuk-fieldset__heading">
+                Topics
+            </h3>
+        </legend>
+        <details class="govuk-details govuk-!-margin-bottom-4" data-module="govuk-details">
+            <summary class="govuk-details__summary" data-module="show-hide">
+                <span class="govuk-details__summary-text" >
+                    Show
+                </span>
+            </summary>
+            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+
+                <div class="govuk-form-group">
+                    <label class="govuk-label" for="topic1">
+                        Primary Topic
+                    </label>
+                    <select class="govuk-select" id="topic1" name="topic1" data-module="topic-sub-selects">
+                        <option value="all">All</option>
+                        <% topLevelTopics.forEach((item) => { %>
+                            <option value="<%=item.toLocaleString().toLocaleLowerCase()%>" <% if (selectedTopic1 === item) { %>selected<% } %>>
+                                <%= topicsDisplayMap[item] %>
+                            </option>
+                        <% }) %>
+                    </select>
+                </div>
+            </div>
+        </details>
+    </fieldset>
+</div>
+

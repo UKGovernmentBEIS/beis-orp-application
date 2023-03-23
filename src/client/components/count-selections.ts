@@ -1,24 +1,36 @@
 import * as $ from 'jquery';
 
 export default function init() {
-  const getCounterText = (name) =>
-    `${$(`input[name=${name}]:checkbox:checked`).length} selected`;
+  const getCounterText = (selects) => {
+    let count = 0;
+
+    selects.each((i, item) => {
+      const selected = $(item).find('option:selected');
+
+      if (selected && selected.val() !== 'all') {
+        count++;
+      }
+    });
+    return `${count} selected`;
+  };
 
   $('[data-module="count-selections"]').each((i, item) => {
     const $el = $(item);
     if ($el.data('count-selections-initialised')) {
       return;
     }
-    const details = $el.children('details')[0];
+    $el.data('count-selections-initialised', true);
 
-    const checkBoxes = $(details).find('input.govuk-checkboxes__input');
-    const name = $(checkBoxes[0]).attr('name');
+    const details = $el.children('details')[0];
+    const selects = $el.find('select');
 
     const counter = $(
-      `<p class="govuk-hint govuk-!-font-size-16">${getCounterText(name)}</p>`,
+      `<p class="govuk-hint govuk-!-font-size-16">${getCounterText(
+        selects,
+      )}</p>`,
     );
     $(details).before(counter);
 
-    checkBoxes.on('change', () => counter.text(getCounterText(name)));
+    selects.on('change', () => counter.text(getCounterText(selects)));
   });
 }
