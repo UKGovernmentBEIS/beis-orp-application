@@ -16,6 +16,8 @@ import { documentTypes } from './types/documentTypes';
 import { documentStatus } from './types/statusTypes';
 import { DateTransformPipe } from '../form-validation/date-transform.pipe';
 import regulators from '../regulator/config/regulators';
+import { topicsDisplayMap } from '../document/utils/topics-display-mapping';
+import { topics } from '../document/utils/topics';
 
 @UseFilters(ErrorFilter)
 @UseInterceptors(ViewDataInterceptor)
@@ -41,6 +43,8 @@ export class SearchController {
         regulators,
         docTypes: documentTypes,
         statuses: documentStatus,
+        topics: Object.keys(topics),
+        topicsDisplayMap,
       },
     };
   }

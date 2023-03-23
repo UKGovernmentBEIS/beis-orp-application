@@ -20,6 +20,9 @@
     var orpResults = results?.regulatoryMaterial.documents ?? []
     var totalOrpResults = results?.regulatoryMaterial.totalSearchResults ?? null
     var noResults = !tnaResults.length && !orpResults.length
+    var topLevelTopics = filters.topics ?? []
+    var topicsDisplayMap = filters.topicsDisplayMap ?? {}
+    var selectedTopic1 = searchedValues.topic1 ?? ""
 %>
 
 <div class="govuk-width-container" xmlns="http://www.w3.org/1999/html">
@@ -42,7 +45,10 @@
                     publishedFromYear,
                     publishedToDay,
                     publishedToMonth,
-                    publishedToYear
+                    publishedToYear,
+                    topLevelTopics,
+                    selectedTopic1,
+                    topicsDisplayMap
                 }); %>
             </div>
             <div class="govuk-grid-column-two-thirds">

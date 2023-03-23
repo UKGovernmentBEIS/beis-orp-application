@@ -10,11 +10,15 @@ import { documentTypes } from './types/documentTypes';
 import { documentStatus } from './types/statusTypes';
 import * as mocks from 'node-mocks-http';
 import regulators from '../regulator/config/regulators';
+import { topics } from '../document/utils/topics';
+import { topicsDisplayMap } from '../document/utils/topics-display-mapping';
 
 const FILTERS = {
   regulators: regulators,
   docTypes: documentTypes,
   statuses: documentStatus,
+  topics: Object.keys(topics),
+  topicsDisplayMap,
 };
 
 const req = mocks.createRequest({
