@@ -10,6 +10,8 @@ import { HttpModule } from '@nestjs/axios';
 import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/user.mock';
 import { documentTypes } from '../search/types/documentTypes';
 import { TnaDal } from '../data/tna.dal';
+import { topicsDisplayMap } from '../document/utils/topics-display-mapping';
+import { topics } from '../document/utils/topics';
 
 describe('IngestController', () => {
   let controller: IngestController;
@@ -90,6 +92,66 @@ describe('IngestController', () => {
         expect(updateMock).toBeCalledTimes(1);
         expect(updateMock).toBeCalledWith('key', { document_type: 'GD' });
         expect(expectedResult).toEqual({
+          url: `/ingest/document-topics?key=key`,
+        });
+      });
+    });
+  });
+
+  describe('document topics', () => {
+    const selectedTopics = [
+      '/entering-staying-uk',
+      '/entering-staying-uk/immigration-offences',
+      '/entering-staying-uk/immigration-offences/immigration-penalties',
+    ];
+    describe('tagTopics GET', () => {
+      it('should get the doc meta data and return the topic details', async () => {
+        const metaMock = jest
+          .spyOn(documentService, 'getDocumentMeta')
+          .mockResolvedValue({
+            file_name: 'fn',
+            uuid: 'id',
+            uploaded_date: 'data',
+            document_type: 'GD',
+            document_format: 'application/pdf',
+            topics: JSON.stringify(selectedTopics),
+          });
+
+        const expectedResult = await controller.tagTopics({
+          key: 'key',
+        });
+
+        expect(metaMock).toBeCalledTimes(1);
+        expect(expectedResult).toEqual({
+          key: 'key',
+          topicsForSelections: [
+            Object.keys(topics),
+            Object.keys(topics[selectedTopics[0]]),
+            Object.keys(topics[selectedTopics[0]][selectedTopics[1]]),
+          ],
+          topicsDisplayMap,
+          selectedTopics,
+        });
+      });
+    });
+    describe('postTagTopics POST', () => {
+      it('should call updateMeta on documentService', async () => {
+        const updateMock = jest
+          .spyOn(documentService, 'updateMeta')
+          .mockResolvedValue({ updated: 'key' });
+
+        const expectedResult = await controller.postTagTopics({
+          key: 'key',
+          topic1: selectedTopics[0],
+          topic2: selectedTopics[1],
+          topic3: selectedTopics[2],
+        });
+
+        expect(updateMock).toBeCalledTimes(1);
+        expect(updateMock).toBeCalledWith('key', {
+          topics: JSON.stringify(selectedTopics),
+        });
+        expect(expectedResult).toEqual({
           url: `/ingest/document-status?key=key`,
         });
       });
@@ -151,6 +213,7 @@ describe('IngestController', () => {
             uploaded_date: 'data',
             status: 'published',
             document_format: 'application/pdf',
+            topics: JSON.stringify(['/entering-staying-uk']),
           });
 
         const getUrlMock = jest
@@ -173,6 +236,7 @@ describe('IngestController', () => {
           documentType: 'Other',
           documentStatus: 'Active',
           url: 'url',
+          documentTopics: ['Entering and staying in the UK'],
         });
       });
     });

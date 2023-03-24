@@ -184,6 +184,7 @@ export class ApiController {
   }
 
   @Post('linked-documents')
+  @UseGuards(JwtAuthenticationGuard)
   @ApiBearerAuth()
   @ApiOperation({
     summary:

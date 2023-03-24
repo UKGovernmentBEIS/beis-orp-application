@@ -6,6 +6,7 @@ import copyContentLink from './copy-content';
 import iframeContent from './iframe-content';
 import countSelections from './count-selections';
 import topicSubSelects from './topic-sub-selects';
+import fiveTopicsSelect from './five-level-topics';
 
 passwordReveal();
 showHide();
@@ -15,3 +16,4 @@ iframeContent();
 topicSubSelects();
 countChecked();
 countSelections();
+fiveTopicsSelect();
