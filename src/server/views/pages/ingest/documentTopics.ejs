@@ -1,0 +1,57 @@
+<%
+    var topicsDisplayMap = locals.topicsDisplayMap ?? {}
+    var selectedTopic1 = ""
+%>
+<%- include('../../partials/header'); %>
+<div class="govuk-width-container">
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <span class="govuk-caption-l">Step 3 of 5</span>
+                <h1 class="govuk-heading-l">
+                    Choose topics
+                </h1>
+                <p>Tag your documents with relevant topics from the GDS taxonomy. We work with regulators to adapt the GDS taxonomy to their needs. View the Government Digital Service taxonomy for an overview of the topics available.</p>
+                <p>Our topic tagging system helps you to organise your documents and makes it easy to search and filter them later. It also helps others to find your documents more easily when searching for related topics.</p>
+
+                <form method="post" data-module="five-topics-select" aria-live="polite">
+                    <input type="hidden" value="<%= locals.key %>" name="key" />
+
+                    <% topicsForSelections.forEach(function(topics, index) { %>
+                        <div class="govuk-form-group">
+                            <label class="govuk-label" for="topic<%= index + 1%>">
+                                Topic Level <%= index + 1%>
+                            </label>
+                            <select class="govuk-select govuk-!-width-two-thirds" id="topic<%= index + 1%>" name="topic<%= index + 1%>">
+                                <option value="" disabled selected hidden>Choose</option>
+                                <% topics.forEach((topic) => { %>
+                                <option value="<%=topic.toLocaleString().toLocaleLowerCase()%>" <% if (selectedTopics[index] === topic) { %>selected<% } %>>
+                                    <%= topicsDisplayMap[topic] %>
+                                </option>
+                                <% }) %>
+                            </select>
+                        </div>
+                    <% }) %>
+
+                    <button type="submit" class="govuk-button" data-module="govuk-button">
+                        Continue
+                    </button>
+                </form>
+
+                <details class="govuk-details" data-module="govuk-details">
+                    <summary class="govuk-details__summary">
+                        <span class="govuk-details__summary-text">
+                          Get help uploading a document
+                        </span>
+                    </summary>
+                    <div class="govuk-details__text">
+                        <p>Contact <a class="govuk-link" href="mailto:openregulationplatform@beis.gov.uk">openregulationplatform@beis.gov.uk</a> if you need help using this service.</p>
+                    </div>
+                </details>
+
+            </div>
+        </div>
+    </main>
+</div>
+
+<%- include('../../partials/footer'); %>

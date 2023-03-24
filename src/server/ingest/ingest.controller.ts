@@ -17,7 +17,6 @@ import { ErrorFilter } from '../error.filter';
 import { FileInterceptor } from '@nestjs/platform-express';
 import FileValidationExceptionFactory from './utils/FileValidationExceptionFactory';
 import { DocumentService } from '../document/document.service';
-import { RegulatorGuard } from '../auth/regulator.guard';
 import { User } from '../user/user.decorator';
 import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 import { ValidateForm } from '../form-validation';
@@ -27,6 +26,11 @@ import DocumentTypeDto from './types/DocumentType.dto';
 import DocumentStatusDto from './types/DocumentStatus.dto';
 import { orpDocumentStatus } from '../search/types/statusTypes';
 import { acceptedMimeTypesRegex } from '../document/utils/mimeTypes';
+import { topics } from '../document/utils/topics';
+import { topicsDisplayMap } from '../document/utils/topics-display-mapping';
+import DocumentTopicsDto from './types/DocumentTopics.dto';
+import * as R from 'ramda';
+import { RegulatorGuard } from '../auth/regulator.guard';
 
 @Controller('ingest')
 @UseGuards(RegulatorGuard)
@@ -75,11 +79,47 @@ export class IngestController {
   }
 
   @Post('document-type')
-  @Redirect('/ingest/document-status', 302)
+  @Redirect('/ingest/document-topics', 302)
   @ValidateForm()
   async postDocType(@Body() documentTypeDto: DocumentTypeDto) {
     const { key, documentType } = documentTypeDto;
     await this.documentService.updateMeta(key, { document_type: documentType });
+
+    return { url: `/ingest/document-topics?key=${key}` };
+  }
+
+  @Get('document-topics')
+  @Render('pages/ingest/documentTopics')
+  async tagTopics(@Query() { key }: { key: string }) {
+    const meta = await this.documentService.getDocumentMeta(key);
+    const selectedTopics: string[] = meta.topics?.length
+      ? JSON.parse(meta.topics)
+      : [];
+
+    const topicsForSelections = selectedTopics
+      .map<string[]>((topicId, index) => {
+        const idPath = selectedTopics.slice(0, index + 1);
+        return R.keys(R.path(idPath, topics));
+      })
+      .filter((list) => list.length);
+
+    return {
+      key,
+      topicsForSelections: [Object.keys(topics), ...topicsForSelections],
+      topicsDisplayMap,
+      selectedTopics,
+    };
+  }
+
+  @Post('document-topics')
+  @Redirect('/ingest/document-status', 302)
+  async postTagTopics(@Body() documentTopicsDto: DocumentTopicsDto) {
+    const { key, topic1, topic2, topic3, topic4, topic5 } = documentTopicsDto;
+    await this.documentService.updateMeta(key, {
+      topics: JSON.stringify(
+        [topic1, topic2, topic3, topic4, topic5].filter((topic) => topic),
+      ),
+    });
 
     return { url: `/ingest/document-status?key=${key}` };
   }
@@ -108,12 +148,16 @@ export class IngestController {
     const { documentFormat, url } = await this.documentService.getDocumentUrl(
       key,
     );
-    console.log(meta.file_name);
+    const selectedTopics: string[] = meta.topics?.length
+      ? JSON.parse(meta.topics)
+      : [];
+
     return {
       key,
       file: meta.file_name,
       documentType: documentTypes[meta.document_type] ?? 'Other',
       documentStatus: orpDocumentStatus[meta.status] ?? '',
+      documentTopics: selectedTopics.map((id) => topicsDisplayMap[id]) ?? [],
       url,
       documentFormat,
     };

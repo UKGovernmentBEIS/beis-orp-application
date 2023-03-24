@@ -9,6 +9,7 @@ export interface ObjectMetaData {
   status?: OrpDocumentStatus;
   api_user?: string;
   document_format: string;
+  topics?: string;
 }
 
 export type MetaItem = keyof ObjectMetaData;
