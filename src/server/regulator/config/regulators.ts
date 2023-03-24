@@ -2,6 +2,11 @@ import { Regulator } from '../types/Regulator';
 
 const regulators: Regulator[] = [
   {
+    id: 'procheckup',
+    name: 'Procheckup',
+    domain: 'procheckup.com',
+  },
+  {
     id: 'zoonou',
     name: 'Zoonou',
     domain: 'zoonou.com',
