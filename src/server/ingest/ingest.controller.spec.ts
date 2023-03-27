@@ -12,6 +12,7 @@ import { documentTypes } from '../search/types/documentTypes';
 import { TnaDal } from '../data/tna.dal';
 import { topicsDisplayMap } from '../document/utils/topics-display-mapping';
 import { topics } from '../document/utils/topics';
+import { FULL_TOPIC_PATH } from '../../../test/mocks/topics';
 
 describe('IngestController', () => {
   let controller: IngestController;
@@ -99,11 +100,8 @@ describe('IngestController', () => {
   });
 
   describe('document topics', () => {
-    const selectedTopics = [
-      '/entering-staying-uk',
-      '/entering-staying-uk/immigration-offences',
-      '/entering-staying-uk/immigration-offences/immigration-penalties',
-    ];
+    const selectedTopics = FULL_TOPIC_PATH;
+
     describe('tagTopics GET', () => {
       it('should get the doc meta data and return the topic details', async () => {
         const metaMock = jest
