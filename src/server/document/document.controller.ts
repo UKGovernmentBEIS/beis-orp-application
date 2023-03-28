@@ -38,6 +38,7 @@ export class DocumentController {
     docType: string;
     documentFormat: string;
     ingested: boolean;
+    title: string;
   }> {
     const { document, documentFormat, url } =
       await this.documentService.getDocumentWithPresignedUrl(id);
@@ -51,6 +52,7 @@ export class DocumentController {
       regulator,
       docType,
       ingested: ingested === 'true',
+      title: `Document details for ${document.title}`,
     };
   }
 

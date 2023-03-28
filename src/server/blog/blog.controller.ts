@@ -35,13 +35,15 @@ export class BlogController {
     const domain = this.config.get('domain');
     const post = this.blogService.getBlogPost(id);
     const address = `${domain}blog/${post.id}`;
+
+    const encodedTitle = encodeURIComponent(post.title);
     return {
       post,
       social: {
         facebook: `https://www.facebook.com/sharer/sharer.php?u=${address}`,
-        twitter: `https://twitter.com/share?text=${post.title}&url=${address}`,
-        linkedIn: `https://www.linkedin.com/shareArticle/?url=${address}&title=${post.title}`,
-        email: `mailto:?to=&body=${address}&subject=${post.title}`,
+        twitter: `https://twitter.com/share?text=${encodedTitle}&url=${address}`,
+        linkedIn: `https://www.linkedin.com/shareArticle/?url=${address}&title=${encodedTitle}`,
+        email: `mailto:?to=&body=${address}&subject=${encodedTitle}`,
       },
       title: post.title,
     };
@@ -52,7 +54,7 @@ export class BlogController {
   about() {
     const domain = this.config.get('domain');
     const address = `${domain}about`;
-    const title = 'About the Open Regulation Platform';
+    const title = encodeURIComponent('About the Open Regulation Platform');
     return {
       social: {
         facebook: `https://www.facebook.com/sharer/sharer.php?u=${address}`,

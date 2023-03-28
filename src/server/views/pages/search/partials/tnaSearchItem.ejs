@@ -15,7 +15,7 @@
     </div>
     <div class="govuk-!-padding-3">
         <h3>
-            <a href="/document/linked-documents?id=<%= item.id %>&published=<%= dateString %>"><%= item.title %></a>
+            <a href="/document/linked-documents?id=<%= item.id %>&published=<%= encodeURIComponent(dateString) %>"><%= item.title %></a>
         </h3>
         <p class="search-result-info govuk-!-font-size-16">
             <span><%= item.legislationType %></span>

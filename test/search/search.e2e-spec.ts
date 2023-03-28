@@ -51,7 +51,7 @@ describe('api/search (GET)', () => {
           );
           expect(
             $(
-              "a[href='/document/linked-documents?id=http://www.legislation.gov.uk/id/eudn/2020/1574&published=28 October 2020']",
+              "a[href='/document/linked-documents?id=http://www.legislation.gov.uk/id/eudn/2020/1574&published=28%20October%202020']",
             )
               .text()
               .trim(),

@@ -17,7 +17,7 @@
     <% } else if (post.image.name) { %>
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full govuk-!-margin-bottom-3">
-                <img src="/assets/images/blog/<%= post.image.name %>" alt="<%= post.image.alt %>" width="100%">
+                <img src="/assets/images/blog/<%= post.image.name %>" alt="<%= post.image.alt %>">
             </div>
         </div>
     <% } %>
@@ -26,6 +26,6 @@
         <p><%= post.description %></p>
             <p>Read more: <a href="/blog/<%= post.id %>" class="govuk-link"><%= post.title%></a></p>
     <%} else { %>
-        <p><%- post.content %></p>
+        <%- post.content %>
     <% } %>
 </div>
