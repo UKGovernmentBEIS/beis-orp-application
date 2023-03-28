@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { DocumentType } from '../../search/types/documentTypes';
 import { OrpDocumentStatus } from '../../search/types/statusTypes';
 import { IsIn } from 'class-validator';
+import { IsEndOfTopicPath } from '../../validators/isEndOfTopicPath';
 
 export class FileUploadDto {
   @ApiProperty({ type: 'string', format: 'binary' })
@@ -14,4 +15,9 @@ export class FileUploadDto {
   @ApiProperty({ enum: ['published', 'draft'] })
   @IsIn(['draft', 'published'])
   status: OrpDocumentStatus;
+
+  @IsEndOfTopicPath({
+    message: 'Topic must be end of a complete topic branch',
+  })
+  topics: string;
 }

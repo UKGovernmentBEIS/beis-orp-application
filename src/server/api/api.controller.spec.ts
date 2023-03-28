@@ -25,6 +25,7 @@ import {
   getMappedOrpDocumentForApi,
 } from '../../../test/mocks/orpSearchMock';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { FULL_TOPIC_PATH } from '../../../test/mocks/topics';
 
 describe('ApiController', () => {
   let controller: ApiController;
@@ -85,6 +86,7 @@ describe('ApiController', () => {
         status: 'published' as const,
         document_type: 'GD' as const,
         file: file,
+        topics: FULL_TOPIC_PATH.at(-1),
       };
 
       const expectedResult = await controller.uploadFile(

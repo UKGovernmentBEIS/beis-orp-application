@@ -22,6 +22,7 @@ import {
 } from '../../../test/mocks/tnaDocumentsMock';
 import { TnaEuDoc } from '../data/types/tnaDocs';
 import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/user.mock';
+import { FULL_TOPIC_PATH } from '../../../test/mocks/topics';
 
 describe('DocumentService', () => {
   let service: DocumentService;
@@ -92,6 +93,34 @@ describe('DocumentService', () => {
         apiRegUser.cognitoUsername,
         apiRegUser.regulator,
         { ...fileMeta, api_user: 'true' },
+      );
+      expect(result).toEqual({ key: 'key', id: 'id' });
+    });
+
+    it('sends the topics path from mapping', async () => {
+      const file = await getPdfAsMulterFile();
+      const apiRegUser = { cognitoUsername: 'cogName', regulator: 'regName' };
+      const fileMeta = {
+        status: 'published' as const,
+        document_type: 'GD' as const,
+        topics: FULL_TOPIC_PATH.at(-1),
+      };
+
+      const awsSpy = jest
+        .spyOn(awsDal, 'upload')
+        .mockResolvedValue({ key: 'key', id: 'id' });
+
+      const result = await service.uploadFromApi(file, apiRegUser, fileMeta);
+
+      expect(awsSpy).toBeCalledWith(
+        file,
+        apiRegUser.cognitoUsername,
+        apiRegUser.regulator,
+        {
+          ...fileMeta,
+          api_user: 'true',
+          topics: JSON.stringify(FULL_TOPIC_PATH),
+        },
       );
       expect(result).toEqual({ key: 'key', id: 'id' });
     });

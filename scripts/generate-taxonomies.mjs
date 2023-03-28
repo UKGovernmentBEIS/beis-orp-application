@@ -4,10 +4,10 @@
 // The output will be written to 'src/server/document/utils/topics.ts'
 
 import fs from "fs";
+import path from "path";
 import { fileURLToPath } from "url";
 import { parse } from "csv-parse";
-import path from "path";
-import { compose, filter, groupBy, map, remove } from "ramda";
+import { compose, filter, groupBy, map, path as rPath, remove } from "ramda";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -148,7 +148,28 @@ function generateTopicsJson() {
         `export const topics = ${JSON.stringify(grouped, null)}`,
         'utf-8',
       );
+
+      generateLeafMap(output, grouped)
     });
+}
+
+function generateLeafMap(listOfPaths, fullTopicsObject) {
+  const map = listOfPaths.reduce((accum, list) => {
+    const itemsAfterPath = rPath(list, fullTopicsObject)
+    const isEndLeaf = itemsAfterPath && Object.keys(itemsAfterPath).length === 0
+    if(!isEndLeaf) return accum
+
+    return {
+      ...accum,
+      [list.at(-1)]: list
+    }
+  }, {})
+
+  fs.writeFileSync(
+    `${OUTPUT_ROUTE}/topics-leaf-map.ts`,
+    `export const topicsLeafMap = ${JSON.stringify(map, null)}`,
+    'utf-8',
+  );
 }
 
 doIt();

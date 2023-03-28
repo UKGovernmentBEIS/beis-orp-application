@@ -13,6 +13,7 @@ import { ApiUser, User } from '../auth/types/User';
 import { mapOrpDocument } from '../search/utils/orpSearchMapper';
 import { OrpSearchItem } from '../search/types/SearchResponse.dto';
 import { displayableMimeTypes } from './utils/mimeTypes';
+import { topicsLeafMap } from './utils/topics-leaf-map';
 
 @Injectable()
 export class DocumentService {
@@ -52,6 +53,7 @@ export class DocumentService {
       regulator,
       {
         ...meta,
+        topics: JSON.stringify(topicsLeafMap[meta.topics]),
         api_user: 'true',
       },
     );

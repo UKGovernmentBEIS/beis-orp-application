@@ -4,6 +4,7 @@ import {
   getNonRegulatorSession,
   getRegulatorSession,
 } from '../helpers/userSessions';
+import { FULL_TOPIC_PATH } from '../mocks/topics';
 
 const mockS3 = {
   send: jest.fn(),
@@ -27,11 +28,6 @@ jest.mock('@aws-sdk/client-s3', () => {
   };
 });
 
-const TOPICS = [
-  '/entering-staying-uk',
-  '/entering-staying-uk/immigration-offences',
-  '/entering-staying-uk/immigration-offences/immigration-penalties',
-];
 describe('Ingest document topics', () => {
   const fixture = new E2eFixture();
   let regulatorSession = null;
@@ -51,7 +47,7 @@ describe('Ingest document topics', () => {
     it('gets a the meta and displays the selections if they exist', () => {
       mockS3.send.mockResolvedValueOnce({
         Metadata: {
-          topics: JSON.stringify(TOPICS),
+          topics: JSON.stringify(FULL_TOPIC_PATH),
         },
       });
 
@@ -139,7 +135,10 @@ describe('Ingest document topics', () => {
         .request()
         .post('/ingest/document-topics')
         .set('Cookie', regulatorSession)
-        .send({ key: 'unconfirmed/key', documentTopics: { topics: TOPICS } })
+        .send({
+          key: 'unconfirmed/key',
+          documentTopics: { topics: FULL_TOPIC_PATH },
+        })
         .expect(302)
         .expect('Location', '/ingest/document-status?key=unconfirmed/key')
         .expect(() => {
