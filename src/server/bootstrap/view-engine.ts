@@ -1,7 +1,7 @@
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as path from 'path';
 import { ConfigService } from '@nestjs/config';
-import { ServerConfig } from '../config';
+import { ServerConfig } from '../config/application-config';
 
 export function useGovUi(app: NestExpressApplication) {
   app.setLocal('asset_path', '/assets/');

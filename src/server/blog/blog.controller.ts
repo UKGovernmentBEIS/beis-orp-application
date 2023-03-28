@@ -43,6 +43,7 @@ export class BlogController {
         linkedIn: `https://www.linkedin.com/shareArticle/?url=${address}&title=${post.title}`,
         email: `mailto:?to=&body=${address}&subject=${post.title}`,
       },
+      title: post.title,
     };
   }
 

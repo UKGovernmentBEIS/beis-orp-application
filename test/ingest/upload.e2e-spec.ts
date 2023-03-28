@@ -82,23 +82,18 @@ describe('Ingest upload', () => {
         );
     });
 
-    it('displays validation error if no file attached', async () => {
+    it('redirects back if no file attached', async () => {
       mockS3.send.mockResolvedValueOnce('response');
 
       return fixture
         .request()
         .post('/ingest/upload')
         .set('Cookie', regulatorSession)
-        .expect(400)
-        .expect((res) => {
-          const $ = cheerio.load(res.text);
-          expect($('p.govuk-error-message').text().trim()).toEqual(
-            'Error: Select a document',
-          );
-        });
+        .expect(302)
+        .expect('Location', '/ingest/upload');
     });
 
-    it('displays validation error if non-pdf file attached', async () => {
+    it('redirects back if unsupported file type attached', async () => {
       const file = await getPdfBuffer();
       mockS3.send.mockResolvedValueOnce('response');
 
@@ -107,13 +102,8 @@ describe('Ingest upload', () => {
         .post('/ingest/upload')
         .attach('file', file, 'testfile.png')
         .set('Cookie', regulatorSession)
-        .expect(400)
-        .expect((res) => {
-          const $ = cheerio.load(res.text);
-          expect($('p.govuk-error-message').text().trim()).toEqual(
-            'Error: The selected file must be a PDF, Microsoft Word or Open Office document',
-          );
-        });
+        .expect(302)
+        .expect('Location', '/ingest/upload');
     });
 
     describe('guards', () => {

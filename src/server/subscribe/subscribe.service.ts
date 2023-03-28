@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { SubscriberDto } from './types/Subscriber.dto';
 import * as mailchimp from '@mailchimp/mailchimp_marketing';
 import { ConfigService } from '@nestjs/config';
-import { ApisConfig } from '../config';
+import { ApisConfig } from '../config/application-config';
 import { MailchimpException } from './types/types';
 import { UserPreferenceDto } from './types/UserPreference.dto';
 

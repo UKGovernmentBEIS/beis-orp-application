@@ -7,6 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { pdfMimeType, wordMimeTypes } from './server/document/utils/mimeTypes';
+import pageTitles from './server/config/page-titles';
 
 export interface Response<T> {
   data: T;
@@ -35,6 +36,9 @@ export class ViewDataInterceptor<T> implements NestInterceptor<T, Response<T>> {
     request.session.values = undefined;
     const latestSearch = request.session.latestSearch ?? '/search';
 
+    const defaultTitle = pageTitles[request.url.split('?')[0]];
+    const isErrors = errors && Object.keys(errors).length > 0;
+
     return next.handle().pipe(
       map((data) => ({
         ...data,
@@ -45,6 +49,9 @@ export class ViewDataInterceptor<T> implements NestInterceptor<T, Response<T>> {
         latestSearch,
         iframeMimeTypes: wordMimeTypes,
         objectMimeType: pdfMimeType,
+        title: `${isErrors ? 'Error: ' : ''}${
+          data?.title ?? defaultTitle
+        } - The Open Regulation Platform`,
       })),
     );
   }

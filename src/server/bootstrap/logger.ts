@@ -6,7 +6,7 @@ import * as winston from 'winston';
 import * as CloudWatchTransport from 'winston-cloudwatch';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
-import { AwsConfig } from '../config';
+import { AwsConfig } from '../config/application-config';
 
 function getTransportsForEnv(
   region: string,

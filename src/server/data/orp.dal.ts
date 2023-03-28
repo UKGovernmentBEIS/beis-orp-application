@@ -2,7 +2,7 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 
-import { ApisConfig } from '../config';
+import { ApisConfig } from '../config/application-config';
 import { ConfigService } from '@nestjs/config';
 import {
   RawLinkedDocumentsResponse,

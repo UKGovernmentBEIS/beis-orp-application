@@ -10,6 +10,8 @@ export interface BlogPostView {
     twitter: string;
     email: string;
   };
+
+  title: string;
 }
 
 export interface BlogPost {

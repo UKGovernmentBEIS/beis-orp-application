@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AwsConfig } from '../config';
+import { AwsConfig } from '../config/application-config';
 import {
   AdminAddUserToGroupCommand,
   AdminConfirmSignUpCommand,

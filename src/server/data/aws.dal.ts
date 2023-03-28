@@ -7,7 +7,7 @@ import {
   S3Client,
 } from '@aws-sdk/client-s3';
 import { ConfigService } from '@nestjs/config';
-import { AwsConfig } from '../config';
+import { AwsConfig } from '../config/application-config';
 import {
   Injectable,
   InternalServerErrorException,

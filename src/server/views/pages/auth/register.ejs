@@ -1,20 +1,11 @@
 <%- include('../../partials/header'); %>
 
 <div class="govuk-width-container">
-    <% if(locals?.errors?.global) { %>
-        <div class="govuk-error-summary" data-module="govuk-error-summary">
-            <div role="alert">
-                <div class="govuk-error-summary__body">
-                    <ul class="govuk-list govuk-error-summary__list">
-                        <%- locals?.errors?.global %>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    <% } %>
     <main class="govuk-main-wrapper " id="main-content" role="main">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
+                <%- include('../../partials/components/errorSummary', { errors: locals.errors }); %>
+
                 <h1 class="govuk-heading-l">Create an account</h1>
                 <p>You will be able to access this service’s API. If you are a UK regulator, you will also be able to upload documents to this service.</p>
 

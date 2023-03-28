@@ -7,12 +7,13 @@ export default class ResetPasswordDto {
   previousPassword: string;
 
   @Matches(passwordRegex, {
-    message: 'Password must satisfy the criteria above',
+    message: 'Password must satisfy the criteria displayed',
   })
   newPassword: string;
 
   @IsSameAs('newPassword', {
-    message: 'Your password must match the password entered above',
+    message:
+      'Your password confirmation must be the same as the password entered',
   })
   confirmPassword: string;
 }

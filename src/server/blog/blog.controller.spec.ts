@@ -39,6 +39,7 @@ describe('AppController', () => {
           twitter:
             'https://twitter.com/share?text=Making regulation more accessible: Value driven by the ORP&url=https://test.com/blog/1',
         },
+        title: 'Making regulation more accessible: Value driven by the ORP',
       });
     });
   });
