@@ -10,7 +10,7 @@ const BlogPosts = {
     // youtubeId: 'X2juNBpHtaU',
     image: {
       name: 'laptop.jpg',
-      alt: 'man looking at an ipad',
+      alt: '',
     },
     content:
       '<p>The Open Regulation Platform (ORP) has a simple objective: to create a platform which provides UK regulation as enriched, machine-readable data. By meeting this objective, the ORP will be an enabling service that can support the development of a range of tools that ensure regulation in the UK is digital-first and accessible to business in smarter ways.</p>' +

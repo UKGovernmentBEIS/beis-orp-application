@@ -3,12 +3,6 @@
 <%
     var emailValue = locals.values?.emailAddress
     var emailError = locals.errors?.emailAddress
-
-    var inputLabel = `<p class="govuk-body">Enter your email address to:</p>
-    <ul class="govuk-list govuk-list--bullet">
-        <li>subscribe for updates when new posts are published</li>
-        <li>manage your existing subscription</li>
-    </ul>`
 %>
 
 
@@ -29,7 +23,23 @@
                 <div id="mc_embed_signup">
                     <form style="position: relative;" method="post" id="subscribe-form" name="subscribe-form" target="_self">
                         <div>
-                            <%- include('../../partials/components/textInput', { label: inputLabel, name: "emailAddress", type: "email", error: emailError, value: emailValue }); %>
+                            <div class="govuk-form-group <% if(emailError) { %>govuk-form-group--error<% } %>">
+                                <h2 class="govuk-label-wrapper">
+                                    <label class="govuk-label govuk-label--s" for="emailAddress">
+                                        <p class="govuk-body">Enter your email address to:</p>
+                                        <ul class="govuk-list govuk-list--bullet">
+                                            <li>subscribe for updates when new posts are published</li>
+                                            <li>manage your existing subscription</li>
+                                        </ul>
+                                    </label>
+                                </h2>
+                                <% if(emailError) { %>
+                                    <p id="email-error" class="govuk-error-message">
+                                        <%= emailError %>
+                                    </p>
+                                <% } %>
+                                <input class="govuk-input govuk-!-width-two-thirds <% if(emailError) { %>govuk-input--error<% } %>" id="emailAddress" name="emailAddress" type="email" autocomplete="email" <% if(emailValue) { %>value="<%= emailValue %>" <% } %> />
+                            </div>
 
                             <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
                             <div class="mockItem" aria-hidden="true"><input type="text" name="b_421d6e3d31b5a15d8560c613d_d8234fcc62" tabindex="-1" value=""></div>

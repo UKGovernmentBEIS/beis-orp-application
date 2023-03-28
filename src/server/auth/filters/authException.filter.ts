@@ -38,6 +38,9 @@ export class AuthExceptionFilter implements ExceptionFilter {
           ? undefined
           : 'Enter a password',
       };
+      request.session.values = {
+        email: exception.errorObj.meta.emailValue,
+      };
       return response.redirect('/auth/login');
     }
 
