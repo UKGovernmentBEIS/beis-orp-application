@@ -24,7 +24,7 @@
 
     <% if (summary === true) { %>
         <p><%= post.description %></p>
-        <a href="/blog/<%= post.id %>" class="govuk-link">Read more</a>
+            <p>Read more: <a href="/blog/<%= post.id %>" class="govuk-link"><%= post.title%></a></p>
     <%} else { %>
         <p><%- post.content %></p>
     <% } %>

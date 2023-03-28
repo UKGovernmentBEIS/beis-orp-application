@@ -19,9 +19,9 @@
                          aria-labelledby="govuk-notification-banner-title"
                          data-module="govuk-notification-banner">
                         <div class="govuk-notification-banner__header">
-                            <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                            <h1 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
                                 Important
-                            </h2>
+                            </h1>
                         </div>
                         <div class="govuk-notification-banner__content">
                             <p class="govuk-notification-banner__heading">
@@ -56,13 +56,13 @@
             <div class="govuk-grid-column-one-third">
                 <a href="/document/download/<%= uid %>" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button" download="<%= uid %>.pdf">
                     <div class="vertical-align">
-                        <img src="/assets/images/download.svg" aria-label="download icon" class="govuk-!-padding-right-1"/>
+                        <img src="/assets/images/download.svg" aria-label="download" alt="download" class="govuk-!-padding-right-1"/>
                         <span>Download</span>
                     </div>
                 </a>
                 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
                 <div>
-                    <h3 class="govuk-heading-s">Details</h3>
+                    <h2 class="govuk-heading-s">Details</h2>
                     <dl class="govuk-body heading-field-list govuk-!-font-size-16">
                         <dt class="govuk-summary-list__key">Published date</dt>
                         <dd> <%- include('../../partials/components/dateDisplay', { dateString: locals.document.dates.published }); %></dd>
@@ -74,7 +74,7 @@
                 </div>
                 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
                 <div class="search-result-keywords">
-                    <h3 class="govuk-heading-s">Keywords</h3>
+                    <h2 class="govuk-heading-s">Keywords</h2>
                     <ul class="govuk-list govuk-!-padding-top-2">
                         <% document.keyword.forEach(function(keyword) { %>
                             <li><%= keyword %></li>
@@ -83,7 +83,7 @@
                 </div>
                 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
                 <div>
-                    <h3 class="govuk-heading-s">Linked to Legislation</h3>
+                    <h2 class="govuk-heading-s">Linked to Legislation</h2>
                     <% if(legislativeOrigins.length) { %>
                         <% legislativeOrigins.forEach(function(lo) { %>
                         <div class="govuk-!-margin-bottom-4">

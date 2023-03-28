@@ -3,6 +3,7 @@
  var globalError = locals?.errors?.global
  var emailError = locals?.errors?.email
  var pwError = locals?.errors?.password
+ var emailValue = locals.values?.email;
 %>
 
 <div class="govuk-width-container">
@@ -29,7 +30,7 @@
                                     <%= emailError %>
                                 </p>
                             <% } %>
-                            <input class="govuk-input govuk-!-width-two-thirds <% if(emailError || globalError) { %>govuk-input--error<% } %>" id="email" name="email" type="text" <% if(locals?.values?.email) { %>value="<%= locals?.values?.email %>" <% } %> />
+                            <input class="govuk-input govuk-!-width-two-thirds <% if(emailError || globalError) { %>govuk-input--error<% } %>" id="email" name="email" type="email" autocomplete="email" <% if(emailValue) { %>value="<%= emailValue %>" <% } %> />
                         </div>
                         <div class="govuk-form-group <% if(pwError || globalError) { %>govuk-form-group--error<% } %>">
                             <h2 class="govuk-label-wrapper">

@@ -44,7 +44,7 @@
                             </dd>
                             <dd class="govuk-summary-list__actions">
                                 <a class="govuk-link" href="/ingest/document-topics?key=<%= locals.key %>">
-                                    Change<span class="govuk-visually-hidden"> document topics</span>
+                                    Change<span class="govuk-visually-hidden"> document level <%= index + 1 %> topic</span>
                                 </a>
                             </dd>
                         </div>
@@ -67,7 +67,7 @@
                 <% if (locals.url) { %>
                     <div class="govuk-grid-row govuk-!-margin-bottom-6">
                         <div class="govuk-grid-column-three-quarters">
-                            <%- include('../../partials/components/documentView', {url, documentFormat, small: true, title: 'preview of '+ file}); %>
+                            <%- include('../../partials/components/documentView', {url, documentFormat, small: true, title: 'preview of document '+ file}); %>
                         </div>
                     </div>
                 <% } %>

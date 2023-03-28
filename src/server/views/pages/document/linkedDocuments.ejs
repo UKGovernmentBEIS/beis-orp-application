@@ -34,13 +34,13 @@
             <div class="govuk-grid-column-one-third">
                 <a href="<%= href %>" target="_blank" rel="noopener noreferrer" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button">
                     <div class="vertical-align">
-                        <img src="/assets/images/external-open.svg" aria-hidden="true" class="govuk-!-padding-right-1"/>
+                        <img src="/assets/images/external-open.svg" aria-hidden="true" class="govuk-!-padding-right-1" alt=""/>
                         <span>View on National Archives</span>
                     </div>
                 </a>
                 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
                 <div>
-                    <h3 class="govuk-heading-s">Details</h3>
+                    <h2 class="govuk-heading-s">Details</h2>
                     <dl class="govuk-body heading-field-list govuk-!-font-size-16">
                         <dt class="govuk-summary-list__key">Published date</dt>
                         <dd>  <% if(publishedDate) { %><%= publishedDate %><% } else { %> - <% } %> </dd>

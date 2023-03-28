@@ -5,6 +5,6 @@
         <embed src="<%= url %>" type="application/pdf" />
     </object>
 <% } else if (locals.iframeMimeTypes.includes(documentFormat)) { %>
-    <iframe class="<%= embedClass %>" src="https://docs.google.com/gview?url=<%= encodeURIComponent(locals.url) %>&embedded=true" data-module="iframe-content"></iframe>
+    <iframe class="<%= embedClass %>" src="https://docs.google.com/gview?url=<%= encodeURIComponent(locals.url) %>&embedded=true" data-module="iframe-content" title="<%= title %>"></iframe>
 <% } %>
 

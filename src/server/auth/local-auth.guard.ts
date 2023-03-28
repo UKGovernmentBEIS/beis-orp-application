@@ -10,6 +10,7 @@ export class LocalAuthGuard extends AuthGuard('local') {
       throw new AuthException({
         code: 'ValidationException',
         meta: {
+          emailValue: input.email,
           emailProvided: !!input.email,
           passwordProvided: !!input.password,
         },

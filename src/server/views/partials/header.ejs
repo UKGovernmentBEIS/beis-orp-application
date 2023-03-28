@@ -17,11 +17,11 @@
     <link rel="apple-touch-icon" href="/assets/images/govuk-apple-touch-icon.png">
 
     <!--[if !IE 8]><!-->
-    <link href="/assets/client.css?{{ version }}" rel="stylesheet"/>
+    <link href="/assets/client.css" rel="stylesheet"/>
     <!--<![endif]-->
 
     <!--[if lt IE 9]>
-    <link href="/assets/client-ie8.css?{{ version }}" rel="stylesheet"/>
+    <link href="/assets/client-ie8.css" rel="stylesheet"/>
     <![endif]-->
 
 </head>
@@ -60,43 +60,47 @@
         <% } %>
         </div>
     </div>
-</header>
-<div class="primary-navigation-container">
-    <div class="govuk-width-container">
-        <div class="primary-navigation__container">
-            <div class="primary-navigation__nav">
-                <nav class="primary-navigation" aria-label="Primary navigation">
-                    <ul class="primary-navigation__list">
-                        <li class="primary-navigation__item">
-                            <a class="primary-navigation__link <% if (locals.menuItem === 'search') { %>primary-navigation__link--current" aria-current="page<% } %>" aria-current="page" href="/search">
-                                Search
-                            </a>
-                        </li>
 
-                        <li class="primary-navigation__item">
-                            <a class="primary-navigation__link <% if (locals.menuItem === 'upload') { %>primary-navigation__link--current" aria-current="page<% } %>" href="/ingest">Upload</a>
-                        </li>
+    <div class="primary-navigation-container">
+        <div class="govuk-width-container">
+            <div class="primary-navigation__container">
+                <div class="primary-navigation__nav">
+                    <nav class="primary-navigation" aria-label="Primary navigation">
+                        <ul class="primary-navigation__list">
+                            <li class="primary-navigation__item">
+                                <a class="primary-navigation__link <% if (locals.menuItem === 'search') { %>primary-navigation__link--current" aria-current="page<% } %>" href="/search">
+                                    Search
+                                </a>
+                            </li>
 
-                        <li class="primary-navigation__item">
-                            <a class="primary-navigation__link <% if (locals.menuItem === 'dev') { %>primary-navigation__link--current" aria-current="page<% } %>" href="/developer">Developer Portal</a>
-                        </li>
+                            <li class="primary-navigation__item">
+                                <a class="primary-navigation__link <% if (locals.menuItem === 'upload') { %>primary-navigation__link--current" aria-current="page<% } %>" href="/ingest">Upload</a>
+                            </li>
 
-                        <li class="primary-navigation__item">
-                            <a class="primary-navigation__link <% if (locals.menuItem === 'blog') { %>primary-navigation__link--current" aria-current="page<% } %>" href="/blog">Blog</a>
-                        </li>
-                    </ul>
-                </nav>
+                            <li class="primary-navigation__item">
+                                <a class="primary-navigation__link <% if (locals.menuItem === 'dev') { %>primary-navigation__link--current" aria-current="page<% } %>" href="/developer">Developer Portal</a>
+                            </li>
+
+                            <li class="primary-navigation__item">
+                                <a class="primary-navigation__link <% if (locals.menuItem === 'blog') { %>primary-navigation__link--current" aria-current="page<% } %>" href="/blog">Blog</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="govuk-phase-banner govuk-width-container">
-    <p class="govuk-phase-banner__content">
-        <strong class="govuk-tag govuk-phase-banner__content__tag">
-            beta
-        </strong>
-        <span class="govuk-phase-banner__text">
-      This is a new service – your <a class="govuk-link" href="mailto:openregulationplatform@beis.gov.uk">feedback</a> will help us to improve it.
-    </span>
-    </p>
-</div>
+    <div class="white">
+        <div class="govuk-phase-banner govuk-width-container">
+            <p class="govuk-phase-banner__content">
+                <strong class="govuk-tag govuk-phase-banner__content__tag">
+                    beta
+                </strong>
+                <span class="govuk-phase-banner__text">
+          This is a new service – your <a class="govuk-link" href="mailto:openregulationplatform@beis.gov.uk">feedback</a> will help us to improve it.
+        </span>
+            </p>
+        </div>
+    </div>
+
+</header>

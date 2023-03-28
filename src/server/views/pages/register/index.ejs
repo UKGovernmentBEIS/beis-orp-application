@@ -36,9 +36,47 @@
                     <form style="position: relative;" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_self">
                         <div id="mc_embed_signup_scroll">
 
-                            <%- include('../../partials/components/textInput', { label: "Your email address", name: "emailAddress", type: "email", error: emailError, value: emailValue }); %>
-                            <%- include('../../partials/components/textInput', { label: "Your organisation", name: "org", error: orgError, value: orgValue }); %>
-                            <%- include('../../partials/components/textInput', { label: "Your job title", name: "job", error: jobError, value: jobValue }); %>
+                            <div class="govuk-form-group <% if(emailError) { %>govuk-form-group--error<% } %>">
+                                <h2 class="govuk-label-wrapper">
+                                    <label class="govuk-label govuk-label--s" for="emailAddress">
+                                       Your email address
+                                    </label>
+                                </h2>
+                                <% if(emailError) { %>
+                                    <p id="email-error" class="govuk-error-message">
+                                        <%= emailError %>
+                                    </p>
+                                <% } %>
+                                <input class="govuk-input govuk-!-width-two-thirds <% if(emailError) { %>govuk-input--error<% } %>" id="emailAddress" name="emailAddress" type="email" autocomplete="email" <% if(emailValue) { %>value="<%= emailValue %>" <% } %> />
+                            </div>
+
+                            <div class="govuk-form-group <% if(orgError) { %>govuk-form-group--error<% } %>">
+                                <h2 class="govuk-label-wrapper">
+                                    <label class="govuk-label govuk-label--s" for="org">
+                                        Your organisation
+                                    </label>
+                                </h2>
+                                <% if(orgError) { %>
+                                    <p id="org-error" class="govuk-error-message">
+                                        <%= orgError %>
+                                    </p>
+                                <% } %>
+                                <input class="govuk-input govuk-!-width-two-thirds <% if(orgError) { %>govuk-input--error<% } %>" id="org" name="org" type="text" <% if(orgValue) { %>value="<%= orgValue %>" <% } %> />
+                            </div>
+
+                            <div class="govuk-form-group <% if(jobError) { %>govuk-form-group--error<% } %>">
+                                <h2 class="govuk-label-wrapper">
+                                    <label class="govuk-label govuk-label--s" for="job">
+                                        Your job title
+                                    </label>
+                                </h2>
+                                <% if(jobError) { %>
+                                    <p id="job-error" class="govuk-error-message">
+                                        <%= jobError %>
+                                    </p>
+                                <% } %>
+                                <input class="govuk-input govuk-!-width-two-thirds <% if(jobError) { %>govuk-input--error<% } %>" id="job" name="job" type="text" <% if(jobValue) { %>value="<%= jobValue %>" <% } %> />
+                            </div>
 
                             <div id="mce-responses" class="clear foot">
                                 <div class="response" id="mce-error-response" style="display:none"></div>

@@ -1,11 +1,11 @@
 <div class="search-result orp-search-result govuk-!-margin-bottom-2">
     <div class="search-result-top-panel vertical-align-right">
         <a href="/api/document/<%= item.documentId %>" role="button" draggable="false" download="<%= item.documentId %>.pdf">
-            <img src="/assets/images/download-blue.svg" width="20px" height="20px" aria-label="download" class="govuk-!-padding-2"/>
+            <img src="/assets/images/download-blue.svg" width="20" height="20" aria-label="download" class="govuk-!-padding-2" alt="download" />
         </a>
     </div>
     <div class="govuk-!-padding-3">
-        <a href="/document/view/<%= item.documentId %>"><h3><%= item.title %></h3></a>
+        <h3><a class="govuk-link" href="/document/view/<%= item.documentId %>"><%= item.title %></a></h3>
         <p class="govuk-!-font-size-16 govuk-!-font-weight-bold govuk-!-margin-bottom-2"><%= item.creator %></p>
         <p class="search-result-info govuk-!-font-size-16">
             <span><%= item.documentType %></span>
