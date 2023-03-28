@@ -52,6 +52,7 @@ describe('SearchController', () => {
         searchedValues: { title: 'Title', keyword: undefined },
         filters: FILTERS,
         results: expectedResult,
+        title: 'Search results',
       });
     });
 
@@ -66,6 +67,7 @@ describe('SearchController', () => {
         searchedValues: { title: undefined, keyword: 'Keyword' },
         filters: FILTERS,
         results: expectedResult,
+        title: 'Search results',
       });
     });
 
@@ -83,6 +85,7 @@ describe('SearchController', () => {
         searchedValues: { title: 'Title', keyword: 'Keyword' },
         filters: FILTERS,
         results: expectedResult,
+        title: 'Search results',
       });
     });
 
@@ -97,6 +100,7 @@ describe('SearchController', () => {
         searchedValues: { title: undefined, keyword: undefined },
         filters: FILTERS,
         results: null,
+        title: 'Search for regulatory material',
       });
     });
   });

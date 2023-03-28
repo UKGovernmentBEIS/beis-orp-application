@@ -1,5 +1,5 @@
 import { ConfigService } from '@nestjs/config';
-import { Config } from '../../src/server/config';
+import { ApplicationConfig } from '../../src/server/config/application-config';
 
 export const mockConfigService = {
   provide: ConfigService,
@@ -10,7 +10,7 @@ export const mockConfigService = {
 
 export const mockedSearchLambda = 'http://www.searchapi.com';
 
-export function getMockedConfig(key): Partial<Config> {
+export function getMockedConfig(key): Partial<ApplicationConfig> {
   const config = {
     domain: 'https://test.com/',
     server: {

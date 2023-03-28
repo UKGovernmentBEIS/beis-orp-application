@@ -28,11 +28,10 @@ export class ErrorFilter<T extends Error> implements ExceptionFilter {
 
     if (exception instanceof FileValidationException) {
       if (exception.template) {
+        request.session.errors = { 'file-upload': exception.errors };
         return response
           .status(HttpStatus.BAD_REQUEST)
-          .render(exception.template, {
-            error: exception.errors,
-          });
+          .redirect(request.originalUrl);
       }
     }
 

@@ -46,6 +46,7 @@ export class SearchController {
         topics: Object.keys(topics),
         topicsDisplayMap,
       },
+      title: results ? 'Search results' : 'Search for regulatory material',
     };
   }
 }

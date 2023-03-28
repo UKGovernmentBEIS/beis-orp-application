@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AwsConfig } from '../config';
+import { AwsConfig } from '../config/application-config';
 import AuthRegisterDto from './types/AuthRegister.dto';
 import { AuthException } from './types/AuthException';
 import ForgotPasswordResetDto from './types/ForgotPasswordResetDto';

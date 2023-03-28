@@ -26,7 +26,7 @@ export interface Secrets {
   uploadKey: string;
 }
 
-export interface Config {
+export interface ApplicationConfig {
   domain: string;
   server: ServerConfig;
   apis: ApisConfig;
@@ -34,7 +34,7 @@ export interface Config {
   secrets: Secrets;
 }
 
-export function config(): Config {
+export function config(): ApplicationConfig {
   return {
     domain: process.env.DOMAIN,
     server: {

@@ -10,6 +10,8 @@
 %>
 
 <div class="govuk-width-container">
+    <%- include('../../partials/components/errorSummary', { errors: locals.errors, hrefOverride: "subscribed" }); %>
+
     <%- include('../../partials/components/backButton' , {href: "/subscribe"}); %>
 
     <% if (locals.mailchimpError) { %>
