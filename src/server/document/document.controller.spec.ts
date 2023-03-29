@@ -61,6 +61,7 @@ describe('DocumentController', () => {
         },
         docType: 'Guidance',
         ingested: false,
+        title: 'Document details for Title',
       });
     });
 
