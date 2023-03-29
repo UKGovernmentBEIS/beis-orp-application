@@ -66,11 +66,9 @@
 }
 
 .header-title-container {
-  display: flex;
-
   #user-block {
-    margin-left: auto;
     display: flex;
+    justify-content: flex-end;
   }
 }
 
