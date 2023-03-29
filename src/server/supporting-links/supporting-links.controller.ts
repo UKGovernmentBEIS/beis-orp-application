@@ -1,13 +1,13 @@
 import { Controller, Get, Render } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-@Controller('sitemap')
-export class SitemapController {
+@Controller()
+export class SupportingLinksController {
   private url;
   constructor(private readonly config: ConfigService) {
     this.url = `https://${config.get<string>('domain')}`;
   }
-  @Get('')
+  @Get('/sitemap')
   @Render('pages/sitemap/index')
   async getSitemap() {
     return {
@@ -39,7 +39,16 @@ export class SitemapController {
           'Change your password': `${this.url}/auth/reset-password`,
           'Forgotten password': `${this.url}/auth/new-password`,
         },
+        Support: {
+          Cookies: `${this.url}/cookies`,
+        },
       },
     };
+  }
+
+  @Get('/cookies')
+  @Render('pages/sitemap/cookies')
+  async getCookies() {
+    return {};
   }
 }
