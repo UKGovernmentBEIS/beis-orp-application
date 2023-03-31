@@ -1,4 +1,5 @@
 import { IsNotEmpty } from 'class-validator';
+import { IsGovDomain } from '../../validators/isGovDomain';
 
 export default class IngestHtmlDto {
   @IsNotEmpty({
@@ -6,6 +7,8 @@ export default class IngestHtmlDto {
   })
   uploadType: 'url' | 'device';
 
-  @IsNotEmpty({ message: 'Provide a url with a .gov.uk domain' })
+  @IsGovDomain({
+    message: 'Enter a url with containing .gov.uk domain',
+  })
   url: string;
 }
