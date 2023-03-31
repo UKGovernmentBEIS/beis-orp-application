@@ -16,6 +16,8 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+In order for the application to work you will need to set the environment variables. The easiest way to do this is to drop a .env file onto the root of the application. Speak to the dev team for these values.
+
 
 ## Test
 
