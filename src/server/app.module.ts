@@ -15,6 +15,7 @@ import { RegulatorModule } from './regulator/regulator.module';
 import { DeveloperModule } from './developer/developer.module';
 import { UnauthorisedModule } from './unauthorised/unauthorised.module';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { SupportingLinksModule } from './supporting-links/supporting-links.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
       ttl: 60,
       limit: 30,
     }),
+    SupportingLinksModule,
   ],
   providers: [Logger],
   exports: [Logger],
