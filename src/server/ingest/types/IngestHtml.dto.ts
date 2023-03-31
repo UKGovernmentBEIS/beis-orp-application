@@ -8,7 +8,7 @@ export default class IngestHtmlDto {
   uploadType: 'url' | 'device';
 
   @IsGovDomain({
-    message: 'Enter a url with containing .gov.uk domain',
+    message: 'Enter a url containing .gov.uk domain',
   })
   url: string;
 }

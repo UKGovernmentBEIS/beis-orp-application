@@ -2,6 +2,7 @@
 
 <%
     var validationError = locals.errors ?? {}
+    var validationValue = locals.values ?? {}
     var selected = locals.values?.uploadType
     var noOptionSelectedError = validationError.uploadType
     var fileSelected = validationError["file-upload"]
@@ -39,7 +40,7 @@
                                     </label>
                                 </div>
                                 <div class="govuk-radios__conditional" id="conditional-upload-type">
-                                    <%- include('./partials/fromDeviceForm', {validationError: validationError["file-upload"]}); %>
+                                    <%- include('./partials/fromDeviceForm', {validationError: validationError["file-upload"], value: validationValue["file-upload"]}); %>
                                 </div>
                                 <div class="govuk-radios__item">
                                     <input class="govuk-radios__input" id="urlInput" name="uploadType" type="radio" value="urlInput" <% if (selected === 'urlInput') { %>checked<% } %> data-aria-controls="conditional-url">
@@ -48,7 +49,7 @@
                                     </label>
                                 </div>
                                 <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-url">
-                                    <%- include('./partials/fromUrlForm', {validationError: validationError["url"]}); %>
+                                    <%- include('./partials/fromUrlForm', {validationError: validationError["url"], value: validationValue["url"]}); %>
                                 </div>
                             </div>
                         </fieldset>

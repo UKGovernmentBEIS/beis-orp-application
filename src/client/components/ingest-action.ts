@@ -8,11 +8,15 @@ export default function init() {
     }
     $el.data('ingest-action-initialise', true);
     const selector = $el.find('input[name="uploadType"]');
-    selector.on('change', function () {
+    setAction();
+    selector.on('change', setAction);
+
+    function setAction() {
+      const selectedValue = $el.find("input[name='uploadType']:checked").val();
       const action =
-        $(this).val() === 'urlInput' ? '/ingest/ingest-html' : '/ingest/upload';
+        selectedValue === 'urlInput' ? '/ingest/ingest-html' : '/ingest/upload';
       const enctype =
-        $(this).val() === 'urlInput' ? null : 'multipart/form-data';
+        selectedValue === 'urlInput' ? null : 'multipart/form-data';
       $el.attr('action', action);
 
       if (enctype) {
@@ -20,6 +24,6 @@ export default function init() {
       } else {
         $el.removeAttr('enctype');
       }
-    });
+    }
   });
 }

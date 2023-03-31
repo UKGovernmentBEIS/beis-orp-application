@@ -12,6 +12,6 @@
             <span class="govuk-visually-hidden">Error:</span> <%= validationError %>
         </p>
     <% } %>
-    <input class="govuk-input <% if(validationError) { %> govuk-input--error<% } %>" id="url" name="url" type="text" aria-describedby="url-hint <% if(validationError) { %>url-error<% } %>">
+    <input class="govuk-input <% if(validationError) { %> govuk-input--error<% } %>" id="url" name="url" type="text" aria-describedby="url-hint <% if(validationError) { %>url-error<% } %>" <% if(value) { %>value="<%= value %>" <% } %>>
 </div>
 
