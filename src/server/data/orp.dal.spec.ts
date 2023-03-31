@@ -12,6 +12,8 @@ import { mockLogger } from '../../../test/mocks/logger.mock';
 import { searchMock } from '../../../test/mocks/handlers';
 import { OrpSearchBody } from './types/orpSearchRequests';
 import { SearchRequestDto } from '../search/types/SearchRequest.dto';
+import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/user.mock';
+import { FULL_TOPIC_PATH } from '../../../test/mocks/topics';
 
 describe('Orp data access layer', () => {
   let orpDal: OrpDal;
@@ -123,6 +125,22 @@ describe('Orp data access layer', () => {
         ...SEARCH_RES,
         regulatory_topic: '/topic',
       });
+    });
+  });
+
+  describe('ingestUrl', () => {
+    it('should send the search response', async () => {
+      const payload = {
+        document_type: 'GD',
+        status: 'draft',
+        topics: JSON.stringify(FULL_TOPIC_PATH),
+        uri: 'www.gov.uk',
+        user_id: DEFAULT_USER_WITH_REGULATOR.cognitoUsername,
+        regulator_id: DEFAULT_USER_WITH_REGULATOR.regulator.id,
+        uuid: 'UUID',
+      };
+
+      expect(await orpDal.ingestUrl(payload)).toEqual('UUID');
     });
   });
 });

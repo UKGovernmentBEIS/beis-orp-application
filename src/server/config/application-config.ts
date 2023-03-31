@@ -7,6 +7,7 @@ export interface ServerConfig {
 export interface ApisConfig {
   mailchimp: { apiKey: string; server: string; list: string };
   orpSearch: { url: string };
+  urlIngestion: { url: string };
 }
 
 export interface AwsConfig {
@@ -48,6 +49,9 @@ export function config(): ApplicationConfig {
       },
       orpSearch: {
         url: process.env.ORP_SEARCH_URL,
+      },
+      urlIngestion: {
+        url: process.env.HTML_INGESTION_URL,
       },
     },
     aws: {

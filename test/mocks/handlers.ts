@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 import { tnaStandardResponse } from './tnaSearchMock';
 import { orpStandardResponse } from './orpSearchMock';
-import { mockedSearchLambda } from './config.mock';
+import { mockedSearchLambda, mockedUrlLambda } from './config.mock';
 import { tnaUkSecondaryLegislationDocumentMock } from './tnaDocumentsMock';
 
 export const TNA_DOC_URL = 'https://tna.com/id/something';
@@ -26,5 +26,9 @@ export const handlers = [
   rest.post(mockedSearchLambda, (req, res, ctx) => {
     searchMock(req.body);
     return res(ctx.status(200), ctx.json(orpStandardResponse));
+  }),
+
+  rest.post(mockedUrlLambda, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json('DONE'));
   }),
 ];

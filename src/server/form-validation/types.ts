@@ -2,6 +2,7 @@ export type ValidationErrorsForView = Record<string, string>;
 export interface ViewModel<T> {
   model: T;
   errors?: ValidationErrorsForView;
+  returnPathOverride?: string;
 }
 
 export class FormValidationException<T = any> extends Error {

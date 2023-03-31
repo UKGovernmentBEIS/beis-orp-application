@@ -15,6 +15,7 @@ import {
   OrpSearchBody,
 } from './types/orpSearchRequests';
 import { SearchRequestDto } from '../search/types/SearchRequest.dto';
+import { UrlUpload } from './types/UrlUpload';
 
 function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
   return value !== null && value !== undefined;
@@ -23,13 +24,16 @@ function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
 @Injectable()
 export class OrpDal {
   private orpSearchUrl: string;
+  private urlIngestionUrl: string;
 
   constructor(
     private readonly httpService: HttpService,
     private config: ConfigService,
     private readonly logger: Logger,
   ) {
-    this.orpSearchUrl = config.get<ApisConfig>('apis').orpSearch.url;
+    const apiConfig = config.get<ApisConfig>('apis');
+    this.orpSearchUrl = apiConfig.orpSearch.url;
+    this.urlIngestionUrl = apiConfig.urlIngestion.url;
   }
 
   async postSearch(
@@ -90,5 +94,18 @@ export class OrpDal {
       throw new NotFoundException('Document not found');
 
     return data.documents[0];
+  }
+
+  async ingestUrl(payload: UrlUpload): Promise<string> {
+    try {
+      await firstValueFrom(
+        this.httpService.post<RawOrpResponse>(this.urlIngestionUrl, payload),
+      );
+
+      return payload.uuid;
+    } catch (e) {
+      this.logger.error('URL INGESTION ERROR');
+      throw e;
+    }
   }
 }

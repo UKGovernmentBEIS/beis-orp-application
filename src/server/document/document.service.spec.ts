@@ -24,6 +24,10 @@ import { TnaEuDoc } from '../data/types/tnaDocs';
 import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/user.mock';
 import { FULL_TOPIC_PATH } from '../../../test/mocks/topics';
 
+jest.mock('uuid', () => {
+  return { v4: jest.fn(() => 'UUID') };
+});
+
 describe('DocumentService', () => {
   let service: DocumentService;
   let orpDal: OrpDal;
@@ -281,6 +285,34 @@ describe('DocumentService', () => {
 
       expect(copySpy).toBeCalledWith('unconfirmed/key', 'key');
       expect(deleteSpy).toBeCalledWith('unconfirmed/key');
+      expect(result).toEqual('key');
+    });
+  });
+
+  describe('ingestUrl', () => {
+    it('should add ids to payload and call orpDal', async () => {
+      const ingestSpy = jest
+        .spyOn(orpDal, 'ingestUrl')
+        .mockResolvedValueOnce('key');
+
+      const payload = {
+        document_type: 'GD',
+        status: 'draft',
+        topics: JSON.stringify(FULL_TOPIC_PATH),
+        uri: 'www.gov.uk',
+      };
+
+      const result = await service.ingestUrl(
+        payload,
+        DEFAULT_USER_WITH_REGULATOR,
+      );
+
+      expect(ingestSpy).toBeCalledWith({
+        ...payload,
+        user_id: DEFAULT_USER_WITH_REGULATOR.cognitoUsername,
+        regulator_id: DEFAULT_USER_WITH_REGULATOR.regulator.id,
+        uuid: 'UUID',
+      });
       expect(result).toEqual('key');
     });
   });

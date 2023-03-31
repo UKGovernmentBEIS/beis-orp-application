@@ -1,35 +1,82 @@
 <%- include('../../partials/header'); %>
 
 <%
-    var validationError = locals.errors ?? null
+    var validationError = locals.errors ?? {}
+    var selected = locals.values?.uploadType
+    var noOptionSelectedError = validationError.uploadType
+    var fileSelected = validationError["file-upload"]
+    var hrefOverride = selected ? undefined : 'device'
 %>
 
 <div class="govuk-width-container">
     <main class="govuk-main-wrapper " id="main-content" role="main">
-        <%- include('../../partials/components/errorSummary', { errors: locals.errors }); %>
+        <%- include('../../partials/components/errorSummary', { errors: locals.errors, hrefOverride }); %>
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <span class="govuk-caption-l">Step 1 of 5</span>
-                <h1 class="govuk-heading-l">Choose a document</h1>
-                <p>You can use this page to upload a document to the Open Regulation Platform. Documents that are uploaded will become visible to other users of the service.</p>
-
-                <form method="post" enctype="multipart/form-data">
-                    <div class="govuk-form-group <% if(validationError) { %>govuk-form-group--error<% } %>">
-                        <label class="govuk-label" for="file-upload">
-                            Upload a file
-                        </label>
-                        <% if(validationError) { %>
-                            <p id="file-upload-error" class="govuk-error-message">
-                                <span class="govuk-visually-hidden">Error:</span> <%= validationError["file-upload"] %>
-                            </p>
-                        <% } %>
-                        <input class="govuk-file-upload" id="file-upload" name="file" type="file">
+                <form method="post" enctype="multipart/form-data" data-module="ingest-action">
+                    <div class="govuk-form-group <% if(noOptionSelectedError) { %>govuk-form-group--error<% } %>">
+                        <fieldset class="govuk-fieldset" aria-describedby="contact-hint">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                                <span class="govuk-caption-l">Step 1 of 5</span>
+                                <h1 class="govuk-fieldset__heading">
+                                    Choose a document
+                                </h1>
+                            </legend>
+                            <div id="contact-hint" class="govuk-hint" >
+                                You have two options for uploading:
+                            </div>
+                            <% if(noOptionSelectedError) { %>
+                                <p id="upload-type-error" class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> <%= noOptionSelectedError %>
+                                </p>
+                            <% } %>
+                            <div class="govuk-radios" data-module="govuk-radios">
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" id="device" name="uploadType" type="radio" value="device" <% if (fileSelected) { %>checked<% } %> data-aria-controls="conditional-upload-type">
+                                    <label class="govuk-label govuk-radios__label" for="device">
+                                        Upload from my device
+                                    </label>
+                                </div>
+                                <div class="govuk-radios__conditional" id="conditional-upload-type">
+                                    <%- include('./partials/fromDeviceForm', {validationError: validationError["file-upload"]}); %>
+                                </div>
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" id="urlInput" name="uploadType" type="radio" value="urlInput" <% if (selected === 'urlInput') { %>checked<% } %> data-aria-controls="conditional-url">
+                                    <label class="govuk-label govuk-radios__label" for="urlInput">
+                                        Upload by entering the URL of the published document
+                                    </label>
+                                </div>
+                                <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-url">
+                                    <%- include('./partials/fromUrlForm', {validationError: validationError["url"]}); %>
+                                </div>
+                            </div>
+                        </fieldset>
                     </div>
+
                     <button type="submit" class="govuk-button" data-module="govuk-button">
                         Continue
                     </button>
                 </form>
+                </fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                 <details class="govuk-details" data-module="govuk-details">
