@@ -14,6 +14,8 @@ import { mapOrpDocument } from '../search/utils/orpSearchMapper';
 import { OrpSearchItem } from '../search/types/SearchResponse.dto';
 import { displayableMimeTypes } from './utils/mimeTypes';
 import { topicsLeafMap } from './utils/topics-leaf-map';
+import { UserCollectedUrlUploadData } from '../data/types/UrlUpload';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class DocumentService {
@@ -109,6 +111,19 @@ export class DocumentService {
     await this.awsDal.copyObject(key, newKey);
     await this.awsDal.deleteObject(key);
     return newKey;
+  }
+
+  async ingestUrl(
+    metaData: UserCollectedUrlUploadData,
+    user: User,
+  ): Promise<string> {
+    const uuid = uuidv4();
+    return this.orpDal.ingestUrl({
+      ...metaData,
+      user_id: user.cognitoUsername,
+      regulator_id: user.regulator.id,
+      uuid,
+    });
   }
 
   async deleteDocument(key: string) {

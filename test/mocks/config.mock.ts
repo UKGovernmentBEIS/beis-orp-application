@@ -9,6 +9,7 @@ export const mockConfigService = {
 };
 
 export const mockedSearchLambda = 'http://www.searchapi.com';
+export const mockedUrlLambda = 'http://www.ingesturl.com';
 
 export function getMockedConfig(key): Partial<ApplicationConfig> {
   const config = {
@@ -24,6 +25,9 @@ export function getMockedConfig(key): Partial<ApplicationConfig> {
       },
       orpSearch: {
         url: mockedSearchLambda,
+      },
+      urlIngestion: {
+        url: mockedUrlLambda,
       },
     },
     aws: {

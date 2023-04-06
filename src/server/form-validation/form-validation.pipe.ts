@@ -10,6 +10,7 @@ import { FormValidationException, ValidationErrorsForView } from './types';
 
 @Injectable()
 export class FormValidationPipe implements PipeTransform {
+  constructor(private readonly returnPathOverride: string) {}
   async transform(model: any, { metatype }: ArgumentMetadata) {
     if (
       !metatype ||
@@ -30,16 +31,24 @@ export class FormValidationPipe implements PipeTransform {
       {},
     );
 
-    throw new FormValidationException({ model, errors });
+    throw new FormValidationException({
+      model,
+      errors,
+      returnPathOverride: this.returnPathOverride,
+    });
   }
 }
 
-export function ValidateForm() {
+export function ValidateForm(returnPathOverride?: string) {
   return function (
     target: any,
     propertyKey: string | symbol,
     descriptor: any,
   ): void {
-    UsePipes(new FormValidationPipe())(target, propertyKey, descriptor);
+    UsePipes(new FormValidationPipe(returnPathOverride))(
+      target,
+      propertyKey,
+      descriptor,
+    );
   };
 }

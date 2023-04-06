@@ -74,6 +74,9 @@ describe('Ingest upload', () => {
         .request()
         .post('/ingest/upload')
         .attach('file', file, 'testfile.pdf')
+        .field({
+          uploadType: 'device',
+        })
         .set('Cookie', regulatorSession)
         .expect(302)
         .expect(

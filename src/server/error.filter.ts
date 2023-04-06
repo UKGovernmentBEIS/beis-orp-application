@@ -41,7 +41,9 @@ export class ErrorFilter<T extends Error> implements ExceptionFilter {
 
       return response
         .status(HttpStatus.BAD_REQUEST)
-        .redirect(request.originalUrl);
+        .redirect(
+          exception.viewModel.returnPathOverride ?? request.originalUrl,
+        );
     }
 
     if (exception instanceof ForbiddenException) {
