@@ -73,9 +73,8 @@ export class ErrorFilter<T extends Error> implements ExceptionFilter {
           exception.stack,
         );
         return response.status(status).render('pages/error', {
-          message: exception.message,
-          status,
-          stack: exception.stack,
+          title:
+            'Sorry, there is a problem with the service – The Open Regulation Platform – GOV.UK',
         });
     }
   }
