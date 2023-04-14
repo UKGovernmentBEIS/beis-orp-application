@@ -25,6 +25,12 @@ export interface AwsConfig {
 
 export interface Secrets {
   uploadKey: string;
+  session: string;
+}
+
+export interface Redis {
+  address: string;
+  port: number;
 }
 
 export interface ApplicationConfig {
@@ -33,6 +39,7 @@ export interface ApplicationConfig {
   apis: ApisConfig;
   aws: AwsConfig;
   secrets: Secrets;
+  redis: Redis;
 }
 
 export function config(): ApplicationConfig {
@@ -68,6 +75,11 @@ export function config(): ApplicationConfig {
     },
     secrets: {
       uploadKey: process.env.API_UPLOAD_KEY,
+      session: process.env.SESSION_SECRET,
+    },
+    redis: {
+      address: process.env.REDIS_ADDRESS,
+      port: Number(process.env.REDIS_PORT),
     },
   };
 }

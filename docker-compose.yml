@@ -1,17 +1,14 @@
 version: '3.1'
 services:
-  orp-db:
-    image: postgres
+  redis:
+    image: 'bitnami/redis:5.0'
     networks:
       - orp
-    container_name: orp-db
-    restart: always
-    ports:
-      - "5432:5432"
+    container_name: redis
     environment:
-      - POSTGRES_PASSWORD=orp
-      - POSTGRES_USER=orp
-      - POSTGRES_DB=orp
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - '6379:6379'
 
 networks:
   orp:

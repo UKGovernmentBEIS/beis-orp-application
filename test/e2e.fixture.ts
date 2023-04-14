@@ -6,7 +6,6 @@ import * as request from 'supertest';
 import * as path from 'path';
 import { getMockedConfig } from './mocks/config.mock';
 import { ConfigService } from '@nestjs/config';
-import { useSession } from '../src/server/bootstrap/session';
 import { usePassport } from '../src/server/bootstrap/passport';
 import { CognitoAuthError } from './mocks/cognitoAuthError';
 import {
@@ -17,6 +16,7 @@ import JwtAuthenticationGuard from '../src/server/auth/jwt.guard';
 import JwtRegulatorGuard from '../src/server/auth/jwt-regulator.guard';
 import { NextFunction } from 'express';
 import { ApiUser } from '../src/server/auth/types/User';
+import * as session from 'express-session';
 
 export const CORRECT_EMAIL = 'reg@ofcom.org.uk';
 export const CORRECT_NON_REG_EMAIL = 'noreg@email.com';
@@ -100,7 +100,13 @@ export class E2eFixture {
 
     this.app = moduleFixture.createNestApplication<NestExpressApplication>();
     useGovUi(this.app);
-    useSession(this.app);
+    this.app.use(
+      session({
+        secret: 'my-secret',
+        resave: false,
+        saveUninitialized: false,
+      }),
+    );
     usePassport(this.app);
 
     if (user === 'API_REG') {
