@@ -39,27 +39,40 @@
 
                 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-                <p>This file may not be suitable for users of assistive technology. </p>
-                <details class="govuk-details" data-module="govuk-details">
-                    <summary class="govuk-details__summary">
-                    <span class="govuk-details__summary-text">
-                      Request an accessible format
-                    </span>
-                    </summary>
-                    <div class="govuk-details__text">
-                        If you use assistive technology (such as a screen reader) and need a version of this document in a more accessible format, please email <a href="mailto:openregulationplatform@beis.gov.uk">openregulationplatform@beis.gov.uk</a>. Please tell us what format you need. It will help us if you say what assistive technology you use.
-                    </div>
-                </details>
+                <% if(documentFormat === 'HTML') { %>
+                    <a class="govuk-link govuk-!-font-size-19" href="<%= document.uri %>" rel="noopener noreferrer" target="_blank">View full document on GOV.UK</a>
+                <% } else { %>
+                    <p>This file may not be suitable for users of assistive technology. </p>
+                    <details class="govuk-details" data-module="govuk-details">
+                        <summary class="govuk-details__summary">
+                        <span class="govuk-details__summary-text">
+                          Request an accessible format
+                        </span>
+                        </summary>
+                        <div class="govuk-details__text">
+                            If you use assistive technology (such as a screen reader) and need a version of this document in a more accessible format, please email <a href="mailto:openregulationplatform@beis.gov.uk">openregulationplatform@beis.gov.uk</a>. Please tell us what format you need. It will help us if you say what assistive technology you use.
+                        </div>
+                    </details>
+                <% } %>
 
                 <%- include('../../partials/components/documentView', {url, documentFormat, title, small:false}); %>
             </div>
             <div class="govuk-grid-column-one-third">
-                <a href="/document/download/<%= uid %>" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button" download="<%= uid %>.pdf">
-                    <div class="vertical-align">
-                        <img src="/assets/images/download.svg" alt="" class="govuk-!-padding-right-1"/>
-                        <span>Download</span>
-                    </div>
-                </a>
+                <% if(documentFormat === 'HTML') { %>
+                    <a href="<%= document.uri %>" target="_blank" rel="noopener noreferrer" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                        <div class="vertical-align">
+                            <img src="/assets/images/external-open.svg" aria-hidden="true" class="govuk-!-padding-right-1" alt=""/>
+                            <span>View on GOV.UK</span>
+                        </div>
+                    </a>
+                <% } else { %>
+                    <a href="/document/download/<%= uid %>" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button" download="<%= uid %>.pdf">
+                        <div class="vertical-align">
+                            <img src="/assets/images/download.svg" alt="" class="govuk-!-padding-right-1"/>
+                            <span>Download</span>
+                        </div>
+                    </a>
+                <% } %>
                 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
                 <div>
                     <h2 class="govuk-heading-s">Details</h2>
@@ -87,7 +100,7 @@
                     <% if(legislativeOrigins.length) { %>
                         <% legislativeOrigins.forEach(function(lo) { %>
                         <div class="govuk-!-margin-bottom-4">
-                            <a href="<%= lo.url %>" target="_blank" rel="noopener noreferrer" class="govuk-link govuk-link--no-visited-state" ><%= lo.title %></a>
+                            <a href="<%= lo.href %>" target="_blank" rel="noopener noreferrer" class="govuk-link govuk-link--no-visited-state" ><%= lo.title %></a>
                         </div>
 
                         <% }); %>

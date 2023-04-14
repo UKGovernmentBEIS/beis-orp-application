@@ -18,6 +18,7 @@ export const linkedDocsRawResponse: RawLinkedDocumentsResponse = {
           uri: '39647bbd437d4d85ac64b3f2e0417abb.pdf',
           version: 1,
           document_type: 'GD',
+          document_format: 'PDF',
         },
         {
           summary: 'Summary 2',
@@ -29,6 +30,7 @@ export const linkedDocsRawResponse: RawLinkedDocumentsResponse = {
           uri: '616971a3eecf47d18d323151ccc49b67.pdf',
           version: 1,
           document_type: 'GD',
+          document_format: 'PDF',
         },
       ],
       legislation_href: 'http://www.legislation.gov.uk/id/uksi/2012/632',

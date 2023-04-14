@@ -7,9 +7,12 @@ import { OrpSearchItem, OrpSearchResponse } from '../types/SearchResponse.dto';
 import { LinkedDocumentsResponseDto } from '../types/LinkedDocumentsResponse.dto';
 import { documentTypes } from '../types/documentTypes';
 import regulators from '../../regulator/config/regulators';
+import { getTopicPathFromLeaf } from '../../ingest/utils/topics';
 
 const MAX_ITEMS = 10;
-export function mapOrpDocument(document: RawOrpResponseEntry): OrpSearchItem {
+export function mapOrpDocument(
+  document: Partial<RawOrpResponseEntry>,
+): OrpSearchItem {
   return {
     title: document.title,
     description: document.summary,
@@ -20,11 +23,15 @@ export function mapOrpDocument(document: RawOrpResponseEntry): OrpSearchItem {
       published: document.date_published,
     },
     legislativeOrigins: document.legislative_origins,
-    regulatoryTopics: document.regulatory_topics,
+    regulatoryTopics: document.regulatory_topic
+      ? getTopicPathFromLeaf(document.regulatory_topic)
+      : undefined,
     version: document.version,
     documentType: documentTypes[document.document_type],
     keyword: document.keyword,
     status: document.status,
+    uri: document.uri,
+    documentFormat: document.document_format,
   };
 }
 
@@ -45,7 +52,11 @@ export function mapLinkedDocuments(
   return {
     documents: response.documents.map((legislation) => ({
       legislationHref: legislation.legislation_href,
-      relatedDocuments: legislation.related_docs.map(mapOrpDocument),
+      relatedDocuments: legislation.related_docs.map((relatedDoc) => ({
+        ...mapOrpDocument(relatedDoc),
+        uri: undefined,
+        documentFormat: undefined,
+      })),
     })),
     totalSearchResults: response.total_search_results,
   };

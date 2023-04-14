@@ -31,10 +31,12 @@ export class OrpSearchItem {
   documentType?: string;
   keyword: string[];
   status?: 'published' | 'draft';
+  uri: string;
+  documentFormat: 'PDF' | 'HTML' | 'DOCX';
 }
 
 class LegislativeOrigin {
-  url: string;
+  href: string;
   title: string;
   type: string;
   division: string;

@@ -10,6 +10,7 @@ import {
   OrpSearchItem,
   SearchResponseDto,
 } from '../../src/server/search/types/SearchResponse.dto';
+import { FULL_TOPIC_OUTPUT, FULL_TOPIC_PATH } from './topics';
 
 export const getRawOrpDocument = (
   overrides: Partial<RawOrpResponseEntry> = {},
@@ -23,18 +24,19 @@ export const getRawOrpDocument = (
     date_published: '2018-08-06T00:00:00Z',
     legislative_origins: [
       {
-        url: 'www.lo.com',
+        href: 'www.lo.com',
         title: 'Lo Title',
         type: 'Lo Type',
         division: 'Lo division',
       },
     ],
-    regulatory_topics: ['topic1', 'topic2'],
+    regulatory_topic: FULL_TOPIC_PATH.at(-1),
     version: 1,
     document_type: 'GD',
     uri: 'doc.pdf',
     keyword: ['keyword1', 'keyword2'],
     status: 'published',
+    document_format: 'PDF',
     ...overrides,
   };
 };
@@ -53,23 +55,27 @@ export const getMappedOrpDocument = (
     },
     legislativeOrigins: [
       {
-        url: 'www.lo.com',
+        href: 'www.lo.com',
         title: 'Lo Title',
         type: 'Lo Type',
         division: 'Lo division',
       },
     ],
-    regulatoryTopics: ['topic1', 'topic2'],
+    regulatoryTopics: FULL_TOPIC_OUTPUT,
     version: 1,
     documentType: 'Guidance',
     keyword: ['keyword1', 'keyword2'],
     status: 'published',
+    uri: 'doc.pdf',
+    documentFormat: 'PDF',
     ...overrides,
   };
 };
 
 export const getMappedOrpDocumentForApi = (
-  overrides: Partial<ApiOrpSearchItem> = {},
+  overrides: Partial<
+    ApiOrpSearchItem & { document_format: undefined; uri: undefined }
+  > = {},
 ): ApiOrpSearchItem => {
   return {
     title: 'Title',
@@ -82,13 +88,13 @@ export const getMappedOrpDocumentForApi = (
     },
     legislative_origins: [
       {
-        url: 'www.lo.com',
+        href: 'www.lo.com',
         title: 'Lo Title',
         type: 'Lo Type',
         division: 'Lo division',
       },
     ],
-    regulatory_topics: ['topic1', 'topic2'],
+    regulatory_topics: FULL_TOPIC_OUTPUT,
     version: 1,
     document_type: 'Guidance',
     keyword: ['keyword1', 'keyword2'],

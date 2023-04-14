@@ -8,17 +8,18 @@ export interface RawOrpResponseEntry {
   date_uploaded: string;
   date_published?: string;
   legislative_origins: {
-    url: string;
+    href: string;
     title: string;
     type: string;
     division: string;
   }[];
-  regulatory_topics?: string[];
+  regulatory_topic?: string;
   version: number;
   document_type?: string;
   uri: string;
   keyword: string[];
   status: OrpDocumentStatus;
+  document_format: 'PDF' | 'HTML' | 'DOCX';
 }
 
 export interface RawOrpResponse {
@@ -36,4 +37,11 @@ export interface RawLinkedDocumentsResponse {
   total_search_results: number;
 }
 
-type RelatedDoc = Omit<RawOrpResponseEntry, 'legislative_origins' | 'status'>;
+export type RelatedDoc = Omit<
+  RawOrpResponseEntry,
+  'legislative_origins' | 'status'
+>;
+
+export const isRelatedDoc = (
+  doc: RelatedDoc | RawOrpResponseEntry,
+): doc is RelatedDoc => !('status' in doc || 'legislative_origins' in doc);
