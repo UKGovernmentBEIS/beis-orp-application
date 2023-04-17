@@ -1,6 +1,6 @@
 <% var totalShowing = Math.min(returnedResults, 10) %>
 
-<div class="govuk-!-padding-4">
+<div class="govuk-!-padding-4" role="alert">
     <p class="govuk-hint govuk-!-font-size-16 govuk-!-margin-bottom-0">
         Showing <span class="govuk-!-font-weight-bold">1<%if(totalShowing !== 1) { %>-<%=totalShowing%><% } %></span>
         <% if (total !== null) { %>
