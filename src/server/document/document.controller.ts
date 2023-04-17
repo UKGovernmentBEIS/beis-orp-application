@@ -7,6 +7,8 @@ import {
   StreamableFile,
   UseFilters,
   UseInterceptors,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { DocumentService } from './document.service';
 import { documentTypes } from '../search/types/documentTypes';
@@ -18,6 +20,7 @@ import regulators from '../regulator/config/regulators';
 import { ErrorFilter } from '../error.filter';
 import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 import { LinkedDocuments } from '../search/types/LinkedDocumentsResponse.dto';
+import { LinkedDocumentQueryDto } from './types/LinkedDocumentQuery.dto';
 
 @Controller('document')
 export class DocumentController {
@@ -72,8 +75,9 @@ export class DocumentController {
   @UseInterceptors(ViewDataInterceptor)
   @Get('/linked-documents')
   @Render('pages/document/linkedDocuments')
+  @UsePipes(ValidationPipe)
   async getLinkedDocuments(
-    @Query() { id, published }: { id: string; published?: string },
+    @Query() { id, published }: LinkedDocumentQueryDto,
   ): Promise<{
     documentData: TnaDocMeta;
     linkedDocuments: LinkedDocuments['relatedDocuments'];

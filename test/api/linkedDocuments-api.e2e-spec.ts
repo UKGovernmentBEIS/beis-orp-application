@@ -6,6 +6,7 @@ import {
   expectedApiOutputForLinkedDocs,
   linkedDocsRawResponse,
 } from '../mocks/linkedDocumentsMock';
+import { TNA_DOC_URL } from '../mocks/handlers';
 
 describe('api/search (GET)', () => {
   const fixture = new E2eFixture();
@@ -31,11 +32,19 @@ describe('api/search (GET)', () => {
         .expect(400);
     });
 
-    it('is successful if legislation_href is provided as string', async () => {
+    it('returns bad request if legislation_href is not from legislation.gov.uk', async () => {
       return fixture
         .request()
         .post('/api/linked-documents')
         .send({ legislation_href: 'href' })
+        .expect(400);
+    });
+
+    it('is successful if legislation_href is provided as string', async () => {
+      return fixture
+        .request()
+        .post('/api/linked-documents')
+        .send({ legislation_href: TNA_DOC_URL })
         .expect(200);
     });
 
@@ -43,7 +52,7 @@ describe('api/search (GET)', () => {
       return fixture
         .request()
         .post('/api/linked-documents')
-        .send({ legislation_href: ['href', 'href2'] })
+        .send({ legislation_href: [TNA_DOC_URL, `${TNA_DOC_URL}-else`] })
         .expect(200);
     });
   });
@@ -53,7 +62,7 @@ describe('api/search (GET)', () => {
       return fixture
         .request()
         .post('/api/linked-documents')
-        .send({ legislation_href: ['href', 'href2'] })
+        .send({ legislation_href: [TNA_DOC_URL] })
         .expect(200)
         .expect(expectedApiOutputForLinkedDocs);
     });
@@ -68,7 +77,7 @@ describe('api/search (GET)', () => {
       return fixture
         .request()
         .post('/api/linked-documents')
-        .send({ legislation_href: ['href', 'href2'] })
+        .send({ legislation_href: [TNA_DOC_URL] })
         .expect(500)
         .expect('{"statusCode":500,"message":"Internal server error"}');
     });
