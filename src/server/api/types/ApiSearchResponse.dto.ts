@@ -34,7 +34,7 @@ export class ApiOrpSearchItem {
 }
 
 class LegislativeOrigin {
-  url: string;
+  href: string;
   title: string;
   type: string;
   division: string;

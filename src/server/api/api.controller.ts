@@ -40,7 +40,7 @@ import { ApiAuthService } from '../auth/api-auth.service';
 import ApiTokenRequestDto from './types/ApiTokenRequest.dto';
 import ApiRefreshTokenRequestDto from './types/ApiRefreshTokenRequest.dto';
 import toSearchRequest from './utils/toSearchRequest';
-import toApiSearchResult from './utils/toApiSearchResult';
+import toApiSearchResult, { toApiOrpDocument } from './utils/toApiSearchResult';
 import {
   ApiOrpSearchItem,
   ApiSearchResponseDto,
@@ -135,7 +135,7 @@ export class ApiController {
     @Param() { id }: DocumentRequestDto,
   ): Promise<ApiOrpSearchItem> {
     const document = await this.documentService.getDocumentById(id);
-    return snakecaseKeys(document);
+    return toApiOrpDocument(document);
   }
 
   @Get('document-download/:id')

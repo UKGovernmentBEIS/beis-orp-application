@@ -17,6 +17,7 @@ import { Regulator } from '../regulator/types/Regulator';
 import regulators from '../regulator/config/regulators';
 import { ErrorFilter } from '../error.filter';
 import { ViewDataInterceptor } from '../../view-data-interceptor.service';
+import { LinkedDocuments } from '../search/types/LinkedDocumentsResponse.dto';
 
 @Controller('document')
 export class DocumentController {
@@ -40,8 +41,11 @@ export class DocumentController {
     ingested: boolean;
     title: string;
   }> {
-    const { document, documentFormat, url } =
-      await this.documentService.getDocumentWithPresignedUrl(id);
+    const document = await this.documentService.getDocumentById(id);
+    const { url, documentFormat } =
+      document.documentFormat !== 'HTML'
+        ? await this.documentService.getDocumentUrl(document.uri)
+        : { url: null, documentFormat: 'HTML' };
     const regulator = regulators.find((reg) => reg.name === document.creator);
     const docType = documentTypes[document.documentType] ?? '';
 
@@ -72,7 +76,7 @@ export class DocumentController {
     @Query() { id, published }: { id: string; published?: string },
   ): Promise<{
     documentData: TnaDocMeta;
-    linkedDocuments: OrpSearchItem[];
+    linkedDocuments: LinkedDocuments['relatedDocuments'];
     href: string;
     publishedDate: string;
   }> {

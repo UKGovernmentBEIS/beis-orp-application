@@ -5,7 +5,7 @@ export class LinkedDocumentsResponseDto {
   documents: LinkedDocuments[];
 }
 
-class LinkedDocuments {
-  relatedDocuments: OrpSearchItem[];
+export class LinkedDocuments {
+  relatedDocuments: Omit<OrpSearchItem, 'uri' | 'documentFormat'>[];
   legislationHref: string;
 }

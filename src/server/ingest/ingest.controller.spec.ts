@@ -258,7 +258,6 @@ describe('IngestController', () => {
           const req = mocks.createRequest({
             session: {},
           });
-          const res = { render: jest.fn() };
 
           const getUrlMock = jest
             .spyOn(documentService, 'getDocumentUrl')

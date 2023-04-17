@@ -74,21 +74,6 @@ export class DocumentService {
     return mapOrpDocument(document);
   }
 
-  async getDocumentWithPresignedUrl(id: string): Promise<{
-    document: OrpSearchItem;
-    url: string;
-    documentFormat: string;
-  }> {
-    const document = await this.orpDal.getById(id);
-    const { url, documentFormat } = await this.getDocumentUrl(document.uri);
-
-    return {
-      document: mapOrpDocument(document),
-      url,
-      documentFormat,
-    };
-  }
-
   async getDocumentUrl(
     key: string,
   ): Promise<{ documentFormat: string; url: string }> {

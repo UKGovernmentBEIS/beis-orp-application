@@ -159,37 +159,6 @@ describe('DocumentService', () => {
     });
   });
 
-  describe('getDocumentWithPresignedUrl', () => {
-    it('should return the document search data and a presigned url', async () => {
-      jest
-        .spyOn(orpDal, 'getById')
-        .mockResolvedValue(getRawOrpDocument({ uri: 'thefile.pdf' }));
-
-      jest.spyOn(awsDal, 'getObjectMeta').mockResolvedValueOnce({
-        document_format: 'application/pdf',
-        uuid: '1',
-        uploaded_date: '2022-01-24T12:54:49Z',
-        file_name: 'fn',
-      });
-
-      const getUrlSpy = jest
-        .spyOn(awsDal, 'getObjectUrl')
-        .mockResolvedValueOnce('http://document');
-
-      const result = await service.getDocumentWithPresignedUrl('id');
-
-      expect(getUrlSpy).toBeCalledWith('thefile.pdf');
-
-      expect(result).toMatchObject({
-        url: 'http://document',
-        documentFormat: 'application/pdf',
-        document: {
-          title: 'Title',
-        },
-      });
-    });
-  });
-
   describe('getDocumentUrl', () => {
     test.each`
       format     | mime
