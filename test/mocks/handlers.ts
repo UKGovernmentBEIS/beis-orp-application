@@ -4,7 +4,7 @@ import { orpStandardResponse } from './orpSearchMock';
 import { mockedSearchLambda, mockedUrlLambda } from './config.mock';
 import { tnaUkSecondaryLegislationDocumentMock } from './tnaDocumentsMock';
 
-export const TNA_DOC_URL = 'https://tna.com/id/something';
+export const TNA_DOC_URL = 'http://www.legislation.gov.uk/id/something';
 
 export const searchMock = jest.fn();
 export const handlers = [

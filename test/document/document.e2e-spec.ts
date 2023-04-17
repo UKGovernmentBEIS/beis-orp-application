@@ -150,5 +150,12 @@ describe('DocumentController (e2e)', () => {
           );
         });
     });
+
+    it('should error if non legislation.gov.uk id is passed in', () => {
+      return fixture
+        .request()
+        .get(`/document/linked-documents?id=http://www.malicious-site.com`)
+        .expect(400);
+    });
   });
 });
