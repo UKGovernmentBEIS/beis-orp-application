@@ -7,6 +7,10 @@ $ npm install
 ## Running the app
 
 ```bash
+# the app stores sessions in redis docker-compose fires up a local version.
+# .env values for this: REDIS_ADDRESS=localhost REDIS_PORT=6379 SESSION_SECRET=my-secret
+$ docker-compose up -d
+
 # development
 $ npm run start
 

@@ -42,6 +42,7 @@ export function getMockedConfig(key): Partial<ApplicationConfig> {
     },
     secrets: {
       uploadKey: 'upload_key',
+      session: 'my_secret',
     },
   };
 
