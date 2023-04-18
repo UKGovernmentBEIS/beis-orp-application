@@ -1,12 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RegulatorService } from './regulator.service';
+import { mockConfigService } from '../../../test/mocks/config.mock';
 
 describe('RegulatorService', () => {
   let service: RegulatorService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [RegulatorService],
+      providers: [RegulatorService, mockConfigService],
     }).compile();
 
     service = module.get<RegulatorService>(RegulatorService);
@@ -26,15 +27,13 @@ describe('RegulatorService', () => {
         domain: 'ofcom.org.uk',
       });
     });
-  });
 
-  describe('getRegulatorById', () => {
-    it('should return value from config', async () => {
-      const result = await service.getRegulatorById('ofcom');
+    it('should return value from env var', async () => {
+      const result = await service.getRegulatorByEmail('email@public.io');
       expect(result).toEqual({
-        id: 'ofcom',
-        name: 'Office of Communications',
-        domain: 'ofcom.org.uk',
+        id: 'public',
+        name: 'Public',
+        domain: 'public.io',
       });
     });
   });
