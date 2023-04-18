@@ -22,7 +22,7 @@ export function useSession(app: NestExpressApplication) {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        secure: config.get('isProduction'),
+        secure: 'auto',
       },
     }),
   );
