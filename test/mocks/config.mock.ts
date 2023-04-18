@@ -44,6 +44,9 @@ export function getMockedConfig(key): Partial<ApplicationConfig> {
       uploadKey: 'upload_key',
       session: 'my_secret',
     },
+    environmentRegulators: [
+      { name: 'Public', id: 'public', domain: 'public.io' },
+    ],
   };
 
   return config[key];
