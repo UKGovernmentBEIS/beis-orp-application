@@ -5,6 +5,7 @@
         uid = locals.document.documentId ?? ""
         summary = locals.document.description ?? ""
         legislativeOrigins = locals.document.legislativeOrigins ?? []
+        topics = locals.document.regulatoryTopics ?? []
         documentFormat = locals.documentFormat ?? ""
         ingested = locals.ingested ?? false
     %>
@@ -85,6 +86,17 @@
                         <dd><% if(locals.document.status === 'draft') { %> <strong class="govuk-tag">Draft</strong> <% } else { %> <strong class="govuk-tag">Active</strong> <% } %></dd>
                     </dl>
                 </div>
+                <% if(topics.length) { %>
+                    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+                    <div>
+                        <h2 class="govuk-heading-s">Topics</h2>
+                        <ul class="govuk-list govuk-!-padding-top-2 govuk-!-font-size-16">
+                            <% topics.forEach(function(topic) { %>
+                                <li><%= topic %></li>
+                            <% }) %>
+                        </ul>
+                    </div>
+                <% } %>
                 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
                 <div class="search-result-keywords">
                     <h2 class="govuk-heading-s">Keywords</h2>
@@ -105,7 +117,7 @@
 
                         <% }); %>
                     <% } else { %>
-                        <p>There are no linked legislative documents</p>
+                        <p class="govuk-!-font-size-16">There are no linked legislative documents</p>
                     <% } %>
                 </div>
             </div>
