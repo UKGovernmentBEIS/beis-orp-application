@@ -21,9 +21,6 @@ export function useSession(app: NestExpressApplication) {
       secret,
       resave: false,
       saveUninitialized: false,
-      cookie: {
-        secure: true,
-      },
     }),
   );
 }
