@@ -14,13 +14,19 @@ export function useSession(app: NestExpressApplication) {
   redisClient.connect().catch(console.error);
 
   const redisStore = new RedisStore({ client: redisClient });
+  const sess = {
+    store: redisStore,
+    secret,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false },
+  };
 
-  app.use(
-    session({
-      store: redisStore,
-      secret,
-      resave: false,
-      saveUninitialized: false,
-    }),
-  );
+  if (config.get('isProduction')) {
+    app.set('trust proxy', 1);
+    sess.cookie.secure = true;
+  }
+  console.log('PROD: ', config.get('isProduction'));
+
+  app.use(session(sess));
 }
