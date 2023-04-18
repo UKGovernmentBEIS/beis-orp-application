@@ -3,6 +3,7 @@ import {
   Controller,
   FileTypeValidator,
   Get,
+  Header,
   ParseFilePipe,
   Post,
   Query,
@@ -49,6 +50,7 @@ export class IngestController {
   }
 
   @Get('upload')
+  @Header('Cache-Control', 'no-store')
   @Render('pages/ingest/upload')
   upload() {
     return {};
@@ -90,6 +92,7 @@ export class IngestController {
   }
 
   @Get('document-type')
+  @Header('Cache-Control', 'no-store')
   @Render('pages/ingest/documentType')
   async chooseDocType(@Query() { key }: { key: string }, @Request() req) {
     if (key === 'url') {
@@ -133,6 +136,7 @@ export class IngestController {
   }
 
   @Get('document-topics')
+  @Header('Cache-Control', 'no-store')
   @Render('pages/ingest/documentTopics')
   async tagTopics(@Query() { key }: { key: string }, @Request() req) {
     if (key === 'url') {
@@ -183,6 +187,7 @@ export class IngestController {
   }
 
   @Get('document-status')
+  @Header('Cache-Control', 'no-store')
   @Render('pages/ingest/documentStatus')
   async chooseDraft(@Query() { key }: { key: string }, @Request() req) {
     if (key === 'url') {
@@ -224,6 +229,7 @@ export class IngestController {
   }
 
   @Get('submit')
+  @Header('Cache-Control', 'no-store')
   @Render('pages/ingest/submit')
   async submit(@Query() { key }: { key: string }, @Request() req) {
     if (key === 'url') {
@@ -286,6 +292,7 @@ export class IngestController {
   }
 
   @Get('success')
+  @Header('Cache-Control', 'no-store')
   @Render('pages/ingest/success')
   async success(@Query() { key }: { key: string }, @Request() req) {
     const meta =
