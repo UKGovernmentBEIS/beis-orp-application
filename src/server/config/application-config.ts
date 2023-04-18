@@ -34,6 +34,7 @@ export interface Redis {
 }
 
 export interface ApplicationConfig {
+  isProduction: boolean;
   domain: string;
   server: ServerConfig;
   apis: ApisConfig;
@@ -44,6 +45,7 @@ export interface ApplicationConfig {
 
 export function config(): ApplicationConfig {
   return {
+    isProduction: process.env.NODE_ENV === 'production',
     domain: process.env.DOMAIN,
     server: {
       staticResourceCacheDuration: 20,
