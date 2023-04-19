@@ -19,6 +19,7 @@ describe('Developer Portal (e2e)', () => {
         .set('Cookie', regulatorSession)
         .expect(200)
         .expect((res) => {
+          expect(res.headers['cache-control']).toEqual('no-store');
           const $ = cheerio.load(res.text);
           expect(
             $("form[action='/developer/new-credentials']").length,
@@ -33,6 +34,7 @@ describe('Developer Portal (e2e)', () => {
         .set('Cookie', regulatorSession)
         .expect(200)
         .expect((res) => {
+          expect(res.headers['cache-control']).toEqual('no-store');
           const $ = cheerio.load(res.text);
           const existingCreds = $('.existing-api-credentials');
           expect(existingCreds.length).toEqual(2);

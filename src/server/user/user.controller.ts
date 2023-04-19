@@ -1,6 +1,7 @@
 import {
   Controller,
   Get,
+  Header,
   Render,
   UseGuards,
   UseInterceptors,
@@ -14,6 +15,7 @@ import { User as UserType } from '../auth/types/User';
 @UseInterceptors(ViewDataInterceptor)
 export class UserController {
   @Get('')
+  @Header('Cache-Control', 'no-store')
   @UseGuards(AuthenticatedGuard)
   @Render('pages/user/')
   userDetails(@User() user: UserType) {

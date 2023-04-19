@@ -26,7 +26,6 @@ export function useSession(app: NestExpressApplication) {
     app.set('trust proxy', 1);
     sess.cookie.secure = true;
   }
-  console.log('PROD: ', config.get('isProduction'));
 
   app.use(session(sess));
 }

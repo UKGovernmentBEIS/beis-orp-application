@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Header,
   Post,
   Redirect,
   Render,
@@ -25,11 +26,13 @@ export class DeveloperController {
   constructor(private apiAuthService: ApiAuthService) {}
 
   @Get('')
+  @Header('Cache-Control', 'no-store')
   @Render('pages/developer/')
   async apiKeys(@User() user: UserType) {
     return { creds: await this.apiAuthService.getApiClientsForUser(user) };
   }
   @Post('new-credentials')
+  @Header('Cache-Control', 'no-store')
   @Render('pages/developer/newCredentials')
   async generateApiKeys(@User() user: UserType) {
     const newCreds = await this.apiAuthService.registerClient(user);
@@ -37,6 +40,7 @@ export class DeveloperController {
   }
 
   @Post('remove-credentials')
+  @Header('Cache-Control', 'no-store')
   @Redirect('/developer')
   deleteApiClient(
     @User() user: UserType,
