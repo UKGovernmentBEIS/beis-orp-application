@@ -41,13 +41,6 @@ export interface ApplicationConfig {
   aws: AwsConfig;
   secrets: Secrets;
   redis: Redis;
-  environmentRegulators: EnvironmentRegulator[];
-}
-
-export interface EnvironmentRegulator {
-  name: string;
-  id: string;
-  domain: string;
 }
 
 export function config(): ApplicationConfig {
@@ -90,8 +83,5 @@ export function config(): ApplicationConfig {
       address: process.env.REDIS_ADDRESS,
       port: Number(process.env.REDIS_PORT),
     },
-    environmentRegulators: process.env.REGULATOR_ACCESS
-      ? JSON.parse(process.env.REGULATOR_ACCESS)
-      : [],
   };
 }

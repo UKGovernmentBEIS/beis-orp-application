@@ -2,6 +2,31 @@ import { Regulator } from '../types/Regulator';
 
 const regulators: Regulator[] = [
   {
+    id: 'procheckup',
+    name: 'Procheckup',
+    domain: 'procheckup.com',
+  },
+  {
+    id: 'zoonou',
+    name: 'Zoonou',
+    domain: 'zoonou.com',
+  },
+  {
+    id: 'trustmarque',
+    name: 'Trustmarque',
+    domain: 'trustmarque.com',
+  },
+  {
+    id: 'public',
+    name: 'Public',
+    domain: 'public.io',
+  },
+  {
+    id: 'mxt',
+    name: 'MDRxTECH',
+    domain: 'mdrx.tech',
+  },
+  {
     id: 'ofcom',
     name: 'Office of Communications',
     domain: 'ofcom.org.uk',
