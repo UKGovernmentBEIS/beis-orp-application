@@ -2,21 +2,26 @@ import { Injectable } from '@nestjs/common';
 import regulators from './config/regulators';
 import { Regulator } from './types/Regulator';
 import { ConfigService } from '@nestjs/config';
-import { EnvironmentRegulator } from '../config/application-config';
 
 @Injectable()
 export class RegulatorService {
-  private environmentRegulators: EnvironmentRegulator[] = [];
+  private allRegulators: Regulator[];
   constructor(private readonly config: ConfigService) {
-    this.environmentRegulators = config.get<EnvironmentRegulator[]>(
-      'environmentRegulators',
-    );
+    const environmentRegulators = config.get<string>('environmentRegulators');
+
+    this.allRegulators = [
+      ...regulators,
+      ...environmentRegulators.split(',').map((reg) => ({
+        name: reg,
+        domain: reg,
+        id: reg,
+      })),
+    ];
   }
+
   getRegulatorByEmail(emailAddress: string): Regulator | null | undefined {
     const domain = emailAddress.split('@')[1];
     if (!domain) return null;
-    return [...regulators, ...this.environmentRegulators].find(
-      (regulator) => regulator.domain === domain,
-    );
+    return this.allRegulators.find((regulator) => regulator.domain === domain);
   }
 }

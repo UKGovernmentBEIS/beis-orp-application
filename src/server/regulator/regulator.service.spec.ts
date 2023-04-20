@@ -31,8 +31,8 @@ describe('RegulatorService', () => {
     it('should return value from env var', async () => {
       const result = await service.getRegulatorByEmail('email@public.io');
       expect(result).toEqual({
-        id: 'public',
-        name: 'Public',
+        id: 'public.io',
+        name: 'public.io',
         domain: 'public.io',
       });
     });
