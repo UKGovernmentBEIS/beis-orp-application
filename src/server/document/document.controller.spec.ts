@@ -7,10 +7,10 @@ import { mockConfigService } from '../../../test/mocks/config.mock';
 import { mockLogger } from '../../../test/mocks/logger.mock';
 import { HttpModule } from '@nestjs/axios';
 import { getMappedOrpDocument } from '../../../test/mocks/orpSearchMock';
-import { RegulatorModule } from '../regulator/regulator.module';
 import { SearchService } from '../search/search.service';
 import { TnaDal } from '../data/tna.dal';
 import TnaDocMeta from './types/TnaDocMeta';
+import { RegulatorService } from '../regulator/regulator.service';
 
 describe('DocumentController', () => {
   let controller: DocumentController;
@@ -28,8 +28,9 @@ describe('DocumentController', () => {
         mockLogger,
         SearchService,
         TnaDal,
+        RegulatorService,
       ],
-      imports: [HttpModule, RegulatorModule],
+      imports: [HttpModule],
     }).compile();
 
     controller = module.get<DocumentController>(DocumentController);

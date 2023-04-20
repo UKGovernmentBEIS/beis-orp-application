@@ -41,6 +41,7 @@ export interface ApplicationConfig {
   aws: AwsConfig;
   secrets: Secrets;
   redis: Redis;
+  environmentRegulators: string;
 }
 
 export function config(): ApplicationConfig {
@@ -83,5 +84,6 @@ export function config(): ApplicationConfig {
       address: process.env.REDIS_ADDRESS,
       port: Number(process.env.REDIS_PORT),
     },
+    environmentRegulators: process.env.REGULATOR_ACCESS ?? '',
   };
 }
