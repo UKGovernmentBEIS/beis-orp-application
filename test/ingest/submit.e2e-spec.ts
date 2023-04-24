@@ -48,12 +48,12 @@ describe('Ingest submit', () => {
   });
 
   describe('GET', () => {
-    mockS3.send.mockResolvedValue({
-      Metadata: { file_name: 'file.pdf' },
-      ContentType: 'application/pdf',
-    });
-
     it('gets a the meta and displays the filename', () => {
+      mockS3.send.mockResolvedValue({
+        Metadata: { file_name: 'file.pdf', regulator_id: 'ofcom' },
+        ContentType: 'application/pdf',
+      });
+
       return fixture
         .request()
         .get('/ingest/submit?key=unconfirmeddoc')
@@ -70,6 +70,20 @@ describe('Ingest submit', () => {
               .length,
           ).toBeTruthy();
         });
+    });
+
+    it('rejects if from a different regulator', () => {
+      mockS3.send.mockResolvedValue({
+        Metadata: { file_name: 'file.pdf', regulator_id: 'someone' },
+        ContentType: 'application/pdf',
+      });
+
+      return fixture
+        .request()
+        .get('/ingest/submit?key=unconfirmeddoc')
+        .set('Cookie', regulatorSession)
+        .expect(302)
+        .expect('Location', '/unauthorised/ingest');
     });
 
     describe('guards', () => {

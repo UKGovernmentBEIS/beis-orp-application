@@ -42,9 +42,11 @@ describe('Ingest document type', () => {
   });
 
   describe('GET', () => {
-    mockS3.send.mockResolvedValueOnce({ Metadata: { old: 'meta' } });
-
     it('gets a the meta and displays the filename', () => {
+      mockS3.send.mockResolvedValueOnce({
+        Metadata: { old: 'meta', regulator_id: 'ofcom' },
+      });
+
       return fixture
         .request()
         .get('/ingest/document-type?key=unconfirmeddoc')
@@ -59,6 +61,19 @@ describe('Ingest document type', () => {
               .length,
           ).toBeTruthy();
         });
+    });
+
+    it('rejects if wrong regulator_id', async () => {
+      mockS3.send.mockResolvedValueOnce({
+        Metadata: { old: 'meta', regulator_id: 'something' },
+      });
+
+      return fixture
+        .request()
+        .get('/ingest/document-type?key=unconfirmeddoc')
+        .set('Cookie', regulatorSession)
+        .expect(302)
+        .expect('Location', '/unauthorised/ingest');
     });
 
     describe('guards', () => {
@@ -84,7 +99,9 @@ describe('Ingest document type', () => {
   describe('POST', () => {
     it('updates the meta data with selected option', async () => {
       mockS3.send
-        .mockResolvedValueOnce({ Metadata: { old: 'meta' } })
+        .mockResolvedValueOnce({
+          Metadata: { old: 'meta', regulator_id: 'ofcom' },
+        })
         .mockResolvedValueOnce({ updated: 'unconfirmed/key' });
 
       return fixture
@@ -98,6 +115,23 @@ describe('Ingest document type', () => {
           expect(mockS3.send).toBeCalledTimes(2);
         });
     });
+
+    it('rejects if regulator ids do not match', async () => {
+      mockS3.send
+        .mockResolvedValueOnce({
+          Metadata: { old: 'meta', regulator_id: 'something' },
+        })
+        .mockResolvedValueOnce({ updated: 'unconfirmed/key' });
+
+      return fixture
+        .request()
+        .post('/ingest/document-type')
+        .set('Cookie', regulatorSession)
+        .send({ key: 'unconfirmed/key', documentType: { new: 'meta' } })
+        .expect(302)
+        .expect('Location', '/unauthorised/ingest');
+    });
+
     describe('guards', () => {
       it('redirects non-regulator users', async () => {
         return fixture

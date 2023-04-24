@@ -121,16 +121,19 @@ export class AwsDal {
     return { deleted: key };
   }
 
-  async updateMetaData(key, newMeta: Record<string, string>) {
-    const meta = await this.getObjectMeta(key);
+  async updateMetaData(
+    key,
+    newMeta: Partial<ObjectMetaData>,
+    oldMeta: Partial<ObjectMetaData>,
+  ) {
     const command = new CopyObjectCommand({
       Bucket: this.awsConfig.ingestionBucket,
       Key: key,
       MetadataDirective: 'REPLACE',
       CopySource: `${this.awsConfig.ingestionBucket}/${key}`,
-      ContentType: meta.document_format,
+      ContentType: oldMeta.document_format,
       Metadata: {
-        ...meta,
+        ...oldMeta,
         ...newMeta,
       },
     });

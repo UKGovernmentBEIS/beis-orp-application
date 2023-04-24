@@ -1,10 +1,10 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
 import { OrpDal } from '../data/orp.dal';
 import { AwsDal } from '../data/aws.dal';
 import { UploadedFile } from '../data/types/UploadedFile';
 import { FileUpload } from '../data/types/FileUpload';
 import { Readable } from 'stream';
-import { MetaItem, ObjectMetaData } from '../data/types/ObjectMetaData';
+import { ObjectMetaData } from '../data/types/ObjectMetaData';
 import { TnaDal } from '../data/tna.dal';
 import { isEuDocument } from '../data/types/tnaDocs';
 import TnaDocMeta from './types/TnaDocMeta';
@@ -115,8 +115,12 @@ export class DocumentService {
     return this.awsDal.deleteObject(key);
   }
 
-  async updateMeta(key: string, meta: Partial<Record<MetaItem, string>>) {
-    return this.awsDal.updateMetaData(key, meta);
+  async updateMeta(key: string, meta: Partial<ObjectMetaData>, user: User) {
+    const oldMeta = await this.getDocumentMeta(key);
+    if (oldMeta.regulator_id !== user.regulator.id) {
+      throw new ForbiddenException();
+    }
+    return this.awsDal.updateMetaData(key, meta, oldMeta);
   }
 
   async getTnaDocument(href: string): Promise<TnaDocMeta> {

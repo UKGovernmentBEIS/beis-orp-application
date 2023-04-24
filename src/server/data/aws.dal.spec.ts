@@ -6,6 +6,7 @@ import {
 } from '../../../test/mocks/uploadMocks';
 import { mockLogger } from '../../../test/mocks/logger.mock';
 import { AwsDal } from './aws.dal';
+import { pdfMimeType } from '../document/utils/mimeTypes';
 
 const mockS3 = {
   send: jest.fn(),
@@ -204,21 +205,28 @@ describe('AwsDal', () => {
 
   describe('updateMetaData', () => {
     it('should get the meta and copy the object with new meta', async () => {
-      const resp = { Metadata: { old: 'meta' } };
-      mockS3.send.mockResolvedValueOnce(resp);
+      const oldMeta = {
+        uuid: 'UUID',
+        uploaded_date: new Date().toTimeString(),
+        file_name: 'Original-Filename',
+        regulator_id: 'regid',
+        user_id: 'cogun',
+        document_format: pdfMimeType,
+      };
 
-      await service.updateMetaData('key', { new: 'meta' });
+      await service.updateMetaData('key', { status: 'draft' }, oldMeta);
 
-      expect(mockS3.send).toBeCalledTimes(2);
+      expect(mockS3.send).toBeCalledTimes(1);
       expect(mockS3.send).toBeCalledWith({
         copyObjectCommand: true,
         Bucket: 'bucket',
         CopySource: 'bucket/key',
         Key: 'key',
         MetadataDirective: 'REPLACE',
+        ContentType: pdfMimeType,
         Metadata: {
-          old: 'meta',
-          new: 'meta',
+          ...oldMeta,
+          status: 'draft',
         },
       });
     });

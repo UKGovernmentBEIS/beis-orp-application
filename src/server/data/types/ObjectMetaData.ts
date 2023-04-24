@@ -10,6 +10,7 @@ export interface ObjectMetaData {
   api_user?: string;
   document_format: string;
   topics?: string;
+  regulator_id?: string;
 }
 
 export type MetaItem = keyof ObjectMetaData;

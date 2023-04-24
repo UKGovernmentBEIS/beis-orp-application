@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   FileTypeValidator,
+  ForbiddenException,
   Get,
   Header,
   ParseFilePipe,
@@ -37,6 +38,7 @@ import { RegulatorGuard } from '../auth/regulator.guard';
 import { UserCollectedUrlUploadData } from '../data/types/UrlUpload';
 import { getTopicsForView } from './utils/topics';
 
+//TODO refactor class to separate html functionality from document
 @Controller('ingest')
 @UseGuards(RegulatorGuard)
 @UseFilters(ErrorFilter)
@@ -94,7 +96,11 @@ export class IngestController {
   @Get('document-type')
   @Header('Cache-Control', 'no-store')
   @Render('pages/ingest/documentType')
-  async chooseDocType(@Query() { key }: { key: string }, @Request() req) {
+  async chooseDocType(
+    @Query() { key }: { key: string },
+    @Request() req,
+    @User() user: UserType,
+  ) {
     if (key === 'url') {
       const data = req.session.urlIngestion;
       if (!data?.uri) throw new Error('No url ingestion data');
@@ -106,6 +112,10 @@ export class IngestController {
     }
 
     const meta = await this.documentService.getDocumentMeta(key);
+    if (meta.regulator_id !== user.regulator.id) {
+      throw new ForbiddenException();
+    }
+
     return {
       key,
       documentTypes,
@@ -116,7 +126,11 @@ export class IngestController {
   @Post('document-type')
   @Redirect('/ingest/document-topics', 302)
   @ValidateForm()
-  async postDocType(@Body() documentTypeDto: DocumentTypeDto, @Request() req) {
+  async postDocType(
+    @Body() documentTypeDto: DocumentTypeDto,
+    @Request() req,
+    @User() user: UserType,
+  ) {
     const { key, documentType } = documentTypeDto;
 
     if (key === 'url') {
@@ -128,9 +142,13 @@ export class IngestController {
       return { url: '/ingest/document-topics?key=url' };
     }
 
-    await this.documentService.updateMeta(key, {
-      document_type: documentType,
-    });
+    await this.documentService.updateMeta(
+      key,
+      {
+        document_type: documentType,
+      },
+      user,
+    );
 
     return { url: `/ingest/document-topics?key=${key}` };
   }
@@ -138,7 +156,11 @@ export class IngestController {
   @Get('document-topics')
   @Header('Cache-Control', 'no-store')
   @Render('pages/ingest/documentTopics')
-  async tagTopics(@Query() { key }: { key: string }, @Request() req) {
+  async tagTopics(
+    @Query() { key }: { key: string },
+    @Request() req,
+    @User() user: UserType,
+  ) {
     if (key === 'url') {
       const data = req.session.urlIngestion;
       if (!data?.uri) throw new Error('No url ingestion data');
@@ -148,6 +170,10 @@ export class IngestController {
       key === 'url'
         ? req.session.urlIngestion
         : await this.documentService.getDocumentMeta(key);
+
+    if (meta.regulator_id && meta.regulator_id !== user.regulator.id) {
+      throw new ForbiddenException();
+    }
 
     const { selectedTopics, topicsForSelections } = getTopicsForView(
       meta.topics ?? [],
@@ -166,6 +192,7 @@ export class IngestController {
   async postTagTopics(
     @Body() documentTopicsDto: DocumentTopicsDto,
     @Request() req,
+    @User() user: UserType,
   ) {
     const { key, topic1, topic2, topic3, topic4, topic5 } = documentTopicsDto;
     const topics = [topic1, topic2, topic3, topic4, topic5].filter(
@@ -178,9 +205,13 @@ export class IngestController {
         topics,
       };
     } else {
-      await this.documentService.updateMeta(key, {
-        topics: JSON.stringify(topics),
-      });
+      await this.documentService.updateMeta(
+        key,
+        {
+          topics: JSON.stringify(topics),
+        },
+        user,
+      );
     }
 
     return { url: `/ingest/document-status?key=${key}` };
@@ -189,7 +220,11 @@ export class IngestController {
   @Get('document-status')
   @Header('Cache-Control', 'no-store')
   @Render('pages/ingest/documentStatus')
-  async chooseDraft(@Query() { key }: { key: string }, @Request() req) {
+  async chooseDraft(
+    @Query() { key }: { key: string },
+    @Request() req,
+    @User() user: UserType,
+  ) {
     if (key === 'url') {
       const url = req.session.urlIngestion?.uri;
       if (!url) throw new Error('No url ingestion data');
@@ -198,6 +233,10 @@ export class IngestController {
       key === 'url'
         ? req.session.urlIngestion
         : await this.documentService.getDocumentMeta(key);
+
+    if (meta.regulator_id && meta.regulator_id !== user.regulator.id) {
+      throw new ForbiddenException();
+    }
 
     return {
       key,
@@ -211,6 +250,7 @@ export class IngestController {
   async postDraft(
     @Body() documentStatusDto: DocumentStatusDto,
     @Request() req,
+    @User() user: UserType,
   ) {
     const { key, status } = documentStatusDto;
 
@@ -220,9 +260,13 @@ export class IngestController {
         status,
       };
     } else {
-      await this.documentService.updateMeta(key, {
-        status,
-      });
+      await this.documentService.updateMeta(
+        key,
+        {
+          status,
+        },
+        user,
+      );
     }
 
     return { url: `/ingest/submit?key=${key}` };
@@ -231,7 +275,11 @@ export class IngestController {
   @Get('submit')
   @Header('Cache-Control', 'no-store')
   @Render('pages/ingest/submit')
-  async submit(@Query() { key }: { key: string }, @Request() req) {
+  async submit(
+    @Query() { key }: { key: string },
+    @Request() req,
+    @User() user: UserType,
+  ) {
     if (key === 'url') {
       const url = req.session.urlIngestion?.uri;
       if (!url) throw new Error('No url ingestion data');
@@ -250,6 +298,9 @@ export class IngestController {
     }
 
     const meta = await this.documentService.getDocumentMeta(key);
+    if (meta.regulator_id !== user.regulator.id) {
+      throw new ForbiddenException();
+    }
     const { documentFormat, url } = await this.documentService.getDocumentUrl(
       key,
     );
@@ -294,11 +345,19 @@ export class IngestController {
   @Get('success')
   @Header('Cache-Control', 'no-store')
   @Render('pages/ingest/success')
-  async success(@Query() { key }: { key: string }, @Request() req) {
+  async success(
+    @Query() { key }: { key: string },
+    @Request() req,
+    @User() user: UserType,
+  ) {
     const meta =
       key === 'url'
         ? req.session.urlIngestion
         : await this.documentService.getDocumentMeta(key);
+
+    if (meta.regulator_id && meta.regulator_id !== user.regulator.id) {
+      throw new ForbiddenException();
+    }
     return { id: meta.uuid };
   }
 }

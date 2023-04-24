@@ -128,7 +128,9 @@ describe('Ingest document topics', () => {
   describe('POST', () => {
     it('updates the meta data with selected topics', async () => {
       mockS3.send
-        .mockResolvedValueOnce({ Metadata: { old: 'meta' } })
+        .mockResolvedValueOnce({
+          Metadata: { old: 'meta', regulator_id: 'ofcom' },
+        })
         .mockResolvedValueOnce({ updated: 'unconfirmed/key' });
 
       return fixture
@@ -145,6 +147,29 @@ describe('Ingest document topics', () => {
           expect(mockS3.send).toBeCalledTimes(2);
         });
     });
+
+    it('rejects if wrong regulator_id', async () => {
+      mockS3.send
+        .mockResolvedValueOnce({
+          Metadata: { old: 'meta', regulator_id: 'something' },
+        })
+        .mockResolvedValueOnce({ updated: 'unconfirmed/key' });
+
+      return fixture
+        .request()
+        .post('/ingest/document-topics')
+        .set('Cookie', regulatorSession)
+        .send({
+          key: 'unconfirmed/key',
+          documentTopics: { topics: FULL_TOPIC_PATH },
+        })
+        .expect(302)
+        .expect('Location', '/unauthorised/ingest')
+        .expect(() => {
+          expect(mockS3.send).toBeCalledTimes(1);
+        });
+    });
+
     describe('guards', () => {
       it('redirects non-regulator users', async () => {
         return fixture

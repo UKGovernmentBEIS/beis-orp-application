@@ -3,7 +3,7 @@ import { IngestController } from './ingest.controller';
 import { DocumentService } from '../document/document.service';
 import { AwsDal } from '../data/aws.dal';
 import { mockConfigService } from '../../../test/mocks/config.mock';
-import { Logger } from '@nestjs/common';
+import { ForbiddenException, Logger } from '@nestjs/common';
 import { getPdfAsMulterFile } from '../../../test/mocks/uploadMocks';
 import { OrpDal } from '../data/orp.dal';
 import { HttpModule } from '@nestjs/axios';
@@ -67,6 +67,7 @@ describe('IngestController', () => {
               uploaded_date: 'data',
               document_type: 'GD',
               document_format: 'application/pdf',
+              regulator_id: DEFAULT_USER_WITH_REGULATOR.regulator.id,
             });
           const req = mocks.createRequest({
             session: {},
@@ -77,6 +78,7 @@ describe('IngestController', () => {
               key: 'key',
             },
             req,
+            DEFAULT_USER_WITH_REGULATOR,
           );
 
           expect(metaMock).toBeCalledTimes(1);
@@ -85,6 +87,30 @@ describe('IngestController', () => {
             selected: 'GD',
             documentTypes,
           });
+        });
+
+        it('throws if regulator ids do not match', async () => {
+          jest.spyOn(documentService, 'getDocumentMeta').mockResolvedValue({
+            file_name: 'fn',
+            uuid: 'id',
+            uploaded_date: 'data',
+            document_type: 'GD',
+            document_format: 'application/pdf',
+            regulator_id: 'someotherregulator',
+          });
+          const req = mocks.createRequest({
+            session: {},
+          });
+
+          return expect(
+            controller.chooseDocType(
+              {
+                key: 'key',
+              },
+              req,
+              DEFAULT_USER_WITH_REGULATOR,
+            ),
+          ).rejects.toBeInstanceOf(ForbiddenException);
         });
       });
 
@@ -104,10 +130,15 @@ describe('IngestController', () => {
               documentType: 'GD',
             },
             req,
+            DEFAULT_USER_WITH_REGULATOR,
           );
 
           expect(updateMock).toBeCalledTimes(1);
-          expect(updateMock).toBeCalledWith('key', { document_type: 'GD' });
+          expect(updateMock).toBeCalledWith(
+            'key',
+            { document_type: 'GD' },
+            DEFAULT_USER_WITH_REGULATOR,
+          );
           expect(expectedResult).toEqual({
             url: `/ingest/document-topics?key=key`,
           });
@@ -128,6 +159,7 @@ describe('IngestController', () => {
               uploaded_date: 'data',
               document_type: 'GD',
               document_format: 'application/pdf',
+              regulator_id: DEFAULT_USER_WITH_REGULATOR.regulator.id,
               topics: JSON.stringify(selectedTopics),
             });
 
@@ -138,6 +170,7 @@ describe('IngestController', () => {
           const expectedResult = await controller.tagTopics(
             { key: 'key' },
             req,
+            DEFAULT_USER_WITH_REGULATOR,
           );
 
           expect(metaMock).toBeCalledTimes(1);
@@ -152,7 +185,31 @@ describe('IngestController', () => {
             selectedTopics,
           });
         });
+
+        it('throws if regulator ids do not match', async () => {
+          jest.spyOn(documentService, 'getDocumentMeta').mockResolvedValue({
+            file_name: 'fn',
+            uuid: 'id',
+            uploaded_date: 'data',
+            document_type: 'GD',
+            document_format: 'application/pdf',
+            topics: JSON.stringify(selectedTopics),
+            regulator_id: 'someotherregulator',
+          });
+          const req = mocks.createRequest({
+            session: {},
+          });
+
+          return expect(
+            controller.tagTopics(
+              { key: 'key' },
+              req,
+              DEFAULT_USER_WITH_REGULATOR,
+            ),
+          ).rejects.toBeInstanceOf(ForbiddenException);
+        });
       });
+
       describe('postTagTopics POST', () => {
         it('should call updateMeta on documentService', async () => {
           const updateMock = jest
@@ -171,12 +228,17 @@ describe('IngestController', () => {
               topic3: selectedTopics[2],
             },
             req,
+            DEFAULT_USER_WITH_REGULATOR,
           );
 
           expect(updateMock).toBeCalledTimes(1);
-          expect(updateMock).toBeCalledWith('key', {
-            topics: JSON.stringify(selectedTopics),
-          });
+          expect(updateMock).toBeCalledWith(
+            'key',
+            {
+              topics: JSON.stringify(selectedTopics),
+            },
+            DEFAULT_USER_WITH_REGULATOR,
+          );
           expect(expectedResult).toEqual({
             url: `/ingest/document-status?key=key`,
           });
@@ -196,6 +258,7 @@ describe('IngestController', () => {
               document_type: 'GD',
               status: 'published',
               document_format: 'application/pdf',
+              regulator_id: DEFAULT_USER_WITH_REGULATOR.regulator.id,
             });
           const req = mocks.createRequest({
             session: {},
@@ -206,6 +269,7 @@ describe('IngestController', () => {
               key: 'key',
             },
             req,
+            DEFAULT_USER_WITH_REGULATOR,
           );
 
           expect(metaMock).toBeCalledTimes(1);
@@ -213,6 +277,29 @@ describe('IngestController', () => {
             key: 'key',
             selected: 'published',
           });
+        });
+
+        it('throws if regulator ids do not match', async () => {
+          jest.spyOn(documentService, 'getDocumentMeta').mockResolvedValue({
+            file_name: 'fn',
+            uuid: 'id',
+            uploaded_date: 'data',
+            document_type: 'GD',
+            status: 'published',
+            document_format: 'application/pdf',
+            regulator_id: 'someotherregulator',
+          });
+          const req = mocks.createRequest({
+            session: {},
+          });
+
+          return expect(
+            controller.chooseDraft(
+              { key: 'key' },
+              req,
+              DEFAULT_USER_WITH_REGULATOR,
+            ),
+          ).rejects.toBeInstanceOf(ForbiddenException);
         });
       });
 
@@ -232,10 +319,15 @@ describe('IngestController', () => {
               status: 'published',
             },
             req,
+            DEFAULT_USER_WITH_REGULATOR,
           );
 
           expect(updateMock).toBeCalledTimes(1);
-          expect(updateMock).toBeCalledWith('key', { status: 'published' });
+          expect(updateMock).toBeCalledWith(
+            'key',
+            { status: 'published' },
+            DEFAULT_USER_WITH_REGULATOR,
+          );
           expect(expectedResult).toEqual({ url: `/ingest/submit?key=key` });
         });
       });
@@ -252,6 +344,7 @@ describe('IngestController', () => {
               uploaded_date: 'data',
               status: 'published',
               document_format: 'application/pdf',
+              regulator_id: DEFAULT_USER_WITH_REGULATOR.regulator.id,
               topics: JSON.stringify(['/entering-staying-uk']),
             });
 
@@ -266,7 +359,11 @@ describe('IngestController', () => {
               url: 'url',
             });
 
-          const expectedResult = await controller.submit({ key: 'key' }, req);
+          const expectedResult = await controller.submit(
+            { key: 'key' },
+            req,
+            DEFAULT_USER_WITH_REGULATOR,
+          );
 
           expect(metaMock).toBeCalledTimes(1);
           expect(getUrlMock).toBeCalledTimes(1);
@@ -279,6 +376,25 @@ describe('IngestController', () => {
             url: 'url',
             documentTopics: ['Entering and staying in the UK'],
           });
+        });
+
+        it('throws if regulator ids do not match', async () => {
+          jest.spyOn(documentService, 'getDocumentMeta').mockResolvedValue({
+            file_name: 'fn',
+            uuid: 'id',
+            uploaded_date: 'data',
+            status: 'published',
+            document_format: 'application/pdf',
+            topics: JSON.stringify(['/entering-staying-uk']),
+            regulator_id: 'someotherregulator',
+          });
+          const req = mocks.createRequest({
+            session: {},
+          });
+
+          return expect(
+            controller.submit({ key: 'key' }, req, DEFAULT_USER_WITH_REGULATOR),
+          ).rejects.toBeInstanceOf(ForbiddenException);
         });
       });
 
@@ -314,6 +430,7 @@ describe('IngestController', () => {
             uuid: 'id',
             uploaded_date: 'data',
             document_format: 'application/pdf',
+            regulator_id: DEFAULT_USER_WITH_REGULATOR.regulator.id,
           });
 
         const req = mocks.createRequest({
@@ -325,6 +442,7 @@ describe('IngestController', () => {
             key: 'key',
           },
           req,
+          DEFAULT_USER_WITH_REGULATOR,
         );
 
         expect(metaMock).toBeCalledTimes(1);
@@ -371,6 +489,7 @@ describe('IngestController', () => {
               key: 'url',
             },
             req,
+            DEFAULT_USER_WITH_REGULATOR,
           );
 
           expect(expectedResult).toEqual({
@@ -386,7 +505,12 @@ describe('IngestController', () => {
           });
 
           return expect(
-            async () => await controller.chooseDocType({ key: 'url' }, req),
+            async () =>
+              await controller.chooseDocType(
+                { key: 'url' },
+                req,
+                DEFAULT_USER_WITH_REGULATOR,
+              ),
           ).rejects.toBeInstanceOf(Error);
         });
       });
@@ -407,6 +531,7 @@ describe('IngestController', () => {
               documentType: 'GD',
             },
             req,
+            DEFAULT_USER_WITH_REGULATOR,
           );
 
           expect(req.session).toEqual({
@@ -440,6 +565,7 @@ describe('IngestController', () => {
           const expectedResult = await controller.tagTopics(
             { key: 'url' },
             req,
+            DEFAULT_USER_WITH_REGULATOR,
           );
 
           expect(expectedResult).toEqual({
@@ -460,7 +586,12 @@ describe('IngestController', () => {
           });
 
           return expect(
-            async () => await controller.tagTopics({ key: 'url' }, req),
+            async () =>
+              await controller.tagTopics(
+                { key: 'url' },
+                req,
+                DEFAULT_USER_WITH_REGULATOR,
+              ),
           ).rejects.toBeInstanceOf(Error);
         });
       });
@@ -483,6 +614,7 @@ describe('IngestController', () => {
               topic3: selectedTopics[2],
             },
             req,
+            DEFAULT_USER_WITH_REGULATOR,
           );
 
           expect(req.session).toEqual({
@@ -518,6 +650,7 @@ describe('IngestController', () => {
               key: 'url',
             },
             req,
+            DEFAULT_USER_WITH_REGULATOR,
           );
 
           expect(expectedResult).toEqual({
@@ -532,7 +665,12 @@ describe('IngestController', () => {
           });
 
           return expect(
-            async () => await controller.chooseDraft({ key: 'url' }, req),
+            async () =>
+              await controller.chooseDraft(
+                { key: 'url' },
+                req,
+                DEFAULT_USER_WITH_REGULATOR,
+              ),
           ).rejects.toBeInstanceOf(Error);
         });
       });
@@ -555,6 +693,7 @@ describe('IngestController', () => {
               status: 'published',
             },
             req,
+            DEFAULT_USER_WITH_REGULATOR,
           );
 
           expect(req.session).toEqual({
@@ -584,7 +723,11 @@ describe('IngestController', () => {
             },
           });
 
-          const expectedResult = await controller.submit({ key: 'url' }, req);
+          const expectedResult = await controller.submit(
+            { key: 'url' },
+            req,
+            DEFAULT_USER_WITH_REGULATOR,
+          );
 
           expect(expectedResult).toEqual({
             file: 'something.gov.uk',
@@ -606,7 +749,12 @@ describe('IngestController', () => {
           });
 
           return expect(
-            async () => await controller.submit({ key: 'url' }, req),
+            async () =>
+              await controller.submit(
+                { key: 'url' },
+                req,
+                DEFAULT_USER_WITH_REGULATOR,
+              ),
           ).rejects.toBeInstanceOf(Error);
         });
       });
@@ -669,6 +817,7 @@ describe('IngestController', () => {
             key: 'url',
           },
           req,
+          DEFAULT_USER_WITH_REGULATOR,
         );
 
         expect(expectedResult).toEqual({ id: 'id' });

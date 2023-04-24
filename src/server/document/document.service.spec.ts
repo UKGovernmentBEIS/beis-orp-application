@@ -4,7 +4,7 @@ import { OrpDal } from '../data/orp.dal';
 import { AwsDal } from '../data/aws.dal';
 import { HttpModule } from '@nestjs/axios';
 import { mockConfigService } from '../../../test/mocks/config.mock';
-import { Logger } from '@nestjs/common';
+import { ForbiddenException, Logger } from '@nestjs/common';
 import {
   getMappedOrpDocument,
   getRawOrpDocument,
@@ -23,6 +23,7 @@ import {
 import { TnaEuDoc } from '../data/types/tnaDocs';
 import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/user.mock';
 import { FULL_TOPIC_PATH } from '../../../test/mocks/topics';
+import { pdfMimeType } from './utils/mimeTypes';
 
 jest.mock('uuid', () => {
   return { v4: jest.fn(() => 'UUID') };
@@ -288,14 +289,50 @@ describe('DocumentService', () => {
 
   describe('updateMeta', () => {
     it('should request and return the object meta data', async () => {
+      const oldMeta = {
+        document_format: pdfMimeType,
+        uuid: '1',
+        uploaded_date: '2022-01-24T12:54:49Z',
+        file_name: 'fn',
+        regulator_id: DEFAULT_USER_WITH_REGULATOR.regulator.id,
+      };
+      jest.spyOn(awsDal, 'getObjectMeta').mockResolvedValueOnce(oldMeta);
+
       const updateSpy = jest
         .spyOn(awsDal, 'updateMetaData')
         .mockResolvedValueOnce({ updated: 'key' });
 
-      const result = await service.updateMeta('key', { status: 'published' });
+      const result = await service.updateMeta(
+        'key',
+        { status: 'published' },
+        DEFAULT_USER_WITH_REGULATOR,
+      );
 
-      expect(updateSpy).toBeCalledWith('key', { status: 'published' });
+      expect(updateSpy).toBeCalledWith('key', { status: 'published' }, oldMeta);
       expect(result).toEqual({ updated: 'key' });
+    });
+
+    it('should throw if regulators do not match', async () => {
+      const oldMeta = {
+        document_format: pdfMimeType,
+        uuid: '1',
+        uploaded_date: '2022-01-24T12:54:49Z',
+        file_name: 'fn',
+        regulator_id: 'someotherregulator',
+      };
+      jest.spyOn(awsDal, 'getObjectMeta').mockResolvedValueOnce(oldMeta);
+
+      jest
+        .spyOn(awsDal, 'updateMetaData')
+        .mockResolvedValueOnce({ updated: 'key' });
+
+      return expect(
+        service.updateMeta(
+          'key',
+          { status: 'published' },
+          DEFAULT_USER_WITH_REGULATOR,
+        ),
+      ).rejects.toBeInstanceOf(ForbiddenException);
     });
   });
 
