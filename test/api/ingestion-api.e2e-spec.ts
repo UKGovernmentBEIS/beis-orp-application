@@ -54,7 +54,7 @@ describe('api/upload (PUT)', () => {
       );
   });
 
-  it('returns error when non pdf file provided', async () => {
+  it('returns error when unsupported file provided', async () => {
     return fixture
       .request()
       .put('/api/upload')

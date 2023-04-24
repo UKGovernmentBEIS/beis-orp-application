@@ -79,28 +79,6 @@ describe('DocumentController (e2e)', () => {
         });
     });
 
-    it('should get document and display in iframe if .doc', () => {
-      mockS3.send.mockResolvedValueOnce({
-        MetaData: {},
-        ContentType: 'application/msword',
-      });
-
-      return fixture
-        .request()
-        .get('/document/view/1')
-        .expect(200)
-        .expect((res) => {
-          const $ = cheerio.load(res.text);
-          expect($('h1').text().trim()).toEqual('Title1');
-          expect($('object.embedded-pdf').length).toBeFalsy();
-          expect(
-            $(
-              'iframe[src="https://docs.google.com/gview?url=http%3A%2F%2Fdocument&embedded=true"]',
-            ).length,
-          ).toBeTruthy();
-        });
-    });
-
     it('should not get document if non-displayable mimetype', () => {
       mockS3.send.mockResolvedValueOnce({
         MetaData: {},

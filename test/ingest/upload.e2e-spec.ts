@@ -66,7 +66,7 @@ describe('Ingest upload', () => {
   });
 
   describe('POST', () => {
-    it('uploads unconfirmed file', async () => {
+    it('uploads unconfirmed pdf', async () => {
       const file = await getPdfBuffer();
       mockS3.send.mockResolvedValueOnce('response');
 
@@ -85,12 +85,98 @@ describe('Ingest upload', () => {
         );
     });
 
+    it('uploads unconfirmed .docx', async () => {
+      const file = await getPdfBuffer('DOCX');
+      mockS3.send.mockResolvedValueOnce('response');
+
+      return fixture
+        .request()
+        .post('/ingest/upload')
+        .attach('file', file, 'testfile.docx')
+        .field({
+          uploadType: 'device',
+        })
+        .set('Cookie', regulatorSession)
+        .expect(302)
+        .expect(
+          'Location',
+          '/ingest/document-type?key=unconfirmed/uuid-testfile.docx',
+        );
+    });
+
+    it('uploads unconfirmed .odt', async () => {
+      const file = await getPdfBuffer('ODT');
+      mockS3.send.mockResolvedValueOnce('response');
+
+      return fixture
+        .request()
+        .post('/ingest/upload')
+        .attach('file', file, 'testfile.odt')
+        .field({
+          uploadType: 'device',
+        })
+        .set('Cookie', regulatorSession)
+        .expect(302)
+        .expect(
+          'Location',
+          '/ingest/document-type?key=unconfirmed/uuid-testfile.odt',
+        );
+    });
+
     it('redirects back if no file attached', async () => {
       mockS3.send.mockResolvedValueOnce('response');
 
       return fixture
         .request()
         .post('/ingest/upload')
+        .set('Cookie', regulatorSession)
+        .expect(302)
+        .expect('Location', '/ingest/upload');
+    });
+
+    it('redirects back if empty pdf attached', async () => {
+      const file = await getPdfBuffer('EMPTY_PDF');
+      mockS3.send.mockResolvedValueOnce('response');
+
+      return fixture
+        .request()
+        .post('/ingest/upload')
+        .attach('file', file, 'emptypdf.pdf')
+        .field({
+          uploadType: 'device',
+        })
+        .set('Cookie', regulatorSession)
+        .expect(302)
+        .expect('Location', '/ingest/upload');
+    });
+
+    it('redirects back if empty .docx attached', async () => {
+      const file = await getPdfBuffer('EMPTY_DOCX');
+      mockS3.send.mockResolvedValueOnce('response');
+
+      return fixture
+        .request()
+        .post('/ingest/upload')
+        .attach('file', file, 'emptypdf.docx')
+        .field({
+          uploadType: 'device',
+        })
+        .set('Cookie', regulatorSession)
+        .expect(302)
+        .expect('Location', '/ingest/upload');
+    });
+
+    it('redirects back if empty .odt attached', async () => {
+      const file = await getPdfBuffer('EMPTY_ODT');
+      mockS3.send.mockResolvedValueOnce('response');
+
+      return fixture
+        .request()
+        .post('/ingest/upload')
+        .attach('file', file, 'emptypdf.odt')
+        .field({
+          uploadType: 'device',
+        })
         .set('Cookie', regulatorSession)
         .expect(302)
         .expect('Location', '/ingest/upload');

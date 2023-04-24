@@ -1,12 +1,10 @@
 export const pdfMimeType = 'application/pdf';
-export const wordMimeTypes = [
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  'application/msword',
-];
+export const wordMimeType =
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
-export const displayableMimeTypes = [...wordMimeTypes, pdfMimeType];
+export const displayableMimeTypes = [wordMimeType, pdfMimeType];
 
 export const ooMimeType = 'application/vnd.oasis.opendocument.text';
 
 export const acceptedMimeTypesRegex =
-  /(pdf|msword|vnd.oasis.opendocument.text|vnd.openxmlformats-officedocument.wordprocessingml.document)$/;
+  /(pdf|vnd.oasis.opendocument.text|vnd.openxmlformats-officedocument.wordprocessingml.document)$/;
