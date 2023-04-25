@@ -37,6 +37,7 @@ import IngestDeviceDto from './types/IngestDevice.dto';
 import { RegulatorGuard } from '../auth/regulator.guard';
 import { UserCollectedUrlUploadData } from '../data/types/UrlUpload';
 import { getTopicsForView } from './utils/topics';
+import FileNotEmptyValidator from '../form-validation/FileNotEmptyValidator';
 
 //TODO refactor class to separate html functionality from document
 @Controller('ingest')
@@ -70,6 +71,7 @@ export class IngestController {
           new FileTypeValidator({
             fileType: acceptedMimeTypesRegex,
           }),
+          new FileNotEmptyValidator({}),
         ],
       }),
     )

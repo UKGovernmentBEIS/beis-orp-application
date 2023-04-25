@@ -164,7 +164,6 @@ describe('DocumentService', () => {
     test.each`
       format     | mime
       ${'pdf'}   | ${'application/pdf'}
-      ${'.doc'}  | ${'application/msword'}
       ${'.docx'} | ${'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}
     `('should return the presigned url if doc is $format', async ({ mime }) => {
       jest.spyOn(awsDal, 'getObjectMeta').mockResolvedValueOnce({

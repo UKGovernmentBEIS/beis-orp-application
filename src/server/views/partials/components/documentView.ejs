@@ -4,7 +4,7 @@
     <object class="<%= embedClass %>" data="<%= url %>" type="application/pdf" title="<%= title %>">
         <embed src="<%= url %>" type="application/pdf" />
     </object>
-<% } else if (locals.iframeMimeTypes.includes(documentFormat)) { %>
+<% } else if (documentFormat === locals.iframeMimeType) { %>
     <iframe class="<%= embedClass %>" src="https://docs.google.com/gview?url=<%= encodeURIComponent(locals.url) %>&embedded=true" data-module="iframe-content" title="<%= title %>"></iframe>
 <% } %>
 

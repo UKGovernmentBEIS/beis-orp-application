@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { pdfMimeType, wordMimeTypes } from './server/document/utils/mimeTypes';
+import { pdfMimeType, wordMimeType } from './server/document/utils/mimeTypes';
 import pageTitles from './server/config/page-titles';
 
 export interface Response<T> {
@@ -47,7 +47,7 @@ export class ViewDataInterceptor<T> implements NestInterceptor<T, Response<T>> {
         values,
         menuItem: getMenuItem(request.url),
         latestSearch,
-        iframeMimeTypes: wordMimeTypes,
+        iframeMimeType: wordMimeType,
         objectMimeType: pdfMimeType,
         title: `${isErrors ? 'Error: ' : ''}${
           data?.title ?? defaultTitle

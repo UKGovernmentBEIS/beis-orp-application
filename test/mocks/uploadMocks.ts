@@ -20,8 +20,17 @@ const fileToBuffer = (filename): Promise<Buffer> => {
   });
 };
 
-export const getPdfBuffer = (): Promise<Buffer> =>
-  fileToBuffer(__dirname + '/test.pdf');
+type FILES = 'PDF' | 'EMPTY_PDF' | 'DOCX' | 'EMPTY_DOCX' | 'ODT' | 'EMPTY_ODT';
+const files: Record<FILES, string> = {
+  PDF: 'test.pdf',
+  EMPTY_PDF: 'test-empty.pdf',
+  DOCX: 'test.docx',
+  EMPTY_DOCX: 'test-empty.docx',
+  ODT: 'test.odt',
+  EMPTY_ODT: 'test-empty.odt',
+};
+export const getPdfBuffer = (type: FILES = 'PDF'): Promise<Buffer> =>
+  fileToBuffer(`${__dirname}/${files[type]}`);
 
 export const getPdfAsMulterFile = async (): Promise<Express.Multer.File> => {
   const buffer = await getPdfBuffer();

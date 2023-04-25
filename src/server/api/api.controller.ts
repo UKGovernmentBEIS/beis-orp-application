@@ -55,6 +55,7 @@ import { ApiUser as UserType } from '../auth/types/User';
 import { acceptedMimeTypesRegex } from '../document/utils/mimeTypes';
 import ApiFileValidationExceptionFactory from './utils/ApiFileValidationExceptionFactory';
 import { ThrottlerGuard } from '@nestjs/throttler';
+import FileNotEmptyValidator from '../form-validation/FileNotEmptyValidator';
 
 @UseGuards(ThrottlerGuard)
 @UsePipes(new ValidationPipe())
@@ -113,6 +114,7 @@ export class ApiController {
           new FileTypeValidator({
             fileType: acceptedMimeTypesRegex,
           }),
+          new FileNotEmptyValidator({}),
         ],
       }),
     )
