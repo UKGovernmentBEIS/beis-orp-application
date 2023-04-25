@@ -1,4 +1,10 @@
-import { ArgumentsHost, Catch, ExceptionFilter, Logger } from '@nestjs/common';
+import {
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  HttpStatus,
+  Logger,
+} from '@nestjs/common';
 import { AuthException } from '../types/AuthException';
 
 @Catch(AuthException)
@@ -65,9 +71,11 @@ export class AuthExceptionFilter implements ExceptionFilter {
     this.logger.error(
       `Unhandled auth error: ${JSON.stringify(exception.errorObj)}`,
     );
-    request.session.errors = {
-      global: 'An error occurred during authentication, please try again',
-    };
-    return response.redirect('/auth/logout');
+    return response
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .render('pages/error', {
+        title:
+          'Sorry, there is a problem with the service – The Open Regulation Platform – GOV.UK',
+      });
   }
 }
