@@ -42,9 +42,8 @@ describe('Ingest document status', () => {
   });
 
   describe('GET', () => {
-    mockS3.send.mockResolvedValueOnce({ Metadata: { old: 'meta' } });
-
     it('gets the meta and displays the options', () => {
+      mockS3.send.mockResolvedValueOnce({ Metadata: { old: 'meta' } });
       return fixture
         .request()
         .get('/ingest/document-status?key=unconfirmeddoc')
@@ -84,7 +83,9 @@ describe('Ingest document status', () => {
   describe('POST', () => {
     it('updates the meta data with selected option', async () => {
       mockS3.send
-        .mockResolvedValueOnce({ Metadata: { old: 'meta' } })
+        .mockResolvedValueOnce({
+          Metadata: { old: 'meta', regulator_id: 'ofcom' },
+        })
         .mockResolvedValueOnce({ updated: 'unconfirmed/key' });
 
       return fixture
@@ -98,6 +99,26 @@ describe('Ingest document status', () => {
           expect(mockS3.send).toBeCalledTimes(2);
         });
     });
+
+    it('rejects if wrong regulator_id', async () => {
+      mockS3.send
+        .mockResolvedValueOnce({
+          Metadata: { old: 'meta', regulator_id: 'something' },
+        })
+        .mockResolvedValueOnce({ updated: 'unconfirmed/key' });
+
+      return fixture
+        .request()
+        .post('/ingest/document-status')
+        .set('Cookie', regulatorSession)
+        .send({ key: 'unconfirmed/key', status: 'published' })
+        .expect(302)
+        .expect('Location', '/unauthorised/ingest')
+        .expect(() => {
+          expect(mockS3.send).toBeCalledTimes(1);
+        });
+    });
+
     describe('guards', () => {
       it('redirects non-regulator users', async () => {
         return fixture
