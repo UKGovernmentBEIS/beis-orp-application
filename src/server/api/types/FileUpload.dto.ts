@@ -17,7 +17,7 @@ export class FileUploadDto {
   status: OrpDocumentStatus;
 
   @IsEndOfTopicPath({
-    message: 'Topic must be end of a complete topic branch',
+    message: 'topics must be end of a complete topic branch',
   })
   topics: string;
 }

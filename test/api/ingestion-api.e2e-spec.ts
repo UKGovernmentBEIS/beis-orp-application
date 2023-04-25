@@ -113,7 +113,7 @@ describe('api/upload (PUT)', () => {
       })
       .expect(400)
       .expect(
-        '{"statusCode":400,"message":["Topic must be end of a complete topic branch"],"error":"Bad Request"}',
+        '{"statusCode":400,"message":["topics must be end of a complete topic branch"],"error":"Bad Request"}',
       );
   });
 
@@ -129,7 +129,7 @@ describe('api/upload (PUT)', () => {
       })
       .expect(400)
       .expect(
-        '{"statusCode":400,"message":["Topic must be end of a complete topic branch"],"error":"Bad Request"}',
+        '{"statusCode":400,"message":["topics must be end of a complete topic branch"],"error":"Bad Request"}',
       );
   });
 });
