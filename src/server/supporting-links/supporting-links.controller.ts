@@ -8,7 +8,7 @@ export class SupportingLinksController {
     this.url = `https://${config.get<string>('domain')}`;
   }
   @Get('/sitemap')
-  @Render('pages/sitemap/index')
+  @Render('pages/supportingLinks/index')
   async getSitemap() {
     return {
       siteSections: {
@@ -47,7 +47,7 @@ export class SupportingLinksController {
   }
 
   @Get('/cookies')
-  @Render('pages/sitemap/cookies')
+  @Render('pages/supportingLinks/cookies')
   async getCookies() {
     return {};
   }
