@@ -1,3 +1,34 @@
+# Online Regulator Platform (ORP) client application
+
+The UK regulatory landscape is complex and difficult to navigate. As a result, businesses must spend a lot of resources identifying which regulations they are expected to comply with. This is before they start to understand what they have to do to comply. Estimates from BEIS’s Business Perception Survey 2020 suggest that businesses spend, on average, around eight staff days per month complying with regulations. Economic analysis suggests that the ORP could create benefits to the UK economy of up to £500m, largely through reducing information search costs. 
+
+Currently, regulatory data is difficult to access, it doesn't exist in a centralised place or in a structured way. As a result, regulatory data does not provide the value and use it could to businesses and citizens. The Open Regulation Platform (ORP) is an enabling service that seeks to tackle thus challenge, by providing access to a centralised repository of enriched and machine-readable regulatory data. Allowing government, businesses and third parties to develop tools and products that will help others navigate and comply with regulation in smarter, less burdensome ways.
+
+
+## Environment
+
+The ORP service is hosted on cloud infrastructure using Amazon Web Services (AWS) and is deployed using Github actions. The service uses native AWS services (Lambdas, step functions, S3, etc) with multiple services communicating with each other through APIs. The is defined in Terraform in a separate repository - see beis-orp-infrastructure. 
+
+## Monitoring
+The health of the client application can be monitored using the CloudWatch dashboard and the alarms configured in CloudWatch. Alerts are set up to notify the team via email in case of any critical issues.
+
+## Access 
+Access to the system is restricted to authorized personnel only. The system is secured using AWS Identity and Access Management (IAM) 
+Incident Management:
+
+## Detection and Response
+When an issue or incident is detected, the first step is to check the system's logs and metrics to understand the scope and severity of the issue. If the issue is critical, we escalate it to the service owner.
+
+## Maintenance
+Regular maintenance includes updating software dependencies, security patches, and backups. Maintenance activities are scheduled during off-peak hours to minimize downtime and impact on users.
+
+## Release Management
+New features and bug fixes are deployed using a CI/CD pipeline with automated testing and manual approvals
+
+## Change Management
+Changes to the system are documented and reviewed by the team before implementation. Changes that may impact users are communicated in advance to minimize any disruption.
+
+
 ## Installation
 
 ```bash
