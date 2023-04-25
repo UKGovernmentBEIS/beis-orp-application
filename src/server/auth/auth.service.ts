@@ -127,6 +127,9 @@ export class AuthService {
     try {
       return await this.client.send(forgotPasswordCommand);
     } catch (err) {
+      if (err.name === 'UserNotFoundException') {
+        return null;
+      }
       throw this.getAuthError(err);
     }
   }
