@@ -1,7 +1,9 @@
-import { Controller, Get, Render } from '@nestjs/common';
+import { Controller, Get, Render, UseInterceptors } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 
 @Controller()
+@UseInterceptors(ViewDataInterceptor)
 export class SupportingLinksController {
   private url;
   constructor(private readonly config: ConfigService) {
@@ -49,6 +51,12 @@ export class SupportingLinksController {
   @Get('/cookies')
   @Render('pages/supportingLinks/cookies')
   async getCookies() {
+    return {};
+  }
+
+  @Get('/accessibility')
+  @Render('pages/supportingLinks/accessibility')
+  async getAccessibilityStatement() {
     return {};
   }
 }
