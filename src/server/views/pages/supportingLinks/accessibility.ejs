@@ -1,0 +1,65 @@
+<%- include('../../partials/header'); %>
+
+<div class="govuk-width-container">
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+
+                <h1 class="govuk-heading-xl">Accessibility statement</h1>
+                <p>This accessibility statement applies to the BEIS BRE Open Regulation Platform (ORP) Private Beta</p>
+                <p>This website is run by the Department for Business and Trade Better Regulation Executive (BRE). We want as many people as possible to be able to use this website. For example, that means you should be able to: </p>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>change colours, contrast levels and fonts</li>
+                    <li>zoom in up to 300% without the text spilling off the screen</li>
+                    <li>navigate most of the website using just a keyboard</li>
+                    <li>navigate most of the website using speech recognition software</li>
+                    <li>listen to most of the website using a screen reader (including the most recent versions of JAWS, NVDA and VoiceOver)</li>
+                </ul>
+                <p>We’ve also made the website text as simple as possible to understand.</p>
+                <p><a href="https://mcmw.abilitynet.org.uk/" target="_blank" rel="noopener noreferrer">AbilityNet</a> has advice on making your device easier to use if you have a disability.</p>
+
+                <h2 class="govuk-heading-m govuk-!-margin-top-6">How accessible this website is</h2>
+                <p>We know some parts of this website are not fully accessible:</p>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>the tab order is not logical on all pages</li>
+                    <li>a visible focus indicator is not always present when tabbing page content</li>
+                    <li>zooming text only to 200% may cause some content to be difficult to read or disappear</li>
+                </ul>
+
+                <h2 class="govuk-heading-m govuk-!-margin-top-6">Feedback and contact information</h2>
+                <p>If you need information on this website in a different format like accessible PDF, large print, easy read, audio recording or braille:</p>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li><a class="govuk-link" href="mailto:openregulationplatform@beis.gov.uk">openregulationplatform@beis.gov.uk</a></li>
+                </ul>
+
+                <h2 class="govuk-heading-m govuk-!-margin-top-6">Reporting accessibility problems with this website</h2>
+                <p>We’re always looking to improve the accessibility of this website. If you find any problems not listed on this page or think we’re not meeting accessibility requirements, contact: <a class="govuk-link" href="mailto:openregulationplatform@beis.gov.uk">openregulationplatform@beis.gov.uk</a></p>
+
+                <h2 class="govuk-heading-m govuk-!-margin-top-6">Technical information about this website’s accessibility</h2>
+                <p>BEIS is committed to making its website accessible, in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.</p>
+
+                <h3 class="govuk-heading-m govuk-!-margin-top-6">Compliance status</h3>
+                <p>This website is partially compliant with the <a href="https://www.w3.org/TR/WCAG21/" target="_blank" rel="noopener noreferrer">Web Content Accessibility Guidelines version 2.1</a> AA standard, the non-compliances are listed below.</p>
+
+                <h2 class="govuk-heading-m govuk-!-margin-top-6">Non-accessible content</h2>
+                <p>The content listed below is non-accessible for the following reasons.</p>
+
+                <h3 class="govuk-heading-s govuk-!-margin-top-6">Non-compliance with the accessibility regulations </h3>
+                <p>Rendering issues are present with PDF text when zooming text only to 200% using browser zoom controls. This includes overlapping content, content no longer being present, and text being cut-off. This fails WCAG 2.1 success criterion 1.4.4 (Resize Text).</p>
+                <p>An illogical focus order has been observed on the ‘Review Document’ page, where the focus moves to the links within the embedded document but focuses on the footer links first. This fails WCAG 2.1 success criterion 2.4.3 (Focus Order).</p>
+                <p>A visible focus indicator is not always present when tabbing page content. This has been observed on the ‘Search with Results’ page, as there is no focus indicator when tabbing through the results, and the ‘Review Document Details’ when the focus moves to the embedded PDF’s scroll function. This fails WCAG 2.1 success criterion 2.4.7 (Focus Visible).</p>
+
+                <h2 class="govuk-heading-m govuk-!-margin-top-6">What we’re doing to improve accessibility</h2>
+                <p>Future phases of the ORP project will rectify the non-accessible content by removing the need for a document viewer while not sacrificing overall accessibility. </p>
+
+                <h2 class="govuk-heading-m govuk-!-margin-top-6">Preparation of this accessibility statement</h2>
+                <p>This statement was prepared on 21/04/2023 It was last reviewed on 21/04/2023.</p>
+                <p>This website was last tested on 20/04/2023 The test was carried out by <a href="https://zoonou.com/" target="_blank" rel="noopener noreferrer">Zoonou</a>.</p>
+
+            </div>
+        </div>
+    </main>
+</div>
+
+<%- include('../../partials/footer'); %>

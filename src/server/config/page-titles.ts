@@ -28,6 +28,9 @@ const pageTitles = {
   '/ingest/success': 'Document upload success',
   '/developer': 'Your API credentials',
   '/developer/metadata-schema': 'Metadata Schema',
+  '/cookies': 'Cookies',
+  '/sitemap': 'Sitemap',
+  '/accessibility': 'Accessibility statement',
 };
 
 export default pageTitles;
