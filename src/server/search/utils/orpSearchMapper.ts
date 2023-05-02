@@ -17,7 +17,9 @@ export function mapOrpDocument(
     title: document.title,
     description: document.summary,
     documentId: document.document_uid,
-    creator: regulators.find((reg) => reg.id === document.regulator_id)?.name,
+    creator:
+      regulators.find((reg) => reg.id === document.regulator_id)?.name ??
+      document.regulator_id,
     dates: {
       uploaded: document.date_uploaded,
       published: document.date_published,
