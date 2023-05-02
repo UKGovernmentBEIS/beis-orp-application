@@ -49,7 +49,13 @@ export class DocumentController {
       document.documentFormat !== 'HTML'
         ? await this.documentService.getDocumentUrl(document.uri)
         : { url: null, documentFormat: 'HTML' };
-    const regulator = regulators.find((reg) => reg.name === document.creator);
+    const regulator = regulators.find(
+      (reg) => reg.name === document.creator,
+    ) ?? {
+      name: document.creator,
+      id: document.creator,
+      domain: document.creator,
+    };
     const docType = documentTypes[document.documentType] ?? '';
 
     return {
