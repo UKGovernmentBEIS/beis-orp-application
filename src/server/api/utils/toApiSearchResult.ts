@@ -3,25 +3,37 @@ import {
   OrpSearchResponse,
   SearchResponseDto,
 } from '../../search/types/SearchResponse.dto';
-import { ApiSearchResponseDto } from '../types/ApiSearchResponse.dto';
-import * as snakecaseKeys from 'snakecase-keys';
+import * as R from 'ramda';
 
-export default (apiSearch: SearchResponseDto): ApiSearchResponseDto =>
-  snakecaseKeys({
-    ...apiSearch,
-    regulatoryMaterial: toApiRegulatorMaterial(apiSearch.regulatoryMaterial),
-  }) as unknown as ApiSearchResponseDto;
+export type FilteredOrpSearchItemForApi = Omit<
+  OrpSearchItem,
+  'uri' | 'documentFormat'
+>;
 
-export function toApiRegulatorMaterial(regMat: OrpSearchResponse) {
-  return snakecaseKeys({
-    ...regMat,
-    documents: regMat.documents.map(toApiOrpDocument),
-  });
-}
-export function toApiOrpDocument(doc: OrpSearchItem) {
-  return snakecaseKeys({
-    ...doc,
-    uri: undefined,
-    documentFormat: undefined,
-  });
-}
+export type FilteredSearchResponseForApi = Omit<
+  SearchResponseDto,
+  'regulatoryMaterial'
+> & {
+  regulatoryMaterial: Omit<OrpSearchResponse, 'documents'> & {
+    documents: FilteredOrpSearchItemForApi[];
+  };
+};
+
+export default (
+  apiSearch: SearchResponseDto,
+): FilteredSearchResponseForApi => ({
+  ...apiSearch,
+  regulatoryMaterial: toApiRegulatorMaterial(apiSearch.regulatoryMaterial),
+});
+
+export const toApiRegulatorMaterial = (
+  regMat: OrpSearchResponse,
+): FilteredSearchResponseForApi['regulatoryMaterial'] => ({
+  ...regMat,
+  documents:
+    regMat.documents.map<FilteredOrpSearchItemForApi>(toApiOrpDocument),
+});
+
+export const toApiOrpDocument = (
+  doc: OrpSearchItem,
+): FilteredOrpSearchItemForApi => R.omit(['uri', 'documentFormat'], doc);

@@ -18,14 +18,12 @@ import JwtAuthenticationGuard from '../auth/jwt.guard';
 import JwtRegulatorGuard from '../auth/jwt-regulator.guard';
 import { ApiAuthService } from '../auth/api-auth.service';
 import { RegulatorService } from '../regulator/regulator.service';
-import { mockTokens, mockTokensReturn } from '../../../test/mocks/tokens.mock';
+import { mockTokens } from '../../../test/mocks/tokens.mock';
 import { AuthService } from '../auth/auth.service';
-import {
-  getMappedOrpDocument,
-  getMappedOrpDocumentForApi,
-} from '../../../test/mocks/orpSearchMock';
+import { getMappedOrpDocument } from '../../../test/mocks/orpSearchMock';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { FULL_TOPIC_PATH } from '../../../test/mocks/topics';
+import * as R from 'ramda';
 
 describe('ApiController', () => {
   let controller: ApiController;
@@ -116,10 +114,7 @@ describe('ApiController', () => {
         legislation: { totalSearchResults: 10, documents: [] },
         regulatoryMaterial: { totalSearchResults: 10, documents: [] },
       };
-      const expectedResult = {
-        legislation: { total_search_results: 10, documents: [] },
-        regulatory_material: { total_search_results: 10, documents: [] },
-      };
+
       jest.spyOn(searchService, 'search').mockResolvedValue(searchResponse);
 
       const result = await controller.search({
@@ -127,7 +122,7 @@ describe('ApiController', () => {
         keyword: 'keyword',
       });
 
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(searchResponse);
     });
   });
 
@@ -150,7 +145,9 @@ describe('ApiController', () => {
       const result = await controller.getDocument({ id: 'id' });
 
       expect(getDocMock).toBeCalledWith('id');
-      expect(result).toEqual(getMappedOrpDocumentForApi());
+      expect(result).toEqual(
+        R.omit(['uri', 'documentFormat'], getMappedOrpDocument()),
+      );
     });
   });
 
@@ -194,7 +191,7 @@ describe('ApiController', () => {
         clientId: 'clid',
         clientSecret: 'cls',
       });
-      expect(result).toEqual(mockTokensReturn);
+      expect(result).toEqual(mockTokens);
     });
   });
 
@@ -209,7 +206,7 @@ describe('ApiController', () => {
       });
 
       expect(refreshTokensMock).toBeCalledWith(mockTokens.RefreshToken);
-      expect(result).toEqual(mockTokensReturn);
+      expect(result).toEqual(mockTokens);
     });
   });
 });

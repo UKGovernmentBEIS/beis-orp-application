@@ -8,7 +8,7 @@ import {
 } from '../mocks/linkedDocumentsMock';
 import { TNA_DOC_URL } from '../mocks/handlers';
 
-describe('api/search (GET)', () => {
+describe('api/linked-documents (GET)', () => {
   const fixture = new E2eFixture();
 
   beforeAll(async () => {
