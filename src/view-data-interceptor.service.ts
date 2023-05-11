@@ -13,12 +13,14 @@ export interface Response<T> {
   data: T;
 }
 
-type MenuItem = 'search' | 'upload' | 'dev' | 'blog';
+type MenuItem = 'search' | 'upload' | 'dev' | 'blog' | 'uploaded-docs';
 const getMenuItem = (url: string): MenuItem | null => {
   if (url === '' || url.includes('blog')) return 'blog';
+  if (url.includes('uploaded-documents')) return 'uploaded-docs';
   if (url.includes('search') || url.includes('document')) return 'search';
   if (url.includes('ingest') || url.includes('document')) return 'upload';
   if (url.includes('developer')) return 'dev';
+
   return null;
 };
 

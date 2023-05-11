@@ -1,0 +1,11 @@
+ul#uploaded-documents-results {
+  padding-left: 0;
+  li {
+    padding: 15px 0;
+    list-style: none;
+    border-top: 1px solid govuk-colour("mid-grey", $legacy: "grey-2");
+    &:last-child {
+      border-bottom: 1px solid govuk-colour("mid-grey", $legacy: "grey-2");;
+    }
+  }
+}

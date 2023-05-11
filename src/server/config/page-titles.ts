@@ -31,6 +31,7 @@ const pageTitles = {
   '/cookies': 'Cookies',
   '/sitemap': 'Sitemap',
   '/accessibility': 'Accessibility statement',
+  '/uploaded-documents': 'Uploaded documents',
 };
 
 export default pageTitles;

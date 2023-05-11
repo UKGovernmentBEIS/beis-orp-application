@@ -82,6 +82,12 @@
                                 <a class="primary-navigation__link <% if (locals.menuItem === 'upload') { %>primary-navigation__link--current" aria-current="page<% } %>" href="/ingest">Upload</a>
                             </li>
 
+                            <% if (locals?.user?.regulator?.id) { %>
+                                <li class="primary-navigation__item">
+                                    <a class="primary-navigation__link <% if (locals.menuItem === 'uploaded-docs') { %>primary-navigation__link--current" aria-current="page<% } %>" href="/uploaded-documents">Uploaded Documents</a>
+                                </li>
+                            <% } %>
+
                             <li class="primary-navigation__item">
                                 <a class="primary-navigation__link <% if (locals.menuItem === 'dev') { %>primary-navigation__link--current" aria-current="page<% } %>" href="/developer">Developer Portal</a>
                             </li>
