@@ -16,6 +16,7 @@ import { DeveloperModule } from './developer/developer.module';
 import { UnauthorisedModule } from './unauthorised/unauthorised.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { SupportingLinksModule } from './supporting-links/supporting-links.module';
+import { UploadedDocumentsModule } from './uploaded-documents/uploaded-documents.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { SupportingLinksModule } from './supporting-links/supporting-links.modul
       limit: 30,
     }),
     SupportingLinksModule,
+    UploadedDocumentsModule,
   ],
   providers: [Logger],
   exports: [Logger],
