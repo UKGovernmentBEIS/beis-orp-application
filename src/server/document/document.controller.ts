@@ -34,7 +34,7 @@ export class DocumentController {
   @Render('pages/document')
   async getDocument(
     @Param() { id }: { id: string },
-    @Query() { ingested }: { ingested?: string },
+    @Query() { ingested, referrer }: { ingested?: string; referrer?: string },
   ): Promise<{
     document: OrpSearchItem;
     url: string;
@@ -43,6 +43,7 @@ export class DocumentController {
     documentFormat: string;
     ingested: boolean;
     title: string;
+    referrer?: string;
   }> {
     const document = await this.documentService.getDocumentById(id);
     const { url, documentFormat } =
@@ -66,6 +67,7 @@ export class DocumentController {
       docType,
       ingested: ingested === 'true',
       title: `Document details for ${document.title}`,
+      referrer,
     };
   }
 
