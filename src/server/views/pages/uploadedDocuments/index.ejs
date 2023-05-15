@@ -14,7 +14,7 @@
                         <ul id="uploaded-documents-results">
                             <% documents.forEach((document) => { %>
                                 <li>
-                                    <h2><a class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state" href="#"><%= document.title %></a></h2>
+                                    <h2><a class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state" href="/uploaded-documents/detail/<%= document.documentId %>"><%= document.title %></a></h2>
                                     <p class="govuk-!-font-size-16">
                                         Published on <%- include('../../partials/components/dateDisplay', { dateString: document.dates.published }); %>
                                     </p>

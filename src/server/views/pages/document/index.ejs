@@ -8,9 +8,10 @@
         topics = locals.document.regulatoryTopics ?? []
         documentFormat = locals.documentFormat ?? ""
         ingested = locals.ingested ?? false
+        backHref = locals.referrer === 'uploaded' ? `/uploaded-documents/detail/${document.documentId}` : locals.latestSearch
     %>
 <div class="govuk-width-container">
-    <%- include('../../partials/components/backButton' , {href: locals.latestSearch}); %>
+    <%- include('../../partials/components/backButton' , {href: backHref}); %>
 
     <main class="govuk-main-wrapper " id="main-content" role="main">
         <div class="govuk-grid-row">

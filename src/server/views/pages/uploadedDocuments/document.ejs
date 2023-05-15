@@ -1,0 +1,95 @@
+<%- include('../../partials/header'); %>
+
+<div class="govuk-width-container">
+    <%- include('../../partials/components/backButton' , {href: '/uploaded-documents'}); %>
+
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-l">Document Details</h1>
+                <dl class="govuk-summary-list govuk-!-margin-bottom-9">
+                    <div class="govuk-summary-list__row govuk-summary-list__row--no-actions">
+                        <dt class="govuk-summary-list__key">
+                            Document Title
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            <%= document.title %>
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Document Type
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            <%= document.documentType %>
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+<!--                                <a class="govuk-link govuk-link&#45;&#45;no-visited-state" href="#">-->
+<!--                                    Update<span class="govuk-visually-hidden"> document type</span>-->
+<!--                                </a>-->
+                        </dd>
+                    </div>
+                    <% document.regulatoryTopics.forEach((topic, index) => { %>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Topic Level <%= index + 1%>
+                            </dt>
+                            <dd class="govuk-summary-list__value">
+                                <%= topic %>
+                            </dd>
+                            <dd class="govuk-summary-list__actions">
+<!--                                    <a class="govuk-link govuk-link&#45;&#45;no-visited-state" href="#">-->
+<!--                                        Update<span class="govuk-visually-hidden"> document level <%= index + 1 %> topic</span>-->
+<!--                                    </a>-->
+                            </dd>
+                        </div>
+                    <% }) %>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Status
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            <%  if (document.status === 'published') { %>
+                                Active
+                            <%  } else { %>
+                                Draft
+                            <%  } %>
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+<!--                                <a class="govuk-link govuk-link&#45;&#45;no-visited-state" href="#">-->
+<!--                                    Update<span class="govuk-visually-hidden"> document status</span>-->
+<!--                                </a>-->
+                        </dd>
+                    </div>
+                </dl>
+
+                <details class="govuk-details" data-module="govuk-details">
+                    <summary class="govuk-details__summary">
+                    <span class="govuk-details__summary-text">
+                      Get help with updating document
+                    </span>
+                    </summary>
+                    <div class="govuk-details__text">
+                        <p>Contact <a class="govuk-link" href="mailto:openregulationplatform@beis.gov.uk">openregulationplatform@beis.gov.uk</a> if you need help using this service.</p>
+                    </div>
+                </details>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <a href="/document/view/<%= document.documentId %>?referrer=uploaded" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                    View Published Document
+                </a>
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+                <div>
+                    <h2 class="govuk-heading-s">Details</h2>
+                    <dl class="govuk-body heading-field-list govuk-!-font-size-16">
+                        <dt class="govuk-summary-list__key">Published date</dt>
+                        <dd> <%- include('../../partials/components/dateDisplay', { dateString: document.dates.published }); %></dd>
+                    </dl>
+                </div>
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+            </div>
+        </div>
+    </main>
+</div>
+
+<%- include('../../partials/footer'); %>
