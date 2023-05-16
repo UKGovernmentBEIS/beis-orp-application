@@ -1,0 +1,61 @@
+<%
+var hint = {
+    GD: "Documents that help explain regulation and can be used to guide towards compliance.",
+    MSI: "Documents that contain information about specific regulated businesses or data about markets.",
+    HS: "Documents that are informal updates or comment on how things might change in the future.",
+    OTHER: "Documents that do not fit into the above categories"
+}
+
+var submitText = locals.submitText ?? 'Continue'
+%>
+
+<form method="post">
+    <input type="hidden" value="<%= locals.key %>" name="key" />
+    <div class="govuk-form-group <% if(locals?.errors?.documentType) { %>govuk-form-group--error<% } %>">
+        <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                <h2 class="govuk-fieldset__heading">
+                    Which category best describes the type of regulatory material you are uploading?
+                </h2>
+            </legend>
+            <% if(locals?.errors?.documentType) { %>
+                <p id="email-error" class="govuk-error-message">
+                    <%= locals?.errors?.documentType %>
+                </p>
+            <% } %>
+            <div class="govuk-radios" data-module="govuk-radios">
+                <% Object.keys(documentTypes).forEach(function(docType) { %>
+                    <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" id="document-type-<%= docType %>" name="documentType" type="radio" value="<%= docType %>" <% if (selected === docType) { %>checked<% } %>>
+                        <label class="govuk-label govuk-radios__label" for="document-type-<%= docType %>">
+                            <%= documentTypes[docType] %>
+                        </label>
+                        <% if (hint[docType]) { %>
+                            <div id="<%= docType %>-hint" class="govuk-hint govuk-radios__hint">
+                                <%= hint[docType] %>
+                            </div>
+                        <% } %>
+                    </div>
+                <% }); %>
+                <div class="govuk-radios__item">
+                    <input class="govuk-radios__input" id="document-type-other" name="documentType" type="radio" value="OTHER" <% if (selected === 'OTHER') { %>checked<% } %>>
+                    <label class="govuk-label govuk-radios__label" for="document-type-other">
+                        Other
+                    </label>
+                    <div id="other-hint" class="govuk-hint govuk-radios__hint">
+                        <%= hint.OTHER %>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <button type="submit" class="govuk-button" data-module="govuk-button">
+        <%= submitText %>
+    </button>
+
+    <% if (locals.cancelLink) { %>
+        <a href="<%= locals.cancelLink %>" role="button" draggable="false" class="govuk-button govuk-button--secondary govuk-!-margin-left-2" data-module="govuk-button">
+            Cancel
+        </a>
+    <% } %>
+</form>

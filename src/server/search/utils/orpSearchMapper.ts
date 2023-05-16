@@ -17,6 +17,7 @@ export function mapOrpDocument(
     title: document.title,
     description: document.summary,
     documentId: document.document_uid,
+    regulatorId: document.regulator_id,
     creator:
       regulators.find((reg) => reg.id === document.regulator_id)?.name ??
       document.regulator_id,
@@ -30,6 +31,7 @@ export function mapOrpDocument(
       : undefined,
     version: document.version,
     documentType: documentTypes[document.document_type],
+    documentTypeId: document.document_type,
     keyword: document.keyword,
     status: document.status,
     uri: document.uri,
@@ -58,6 +60,8 @@ export function mapLinkedDocuments(
         ...mapOrpDocument(relatedDoc),
         uri: undefined,
         documentFormat: undefined,
+        regulatorId: undefined,
+        documentTypeId: undefined,
       })),
     })),
     totalSearchResults: response.total_search_results,

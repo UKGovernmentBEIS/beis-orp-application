@@ -11,6 +11,7 @@ import { getMappedOrpDocument } from '../../../test/mocks/orpSearchMock';
 import { mockAwsDal } from '../../../test/mocks/uploadMocks';
 import { TnaDal } from '../data/tna.dal';
 import { ForbiddenException } from '@nestjs/common';
+import { documentTypes } from '../search/types/documentTypes';
 
 describe('UploadedDocumentsController', () => {
   let controller: UploadedDocumentsController;
@@ -58,7 +59,7 @@ describe('UploadedDocumentsController', () => {
   describe('getDocumentDetails', () => {
     it('should call getDocumentById on DocumentsService', async () => {
       const document = getMappedOrpDocument({
-        creator: DEFAULT_USER_WITH_REGULATOR.regulator.name,
+        regulatorId: DEFAULT_USER_WITH_REGULATOR.regulator.id,
       });
       const getByIdMock = jest
         .spyOn(documentService, 'getDocumentById')
@@ -69,7 +70,7 @@ describe('UploadedDocumentsController', () => {
       );
 
       expect(getByIdMock).toBeCalledWith('id');
-      expect(result).toEqual({ document });
+      expect(result).toEqual({ document, title: `${document.title} details` });
     });
 
     it('should throw if not from same regulator', async () => {
@@ -85,6 +86,76 @@ describe('UploadedDocumentsController', () => {
           DEFAULT_USER_WITH_REGULATOR,
         ),
       ).rejects.toBeInstanceOf(ForbiddenException);
+    });
+  });
+
+  describe('getUpdateDocumentType', () => {
+    it('should call getDocumentById on DocumentsService and return document type information', async () => {
+      const document = getMappedOrpDocument({
+        regulatorId: DEFAULT_USER_WITH_REGULATOR.regulator.id,
+      });
+      const getByIdMock = jest
+        .spyOn(documentService, 'getDocumentById')
+        .mockResolvedValue(document);
+      const result = await controller.getUpdateDocumentType(
+        { id: 'id' },
+        DEFAULT_USER_WITH_REGULATOR,
+      );
+
+      expect(getByIdMock).toBeCalledWith('id');
+      expect(result).toEqual({
+        key: document.uri,
+        id: 'id',
+        selected: document.documentTypeId,
+        documentTypes,
+        title: 'Update document type',
+      });
+    });
+
+    it('should throw if not from same regulator', async () => {
+      const document = getMappedOrpDocument();
+
+      jest
+        .spyOn(documentService, 'getDocumentById')
+        .mockResolvedValue(document);
+
+      return expect(
+        controller.getUpdateDocumentType(
+          { id: 'id' },
+          DEFAULT_USER_WITH_REGULATOR,
+        ),
+      ).rejects.toBeInstanceOf(ForbiddenException);
+    });
+  });
+
+  describe('postDocType', () => {
+    it('call updateMeta on document service', async () => {
+      const updateMock = jest
+        .spyOn(documentService, 'updateMeta')
+        .mockResolvedValue({ updated: true });
+
+      await controller.postDocType(
+        { key: 'key', documentType: 'GD' },
+        { id: 'id' },
+        DEFAULT_USER_WITH_REGULATOR,
+      );
+
+      expect(updateMock).toBeCalledWith(
+        'key',
+        { document_type: 'GD' },
+        DEFAULT_USER_WITH_REGULATOR,
+      );
+    });
+  });
+
+  describe('success', () => {
+    it('returns id and title', async () => {
+      const response = controller.success({ id: 'id' });
+
+      expect(response).toEqual({
+        documentId: 'id',
+        title: 'Document successfully updated',
+      });
     });
   });
 });

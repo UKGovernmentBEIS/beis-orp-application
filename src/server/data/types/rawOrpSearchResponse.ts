@@ -1,4 +1,5 @@
 import { OrpDocumentStatus } from '../../search/types/statusTypes';
+import { DocumentType } from '../../search/types/documentTypes';
 
 export interface RawOrpResponseEntry {
   title: string;
@@ -15,7 +16,7 @@ export interface RawOrpResponseEntry {
   }[];
   regulatory_topic?: string;
   version: number;
-  document_type?: string;
+  document_type?: DocumentType;
   uri: string;
   keyword: string[];
   status: OrpDocumentStatus;

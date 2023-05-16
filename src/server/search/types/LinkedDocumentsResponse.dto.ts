@@ -6,6 +6,9 @@ export class LinkedDocumentsResponseDto {
 }
 
 export class LinkedDocuments {
-  relatedDocuments: Omit<OrpSearchItem, 'uri' | 'documentFormat'>[];
+  relatedDocuments: Omit<
+    OrpSearchItem,
+    'uri' | 'documentFormat' | 'documentTypeId' | 'regulatorId'
+  >[];
   legislationHref: string;
 }

@@ -1,0 +1,21 @@
+<%- include('../../partials/header'); %>
+
+<div class="govuk-width-container">
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-6">
+                    <h1 class="govuk-panel__title">
+                        Document Successfully Updated
+                    </h1>
+                </div>
+
+                <a href="/uploaded-documents/detail/<%= locals.documentId ?? '#' %>" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                    Back to Document Details
+                </a>
+            </div>
+        </div>
+    </main>
+</div>
+
+<%- include('../../partials/footer'); %>

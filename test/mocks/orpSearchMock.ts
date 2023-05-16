@@ -48,6 +48,7 @@ export const getMappedOrpDocument = (
     title: 'Title',
     description: 'This is the summary',
     documentId: '0001',
+    regulatorId: 'ofcom',
     creator: 'Office of Communications',
     dates: {
       uploaded: '2019-08-06T00:00:00Z',
@@ -63,6 +64,7 @@ export const getMappedOrpDocument = (
     ],
     regulatoryTopics: FULL_TOPIC_OUTPUT,
     version: 1,
+    documentTypeId: 'GD',
     documentType: 'Guidance',
     keyword: ['keyword1', 'keyword2'],
     status: 'published',
