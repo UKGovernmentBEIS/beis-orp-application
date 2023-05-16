@@ -1,3 +1,5 @@
+import { DocumentType } from './documentTypes';
+
 class TnaSearchItem {
   id: string;
   title?: string;
@@ -20,6 +22,7 @@ export class OrpSearchItem {
   title: string;
   description: string;
   documentId: string;
+  regulatorId: string;
   creator?: string;
   dates: {
     uploaded: string;
@@ -29,6 +32,7 @@ export class OrpSearchItem {
   regulatoryTopics?: string[];
   version: number;
   documentType?: string;
+  documentTypeId: DocumentType;
   keyword: string[];
   status?: 'published' | 'draft';
   uri: string;

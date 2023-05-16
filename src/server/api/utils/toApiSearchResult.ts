@@ -7,7 +7,7 @@ import * as R from 'ramda';
 
 export type FilteredOrpSearchItemForApi = Omit<
   OrpSearchItem,
-  'uri' | 'documentFormat'
+  'uri' | 'documentFormat' | 'documentTypeId' | 'regulatorId'
 >;
 
 export type FilteredSearchResponseForApi = Omit<
@@ -36,4 +36,5 @@ export const toApiRegulatorMaterial = (
 
 export const toApiOrpDocument = (
   doc: OrpSearchItem,
-): FilteredOrpSearchItemForApi => R.omit(['uri', 'documentFormat'], doc);
+): FilteredOrpSearchItemForApi =>
+  R.omit(['uri', 'documentFormat', 'documentTypeId', 'regulatorId'], doc);

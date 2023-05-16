@@ -146,7 +146,10 @@ describe('ApiController', () => {
 
       expect(getDocMock).toBeCalledWith('id');
       expect(result).toEqual(
-        R.omit(['uri', 'documentFormat'], getMappedOrpDocument()),
+        R.omit(
+          ['uri', 'documentFormat', 'documentTypeId', 'regulatorId'],
+          getMappedOrpDocument(),
+        ),
       );
     });
   });
