@@ -263,13 +263,7 @@ export class IngestController {
         status,
       };
     } else {
-      await this.documentService.updateMeta(
-        key,
-        {
-          status,
-        },
-        user,
-      );
+      await this.documentService.updateMeta(key, { status }, user);
     }
 
     return { url: `/ingest/submit?key=${key}` };

@@ -33,6 +33,7 @@ import {
 import { topics } from '../document/utils/topics';
 import { topicsDisplayMap } from '../document/utils/topics-display-mapping';
 import DocumentTopicsDto from '../ingest/types/DocumentTopics.dto';
+import DocumentStatusDto from '../ingest/types/DocumentStatus.dto';
 
 @Controller('uploaded-documents')
 @UseGuards(RegulatorGuard)
@@ -164,6 +165,44 @@ export class UploadedDocumentsController {
       },
       user,
     );
+
+    return { url: `/uploaded-documents/updated/${id}` };
+  }
+
+  @Get('/status/:id')
+  @Render('pages/uploadedDocuments/documentStatus')
+  async getUpdateDocumentStatus(
+    @Param() { id }: { id: string },
+    @User() user: UserType,
+  ) {
+    const {
+      regulatorId,
+      uri: key,
+      status,
+    } = await this.documentService.getDocumentById(id);
+    if (regulatorId !== user.regulator.id) {
+      throw new ForbiddenException();
+    }
+
+    return {
+      id,
+      key,
+      selected: status,
+      title: 'Update document status',
+    };
+  }
+
+  @Post('/status/:id')
+  @Redirect('/uploaded-documents/updated/:id')
+  @ValidateForm()
+  async postUpdateDocumentStatus(
+    @Body() documentStatusDto: DocumentStatusDto,
+    @Param() { id }: { id: string },
+    @User() user: UserType,
+  ) {
+    const { key, status } = documentStatusDto;
+
+    await this.documentService.updateMeta(key, { status }, user);
 
     return { url: `/uploaded-documents/updated/${id}` };
   }

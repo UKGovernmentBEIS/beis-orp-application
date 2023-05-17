@@ -195,6 +195,64 @@ describe('UploadedDocumentsController', () => {
     });
   });
 
+  describe('getUpdateDocumentStatus', () => {
+    it('should call getDocumentById on DocumentsService and return document status information', async () => {
+      const document = getMappedOrpDocument({
+        regulatorId: DEFAULT_USER_WITH_REGULATOR.regulator.id,
+      });
+      const getByIdMock = jest
+        .spyOn(documentService, 'getDocumentById')
+        .mockResolvedValue(document);
+      const result = await controller.getUpdateDocumentStatus(
+        { id: 'id' },
+        DEFAULT_USER_WITH_REGULATOR,
+      );
+
+      expect(getByIdMock).toBeCalledWith('id');
+      expect(result).toEqual({
+        key: document.uri,
+        id: 'id',
+        selected: 'published',
+        title: 'Update document status',
+      });
+    });
+
+    it('should throw if not from same regulator', async () => {
+      const document = getMappedOrpDocument();
+
+      jest
+        .spyOn(documentService, 'getDocumentById')
+        .mockResolvedValue(document);
+
+      return expect(
+        controller.getUpdateDocumentStatus(
+          { id: 'id' },
+          DEFAULT_USER_WITH_REGULATOR,
+        ),
+      ).rejects.toBeInstanceOf(ForbiddenException);
+    });
+  });
+
+  describe('postUpdateDocumentStatus', () => {
+    it('call updateMeta on document service', async () => {
+      const updateMock = jest
+        .spyOn(documentService, 'updateMeta')
+        .mockResolvedValue({ updated: true });
+
+      await controller.postUpdateDocumentStatus(
+        { key: 'key', status: 'published' },
+        { id: 'id' },
+        DEFAULT_USER_WITH_REGULATOR,
+      );
+
+      expect(updateMock).toBeCalledWith(
+        'key',
+        { status: 'published' },
+        DEFAULT_USER_WITH_REGULATOR,
+      );
+    });
+  });
+
   describe('success', () => {
     it('returns id and title', async () => {
       const response = controller.success({ id: 'id' });

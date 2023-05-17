@@ -1,19 +1,21 @@
+<% var backHref = `/uploaded-documents/detail/${id}` %>
+
 <%- include('../../partials/header'); %>
 <div class="govuk-width-container">
+    <%- include('../../partials/components/backButton' , {href: backHref}); %>
+
     <main class="govuk-main-wrapper " id="main-content" role="main">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <span class="govuk-caption-l">Step 4 of 5</span>
-                <h1 class="govuk-heading-l">
-                    Is this a draft document?
-                </h1>
-                <%- include('../../partials/components/errorSummary', { errors: locals.errors, hrefOverride: "document-draft-yes" }); %>
+                <%- include('../../partials/components/errorSummary', { errors: locals.errors, hrefOverride: "document-type-GD" }); %>
+                <h1 class="govuk-heading-l">Is this a draft document?</h1>
 
-                <%- include('../../partials/forms/statusSelection', ); %>
+                <%- include('../../partials/forms/statusSelection', { submitText: 'Update', cancelLink: backHref }); %>
+
                 <details class="govuk-details" data-module="govuk-details">
                     <summary class="govuk-details__summary">
                         <span class="govuk-details__summary-text">
-                          Get help uploading a document
+                          Get help updating a document
                         </span>
                     </summary>
                     <div class="govuk-details__text">
@@ -25,5 +27,4 @@
         </div>
     </main>
 </div>
-
 <%- include('../../partials/footer'); %>

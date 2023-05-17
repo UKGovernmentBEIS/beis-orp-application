@@ -1,0 +1,39 @@
+<%
+var submitText = locals.submitText ?? 'Continue'
+%>
+<form method="post">
+    <input type="hidden" value="<%= locals.key %>" name="key" />
+    <div class="govuk-form-group <% if(locals?.errors?.status) { %>govuk-form-group--error<% } %>">
+        <div id="status-hint" class="govuk-hint">
+            Documents are considered draft when they either relate to regulations that are not currently enforceable or are being consulted on and not published as final.
+        </div>
+        <% if(locals?.errors?.status) { %>
+            <p id="email-error" class="govuk-error-message">
+                <%= locals?.errors?.status %>
+            </p>
+        <% } %>
+        <div class="govuk-radios" data-module="govuk-radios">
+            <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="document-draft-yes" name="status" type="radio" value="draft" <% if (selected === 'draft') { %>checked<% } %>>
+                <label class="govuk-label govuk-radios__label" for="document-draft-yes">
+                    Yes
+                </label>
+            </div>
+            <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="document-draft-no" name="status" type="radio" value="published" <% if (selected === 'published') { %>checked<% } %>>
+                <label class="govuk-label govuk-radios__label" for="document-draft-no">
+                    No
+                </label>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="govuk-button" data-module="govuk-button">
+        <%= submitText %>
+    </button>
+
+    <% if (locals.cancelLink) { %>
+        <a href="<%= locals.cancelLink %>" role="button" draggable="false" class="govuk-button govuk-button--secondary govuk-!-margin-left-2" data-module="govuk-button">
+            Cancel
+        </a>
+    <% } %>
+</form>
