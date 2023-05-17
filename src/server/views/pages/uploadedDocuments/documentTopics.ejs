@@ -1,17 +1,22 @@
+<% var backHref = `/uploaded-documents/detail/${id}` %>
+
 <%- include('../../partials/header'); %>
 <div class="govuk-width-container">
+    <%- include('../../partials/components/backButton' , {href: backHref}); %>
+
     <main class="govuk-main-wrapper " id="main-content" role="main">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <%- include('../../partials/components/errorSummary', { errors: locals.errors, hrefOverride: "document-type-GD" }); %>
-                <span class="govuk-caption-l">Step 2 of 5</span>
-                <h1 class="govuk-heading-l">Choose document type</h1>
-                <%- include('../../partials/forms/documentTypeSelection'); %>
+                <h1 class="govuk-heading-l">Update document topics</h1>
+                <p>Tag your documents with relevant topics from the GDS taxonomy. We work with regulators to adapt the GDS taxonomy to their needs. View the Government Digital Service taxonomy for an overview of the topics available.</p>
+                <p>Our topic tagging system helps you to organise your documents and makes it easy to search and filter them later. It also helps others to find your documents more easily when searching for related topics.</p>
+                <%- include('../../partials/forms/topicsSelection', {topicsDisplayMap, topicsForSelections, selectedTopics, submitText: 'Update', cancelLink: backHref }); %>
 
                 <details class="govuk-details" data-module="govuk-details">
                     <summary class="govuk-details__summary">
                         <span class="govuk-details__summary-text">
-                          Get help uploading a document
+                          Get help updating a document
                         </span>
                     </summary>
                     <div class="govuk-details__text">
@@ -23,5 +28,4 @@
         </div>
     </main>
 </div>
-
 <%- include('../../partials/footer'); %>

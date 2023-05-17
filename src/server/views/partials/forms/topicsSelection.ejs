@@ -1,0 +1,32 @@
+<%
+var submitText = locals.submitText ?? 'Continue'
+%>
+<form method="post" data-module="five-topics-select" aria-live="polite">
+    <input type="hidden" value="<%= locals.key %>" name="key" />
+
+    <% topicsForSelections.forEach(function(topics, index) { %>
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="topic<%= index + 1%>">
+                Topic Level <%= index + 1%>
+            </label>
+            <select class="govuk-select govuk-!-width-two-thirds" id="topic<%= index + 1%>" name="topic<%= index + 1%>">
+                <option value="" disabled selected hidden>Choose</option>
+                <% topics.forEach((topic) => { %>
+                <option value="<%=topic.toLocaleString().toLocaleLowerCase()%>" <% if (selectedTopics[index] === topic) { %>selected<% } %>>
+                    <%= topicsDisplayMap[topic] %>
+                </option>
+                <% }) %>
+            </select>
+        </div>
+    <% }) %>
+
+    <button type="submit" class="govuk-button" data-module="govuk-button">
+        <%= submitText %>
+    </button>
+
+    <% if (locals.cancelLink) { %>
+        <a href="<%= locals.cancelLink %>" role="button" draggable="false" class="govuk-button govuk-button--secondary govuk-!-margin-left-2" data-module="govuk-button">
+            Cancel
+        </a>
+    <% } %>
+</form>

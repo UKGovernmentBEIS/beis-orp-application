@@ -180,10 +180,11 @@ export class IngestController {
     const { selectedTopics, topicsForSelections } = getTopicsForView(
       meta.topics ?? [],
     );
+    const topLevelTopics = Object.keys(topics);
 
     return {
       key,
-      topicsForSelections: [Object.keys(topics), ...topicsForSelections],
+      topicsForSelections: [topLevelTopics, ...topicsForSelections],
       topicsDisplayMap,
       selectedTopics,
     };

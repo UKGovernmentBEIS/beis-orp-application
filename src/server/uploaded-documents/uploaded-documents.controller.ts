@@ -26,6 +26,13 @@ import { DocumentService } from '../document/document.service';
 import { DocumentType, documentTypes } from '../search/types/documentTypes';
 import { ValidateForm } from '../form-validation';
 import DocumentTypeDto from '../ingest/types/DocumentType.dto';
+import {
+  getTopicsForView,
+  getTopicValuesFromNames,
+} from '../ingest/utils/topics';
+import { topics } from '../document/utils/topics';
+import { topicsDisplayMap } from '../document/utils/topics-display-mapping';
+import DocumentTopicsDto from '../ingest/types/DocumentTopics.dto';
 
 @Controller('uploaded-documents')
 @UseGuards(RegulatorGuard)
@@ -87,7 +94,7 @@ export class UploadedDocumentsController {
   }
 
   @Post('document-type/:id')
-  @Redirect('/document-type/:id', 302)
+  @Redirect('/uploaded-documents/updated/:id', 302)
   @ValidateForm()
   async postDocType(
     @Body() documentTypeDto: DocumentTypeDto,
@@ -100,6 +107,60 @@ export class UploadedDocumentsController {
       key,
       {
         document_type: documentType,
+      },
+      user,
+    );
+
+    return { url: `/uploaded-documents/updated/${id}` };
+  }
+
+  @Get('/topics/:id')
+  @Render('pages/uploadedDocuments/documentTopics')
+  async getUpdateDocumentTopics(
+    @Param() { id }: { id: string },
+    @User() user: UserType,
+  ) {
+    const {
+      regulatorId,
+      uri: key,
+      regulatoryTopics,
+    } = await this.documentService.getDocumentById(id);
+    if (regulatorId !== user.regulator.id) {
+      throw new ForbiddenException();
+    }
+
+    const { selectedTopics, topicsForSelections } = getTopicsForView(
+      getTopicValuesFromNames(regulatoryTopics),
+    );
+    const topLevelTopics = Object.keys(topics);
+
+    return {
+      key,
+      id,
+      topicsForSelections: [topLevelTopics, ...topicsForSelections],
+      topicsDisplayMap,
+      selectedTopics,
+      title: 'Update document topics',
+    };
+  }
+
+  @Post('/topics/:id')
+  @Redirect('/uploaded-documents/updated/:id')
+  @ValidateForm()
+  async postTagTopics(
+    @Body() documentTopicsDto: DocumentTopicsDto,
+    @Param() { id }: { id: string },
+    @User() user: UserType,
+  ) {
+    const { key, topic1, topic2, topic3, topic4, topic5 } = documentTopicsDto;
+    const topics = [topic1, topic2, topic3, topic4, topic5].filter(
+      (topic) => topic,
+    );
+
+    await this.documentService.updateMeta(
+      key,
+      {
+        topics: JSON.stringify(topics),
       },
       user,
     );

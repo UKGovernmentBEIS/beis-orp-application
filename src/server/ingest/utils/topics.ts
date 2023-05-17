@@ -34,3 +34,11 @@ export const getTopicPathFromLeaf = (leaf: string): string[] => {
     return topicsDisplayMap[exceptions[key] ?? key];
   });
 };
+
+export const getTopicValuesFromNames = (topicMap: string[]): string[] => {
+  return topicMap.map((topicValue) => {
+    return Object.keys(topicsDisplayMap).find(
+      (key) => topicsDisplayMap[key] === topicValue,
+    );
+  });
+};
