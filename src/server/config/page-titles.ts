@@ -31,6 +31,7 @@ const pageTitles = {
   '/cookies': 'Cookies',
   '/sitemap': 'Sitemap',
   '/accessibility': 'Accessibility statement',
+  '/privacy': 'Privacy',
   '/uploaded-documents': 'Uploaded documents',
 };
 

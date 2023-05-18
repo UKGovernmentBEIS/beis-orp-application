@@ -59,4 +59,10 @@ export class SupportingLinksController {
   async getAccessibilityStatement() {
     return {};
   }
+
+  @Get('/privacy')
+  @Render('pages/supportingLinks/privacy')
+  async getPrivacyStatement() {
+    return {};
+  }
 }
