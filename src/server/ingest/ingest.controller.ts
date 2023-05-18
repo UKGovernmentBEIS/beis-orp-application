@@ -180,10 +180,11 @@ export class IngestController {
     const { selectedTopics, topicsForSelections } = getTopicsForView(
       meta.topics ?? [],
     );
+    const topLevelTopics = Object.keys(topics);
 
     return {
       key,
-      topicsForSelections: [Object.keys(topics), ...topicsForSelections],
+      topicsForSelections: [topLevelTopics, ...topicsForSelections],
       topicsDisplayMap,
       selectedTopics,
     };
@@ -262,13 +263,7 @@ export class IngestController {
         status,
       };
     } else {
-      await this.documentService.updateMeta(
-        key,
-        {
-          status,
-        },
-        user,
-      );
+      await this.documentService.updateMeta(key, { status }, user);
     }
 
     return { url: `/ingest/submit?key=${key}` };

@@ -3,46 +3,13 @@
     <main class="govuk-main-wrapper " id="main-content" role="main">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
+                <span class="govuk-caption-l">Step 4 of 5</span>
+                <h1 class="govuk-heading-l">
+                    Is this a draft document?
+                </h1>
                 <%- include('../../partials/components/errorSummary', { errors: locals.errors, hrefOverride: "document-draft-yes" }); %>
-                <form method="post">
-                    <input type="hidden" value="<%= locals.key %>" name="key" />
-                    <div class="govuk-form-group <% if(locals?.errors?.status) { %>govuk-form-group--error<% } %>">
-                        <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                                <span class="govuk-caption-l">Step 4 of 5</span>
-                                <h1 class="govuk-fieldset__heading">
-                                    Is this a draft document?
-                                </h1>
-                            </legend>
-                            <div id="status-hint" class="govuk-hint">
-                                Documents are considered draft when they either relate to regulations that are not currently enforceable or are being consulted on and not published as final.
-                            </div>
-                            <% if(locals?.errors?.status) { %>
-                                <p id="email-error" class="govuk-error-message">
-                                    <%= locals?.errors?.status %>
-                                </p>
-                            <% } %>
-                            <div class="govuk-radios" data-module="govuk-radios">
-                                <div class="govuk-radios__item">
-                                    <input class="govuk-radios__input" id="document-draft-yes" name="status" type="radio" value="draft" <% if (selected === 'draft') { %>checked<% } %>>
-                                    <label class="govuk-label govuk-radios__label" for="document-draft-yes">
-                                        Yes
-                                    </label>
-                                </div>
-                                <div class="govuk-radios__item">
-                                    <input class="govuk-radios__input" id="document-draft-no" name="status" type="radio" value="published" <% if (selected === 'published') { %>checked<% } %>>
-                                    <label class="govuk-label govuk-radios__label" for="document-draft-no">
-                                        No
-                                    </label>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
-                    <button type="submit" class="govuk-button" data-module="govuk-button">
-                        Continue
-                    </button>
-                </form>
 
+                <%- include('../../partials/forms/statusSelection', ); %>
                 <details class="govuk-details" data-module="govuk-details">
                     <summary class="govuk-details__summary">
                         <span class="govuk-details__summary-text">

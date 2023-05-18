@@ -12,6 +12,9 @@ import { mockAwsDal } from '../../../test/mocks/uploadMocks';
 import { TnaDal } from '../data/tna.dal';
 import { ForbiddenException } from '@nestjs/common';
 import { documentTypes } from '../search/types/documentTypes';
+import { topicsDisplayMap } from '../document/utils/topics-display-mapping';
+import { topics } from '../document/utils/topics';
+import { FULL_TOPIC_PATH } from '../../../test/mocks/topics';
 
 describe('UploadedDocumentsController', () => {
   let controller: UploadedDocumentsController;
@@ -143,6 +146,108 @@ describe('UploadedDocumentsController', () => {
       expect(updateMock).toBeCalledWith(
         'key',
         { document_type: 'GD' },
+        DEFAULT_USER_WITH_REGULATOR,
+      );
+    });
+  });
+
+  describe('getUpdateDocumentTopics', () => {
+    it('should call getDocumentById on DocumentsService and return document topics information', async () => {
+      const document = getMappedOrpDocument({
+        regulatorId: DEFAULT_USER_WITH_REGULATOR.regulator.id,
+      });
+      const getByIdMock = jest
+        .spyOn(documentService, 'getDocumentById')
+        .mockResolvedValue(document);
+      const result = await controller.getUpdateDocumentTopics(
+        { id: 'id' },
+        DEFAULT_USER_WITH_REGULATOR,
+      );
+
+      expect(getByIdMock).toBeCalledWith('id');
+      expect(result).toEqual({
+        key: document.uri,
+        id: 'id',
+        topicsForSelections: [
+          Object.keys(topics),
+          Object.keys(topics[FULL_TOPIC_PATH[0]]),
+          Object.keys(topics[FULL_TOPIC_PATH[0]][FULL_TOPIC_PATH[1]]),
+        ],
+        selectedTopics: FULL_TOPIC_PATH,
+        topicsDisplayMap,
+        title: 'Update document topics',
+      });
+    });
+
+    it('should throw if not from same regulator', async () => {
+      const document = getMappedOrpDocument();
+
+      jest
+        .spyOn(documentService, 'getDocumentById')
+        .mockResolvedValue(document);
+
+      return expect(
+        controller.getUpdateDocumentTopics(
+          { id: 'id' },
+          DEFAULT_USER_WITH_REGULATOR,
+        ),
+      ).rejects.toBeInstanceOf(ForbiddenException);
+    });
+  });
+
+  describe('getUpdateDocumentStatus', () => {
+    it('should call getDocumentById on DocumentsService and return document status information', async () => {
+      const document = getMappedOrpDocument({
+        regulatorId: DEFAULT_USER_WITH_REGULATOR.regulator.id,
+      });
+      const getByIdMock = jest
+        .spyOn(documentService, 'getDocumentById')
+        .mockResolvedValue(document);
+      const result = await controller.getUpdateDocumentStatus(
+        { id: 'id' },
+        DEFAULT_USER_WITH_REGULATOR,
+      );
+
+      expect(getByIdMock).toBeCalledWith('id');
+      expect(result).toEqual({
+        key: document.uri,
+        id: 'id',
+        selected: 'published',
+        title: 'Update document status',
+      });
+    });
+
+    it('should throw if not from same regulator', async () => {
+      const document = getMappedOrpDocument();
+
+      jest
+        .spyOn(documentService, 'getDocumentById')
+        .mockResolvedValue(document);
+
+      return expect(
+        controller.getUpdateDocumentStatus(
+          { id: 'id' },
+          DEFAULT_USER_WITH_REGULATOR,
+        ),
+      ).rejects.toBeInstanceOf(ForbiddenException);
+    });
+  });
+
+  describe('postUpdateDocumentStatus', () => {
+    it('call updateMeta on document service', async () => {
+      const updateMock = jest
+        .spyOn(documentService, 'updateMeta')
+        .mockResolvedValue({ updated: true });
+
+      await controller.postUpdateDocumentStatus(
+        { key: 'key', status: 'published' },
+        { id: 'id' },
+        DEFAULT_USER_WITH_REGULATOR,
+      );
+
+      expect(updateMock).toBeCalledWith(
+        'key',
+        { status: 'published' },
         DEFAULT_USER_WITH_REGULATOR,
       );
     });

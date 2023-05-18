@@ -27,7 +27,7 @@ jest.mock('@aws-sdk/client-s3', () => {
   };
 });
 
-describe('uploaded-documents/document-type', () => {
+describe('uploaded-documents/status', () => {
   const fixture = new E2eFixture();
   let regulatorSession = null;
   let nonRegulatorSession = null;
@@ -38,16 +38,16 @@ describe('uploaded-documents/document-type', () => {
     nonRegulatorSession = await getNonRegulatorSession(fixture);
   });
 
-  describe('GET /document-type/:id', () => {
+  describe('GET /status/:id', () => {
     it('displays detail of document', () => {
       return fixture
         .request()
-        .get('/uploaded-documents/document-type/id')
+        .get('/uploaded-documents/status/id')
         .set('Cookie', regulatorSession)
         .expect(200)
         .expect((res) => {
           const $ = cheerio.load(res.text);
-          expect($('input[name="documentType"]').length).toEqual(4);
+          expect($('input[name="status"]').length).toEqual(2);
           expect($('button[type="submit"]').text().trim()).toEqual('Update');
           expect(
             $('input[type="hidden"][value="doc.pdf"][name="key"]').length,
@@ -59,7 +59,7 @@ describe('uploaded-documents/document-type', () => {
       it('redirects non-regulator users', async () => {
         return fixture
           .request()
-          .get('/uploaded-documents/document-type/id')
+          .get('/uploaded-documents/status/id')
           .set('Cookie', nonRegulatorSession)
           .expect(302)
           .expect('Location', '/auth/logout');
@@ -68,7 +68,7 @@ describe('uploaded-documents/document-type', () => {
       it('redirects unauthenticated users', async () => {
         return fixture
           .request()
-          .get('/uploaded-documents/document-type/id')
+          .get('/uploaded-documents/status/id')
           .expect(302)
           .expect('Location', '/auth/logout');
       });
@@ -85,9 +85,9 @@ describe('uploaded-documents/document-type', () => {
 
       return fixture
         .request()
-        .post('/uploaded-documents/document-type/id')
-        .send({ documentType: 'GD', key: 'key' })
+        .post('/uploaded-documents/status/id')
         .set('Cookie', regulatorSession)
+        .send({ key: 'unconfirmed/key', status: 'published' })
         .expect(302)
         .expect('Location', '/uploaded-documents/updated/id')
         .expect(() => {
@@ -99,8 +99,8 @@ describe('uploaded-documents/document-type', () => {
       it('redirects non-regulator users', async () => {
         return fixture
           .request()
-          .post('/uploaded-documents/document-type/id')
-          .send({ documentType: 'GD', key: 'key' })
+          .post('/uploaded-documents/status/id')
+          .send({ key: 'unconfirmed/key', status: 'published' })
           .set('Cookie', nonRegulatorSession)
           .expect(302)
           .expect('Location', '/auth/logout');
@@ -109,8 +109,8 @@ describe('uploaded-documents/document-type', () => {
       it('redirects unauthenticated users', async () => {
         return fixture
           .request()
-          .post('/uploaded-documents/document-type/id')
-          .send({ documentType: 'GD', key: 'key' })
+          .post('/uploaded-documents/status/id')
+          .send({ key: 'unconfirmed/key', status: 'published' })
           .expect(302)
           .expect('Location', '/auth/logout');
       });

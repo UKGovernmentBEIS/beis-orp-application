@@ -9,7 +9,7 @@
             <div class="govuk-grid-column-two-thirds">
                 <%- include('../../partials/components/errorSummary', { errors: locals.errors, hrefOverride: "document-type-GD" }); %>
                 <h1 class="govuk-heading-l">Update document type</h1>
-                <%- include('../ingest/partials/documentTypeForm', { submitText: 'Update', cancelLink: backHref }); %>
+                <%- include('../../partials/forms/documentTypeSelection', { submitText: 'Update', cancelLink: backHref }); %>
 
                 <details class="govuk-details" data-module="govuk-details">
                     <summary class="govuk-details__summary">

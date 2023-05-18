@@ -4,6 +4,7 @@ import {
   getNonRegulatorSession,
   getRegulatorSession,
 } from '../helpers/userSessions';
+import { FULL_TOPIC_PATH } from '../mocks/topics';
 
 const mockS3 = {
   send: jest.fn(),
@@ -27,7 +28,7 @@ jest.mock('@aws-sdk/client-s3', () => {
   };
 });
 
-describe('uploaded-documents/document-type', () => {
+describe('uploaded-documents/topics', () => {
   const fixture = new E2eFixture();
   let regulatorSession = null;
   let nonRegulatorSession = null;
@@ -38,20 +39,40 @@ describe('uploaded-documents/document-type', () => {
     nonRegulatorSession = await getNonRegulatorSession(fixture);
   });
 
-  describe('GET /document-type/:id', () => {
-    it('displays detail of document', () => {
+  describe('GET /topics/:id', () => {
+    it('displays selected topics of document', () => {
       return fixture
         .request()
-        .get('/uploaded-documents/document-type/id')
+        .get('/uploaded-documents/topics/id')
         .set('Cookie', regulatorSession)
         .expect(200)
         .expect((res) => {
           const $ = cheerio.load(res.text);
-          expect($('input[name="documentType"]').length).toEqual(4);
-          expect($('button[type="submit"]').text().trim()).toEqual('Update');
+          expect($('select').length).toEqual(3);
           expect(
-            $('input[type="hidden"][value="doc.pdf"][name="key"]').length,
-          ).toBeTruthy();
+            $(
+              'select[name="topic1"] option[value="/entering-staying-uk"][selected]',
+            )
+              .text()
+              .trim(),
+          ).toEqual('Entering and staying in the UK');
+
+          expect(
+            $(
+              'select[name="topic2"] option[value="/entering-staying-uk/immigration-offences"][selected]',
+            )
+              .text()
+              .trim(),
+          ).toEqual('Immigration offences');
+
+          expect(
+            $(
+              'select[name="topic3"] option[value="/entering-staying-uk/immigration-offences/immigration-penalties"][selected]',
+            )
+              .text()
+              .trim(),
+          ).toEqual('Immigration penalties');
+          expect($('input[type="hidden"][name="key"]').length).toBeTruthy();
         });
     });
 
@@ -59,7 +80,7 @@ describe('uploaded-documents/document-type', () => {
       it('redirects non-regulator users', async () => {
         return fixture
           .request()
-          .get('/uploaded-documents/document-type/id')
+          .get('/uploaded-documents/topics/id')
           .set('Cookie', nonRegulatorSession)
           .expect(302)
           .expect('Location', '/auth/logout');
@@ -68,7 +89,7 @@ describe('uploaded-documents/document-type', () => {
       it('redirects unauthenticated users', async () => {
         return fixture
           .request()
-          .get('/uploaded-documents/document-type/id')
+          .get('/uploaded-documents/topics/id')
           .expect(302)
           .expect('Location', '/auth/logout');
       });
@@ -85,8 +106,12 @@ describe('uploaded-documents/document-type', () => {
 
       return fixture
         .request()
-        .post('/uploaded-documents/document-type/id')
-        .send({ documentType: 'GD', key: 'key' })
+        .post('/uploaded-documents/topics/id')
+        .send({
+          topic1: FULL_TOPIC_PATH[0],
+          topic2: FULL_TOPIC_PATH[1],
+          key: 'key',
+        })
         .set('Cookie', regulatorSession)
         .expect(302)
         .expect('Location', '/uploaded-documents/updated/id')
@@ -100,7 +125,11 @@ describe('uploaded-documents/document-type', () => {
         return fixture
           .request()
           .post('/uploaded-documents/document-type/id')
-          .send({ documentType: 'GD', key: 'key' })
+          .send({
+            topic1: FULL_TOPIC_PATH[0],
+            topic2: FULL_TOPIC_PATH[1],
+            key: 'key',
+          })
           .set('Cookie', nonRegulatorSession)
           .expect(302)
           .expect('Location', '/auth/logout');
@@ -110,7 +139,11 @@ describe('uploaded-documents/document-type', () => {
         return fixture
           .request()
           .post('/uploaded-documents/document-type/id')
-          .send({ documentType: 'GD', key: 'key' })
+          .send({
+            topic1: FULL_TOPIC_PATH[0],
+            topic2: FULL_TOPIC_PATH[1],
+            key: 'key',
+          })
           .expect(302)
           .expect('Location', '/auth/logout');
       });
