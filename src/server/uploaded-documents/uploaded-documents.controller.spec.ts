@@ -48,13 +48,26 @@ describe('UploadedDocumentsController', () => {
 
   describe('findAll', () => {
     it('should call findAll on uploadedDocumentsService', async () => {
-      const expectedResult = {
+      const searchResponse = {
         totalSearchResults: 10,
         documents: [],
       };
 
-      jest.spyOn(myDocsService, 'findAll').mockResolvedValue(expectedResult);
-      const result = await controller.findAll(DEFAULT_USER_WITH_REGULATOR);
+      const expectedResult = {
+        searchResponse: searchResponse,
+        title: 'Uploaded documents (page 1 of 1)',
+        pagination: {
+          pageOn: 1,
+          nextValue: null,
+          prevValue: null,
+          pagesToShow: [1],
+          titlePostfix: ' (page 1 of 1)',
+          totalPages: 1,
+        },
+      };
+
+      jest.spyOn(myDocsService, 'findAll').mockResolvedValue(searchResponse);
+      const result = await controller.findAll(DEFAULT_USER_WITH_REGULATOR, {});
       expect(result).toEqual(expectedResult);
     });
   });

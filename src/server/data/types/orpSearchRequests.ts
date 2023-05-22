@@ -9,6 +9,8 @@ export type OrpSearchBody = {
   regulatory_topic?: string;
   status?: OrpDocumentStatus[];
   document_type?: DocumentType[];
+  page?: number;
+  page_size?: number;
 };
 
 export type OrpIdSearchBody = {

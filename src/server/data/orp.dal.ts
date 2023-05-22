@@ -56,7 +56,10 @@ export class OrpDal {
     }
   }
 
-  private mapToOrpSearchBody(searchRequest: SearchRequestDto): OrpSearchBody {
+  private mapToOrpSearchBody(
+    searchRequest: SearchRequestDto,
+    pageNumber?: number,
+  ): OrpSearchBody {
     const regulatorIdArray = [searchRequest.regulators].flat().filter(notEmpty);
     const docTypeArray = [searchRequest.docTypes].flat().filter(notEmpty);
     const statusArray = [searchRequest.status].flat().filter(notEmpty);
@@ -80,11 +83,16 @@ export class OrpDal {
         end_date: searchRequest.publishedToDate,
       },
       regulatory_topic: topic || undefined,
+      page_size: 10,
+      page: pageNumber ?? undefined,
     };
   }
 
-  async searchOrp(searchRequest: SearchRequestDto): Promise<RawOrpResponse> {
-    return this.postSearch(this.mapToOrpSearchBody(searchRequest));
+  async searchOrp(
+    searchRequest: SearchRequestDto,
+    pageNumber?: number,
+  ): Promise<RawOrpResponse> {
+    return this.postSearch(this.mapToOrpSearchBody(searchRequest, pageNumber));
   }
 
   async getById(id: string): Promise<RawOrpResponseEntry> {
