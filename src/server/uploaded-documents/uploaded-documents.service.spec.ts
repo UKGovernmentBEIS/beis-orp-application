@@ -22,6 +22,7 @@ const searchPayload = {
   regulatory_topic: undefined,
   status: undefined,
   title: undefined,
+  page_size: 10,
 };
 
 describe('MyDocumentsService', () => {

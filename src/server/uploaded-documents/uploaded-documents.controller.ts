@@ -34,6 +34,7 @@ import { topics } from '../document/utils/topics';
 import { topicsDisplayMap } from '../document/utils/topics-display-mapping';
 import DocumentTopicsDto from '../ingest/types/DocumentTopics.dto';
 import DocumentStatusDto from '../ingest/types/DocumentStatus.dto';
+import { getPaginationDetails, PaginationDetails } from './utils/pagination';
 
 @Controller('uploaded-documents')
 @UseGuards(RegulatorGuard)
@@ -45,11 +46,32 @@ export class UploadedDocumentsController {
     private documentService: DocumentService,
   ) {}
 
-  @Get()
+  @Get('/:page?')
   @Header('Cache-Control', 'no-store')
   @Render('pages/uploadedDocuments')
-  async findAll(@User() user: UserType): Promise<OrpSearchResponse> {
-    return this.uploadedDocumentsService.findAll(user);
+  async findAll(
+    @User() user: UserType,
+    @Param() { page }: { page?: number },
+  ): Promise<{
+    searchResponse: OrpSearchResponse;
+    title: string;
+    pagination: PaginationDetails;
+  }> {
+    const pageToUse = page ?? 1;
+    const searchResponse = await this.uploadedDocumentsService.findAll(
+      user,
+      pageToUse - 1,
+    );
+    const pagination = getPaginationDetails(
+      page,
+      searchResponse.totalSearchResults,
+    );
+
+    return {
+      searchResponse,
+      title: `Uploaded documents${pagination.titlePostfix}`,
+      pagination,
+    };
   }
 
   @Get('/detail/:id')

@@ -30,7 +30,7 @@ export function mapOrpDocument(
       ? getTopicPathFromLeaf(document.regulatory_topic)
       : undefined,
     version: document.version,
-    documentType: documentTypes[document.document_type],
+    documentType: documentTypes[document.document_type] ?? 'Other',
     documentTypeId: document.document_type,
     keyword: document.keyword,
     status: document.status,

@@ -72,6 +72,7 @@ describe('Orp data access layer', () => {
         end_date: '1986-03-12',
       },
       regulatory_topic: '/topic/topic2',
+      page_size: 10,
     };
 
     it('should map to required lambda format', async () => {
@@ -112,6 +113,7 @@ describe('Orp data access layer', () => {
         document_types: undefined,
         status: undefined,
         date_published: {},
+        page_size: 10,
       });
     });
 

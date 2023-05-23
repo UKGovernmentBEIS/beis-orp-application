@@ -9,9 +9,12 @@ import { SearchRequestDto } from '../search/types/SearchRequest.dto';
 export class UploadedDocumentsService {
   constructor(private readonly orpDal: OrpDal) {}
 
-  async findAll(user: User): Promise<OrpSearchResponse> {
+  async findAll(user: User, pageNumber?: number): Promise<OrpSearchResponse> {
     const searchRequest: SearchRequestDto = { regulators: user.regulator.id };
-    const regulatoryMaterial = await this.orpDal.searchOrp(searchRequest);
+    const regulatoryMaterial = await this.orpDal.searchOrp(
+      searchRequest,
+      pageNumber,
+    );
 
     const results = mapOrpSearchResponse(regulatoryMaterial);
     return {
