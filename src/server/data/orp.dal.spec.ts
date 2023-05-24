@@ -145,4 +145,15 @@ describe('Orp data access layer', () => {
       expect(await orpDal.ingestUrl(payload)).toEqual('UUID');
     });
   });
+
+  describe('deleteDocument', () => {
+    it('should send the delete request', async () => {
+      expect(
+        await orpDal.deleteDocument(
+          'uuid',
+          DEFAULT_USER_WITH_REGULATOR.regulator.id,
+        ),
+      ).toEqual({ status_description: 'OK', status_code: 200 });
+    });
+  });
 });

@@ -266,6 +266,57 @@ describe('UploadedDocumentsController', () => {
     });
   });
 
+  describe('delete', () => {
+    it('should get doc and return relevant details', async () => {
+      const document = getMappedOrpDocument({
+        regulatorId: DEFAULT_USER_WITH_REGULATOR.regulator.id,
+      });
+      const getByIdMock = jest
+        .spyOn(documentService, 'getDocumentById')
+        .mockResolvedValue(document);
+
+      const result = await controller.delete(
+        { id: 'id' },
+        DEFAULT_USER_WITH_REGULATOR,
+      );
+
+      expect(getByIdMock).toBeCalledWith('id');
+      expect(result).toEqual({
+        documentId: 'id',
+        publishedDate: '2018-08-06T00:00:00Z',
+        documentTitle: 'Title',
+        title: 'Delete document: Title',
+      });
+    });
+
+    it('should throw if not from same regulator', async () => {
+      const document = getMappedOrpDocument();
+
+      jest
+        .spyOn(documentService, 'getDocumentById')
+        .mockResolvedValue(document);
+
+      return expect(
+        controller.delete({ id: 'id' }, DEFAULT_USER_WITH_REGULATOR),
+      ).rejects.toBeInstanceOf(ForbiddenException);
+    });
+  });
+
+  describe('postDeleteDocument', () => {
+    it('call deleteDocument on document service', async () => {
+      const updateMock = jest
+        .spyOn(documentService, 'deleteDocument')
+        .mockResolvedValue({ status_description: 'OK', status_code: 200 });
+
+      await controller.postDeleteDocument(
+        { id: 'uuid' },
+        DEFAULT_USER_WITH_REGULATOR,
+      );
+
+      expect(updateMock).toBeCalledWith('uuid', DEFAULT_USER_WITH_REGULATOR);
+    });
+  });
+
   describe('success', () => {
     it('returns id and title', async () => {
       const response = controller.success({ id: 'id' });
@@ -273,6 +324,17 @@ describe('UploadedDocumentsController', () => {
       expect(response).toEqual({
         documentId: 'id',
         title: 'Document successfully updated',
+      });
+    });
+  });
+
+  describe('deleted', () => {
+    it('returns id and title', async () => {
+      const response = controller.deleted({ id: 'id' });
+
+      expect(response).toEqual({
+        documentId: 'id',
+        title: 'Document deleted',
       });
     });
   });

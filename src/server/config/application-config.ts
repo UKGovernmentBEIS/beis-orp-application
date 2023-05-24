@@ -8,6 +8,7 @@ export interface ApisConfig {
   mailchimp: { apiKey: string; server: string; list: string };
   orpSearch: { url: string };
   urlIngestion: { url: string };
+  documentDeletion: { url: string };
 }
 
 export interface AwsConfig {
@@ -62,6 +63,9 @@ export function config(): ApplicationConfig {
       },
       urlIngestion: {
         url: process.env.HTML_INGESTION_URL,
+      },
+      documentDeletion: {
+        url: process.env.DELETE_DOCUMENT_URL,
       },
     },
     aws: {

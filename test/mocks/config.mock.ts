@@ -10,6 +10,7 @@ export const mockConfigService = {
 
 export const mockedSearchLambda = 'http://www.searchapi.com';
 export const mockedUrlLambda = 'http://www.ingesturl.com';
+export const mockedDeleteLambda = 'http://www.delete.com';
 
 export function getMockedConfig(key): Partial<ApplicationConfig> {
   const config = {
@@ -28,6 +29,9 @@ export function getMockedConfig(key): Partial<ApplicationConfig> {
       },
       urlIngestion: {
         url: mockedUrlLambda,
+      },
+      documentDeletion: {
+        url: mockedDeleteLambda,
       },
     },
     aws: {

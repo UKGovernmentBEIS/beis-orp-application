@@ -21,10 +21,13 @@ function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
   return value !== null && value !== undefined;
 }
 
+type DeleteResponse = { status_description: string; status_code: number };
+
 @Injectable()
 export class OrpDal {
   private orpSearchUrl: string;
   private urlIngestionUrl: string;
+  private deleteDocumentUrl: string;
 
   constructor(
     private readonly httpService: HttpService,
@@ -34,6 +37,7 @@ export class OrpDal {
     const apiConfig = config.get<ApisConfig>('apis');
     this.orpSearchUrl = apiConfig.orpSearch.url;
     this.urlIngestionUrl = apiConfig.urlIngestion.url;
+    this.deleteDocumentUrl = apiConfig.documentDeletion.url;
   }
 
   async postSearch(
@@ -113,6 +117,26 @@ export class OrpDal {
       return payload.uuid;
     } catch (e) {
       this.logger.error('URL INGESTION ERROR');
+      throw e;
+    }
+  }
+
+  async deleteDocument(
+    id: string,
+    regulatorId: string,
+  ): Promise<DeleteResponse> {
+    try {
+      const { data } = await firstValueFrom(
+        this.httpService.delete<DeleteResponse>(this.deleteDocumentUrl, {
+          data: {
+            uuid: id,
+            regulator_id: regulatorId,
+          },
+        }),
+      );
+      return data;
+    } catch (e) {
+      this.logger.error('DOCUMENT DELETION ERROR');
       throw e;
     }
   }

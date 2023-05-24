@@ -50,7 +50,7 @@ describe('uploaded-documents', () => {
       );
       return fixture
         .request()
-        .get('/uploaded-documents/5')
+        .get('/uploaded-documents?page=5')
         .set('Cookie', regulatorSession)
         .expect(200)
         .expect((res) => {

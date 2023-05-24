@@ -1,0 +1,46 @@
+<% var backHref = `/uploaded-documents/detail/${documentId}` %>
+
+<%- include('../../partials/header'); %>
+<div class="govuk-width-container">
+    <%- include('../../partials/components/backButton' , {href: backHref}); %>
+
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+
+                <h1 class="govuk-heading-l">Are you sure you want to delete this document?</h1>
+
+                <dl class="govuk-body govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Document Title</dt>
+                        <dd class="govuk-summary-list__value"> <%= documentTitle %></dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Published Date</dt>
+                        <dd class="govuk-summary-list__value"> <%- include('../../partials/components/dateDisplay', { dateString: publishedDate }); %></dd>
+                    </div>
+                </dl>
+
+                <div class="govuk-warning-text">
+                    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                    <strong class="govuk-warning-text__text">
+                        <span class="govuk-warning-text__assistive">Warning</span>
+                        Once you delete the document, this document will be removed immediately from Open Regulation Platform. No one will no longer have access to this document.
+                    </strong>
+                </div>
+
+                <form method="post" action="/uploaded-documents/delete">
+                    <input name="id" value="<%= locals.documentId %>" type="hidden">
+                    <button type="submit" class="govuk-button govuk-button--warning" data-module="govuk-button">
+                        Yes I'm sure - delete this document
+                    </button>
+                    <a href="<%= backHref %>" role="button" draggable="false" class="govuk-button govuk-button--secondary govuk-!-margin-left-2" data-module="govuk-button">
+                        Cancel
+                    </a>
+                </form>
+
+            </div>
+        </div>
+    </main>
+</div>
+<%- include('../../partials/footer'); %>
