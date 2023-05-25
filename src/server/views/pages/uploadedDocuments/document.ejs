@@ -6,6 +6,7 @@
     <main class="govuk-main-wrapper " id="main-content" role="main">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-l">Document details</h1>
                 <dl class="govuk-summary-list govuk-!-margin-bottom-9">
                     <div class="govuk-summary-list__row govuk-summary-list__row--no-actions">
                         <dt class="govuk-summary-list__key">
@@ -74,8 +75,11 @@
                 </details>
             </div>
             <div class="govuk-grid-column-one-third">
-                <a href="/document/view/<%= document.documentId %>?referrer=uploaded" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                <a href="/document/view/<%= document.documentId %>?referrer=uploaded" role="button" draggable="false" class="govuk-button govuk-button--secondary govuk-!-margin-bottom-3" data-module="govuk-button">
                     View Published Document
+                </a>
+                <a href="/uploaded-documents/delete/<%= document.documentId %>" role="button" draggable="false" class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0" data-module="govuk-button">
+                    Delete Document
                 </a>
                 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
                 <div>

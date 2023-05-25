@@ -111,8 +111,12 @@ export class DocumentService {
     });
   }
 
-  async deleteDocument(key: string) {
-    return this.awsDal.deleteObject(key);
+  async deleteDocument(id: string, user: User) {
+    const document = await this.getDocumentById(id);
+    if (document.regulatorId !== user.regulator.id) {
+      throw new ForbiddenException();
+    }
+    return this.orpDal.deleteDocument(id, user.regulator.id);
   }
 
   async updateMeta(key: string, meta: Partial<ObjectMetaData>, user: User) {

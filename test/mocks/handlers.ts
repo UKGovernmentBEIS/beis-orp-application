@@ -1,7 +1,11 @@
 import { rest } from 'msw';
 import { tnaStandardResponse } from './tnaSearchMock';
 import { orpStandardResponse } from './orpSearchMock';
-import { mockedSearchLambda, mockedUrlLambda } from './config.mock';
+import {
+  mockedDeleteLambda,
+  mockedSearchLambda,
+  mockedUrlLambda,
+} from './config.mock';
 import { tnaUkSecondaryLegislationDocumentMock } from './tnaDocumentsMock';
 
 export const TNA_DOC_URL = 'http://www.legislation.gov.uk/id/something';
@@ -30,5 +34,12 @@ export const handlers = [
 
   rest.post(mockedUrlLambda, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json('DONE'));
+  }),
+
+  rest.delete(mockedDeleteLambda, (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({ status_description: 'OK', status_code: 200 }),
+    );
   }),
 ];

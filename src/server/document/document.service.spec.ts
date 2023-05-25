@@ -230,13 +230,26 @@ describe('DocumentService', () => {
   describe('deleteDocument', () => {
     it('should request and return the object meta data', async () => {
       const deleteSpy = jest
-        .spyOn(awsDal, 'deleteObject')
-        .mockResolvedValueOnce({ deleted: 'key' });
+        .spyOn(orpDal, 'deleteDocument')
+        .mockResolvedValueOnce({ status_description: 'OK', status_code: 200 });
 
-      const result = await service.deleteDocument('key');
+      const result = await service.deleteDocument('uuid', {
+        ...DEFAULT_USER_WITH_REGULATOR,
+        regulator: {
+          id: 'ofcom',
+          name: 'Office of Communications',
+          domain: 'ofcom.org.uk',
+        },
+      });
 
-      expect(deleteSpy).toBeCalledWith('key');
-      expect(result).toEqual({ deleted: 'key' });
+      expect(deleteSpy).toBeCalledWith('uuid', 'ofcom');
+      expect(result).toEqual({ status_description: 'OK', status_code: 200 });
+    });
+
+    it('should throw if not same regulator', async () => {
+      return expect(
+        service.deleteDocument('uuid', DEFAULT_USER_WITH_REGULATOR),
+      ).rejects.toBeInstanceOf(ForbiddenException);
     });
   });
 

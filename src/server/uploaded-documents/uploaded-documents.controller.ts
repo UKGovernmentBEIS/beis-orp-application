@@ -6,6 +6,7 @@ import {
   Header,
   Param,
   Post,
+  Query,
   Redirect,
   Render,
   UseFilters,
@@ -35,6 +36,7 @@ import { topicsDisplayMap } from '../document/utils/topics-display-mapping';
 import DocumentTopicsDto from '../ingest/types/DocumentTopics.dto';
 import DocumentStatusDto from '../ingest/types/DocumentStatus.dto';
 import { getPaginationDetails, PaginationDetails } from './utils/pagination';
+import DocumentDeleteDto from './types/DocumentDelete.dto';
 
 @Controller('uploaded-documents')
 @UseGuards(RegulatorGuard)
@@ -46,12 +48,12 @@ export class UploadedDocumentsController {
     private documentService: DocumentService,
   ) {}
 
-  @Get('/:page?')
+  @Get('')
   @Header('Cache-Control', 'no-store')
   @Render('pages/uploadedDocuments')
   async findAll(
     @User() user: UserType,
-    @Param() { page }: { page?: number },
+    @Query() { page }: { page?: number },
   ): Promise<{
     searchResponse: OrpSearchResponse;
     title: string;
@@ -229,9 +231,44 @@ export class UploadedDocumentsController {
     return { url: `/uploaded-documents/updated/${id}` };
   }
 
+  @Get('/delete/:id')
+  @Render('pages/uploadedDocuments/delete')
+  async delete(@Param() { id }: { id: string }, @User() user: UserType) {
+    const {
+      regulatorId,
+      title,
+      dates: { published: publishedDate },
+    } = await this.documentService.getDocumentById(id);
+    if (regulatorId !== user.regulator.id) {
+      throw new ForbiddenException();
+    }
+    return {
+      documentId: id,
+      publishedDate,
+      documentTitle: title,
+      title: `Delete document: ${title}`,
+    };
+  }
+
+  @Post('/delete')
+  @Redirect('/uploaded-documents/deleted')
+  @ValidateForm()
+  async postDeleteDocument(
+    @Body() { id }: DocumentDeleteDto,
+    @User() user: UserType,
+  ) {
+    return this.documentService.deleteDocument(id, user);
+  }
+
   @Get('updated/:id')
   @Render('pages/uploadedDocuments/documentUpdated')
   success(@Param() { id }: { id: string }) {
     return { documentId: id, title: 'Document successfully updated' };
+  }
+
+  @Get('deleted')
+  @Render('pages/uploadedDocuments/documentDeleted')
+  deleted(@Param() { id }: { id: string }) {
+    return { documentId: id, title: 'Document deleted' };
   }
 }
