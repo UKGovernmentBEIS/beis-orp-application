@@ -1,5 +1,5 @@
 {
-  "name": "create-auth-challenge",
+  "name": "create_auth_challenge",
   "version": "1.0.0",
   "description": "Create auth challenge lambda function",
   "main": "index.js",

@@ -1,5 +1,5 @@
 {
-  "name": "verify-auth-challenge",
+  "name": "verify_auth_challenge",
   "version": "1.0.0",
   "description": "Validate user's answer matches secretLoginCode",
   "main": "index.js",
