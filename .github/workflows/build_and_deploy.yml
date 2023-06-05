@@ -2,6 +2,7 @@ name: Build, Push and Deploy Docker Image
 
 on:
   pull_request:
+    branches: [ "main" ]
     types:
       - closed
 
