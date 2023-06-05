@@ -35,3 +35,4 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 *.env
+/lambdas/create_auth_challenge/node_modules/
