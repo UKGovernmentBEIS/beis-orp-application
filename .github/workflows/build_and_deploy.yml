@@ -47,13 +47,3 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.CHANGED_LAMBDA }}:latest
-
-      - name: Update Lambda function
-        if: ${{ env.CHANGED_LAMBDA != '' }}
-        uses: appleboy/lambda-action@master
-        with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: eu-west-2
-          function_name: ${{ env.CHANGED_LAMBDA }}
-          image_uri: ${{ steps.login-ecr.outputs.registry }}/${{ env.CHANGED_LAMBDA }}:latest
