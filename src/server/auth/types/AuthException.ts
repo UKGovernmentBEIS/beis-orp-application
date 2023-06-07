@@ -31,6 +31,7 @@ export class AuthException extends Error {
   isInvalidSession() {
     return (
       this.errorObj.code === 'NotAuthorizedException' &&
+      this.errorObj.message &&
       this.errorObj.message
         .toLowerCase()
         .includes('invalid session for the user')
