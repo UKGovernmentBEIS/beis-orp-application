@@ -1,0 +1,33 @@
+name: Create Release
+
+concurrency: create_release
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    types:
+      - closed
+    tags:
+      - 'v*'
+
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    name: Create new Release on GitHub
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create Release in GitHub
+        id: create_release
+        uses: actions/create-release@v1.1.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          #         Annoyingly, there's no helpful value to set these to that I can, and no auto-increment stuff in GHA without
+          #         using a third party Action and even then it's a pain
+          tag_name: ${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
+          draft: false
+          prerelease: false
