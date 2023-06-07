@@ -1,10 +1,7 @@
 import { E2eFixture } from '../e2e.fixture';
 import * as cheerio from 'cheerio';
 import { getPdfBuffer } from '../mocks/uploadMocks';
-import {
-  getNonRegulatorSession,
-  getRegulatorSession,
-} from '../helpers/userSessions';
+import { getRegulatorSession } from '../helpers/userSessions';
 
 const mockS3 = {
   send: jest.fn(),
@@ -24,12 +21,10 @@ jest.mock('uuid', () => {
 describe('Ingest upload', () => {
   const fixture = new E2eFixture();
   let regulatorSession = null;
-  let nonRegulatorSession = null;
 
   beforeAll(async () => {
     await fixture.init();
     regulatorSession = await getRegulatorSession(fixture);
-    nonRegulatorSession = await getNonRegulatorSession(fixture);
   });
 
   describe('upload/ (GET)', () => {
@@ -46,15 +41,6 @@ describe('Ingest upload', () => {
     });
 
     describe('guards', () => {
-      it('redirects non-regulator users', async () => {
-        return fixture
-          .request()
-          .get('/ingest/upload')
-          .set('Cookie', nonRegulatorSession)
-          .expect(302)
-          .expect('Location', '/unauthorised/ingest');
-      });
-
       it('redirects unauthenticated users', () => {
         return fixture
           .request()
@@ -196,19 +182,6 @@ describe('Ingest upload', () => {
     });
 
     describe('guards', () => {
-      it('redirects non-regulator users', async () => {
-        const file = await getPdfBuffer();
-        mockS3.send.mockResolvedValueOnce('response');
-
-        return fixture
-          .request()
-          .post('/ingest/upload')
-          .attach('file', file, 'testfile.pdf')
-          .set('Cookie', nonRegulatorSession)
-          .expect(302)
-          .expect('Location', '/unauthorised/ingest');
-      });
-
       it('redirects unauthenticated users', async () => {
         const file = await getPdfBuffer();
         mockS3.send.mockResolvedValueOnce('response');

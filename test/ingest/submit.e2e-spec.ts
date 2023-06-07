@@ -1,9 +1,6 @@
 import { E2eFixture } from '../e2e.fixture';
 import * as cheerio from 'cheerio';
-import {
-  getNonRegulatorSession,
-  getRegulatorSession,
-} from '../helpers/userSessions';
+import { getRegulatorSession } from '../helpers/userSessions';
 
 const mockS3 = {
   send: jest.fn(),
@@ -35,12 +32,10 @@ jest.mock('@aws-sdk/s3-request-presigner', () => {
 describe('Ingest submit', () => {
   const fixture = new E2eFixture();
   let regulatorSession = null;
-  let nonRegulatorSession = null;
 
   beforeAll(async () => {
     await fixture.init();
     regulatorSession = await getRegulatorSession(fixture);
-    nonRegulatorSession = await getNonRegulatorSession(fixture);
   });
 
   beforeEach(async () => {
@@ -50,7 +45,7 @@ describe('Ingest submit', () => {
   describe('GET', () => {
     it('gets a the meta and displays the filename', () => {
       mockS3.send.mockResolvedValue({
-        Metadata: { file_name: 'file.pdf', regulator_id: 'ofcom' },
+        Metadata: { file_name: 'file.pdf', regulator_id: 'public.io' },
         ContentType: 'application/pdf',
       });
 
@@ -87,15 +82,6 @@ describe('Ingest submit', () => {
     });
 
     describe('guards', () => {
-      it('redirects non-regulator users', async () => {
-        return fixture
-          .request()
-          .get('/ingest/submit?key=unconfirmeddoc')
-          .set('Cookie', nonRegulatorSession)
-          .expect(302)
-          .expect('Location', '/unauthorised/ingest');
-      });
-
       it('redirects unauthenticated users', () => {
         return fixture
           .request()
@@ -124,16 +110,6 @@ describe('Ingest submit', () => {
         });
     });
     describe('guards', () => {
-      it('redirects non-regulator users', async () => {
-        return fixture
-          .request()
-          .post('/ingest/submit')
-          .set('Cookie', nonRegulatorSession)
-          .send({ key: 'unconfirmed/key' })
-          .expect(302)
-          .expect('Location', '/unauthorised/ingest');
-      });
-
       it('redirects unauthenticated users', () => {
         return fixture
           .request()

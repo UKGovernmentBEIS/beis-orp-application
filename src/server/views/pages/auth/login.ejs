@@ -1,64 +1,45 @@
 <%- include('../../partials/header'); %>
-<%
- var globalError = locals?.errors?.global
- var emailError = locals?.errors?.email
- var pwError = locals?.errors?.password
- var emailValue = locals.values?.email;
-%>
 
 <div class="govuk-width-container">
     <main class="govuk-main-wrapper " id="main-content" role="main">
-
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <%- include('../../partials/components/errorSummary', { errors: locals.errors }); %>
 
                 <h1 class="govuk-heading-l">Sign in</h1>
-                <p>Enter your Open Regulation Platform account details to sign in</p>
+                <p>Enter your email address. We will send you a link to sign in.</p>
 
                 <form method="post">
-                    <div <% if(globalError) { %> class="govuk-form-group govuk-form-group--error" <% } %>>
-                        <% if(globalError) { %>
-                            <p id="sign-in-error" class="govuk-error-message">
-                                <%= globalError %>
+                    <div class="govuk-form-group <% if(locals?.errors?.email) { %>govuk-form-group--error<% } %>">
+                        <h2 class="govuk-label-wrapper">
+                            <label class="govuk-label govuk-label--s" for="email">Email</label>
+                        </h2>
+                        <% if(locals?.errors?.email) { %>
+                            <p id="email-error" class="govuk-error-message">
+                                <%= locals?.errors?.email %>
                             </p>
                         <% } %>
-
-                        <div class="govuk-form-group <% if(emailError || globalError) { %>govuk-form-group--error<% } %>">
-                            <h2 class="govuk-label-wrapper">
-                                <label class="govuk-label govuk-label--s" for="email">Email address</label>
-                            </h2>
-                            <% if(emailError) { %>
-                                <p id="email-error" class="govuk-error-message">
-                                    <%= emailError %>
-                                </p>
-                            <% } %>
-                            <input class="govuk-input govuk-!-width-two-thirds <% if(emailError || globalError) { %>govuk-input--error<% } %>" id="email" name="email" type="email" autocomplete="email" <% if(emailValue) { %>value="<%= emailValue %>" <% } %> />
-                        </div>
-                        <div class="govuk-form-group <% if(pwError || globalError) { %>govuk-form-group--error<% } %>">
-                            <h2 class="govuk-label-wrapper">
-                                <label class="govuk-label govuk-label--s" for="password">Password</label>
-                            </h2>
-                            <% if(pwError) { %>
-                                <p id="password-error" class="govuk-error-message">
-                                    <%= pwError %>
-                                </p>
-                            <% } %>
-                            <input class="govuk-input govuk-!-width-one-half  <% if(pwError || globalError) { %>govuk-input--error<% } %>" id="password" name="password" type="password" data-module="password-reveal" <% if(locals?.values?.password) { %>value="<%= locals?.values?.password %>" <% } %> />
-                        </div>
+                        <input class="govuk-input govuk-!-width-two-thirds" id="email" name="email" type="email" autocomplete="email" <% if(locals?.values?.email) { %>value="<%= locals?.values?.email %>" <% } %> />
                     </div>
 
+                    <details class="govuk-details" data-module="govuk-details">
+                        <summary class="govuk-details__summary">
+                        <span class="govuk-details__summary-text">
+                          I have forgotten or cannot access this email address
+                        </span>
+                        </summary>
+                        <div class="govuk-details__text">
+                            <p>For security reasons you need to contact the Open Regulation Platform support team. You can contact the team by emailing <a class="govuk-link" href="mailto:openregulationplatform@beis.gov.uk">openregulationplatform@beis.gov.uk</a>.</p>
+                        </div>
+                    </details>
+
                     <button type="submit" class="govuk-button govuk-!-margin-bottom-0" data-module="govuk-button">
-                        Sign in
+                        Continue
                     </button>
                 </form>
             </div>
             <div class="govuk-grid-column-one-third">
                 <div class="side-bar-item-no-border-bottom">
-                    <div class="govuk-!-margin-bottom-6">
-                        <h3 class="govuk-heading-s govuk-!-margin-bottom-2">Forgot your password?</h3>
-                        <a href="/auth/new-password" class="govuk-link govuk-link--no-visited-state">Reset your password</a>
-                    </div>
                     <div class="govuk-!-margin-bottom-6">
                         <h3 class="govuk-heading-s govuk-!-margin-bottom-2">Don't have an account?</h3>
                         <a href="/auth/register" class="govuk-link govuk-link--no-visited-state">Create an account</a>

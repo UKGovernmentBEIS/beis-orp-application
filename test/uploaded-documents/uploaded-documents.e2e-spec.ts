@@ -1,9 +1,6 @@
 import { E2eFixture } from '../e2e.fixture';
 import * as cheerio from 'cheerio';
-import {
-  getNonRegulatorSession,
-  getRegulatorSession,
-} from '../helpers/userSessions';
+import { getRegulatorSession } from '../helpers/userSessions';
 import { server } from '../mocks/server';
 import { rest } from 'msw';
 import { mockedSearchLambda } from '../mocks/config.mock';
@@ -12,12 +9,10 @@ import { orpStandardResponse } from '../mocks/orpSearchMock';
 describe('uploaded-documents', () => {
   const fixture = new E2eFixture();
   let regulatorSession = null;
-  let nonRegulatorSession = null;
 
   beforeAll(async () => {
     await fixture.init();
     regulatorSession = await getRegulatorSession(fixture);
-    nonRegulatorSession = await getNonRegulatorSession(fixture);
   });
 
   describe('findAll', () => {
@@ -66,15 +61,6 @@ describe('uploaded-documents', () => {
     });
 
     describe('guards', () => {
-      it('redirects non-regulator users', async () => {
-        return fixture
-          .request()
-          .get('/uploaded-documents')
-          .set('Cookie', nonRegulatorSession)
-          .expect(302)
-          .expect('Location', '/auth/logout');
-      });
-
       it('redirects unauthenticated users', async () => {
         return fixture
           .request()

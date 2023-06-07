@@ -6,7 +6,6 @@ import { DEFAULT_USER } from '../../../test/mocks/user.mock';
 import { mockConfigService } from '../../../test/mocks/config.mock';
 import { RegulatorService } from '../regulator/regulator.service';
 import { mockLogger } from '../../../test/mocks/logger.mock';
-import { AuthService } from '../auth/auth.service';
 
 describe('DeveloperController', () => {
   let controller: DeveloperController;
@@ -20,7 +19,6 @@ describe('DeveloperController', () => {
         mockConfigService,
         RegulatorService,
         mockLogger,
-        AuthService,
       ],
     }).compile();
 

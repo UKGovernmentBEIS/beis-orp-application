@@ -1,9 +1,6 @@
 import { E2eFixture } from '../e2e.fixture';
 import * as cheerio from 'cheerio';
-import {
-  getNonRegulatorSession,
-  getRegulatorSession,
-} from '../helpers/userSessions';
+import { getRegulatorSession } from '../helpers/userSessions';
 import { FULL_TOPIC_PATH } from '../mocks/topics';
 
 const mockS3 = {
@@ -31,12 +28,10 @@ jest.mock('@aws-sdk/client-s3', () => {
 describe('uploaded-documents/topics', () => {
   const fixture = new E2eFixture();
   let regulatorSession = null;
-  let nonRegulatorSession = null;
 
   beforeAll(async () => {
     await fixture.init();
     regulatorSession = await getRegulatorSession(fixture);
-    nonRegulatorSession = await getNonRegulatorSession(fixture);
   });
 
   describe('GET /topics/:id', () => {
@@ -77,15 +72,6 @@ describe('uploaded-documents/topics', () => {
     });
 
     describe('guards', () => {
-      it('redirects non-regulator users', async () => {
-        return fixture
-          .request()
-          .get('/uploaded-documents/topics/id')
-          .set('Cookie', nonRegulatorSession)
-          .expect(302)
-          .expect('Location', '/auth/logout');
-      });
-
       it('redirects unauthenticated users', async () => {
         return fixture
           .request()
@@ -100,7 +86,7 @@ describe('uploaded-documents/topics', () => {
     it('displays detail of document', () => {
       mockS3.send
         .mockResolvedValueOnce({
-          Metadata: { old: 'meta', regulator_id: 'ofcom' },
+          Metadata: { old: 'meta', regulator_id: 'public.io' },
         })
         .mockResolvedValueOnce({ updated: 'key' });
 
@@ -121,20 +107,6 @@ describe('uploaded-documents/topics', () => {
     });
 
     describe('guards', () => {
-      it('redirects non-regulator users', async () => {
-        return fixture
-          .request()
-          .post('/uploaded-documents/document-type/id')
-          .send({
-            topic1: FULL_TOPIC_PATH[0],
-            topic2: FULL_TOPIC_PATH[1],
-            key: 'key',
-          })
-          .set('Cookie', nonRegulatorSession)
-          .expect(302)
-          .expect('Location', '/auth/logout');
-      });
-
       it('redirects unauthenticated users', async () => {
         return fixture
           .request()

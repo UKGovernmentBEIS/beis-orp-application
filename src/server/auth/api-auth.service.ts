@@ -16,7 +16,6 @@ import { CognitoAuthResponse } from './types/CognitoAuthResponse';
 import { v4 as uuidv4 } from 'uuid';
 import { RegulatorService } from '../regulator/regulator.service';
 import CognitoUser from './types/CognitoUser';
-import { AuthService } from './auth.service';
 import { ApiClient, ListUsersInGroupCommandResponse } from './types/ApiClient';
 import { CognitoRefreshResponse } from './types/CognitoRefreshResponse.dto';
 import { User } from './types/User';
@@ -30,7 +29,6 @@ export class ApiAuthService {
   constructor(
     private readonly config: ConfigService,
     private readonly regulatorService: RegulatorService,
-    private readonly authService: AuthService,
     private readonly logger: Logger,
   ) {
     const { cognito, region } = config.get<AwsConfig>('aws');

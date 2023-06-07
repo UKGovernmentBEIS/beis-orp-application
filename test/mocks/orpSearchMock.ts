@@ -19,7 +19,7 @@ export const getRawOrpDocument = (
     title: 'Title',
     summary: 'This is the summary',
     document_uid: '0001',
-    regulator_id: 'ofcom',
+    regulator_id: 'public.io',
     date_uploaded: '2019-08-06T00:00:00Z',
     date_published: '2018-08-06T00:00:00Z',
     legislative_origins: [
@@ -48,8 +48,8 @@ export const getMappedOrpDocument = (
     title: 'Title',
     description: 'This is the summary',
     documentId: '0001',
-    regulatorId: 'ofcom',
-    creator: 'Office of Communications',
+    regulatorId: 'public.io',
+    creator: 'public.io',
     dates: {
       uploaded: '2019-08-06T00:00:00Z',
       published: '2018-08-06T00:00:00Z',
@@ -83,7 +83,7 @@ export const getMappedOrpDocumentForApi = (
     title: 'Title',
     description: 'This is the summary',
     document_id: '0001',
-    creator: 'Office of Communications',
+    creator: 'public.io',
     dates: {
       uploaded: '2019-08-06T00:00:00Z',
       published: '2018-08-06T00:00:00Z',

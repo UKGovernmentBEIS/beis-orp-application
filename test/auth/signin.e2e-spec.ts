@@ -1,4 +1,4 @@
-import { CORRECT_EMAIL, CORRECT_PW, E2eFixture } from '../e2e.fixture';
+import { CORRECT_CODE, E2eFixture } from '../e2e.fixture';
 import * as cheerio from 'cheerio';
 
 describe('AuthController (e2e)', () => {
@@ -19,48 +19,38 @@ describe('AuthController (e2e)', () => {
           expect(
             $("form[method='post'] input[name='email']").length,
           ).toBeTruthy();
-          expect(
-            $("form[method='post'] input[name='password']").length,
-          ).toBeTruthy();
         });
     });
   });
 
   describe('auth/login (POST)', () => {
-    it('redirects back if no password', () => {
-      return fixture
-        .request()
-        .post('/auth/login')
-        .send({ email: CORRECT_EMAIL, password: '' })
-        .expect(302)
-        .expect('Location', '/auth/login');
-    });
-
     it('redirects back if no email', () => {
       return fixture
         .request()
         .post('/auth/login')
-        .send({ email: '', password: CORRECT_PW })
+        .send({ email: '' })
         .expect(302)
         .expect('Location', '/auth/login');
     });
 
-    it('redirects back to search if successful', () => {
+    it('redirects to email-sent page if successful', () => {
       return fixture
         .request()
         .post('/auth/login')
-        .send({ email: CORRECT_EMAIL, password: CORRECT_PW })
+        .send({ email: 'matt.whitfield@public.io' })
+        .expect(302)
+        .expect('Location', '/auth/email-sent');
+    });
+  });
+
+  describe('auth/access-code (GET)', () => {
+    it('logs user in and redirects to search', () => {
+      return fixture
+        .request()
+        .get('/auth/access-code')
+        .query({ code: CORRECT_CODE })
         .expect(302)
         .expect('Location', '/search');
-    });
-
-    it('redirects back if unsuccessful', () => {
-      return fixture
-        .request()
-        .post('/auth/login')
-        .send({ email: CORRECT_EMAIL, password: 'WRONG' })
-        .expect(302)
-        .expect('Location', '/auth/login');
     });
   });
 });

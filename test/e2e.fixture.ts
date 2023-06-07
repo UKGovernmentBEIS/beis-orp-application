@@ -8,31 +8,27 @@ import { getMockedConfig } from './mocks/config.mock';
 import { ConfigService } from '@nestjs/config';
 import { usePassport } from '../src/server/bootstrap/passport';
 import { CognitoAuthError } from './mocks/cognitoAuthError';
-import {
-  COGNITO_SUCCESSFUL_RESPONSE_NON_REGULATOR,
-  COGNITO_SUCCESSFUL_RESPONSE_REGULATOR,
-} from './mocks/cognitoSuccessfulResponse';
+import { COGNITO_SUCCESSFUL_RESPONSE_REGULATOR } from './mocks/cognitoSuccessfulResponse';
 import JwtAuthenticationGuard from '../src/server/auth/jwt.guard';
 import JwtRegulatorGuard from '../src/server/auth/jwt-regulator.guard';
-import { NextFunction } from 'express';
+import { NextFunction, Request } from 'express';
 import { ApiUser } from '../src/server/auth/types/User';
 import * as session from 'express-session';
+import { magicLinkInitiationResponse } from './mocks/magicLink.mock';
 
-export const CORRECT_EMAIL = 'reg@ofcom.org.uk';
-export const CORRECT_NON_REG_EMAIL = 'noreg@email.com';
-export const CORRECT_PW = 'pw';
+export const CORRECT_CODE = '123456';
 export const mockCognito = {
   send: jest.fn().mockImplementation((command) => {
     if (command.authRequest) {
-      if (command.AuthParameters.PASSWORD !== CORRECT_PW) {
+      return magicLinkInitiationResponse;
+    }
+
+    if (command.authChallengeResponse) {
+      if (command.ChallengeResponses.ANSWER !== CORRECT_CODE) {
         throw new CognitoAuthError('NotAuthorizedException');
       }
-      if (command.AuthParameters.USERNAME === CORRECT_EMAIL) {
-        return COGNITO_SUCCESSFUL_RESPONSE_REGULATOR;
-      }
-      if (command.AuthParameters.USERNAME === CORRECT_NON_REG_EMAIL) {
-        return COGNITO_SUCCESSFUL_RESPONSE_NON_REGULATOR;
-      }
+
+      return COGNITO_SUCCESSFUL_RESPONSE_REGULATOR;
     }
 
     if (command.listUsers) {
@@ -56,11 +52,11 @@ jest.mock('@aws-sdk/client-cognito-identity-provider', () => {
       ...args,
       authRequest: true,
     })),
-    AdminResetUserPasswordCommand: jest.fn(),
-    CognitoIdentityProviderClient: jest.fn(() => mockCognito),
-    ConfirmForgotPasswordCommand: jest.fn(() => ({
-      confirmForgotPasswordCommand: true,
+    RespondToAuthChallengeCommand: jest.fn((args) => ({
+      ...args,
+      authChallengeResponse: true,
     })),
+    CognitoIdentityProviderClient: jest.fn(() => mockCognito),
     ResendConfirmationCodeCommand: jest.fn(),
     SignUpCommand: jest.fn(() => ({
       signUpCommand: true,
@@ -68,10 +64,6 @@ jest.mock('@aws-sdk/client-cognito-identity-provider', () => {
     ListUsersInGroupCommand: jest.fn((args) => ({
       ...args,
       listUsers: true,
-    })),
-    ChangePasswordCommand: jest.fn(),
-    ForgotPasswordCommand: jest.fn(() => ({
-      forgotPasswordCommand: true,
     })),
   };
 });
@@ -125,6 +117,13 @@ export class E2eFixture {
         },
       );
     }
+    this.app.use((req, res, next) => {
+      req.session.challengeSession = 'cogSession';
+      req.session.challengeUsername = 'cogUsername';
+
+      return next();
+    });
+
     this.app.setBaseViewsDir(
       path.join(__dirname, '..', 'src', 'server', 'views'),
     );

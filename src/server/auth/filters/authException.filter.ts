@@ -14,18 +14,15 @@ export class AuthExceptionFilter implements ExceptionFilter {
     const response = host.switchToHttp().getResponse();
     const request = host.switchToHttp().getRequest();
 
-    if (exception.isNotAuthorized() || exception.isNotFound()) {
-      if (request.url === '/auth/reset-password') {
-        request.session.errors = {
-          previousPassword: 'Incorrect password entered',
-        };
-        return response.redirect('/auth/reset-password');
-      }
-
+    if (exception.isInvalidSession()) {
       request.session.errors = {
-        global: 'Incorrect email address or password',
+        global: 'Sign in process timed out. Please try again',
       };
       return response.redirect('/auth/login');
+    }
+
+    if (exception.isNotAuthorized() || exception.isNotFound()) {
+      return response.redirect('/auth/email-sent');
     }
 
     if (exception.isCodeMismatch()) {
@@ -57,8 +54,7 @@ export class AuthExceptionFilter implements ExceptionFilter {
 
     if (exception.isEmailInUse()) {
       request.session.errors = {
-        global:
-          'The email address provided is already in use.<br /><br /> If you can not remember your details you can <a href="/auth/new-password">reset your password</a>.',
+        global: 'The email address provided is already in use.',
       };
       return response.redirect(request.originalUrl);
     }

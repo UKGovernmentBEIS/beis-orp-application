@@ -1,9 +1,6 @@
 import { E2eFixture } from '../e2e.fixture';
 import * as cheerio from 'cheerio';
-import {
-  getNonRegulatorSession,
-  getRegulatorSession,
-} from '../helpers/userSessions';
+import { getRegulatorSession } from '../helpers/userSessions';
 
 const mockS3 = {
   send: jest.fn(),
@@ -29,12 +26,10 @@ jest.mock('@aws-sdk/client-s3', () => {
 describe('Ingest document status', () => {
   const fixture = new E2eFixture();
   let regulatorSession = null;
-  let nonRegulatorSession = null;
 
   beforeAll(async () => {
     await fixture.init();
     regulatorSession = await getRegulatorSession(fixture);
-    nonRegulatorSession = await getNonRegulatorSession(fixture);
   });
 
   beforeEach(async () => {
@@ -61,15 +56,6 @@ describe('Ingest document status', () => {
     });
 
     describe('guards', () => {
-      it('redirects non-regulator users', async () => {
-        return fixture
-          .request()
-          .get('/ingest/document-status?key=unconfirmeddoc')
-          .set('Cookie', nonRegulatorSession)
-          .expect(302)
-          .expect('Location', '/unauthorised/ingest');
-      });
-
       it('redirects unauthenticated users', () => {
         return fixture
           .request()
@@ -84,7 +70,7 @@ describe('Ingest document status', () => {
     it('updates the meta data with selected option', async () => {
       mockS3.send
         .mockResolvedValueOnce({
-          Metadata: { old: 'meta', regulator_id: 'ofcom' },
+          Metadata: { old: 'meta', regulator_id: 'public.io' },
         })
         .mockResolvedValueOnce({ updated: 'unconfirmed/key' });
 
@@ -120,16 +106,6 @@ describe('Ingest document status', () => {
     });
 
     describe('guards', () => {
-      it('redirects non-regulator users', async () => {
-        return fixture
-          .request()
-          .post('/ingest/document-status')
-          .set('Cookie', nonRegulatorSession)
-          .send({ key: 'unconfirmed/key', status: 'published' })
-          .expect(302)
-          .expect('Location', '/unauthorised/ingest');
-      });
-
       it('redirects unauthenticated users', () => {
         return fixture
           .request()

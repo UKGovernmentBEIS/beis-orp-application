@@ -19,7 +19,6 @@ import JwtRegulatorGuard from '../auth/jwt-regulator.guard';
 import { ApiAuthService } from '../auth/api-auth.service';
 import { RegulatorService } from '../regulator/regulator.service';
 import { mockTokens } from '../../../test/mocks/tokens.mock';
-import { AuthService } from '../auth/auth.service';
 import { getMappedOrpDocument } from '../../../test/mocks/orpSearchMock';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { FULL_TOPIC_PATH } from '../../../test/mocks/topics';
@@ -42,7 +41,6 @@ describe('ApiController', () => {
         mockConfigService,
         DocumentService,
         mockLogger,
-        AuthService,
         ApiAuthService,
         RegulatorService,
       ],

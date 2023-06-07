@@ -6,11 +6,16 @@ export type AuthExceptionCode =
   | 'PasswordResetRequiredException'
   | 'UserNotFoundException'
   | 'LimitExceededException'
-  | 'CodeMismatchException';
+  | 'CodeMismatchException'
+  | 'UserLambdaValidationException'; // no user
 
 export class AuthException extends Error {
   constructor(
-    public errorObj: { code: AuthExceptionCode; meta?: Record<string, any> },
+    public errorObj: {
+      code: AuthExceptionCode;
+      message?: string;
+      meta?: Record<string, any>;
+    },
   ) {
     super('Auth error');
   }
@@ -23,8 +28,20 @@ export class AuthException extends Error {
     return this.errorObj.code === 'NotAuthorizedException';
   }
 
+  isInvalidSession() {
+    return (
+      this.errorObj.code === 'NotAuthorizedException' &&
+      this.errorObj.message
+        .toLowerCase()
+        .includes('invalid session for the user')
+    );
+  }
+
   isNotFound() {
-    return this.errorObj.code === 'UserNotFoundException';
+    return (
+      this.errorObj.code === 'UserNotFoundException' ||
+      this.errorObj.code === 'UserLambdaValidationException'
+    );
   }
 
   isUnconfirmed() {
