@@ -1,9 +1,6 @@
 import { E2eFixture } from '../e2e.fixture';
 import * as cheerio from 'cheerio';
-import {
-  getNonRegulatorSession,
-  getRegulatorSession,
-} from '../helpers/userSessions';
+import { getRegulatorSession } from '../helpers/userSessions';
 
 const mockS3 = {
   send: jest.fn(),
@@ -29,12 +26,10 @@ jest.mock('@aws-sdk/client-s3', () => {
 describe('Ingest document type', () => {
   const fixture = new E2eFixture();
   let regulatorSession = null;
-  let nonRegulatorSession = null;
 
   beforeAll(async () => {
     await fixture.init();
     regulatorSession = await getRegulatorSession(fixture);
-    nonRegulatorSession = await getNonRegulatorSession(fixture);
   });
 
   beforeEach(async () => {
@@ -44,7 +39,7 @@ describe('Ingest document type', () => {
   describe('GET', () => {
     it('gets a the meta and displays the filename', () => {
       mockS3.send.mockResolvedValueOnce({
-        Metadata: { old: 'meta', regulator_id: 'ofcom' },
+        Metadata: { old: 'meta', regulator_id: 'public.io' },
       });
 
       return fixture
@@ -77,15 +72,6 @@ describe('Ingest document type', () => {
     });
 
     describe('guards', () => {
-      it('redirects non-regulator users', async () => {
-        return fixture
-          .request()
-          .get('/ingest/document-type?key=unconfirmeddoc')
-          .set('Cookie', nonRegulatorSession)
-          .expect(302)
-          .expect('Location', '/unauthorised/ingest');
-      });
-
       it('redirects unauthenticated users', () => {
         return fixture
           .request()
@@ -100,7 +86,7 @@ describe('Ingest document type', () => {
     it('updates the meta data with selected option', async () => {
       mockS3.send
         .mockResolvedValueOnce({
-          Metadata: { old: 'meta', regulator_id: 'ofcom' },
+          Metadata: { old: 'meta', regulator_id: 'public.io' },
         })
         .mockResolvedValueOnce({ updated: 'unconfirmed/key' });
 
@@ -133,16 +119,6 @@ describe('Ingest document type', () => {
     });
 
     describe('guards', () => {
-      it('redirects non-regulator users', async () => {
-        return fixture
-          .request()
-          .post('/ingest/document-type')
-          .set('Cookie', nonRegulatorSession)
-          .send({ key: 'unconfirmed/key', documentType: { new: 'meta' } })
-          .expect(302)
-          .expect('Location', '/unauthorised/ingest');
-      });
-
       it('redirects unauthenticated users', () => {
         return fixture
           .request()

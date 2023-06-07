@@ -1,9 +1,6 @@
 import { E2eFixture } from '../e2e.fixture';
 import * as cheerio from 'cheerio';
-import {
-  getNonRegulatorSession,
-  getRegulatorSession,
-} from '../helpers/userSessions';
+import { getRegulatorSession } from '../helpers/userSessions';
 
 describe('Ingest index', () => {
   const fixture = new E2eFixture();
@@ -26,16 +23,6 @@ describe('Ingest index', () => {
   });
 
   describe('Guards', () => {
-    it('redirects non-regulator users', async () => {
-      const session = await getNonRegulatorSession(fixture);
-      return fixture
-        .request()
-        .get('/ingest')
-        .set('Cookie', session)
-        .expect(302)
-        .expect('Location', '/unauthorised/ingest');
-    });
-
     it('redirects unauthenticated users', () => {
       return fixture
         .request()

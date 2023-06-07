@@ -1,0 +1,34 @@
+<%- include('../../partials/header'); %>
+
+<div class="govuk-width-container">
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <%- include('../../partials/components/errorSummary', { errors: locals.errors }); %>
+
+                <h1 class="govuk-heading-l">Enter your access code</h1>
+                <p>If the email you provided was found on our system you will have been sent a single use code to access this service.</p>
+
+                <form method="post">
+                    <div class="govuk-form-group <% if(locals?.errors?.code) { %>govuk-form-group--error<% } %>">
+                        <h2 class="govuk-label-wrapper">
+                            <label class="govuk-label govuk-label--s" for="email">Access code</label>
+                        </h2>
+                        <% if(locals?.errors?.code) { %>
+                            <p id="email-code" class="govuk-error-message">
+                                <%= locals?.errors?.code %>
+                            </p>
+                        <% } %>
+                        <input class="govuk-input govuk-!-width-two-thirds" id="code" name="code" type="number"/>
+                    </div>
+
+                    <button type="submit" class="govuk-button govuk-!-margin-bottom-0" data-module="govuk-button">
+                        Continue
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+
+<%- include('../../partials/footer'); %>

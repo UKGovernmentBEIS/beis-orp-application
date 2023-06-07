@@ -44,17 +44,17 @@ async function sendEmail(emailAddress, secretLoginCode) {
       Body: {
         Html: {
           Charset: 'UTF-8',
-          Data: `<html><body><p>This is your secret login code:</p>
-                           <h3>${secretLoginCode}</h3></body></html>`,
+          Data: `<html><body><h1>Open Regulation Platform Sign In Link</h1>
+                           <h3><a href="https://${process.env.ENV_HREF}/auth/access-code?code=${secretLoginCode}">Sign in to the Open Regulation Platform</a></h3></body></html>`,
         },
         Text: {
           Charset: 'UTF-8',
-          Data: `Your secret login code: ${secretLoginCode}`,
+          Data: `Your access link: ${process.env.ENV_HREF}/auth/access-code?code=${secretLoginCode}`,
         },
       },
       Subject: {
         Charset: 'UTF-8',
-        Data: 'Your secret login code',
+        Data: 'Your ORP access link',
       },
     },
     Source: process.env.SES_FROM_ADDRESS,

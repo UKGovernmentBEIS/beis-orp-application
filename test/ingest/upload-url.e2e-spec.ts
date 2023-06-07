@@ -1,18 +1,13 @@
 import { E2eFixture } from '../e2e.fixture';
-import {
-  getNonRegulatorSession,
-  getRegulatorSession,
-} from '../helpers/userSessions';
+import { getRegulatorSession } from '../helpers/userSessions';
 
 describe('Ingest url upload', () => {
   const fixture = new E2eFixture();
   let regulatorSession = null;
-  let nonRegulatorSession = null;
 
   beforeAll(async () => {
     await fixture.init();
     regulatorSession = await getRegulatorSession(fixture);
-    nonRegulatorSession = await getNonRegulatorSession(fixture);
   });
 
   describe('ingest-html POST', () => {
@@ -82,19 +77,6 @@ describe('Ingest url upload', () => {
     });
 
     describe('guards', () => {
-      it('redirects non-regulator users', async () => {
-        return fixture
-          .request()
-          .post('/ingest/ingest-html')
-          .send({
-            uploadType: 'url',
-            url: 'www.gov.uk',
-          })
-          .set('Cookie', nonRegulatorSession)
-          .expect(302)
-          .expect('Location', '/unauthorised/ingest');
-      });
-
       it('redirects unauthenticated users', async () => {
         return fixture
           .request()

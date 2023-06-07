@@ -1,9 +1,6 @@
 import { E2eFixture } from '../e2e.fixture';
 import * as cheerio from 'cheerio';
-import {
-  getNonRegulatorSession,
-  getRegulatorSession,
-} from '../helpers/userSessions';
+import { getRegulatorSession } from '../helpers/userSessions';
 
 const mockS3 = {
   send: jest.fn(),
@@ -30,12 +27,10 @@ jest.mock('@aws-sdk/client-s3', () => {
 describe('uploaded-documents/status', () => {
   const fixture = new E2eFixture();
   let regulatorSession = null;
-  let nonRegulatorSession = null;
 
   beforeAll(async () => {
     await fixture.init();
     regulatorSession = await getRegulatorSession(fixture);
-    nonRegulatorSession = await getNonRegulatorSession(fixture);
   });
 
   describe('GET /status/:id', () => {
@@ -56,15 +51,6 @@ describe('uploaded-documents/status', () => {
     });
 
     describe('guards', () => {
-      it('redirects non-regulator users', async () => {
-        return fixture
-          .request()
-          .get('/uploaded-documents/status/id')
-          .set('Cookie', nonRegulatorSession)
-          .expect(302)
-          .expect('Location', '/auth/logout');
-      });
-
       it('redirects unauthenticated users', async () => {
         return fixture
           .request()
@@ -79,7 +65,7 @@ describe('uploaded-documents/status', () => {
     it('displays detail of document', () => {
       mockS3.send
         .mockResolvedValueOnce({
-          Metadata: { old: 'meta', regulator_id: 'ofcom' },
+          Metadata: { old: 'meta', regulator_id: 'public.io' },
         })
         .mockResolvedValueOnce({ updated: 'key' });
 
@@ -96,16 +82,6 @@ describe('uploaded-documents/status', () => {
     });
 
     describe('guards', () => {
-      it('redirects non-regulator users', async () => {
-        return fixture
-          .request()
-          .post('/uploaded-documents/status/id')
-          .send({ key: 'unconfirmed/key', status: 'published' })
-          .set('Cookie', nonRegulatorSession)
-          .expect(302)
-          .expect('Location', '/auth/logout');
-      });
-
       it('redirects unauthenticated users', async () => {
         return fixture
           .request()

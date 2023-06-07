@@ -19,9 +19,6 @@ describe('Register (e2e)', () => {
           expect(
             $("form[method='post'] input[name='email']").length,
           ).toBeTruthy();
-          expect(
-            $("form[method='post'] input[name='password']").length,
-          ).toBeTruthy();
         });
     });
   });
@@ -33,8 +30,6 @@ describe('Register (e2e)', () => {
         .post('/auth/register')
         .send({
           email: 'user@test.com',
-          password: '9.PAssworD',
-          confirmPassword: '9.PAssworD',
         })
         .expect(302)
         .expect('Location', '/auth/unconfirmed')
@@ -51,23 +46,7 @@ describe('Register (e2e)', () => {
         return fixture
           .request()
           .post('/auth/register')
-          .send({ email: `testtest.com`, password: '9.PAssworD' })
-          .expect(302)
-          .expect('Location', '/auth/register');
-      });
-
-      test.each`
-        pw              | title
-        ${'9.PaD'}      | ${'< 8 characters'}
-        ${'.PAssworD'}  | ${'no number'}
-        ${'9PAssworD'}  | ${'no special character'}
-        ${'9.PASSWORD'} | ${'no lowercase letter'}
-        ${'9.password'} | ${'no capital letter'}
-      `('fails if $title', ({ pw }) => {
-        return fixture
-          .request()
-          .post('/auth/register')
-          .send({ email: 'test@test.com', password: pw })
+          .send({ email: 'testtest.com' })
           .expect(302)
           .expect('Location', '/auth/register');
       });

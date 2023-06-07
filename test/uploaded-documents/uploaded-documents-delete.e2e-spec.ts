@@ -1,19 +1,14 @@
 import { E2eFixture } from '../e2e.fixture';
 import * as cheerio from 'cheerio';
-import {
-  getNonRegulatorSession,
-  getRegulatorSession,
-} from '../helpers/userSessions';
+import { getRegulatorSession } from '../helpers/userSessions';
 
 describe('uploaded-documents/delete', () => {
   const fixture = new E2eFixture();
   let regulatorSession = null;
-  let nonRegulatorSession = null;
 
   beforeAll(async () => {
     await fixture.init();
     regulatorSession = await getRegulatorSession(fixture);
-    nonRegulatorSession = await getNonRegulatorSession(fixture);
   });
 
   describe('GET /delete/:id', () => {
@@ -33,15 +28,6 @@ describe('uploaded-documents/delete', () => {
     });
 
     describe('guards', () => {
-      it('redirects non-regulator users', async () => {
-        return fixture
-          .request()
-          .get('/uploaded-documents/delete/id')
-          .set('Cookie', nonRegulatorSession)
-          .expect(302)
-          .expect('Location', '/auth/logout');
-      });
-
       it('redirects unauthenticated users', async () => {
         return fixture
           .request()
@@ -64,16 +50,6 @@ describe('uploaded-documents/delete', () => {
     });
 
     describe('guards', () => {
-      it('redirects non-regulator users', async () => {
-        return fixture
-          .request()
-          .post('/uploaded-documents/delete')
-          .send({ id: 'uuid' })
-          .set('Cookie', nonRegulatorSession)
-          .expect(302)
-          .expect('Location', '/auth/logout');
-      });
-
       it('redirects unauthenticated users', async () => {
         return fixture
           .request()

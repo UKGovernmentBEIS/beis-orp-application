@@ -236,13 +236,13 @@ describe('DocumentService', () => {
       const result = await service.deleteDocument('uuid', {
         ...DEFAULT_USER_WITH_REGULATOR,
         regulator: {
-          id: 'ofcom',
-          name: 'Office of Communications',
-          domain: 'ofcom.org.uk',
+          id: 'public.io',
+          name: 'public.io',
+          domain: 'public.io',
         },
       });
 
-      expect(deleteSpy).toBeCalledWith('uuid', 'ofcom');
+      expect(deleteSpy).toBeCalledWith('uuid', 'public.io');
       expect(result).toEqual({ status_description: 'OK', status_code: 200 });
     });
 
