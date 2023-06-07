@@ -36,7 +36,7 @@ RUN BUILD_NUMBER=${BUILD_NUMBER} GIT_REF=${GIT_REF} ./scripts/record-build-info
 
 RUN npm prune --no-audit --production
 
-# Stage: copy production assets and dependencies
+# Stage: copy production assets & dependencies
 FROM base
 
 RUN apt-get autoremove -y && \
