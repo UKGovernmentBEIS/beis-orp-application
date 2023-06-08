@@ -17,7 +17,7 @@ import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 import { ValidateForm } from '../form-validation';
 import { AuthenticatedGuard } from './authenticated.guard';
 import EmailAddressDto from './types/EmailAddress.dto';
-import { MagicLinkService } from './magic-link.service';
+import { ClientAuthService } from './client-auth.service';
 import { MagicLinkGuard } from './magic-link.guard';
 import { User } from '../user/user.decorator';
 import type { User as UserType } from '../auth/types/User';
@@ -26,8 +26,8 @@ import type { User as UserType } from '../auth/types/User';
 @UseFilters(ErrorFilter)
 @UseInterceptors(ViewDataInterceptor)
 @Controller('auth')
-export class MagicLinkController {
-  constructor(private magicLinkService: MagicLinkService) {}
+export class ClientAuthController {
+  constructor(private clientAuthService: ClientAuthService) {}
 
   @Get('register')
   @Render('pages/auth/register')
@@ -39,7 +39,7 @@ export class MagicLinkController {
   @ValidateForm()
   @Redirect('/auth/unconfirmed')
   async registerPost(@Body() emailAddressDto: EmailAddressDto, @Request() req) {
-    await this.magicLinkService.registerUser(emailAddressDto);
+    await this.clientAuthService.registerUser(emailAddressDto);
     req.session.unconfirmedEmail = emailAddressDto.email;
     return;
   }
@@ -52,7 +52,7 @@ export class MagicLinkController {
     if (!email) {
       return res.redirect('/auth/login');
     }
-    await this.magicLinkService.resendConfirmationCode(email);
+    await this.clientAuthService.resendConfirmationCode(email);
     return res.render('pages/auth/confirmationSent');
   }
   @Get('login')
@@ -66,7 +66,7 @@ export class MagicLinkController {
   @Redirect('/auth/email-sent')
   async loginPost(@Body() emailAddressDto: EmailAddressDto, @Request() req) {
     const initiationResponse =
-      await this.magicLinkService.initiateAuthentication(emailAddressDto);
+      await this.clientAuthService.initiateAuthentication(emailAddressDto);
     req.session.challengeSession = initiationResponse.Session;
     req.session.challengeUsername =
       initiationResponse.ChallengeParameters.USERNAME;
@@ -110,7 +110,7 @@ export class MagicLinkController {
   @UseGuards(AuthenticatedGuard)
   @Render('pages/auth/deleteUserConfirm')
   async deleteUserConfirm(@User() user: UserType, @Request() req) {
-    await this.magicLinkService.deleteUser(user);
+    await this.clientAuthService.deleteUser(user);
     req.session.destroy();
     return;
   }

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { mockConfigService } from '../../../test/mocks/config.mock';
 import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/user.mock';
-import { MagicLinkService } from './magic-link.service';
+import { ClientAuthService } from './client-auth.service';
 import { MagicLinkStrategy } from './magic-link.strategy';
 import * as mocks from 'node-mocks-http';
 import { Request } from 'express';
@@ -9,24 +9,24 @@ import { RegulatorService } from '../regulator/regulator.service';
 
 describe('Magic Link Strategy', () => {
   let strategy: MagicLinkStrategy;
-  let magicLinkService: MagicLinkService;
+  let clientAuthService: ClientAuthService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         MagicLinkStrategy,
-        MagicLinkService,
+        ClientAuthService,
         mockConfigService,
         RegulatorService,
       ],
     }).compile();
 
     strategy = module.get<MagicLinkStrategy>(MagicLinkStrategy);
-    magicLinkService = module.get<MagicLinkService>(MagicLinkService);
+    clientAuthService = module.get<ClientAuthService>(ClientAuthService);
   });
 
   describe('validate', () => {
-    it('should send code, username and session to magicLinkService', async () => {
+    it('should send code, username and session to clientAuthService', async () => {
       const returnedUser = DEFAULT_USER_WITH_REGULATOR;
       const request = mocks.createRequest({
         session: { challengeUsername: 'un', challengeSession: 'sess' },
@@ -34,7 +34,7 @@ describe('Magic Link Strategy', () => {
       }) as Request;
 
       jest
-        .spyOn(magicLinkService, 'respondToAuthChallenge')
+        .spyOn(clientAuthService, 'respondToAuthChallenge')
         .mockResolvedValue(returnedUser);
 
       const result = await strategy.validate(request);
@@ -67,7 +67,7 @@ describe('Magic Link Strategy', () => {
       }) as Request;
 
       jest
-        .spyOn(magicLinkService, 'respondToAuthChallenge')
+        .spyOn(clientAuthService, 'respondToAuthChallenge')
         .mockResolvedValue(returnedUser);
 
       expect(() => strategy.validate(request)).rejects.toThrow('Auth error');

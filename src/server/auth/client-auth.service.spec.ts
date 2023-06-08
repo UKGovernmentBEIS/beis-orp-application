@@ -9,7 +9,7 @@ import {
 import { AuthException } from './types/AuthException';
 import { RegulatorService } from '../regulator/regulator.service';
 import { COGNITO_SUCCESSFUL_RESPONSE_REGULATOR } from '../../../test/mocks/cognitoSuccessfulResponse';
-import { MagicLinkService } from './magic-link.service';
+import { ClientAuthService } from './client-auth.service';
 import { magicLinkInitiationResponse } from '../../../test/mocks/magicLink.mock';
 
 const mockCognito = {
@@ -38,21 +38,21 @@ jest.mock('@aws-sdk/client-cognito-identity-provider', () => {
   };
 });
 
-describe('MagicLinkService', () => {
-  let service: MagicLinkService;
+describe('ClientAuthService', () => {
+  let service: ClientAuthService;
   let regulatorService: RegulatorService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        MagicLinkService,
+        ClientAuthService,
         mockConfigService,
         mockLogger,
         RegulatorService,
       ],
     }).compile();
 
-    service = module.get<MagicLinkService>(MagicLinkService);
+    service = module.get<ClientAuthService>(ClientAuthService);
     regulatorService = module.get<RegulatorService>(RegulatorService);
 
     jest.clearAllMocks();

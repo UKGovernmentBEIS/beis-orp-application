@@ -1,8 +1,8 @@
 import { magicLinkInitiationResponse } from './magicLink.mock';
-import { MagicLinkService } from '../../src/server/auth/magic-link.service';
+import { ClientAuthService } from '../../src/server/auth/client-auth.service';
 
-export const mockMagicLinkService = {
-  provide: MagicLinkService,
+export const mockClientAuthService = {
+  provide: ClientAuthService,
   useValue: {
     registerUser: () => 'MOCK_REGISTER_RESPONSE',
     initiateAuthentication: () => magicLinkInitiationResponse,

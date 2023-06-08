@@ -3,23 +3,23 @@ import * as mocks from 'node-mocks-http';
 import { mockConfigService } from '../../../test/mocks/config.mock';
 import { mockLogger } from '../../../test/mocks/logger.mock';
 import { DEFAULT_USER } from '../../../test/mocks/user.mock';
-import { mockMagicLinkService } from '../../../test/mocks/magicLinkService.mock';
-import { MagicLinkService } from './magic-link.service';
-import { MagicLinkController } from './magic-link.controller';
+import { mockClientAuthService } from '../../../test/mocks/clientAuthService.mock';
+import { ClientAuthService } from './client-auth.service';
+import { ClientAuthController } from './client-auth.controller';
 import { magicLinkInitiationResponse } from '../../../test/mocks/magicLink.mock';
 
 describe('AuthController', () => {
-  let controller: MagicLinkController;
-  let magicLinkService: MagicLinkService;
+  let controller: ClientAuthController;
+  let clientAuthService: ClientAuthService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [MagicLinkController],
-      providers: [mockMagicLinkService, mockConfigService, mockLogger],
+      controllers: [ClientAuthController],
+      providers: [mockClientAuthService, mockConfigService, mockLogger],
     }).compile();
 
-    controller = module.get<MagicLinkController>(MagicLinkController);
-    magicLinkService = module.get<MagicLinkService>(MagicLinkService);
+    controller = module.get<ClientAuthController>(ClientAuthController);
+    clientAuthService = module.get<ClientAuthService>(ClientAuthService);
 
     jest.clearAllMocks();
   });
@@ -28,7 +28,7 @@ describe('AuthController', () => {
     it('should call register user on magic link service', async () => {
       const req = mocks.createRequest({ session: {} });
       const registerSpy = jest
-        .spyOn(magicLinkService, 'registerUser')
+        .spyOn(clientAuthService, 'registerUser')
         .mockResolvedValue(DEFAULT_USER);
 
       await controller.registerPost({ email: 'email@e.com' }, req);
@@ -64,7 +64,7 @@ describe('AuthController', () => {
   describe('deleteUserConfirm', () => {
     it('should call confirmPassword on auth service', async () => {
       const deleteSpy = jest
-        .spyOn(magicLinkService, 'deleteUser')
+        .spyOn(clientAuthService, 'deleteUser')
         .mockResolvedValue(DEFAULT_USER);
       const destroyMock = jest.fn();
       await controller.deleteUserConfirm(

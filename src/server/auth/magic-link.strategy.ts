@@ -2,7 +2,7 @@ import { Strategy } from 'passport-custom';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { AuthException } from './types/AuthException';
-import { MagicLinkService } from './magic-link.service';
+import { ClientAuthService } from './client-auth.service';
 import { Request } from 'express';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class MagicLinkStrategy extends PassportStrategy(
   Strategy,
   'magic-link',
 ) {
-  constructor(private magicLinkService: MagicLinkService) {
+  constructor(private clientAuthService: ClientAuthService) {
     super();
   }
 
@@ -31,7 +31,7 @@ export class MagicLinkStrategy extends PassportStrategy(
       throw new AuthException({ code: 'NotAuthorizedException' });
     }
 
-    const user = await this.magicLinkService.respondToAuthChallenge({
+    const user = await this.clientAuthService.respondToAuthChallenge({
       code,
       username: challengeUsername,
       session: challengeSession,
