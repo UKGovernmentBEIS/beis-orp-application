@@ -32,7 +32,7 @@ describe('Register (e2e)', () => {
           email: 'user@ukas.com',
         })
         .expect(302)
-        .expect('Location', '/auth/unconfirmed')
+        .expect('Location', '/auth/confirm-account')
         .expect(() => {
           expect(mockCognito.send).toBeCalledTimes(1);
           expect(mockCognito.send).toBeCalledWith({

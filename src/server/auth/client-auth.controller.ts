@@ -39,10 +39,16 @@ export class ClientAuthController {
   @Post('register')
   @ValidateForm()
   @UseGuards(SignUpGuard)
-  @Redirect('/auth/unconfirmed')
+  @Redirect('/auth/confirm-account')
   async registerPost(@Body() emailAddressDto: EmailAddressDto, @Request() req) {
     await this.clientAuthService.registerUser(emailAddressDto);
     req.session.unconfirmedEmail = emailAddressDto.email;
+    return;
+  }
+
+  @Get('confirm-account')
+  @Render('pages/auth/accountConfirmationSent')
+  confirmationSent() {
     return;
   }
 
