@@ -21,6 +21,7 @@ import { ClientAuthService } from './client-auth.service';
 import { MagicLinkGuard } from './magic-link.guard';
 import { User } from '../user/user.decorator';
 import type { User as UserType } from '../auth/types/User';
+import { SignUpGuard } from './sign-up.guard';
 
 @UseFilters(AuthExceptionFilter)
 @UseFilters(ErrorFilter)
@@ -37,10 +38,17 @@ export class ClientAuthController {
 
   @Post('register')
   @ValidateForm()
+  @UseGuards(SignUpGuard)
   @Redirect('/auth/unconfirmed')
   async registerPost(@Body() emailAddressDto: EmailAddressDto, @Request() req) {
     await this.clientAuthService.registerUser(emailAddressDto);
     req.session.unconfirmedEmail = emailAddressDto.email;
+    return;
+  }
+
+  @Get('invalid-domain')
+  @Render('pages/auth/invalidDomain')
+  invalidDomain() {
     return;
   }
 

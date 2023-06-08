@@ -7,6 +7,7 @@ import { mockClientAuthService } from '../../../test/mocks/clientAuthService.moc
 import { ClientAuthService } from './client-auth.service';
 import { ClientAuthController } from './client-auth.controller';
 import { magicLinkInitiationResponse } from '../../../test/mocks/magicLink.mock';
+import { RegulatorService } from '../regulator/regulator.service';
 
 describe('AuthController', () => {
   let controller: ClientAuthController;
@@ -15,7 +16,12 @@ describe('AuthController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ClientAuthController],
-      providers: [mockClientAuthService, mockConfigService, mockLogger],
+      providers: [
+        mockClientAuthService,
+        mockConfigService,
+        mockLogger,
+        RegulatorService,
+      ],
     }).compile();
 
     controller = module.get<ClientAuthController>(ClientAuthController);

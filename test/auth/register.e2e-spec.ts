@@ -29,7 +29,7 @@ describe('Register (e2e)', () => {
         .request()
         .post('/auth/register')
         .send({
-          email: 'user@test.com',
+          email: 'user@ukas.com',
         })
         .expect(302)
         .expect('Location', '/auth/unconfirmed')
@@ -41,15 +41,15 @@ describe('Register (e2e)', () => {
         });
     });
 
-    describe('validation', () => {
-      it('redirects back if invalid email', () => {
-        return fixture
-          .request()
-          .post('/auth/register')
-          .send({ email: 'testtest.com' })
-          .expect(302)
-          .expect('Location', '/auth/register');
-      });
+    it('rejects if non-regulator domain', () => {
+      return fixture
+        .request()
+        .post('/auth/register')
+        .send({
+          email: 'user@test.com',
+        })
+        .expect(302)
+        .expect('Location', '/auth/invalid-domain');
     });
   });
 });

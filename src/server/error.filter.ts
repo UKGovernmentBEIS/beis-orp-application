@@ -12,6 +12,7 @@ import {
   FileValidationException,
   FormValidationException,
 } from './form-validation';
+import { InvalidDomainException } from './auth/types/invalid-domain.exception';
 
 @Catch()
 export class ErrorFilter<T extends Error> implements ExceptionFilter {
@@ -24,6 +25,10 @@ export class ErrorFilter<T extends Error> implements ExceptionFilter {
       return response
         .status(HttpStatus.SERVICE_UNAVAILABLE)
         .json(exception.health);
+    }
+
+    if (exception instanceof InvalidDomainException) {
+      return response.redirect('/auth/invalid-domain');
     }
 
     if (exception instanceof FileValidationException) {
