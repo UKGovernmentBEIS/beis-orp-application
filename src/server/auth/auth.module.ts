@@ -5,8 +5,8 @@ import { JwtStrategy } from './jwt.strategy';
 import { RegulatorService } from '../regulator/regulator.service';
 import JwtRegulatorStrategy from './jwt-regulator.strategy';
 import { ApiAuthService } from './api-auth.service';
-import { MagicLinkService } from './magic-link.service';
-import { MagicLinkController } from './magic-link.controller';
+import { ClientAuthService } from './client-auth.service';
+import { ClientAuthController } from './client-auth.controller';
 import { MagicLinkStrategy } from './magic-link.strategy';
 
 @Module({
@@ -18,9 +18,9 @@ import { MagicLinkStrategy } from './magic-link.strategy';
     JwtRegulatorStrategy,
     RegulatorService,
     ApiAuthService,
-    MagicLinkService,
+    ClientAuthService,
     MagicLinkStrategy,
   ],
-  controllers: [MagicLinkController],
+  controllers: [ClientAuthController],
 })
 export class AuthModule {}

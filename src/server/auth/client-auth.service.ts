@@ -19,7 +19,7 @@ import decodeJwt from './utils/decodeJwt';
 import { MagicLinkInitiationResponse } from './types/MagicLinkInitiationResponse';
 
 @Injectable()
-export class MagicLinkService {
+export class ClientAuthService {
   private clientId: string;
   private userPoolId: string;
 
