@@ -1,6 +1,6 @@
-import { LinkedDocumentsResponseDto } from '../../src/server/search/types/LinkedDocumentsResponse.dto';
-import { RawLinkedDocumentsResponse } from '../../src/server/data/types/rawOrpSearchResponse';
-import { ApiLinkedDocumentsResponseDto } from '../../src/server/api/types/ApiLinkedDocumentsResponse.dto';
+import { LinkedDocumentsResponseDto } from '../../src/server/search/entities/linked-documents-response.dto';
+import { RawLinkedDocumentsResponse } from '../../src/server/data/entities/raw-orp-search-response';
+import { ApiLinkedDocumentsResponseDto } from '../../src/server/api/entities/api-linked-documents-response.dto';
 
 export const linkedDocsRawResponse: RawLinkedDocumentsResponse = {
   status_description: 'OK',

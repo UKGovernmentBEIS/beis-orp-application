@@ -1,5 +1,5 @@
-import { SubscriberDto } from '../types/Subscriber.dto';
-import { UserPreferenceDto } from '../types/UserPreference.dto';
+import { SubscriberDto } from '../entities/subscriber.dto';
+import { UserPreferenceDto } from '../entities/user-preference.dto';
 
 export const subscriber: SubscriberDto = {
   emailAddress: 'test@test.com',

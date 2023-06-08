@@ -17,9 +17,9 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiSearchRequestDto } from './types/ApiSearchRequest.dto';
+import { ApiSearchRequestDto } from './entities/api-search-request.dto';
 import { SearchService } from '../search/search.service';
-import { FileUploadDto } from './types/FileUpload.dto';
+import { FileUploadDto } from './entities/file-upload.dto';
 import {
   ApiBearerAuth,
   ApiBody,
@@ -31,38 +31,38 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { ApiBadRequestResponse } from '@nestjs/swagger/dist/decorators/api-response.decorator';
-import { DocumentRequestDto } from './types/DocumentRequest.dto';
+import { DocumentRequestDto } from './entities/document-request.dto';
 import { DocumentService } from '../document/document.service';
-import { FileUpload } from '../data/types/FileUpload';
+import { FileUpload } from '../data/entities/file-upload';
 import JwtAuthenticationGuard from '../auth/jwt.guard';
 import JwtRegulatorGuard from '../auth/jwt-regulator.guard';
 import { ApiAuthService } from '../auth/api-auth.service';
-import ApiTokenRequestDto from './types/ApiTokenRequest.dto';
-import ApiRefreshTokenRequestDto from './types/ApiRefreshTokenRequest.dto';
-import toSearchRequest from './utils/toSearchRequest';
+import ApiTokenRequestDto from './entities/api-token-request.dto';
+import ApiRefreshTokenRequestDto from './entities/api-refresh-token-request.dto';
+import toSearchRequest from './utils/to-search-request';
 import toApiSearchResult, {
   FilteredOrpSearchItemForApi,
   FilteredSearchResponseForApi,
   toApiOrpDocument,
-} from './utils/toApiSearchResult';
+} from './utils/to-api-search-result';
 import {
   ApiOrpSearchItem,
   ApiSearchResponseDto,
-} from './types/ApiSearchResponse.dto';
-import ApiTokensDto from './types/ApiTokensDto';
-import ApiRefreshTokensDto from './types/ApiRefreshTokensDto';
-import { LinkedDocumentsRequestDto } from './types/LinkedDocumentsRequest.dto';
+} from './entities/api-search-response.dto';
+import ApiTokensDto from './entities/api-tokens-dto';
+import ApiRefreshTokenDto from './entities/api-refresh-token.dto';
+import { LinkedDocumentsRequestDto } from './entities/linked-documents-request.dto';
 import { User } from '../user/user.decorator';
-import { ApiUser as UserType } from '../auth/types/User';
-import { acceptedMimeTypesRegex } from '../document/utils/mimeTypes';
-import ApiFileValidationExceptionFactory from './utils/ApiFileValidationExceptionFactory';
+import { ApiUser as UserType } from '../auth/entities/user';
+import { acceptedMimeTypesRegex } from '../document/utils/mime-types';
+import ApiFileValidationExceptionFactory from './utils/api-file-validation-exception-factory';
 import { ThrottlerGuard } from '@nestjs/throttler';
-import FileNotEmptyValidator from '../form-validation/FileNotEmptyValidator';
-import { LinkedDocumentsResponseDto } from '../search/types/LinkedDocumentsResponse.dto';
+import FileNotEmptyValidator from '../validators/file-not-empty.validator';
+import { LinkedDocumentsResponseDto } from '../search/entities/linked-documents-response.dto';
 import { SnakeCaseInterceptor } from './utils/snake-case.interceptor';
-import { ApiLinkedDocumentsResponseDto } from './types/ApiLinkedDocumentsResponse.dto';
-import { CognitoRefreshResponse } from '../auth/types/CognitoRefreshResponse.dto';
-import { CognitoAuthResponse } from '../auth/types/CognitoAuthResponse';
+import { ApiLinkedDocumentsResponseDto } from './entities/api-linked-documents-response.dto';
+import { CognitoRefreshResponse } from '../auth/entities/cognito-refresh-response.dto';
+import { CognitoAuthResponse } from '../auth/entities/cognito-auth-response';
 
 @UseGuards(ThrottlerGuard)
 @UsePipes(new ValidationPipe())
@@ -190,7 +190,7 @@ export class ApiController {
 
   @Post('refresh-tokens')
   @ApiTags('auth')
-  @ApiOkResponse({ type: ApiRefreshTokensDto })
+  @ApiOkResponse({ type: ApiRefreshTokenDto })
   @UseInterceptors(SnakeCaseInterceptor)
   async refreshToken(
     @Body() apiRefreshTokenRequestDto: ApiRefreshTokenRequestDto,

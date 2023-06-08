@@ -1,20 +1,20 @@
 import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
 import { OrpDal } from '../data/orp.dal';
 import { AwsDal } from '../data/aws.dal';
-import { UploadedFile } from '../data/types/UploadedFile';
-import { FileUpload } from '../data/types/FileUpload';
+import { UploadedFile } from '../data/entities/uploaded-file';
+import { FileUpload } from '../data/entities/file-upload';
 import { Readable } from 'stream';
-import { ObjectMetaData } from '../data/types/ObjectMetaData';
+import { ObjectMetaData } from '../data/entities/object-meta-data';
 import { TnaDal } from '../data/tna.dal';
-import { isEuDocument } from '../data/types/tnaDocs';
-import TnaDocMeta from './types/TnaDocMeta';
-import { getMetaFromEuDoc, getMetaFromUkDoc } from './utils/tnaMeta';
-import { ApiUser, User } from '../auth/types/User';
-import { mapOrpDocument } from '../search/utils/orpSearchMapper';
-import { OrpSearchItem } from '../search/types/SearchResponse.dto';
-import { displayableMimeTypes } from './utils/mimeTypes';
+import { isEuDocument } from '../data/entities/tna-docs';
+import TnaDocMeta from './entities/tna-doc-meta';
+import { getMetaFromEuDoc, getMetaFromUkDoc } from './utils/tna-meta';
+import { ApiUser, User } from '../auth/entities/user';
+import { mapOrpDocument } from '../search/utils/orp-search-mapper';
+import { OrpSearchItem } from '../search/entities/search-response.dto';
+import { displayableMimeTypes } from './utils/mime-types';
 import { topicsLeafMap } from './utils/topics-leaf-map';
-import { UserCollectedUrlUploadData } from '../data/types/UrlUpload';
+import { UserCollectedUrlUploadData } from '../data/entities/url-upload';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()

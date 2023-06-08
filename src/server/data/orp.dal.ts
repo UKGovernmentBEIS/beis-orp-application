@@ -8,14 +8,14 @@ import {
   RawLinkedDocumentsResponse,
   RawOrpResponse,
   RawOrpResponseEntry,
-} from './types/rawOrpSearchResponse';
+} from './entities/raw-orp-search-response';
 import {
   OrpIdSearchBody,
   OrpLinkedDocsSearchBody,
   OrpSearchBody,
-} from './types/orpSearchRequests';
-import { SearchRequestDto } from '../search/types/SearchRequest.dto';
-import { UrlUpload } from './types/UrlUpload';
+} from './entities/orp-search-requests';
+import { SearchRequestDto } from '../search/entities/search-request.dto';
+import { UrlUpload } from './entities/url-upload';
 
 function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
   return value !== null && value !== undefined;

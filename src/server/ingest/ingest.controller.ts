@@ -18,26 +18,26 @@ import {
 } from '@nestjs/common';
 import { ErrorFilter } from '../error.filter';
 import { FileInterceptor } from '@nestjs/platform-express';
-import FileValidationExceptionFactory from './utils/FileValidationExceptionFactory';
+import FileValidationExceptionFactory from './utils/file-validation-exception-factory';
 import { DocumentService } from '../document/document.service';
 import { User } from '../user/user.decorator';
-import { ViewDataInterceptor } from '../../view-data-interceptor.service';
+import { ViewDataInterceptor } from '../view-data.interceptor';
 import { ValidateForm } from '../form-validation';
-import type { User as UserType } from '../auth/types/User';
-import { documentTypes } from '../search/types/documentTypes';
-import DocumentTypeDto from './types/DocumentType.dto';
-import DocumentStatusDto from './types/DocumentStatus.dto';
-import { orpDocumentStatus } from '../search/types/statusTypes';
-import { acceptedMimeTypesRegex } from '../document/utils/mimeTypes';
+import type { User as UserType } from '../auth/entities/user';
+import { documentTypes } from '../search/entities/document-types';
+import DocumentTypeDto from './entities/document-type.dto';
+import DocumentStatusDto from './entities/document-status.dto';
+import { orpDocumentStatus } from '../search/entities/status-types';
+import { acceptedMimeTypesRegex } from '../document/utils/mime-types';
 import { topics } from '../document/utils/topics';
 import { topicsDisplayMap } from '../document/utils/topics-display-mapping';
-import DocumentTopicsDto from './types/DocumentTopics.dto';
-import IngestHtmlDto from './types/IngestHtml.dto';
-import IngestDeviceDto from './types/IngestDevice.dto';
+import DocumentTopicsDto from './entities/document-topics.dto';
+import IngestHtmlDto from './entities/ingest-html.dto';
+import IngestDeviceDto from './entities/ingest-device.dto';
 import { RegulatorGuard } from '../auth/regulator.guard';
-import { UserCollectedUrlUploadData } from '../data/types/UrlUpload';
+import { UserCollectedUrlUploadData } from '../data/entities/url-upload';
 import { getTopicsForView } from './utils/topics';
-import FileNotEmptyValidator from '../form-validation/FileNotEmptyValidator';
+import FileNotEmptyValidator from '../validators/file-not-empty.validator';
 
 //TODO refactor class to separate html functionality from document
 @Controller('ingest')

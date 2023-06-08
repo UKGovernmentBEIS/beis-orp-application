@@ -11,12 +11,12 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { User } from '../user/user.decorator';
-import { User as UserType } from '../auth/types/User';
+import { User as UserType } from '../auth/entities/user';
 import { ApiAuthService } from '../auth/api-auth.service';
 import { ErrorFilter } from '../error.filter';
-import { ViewDataInterceptor } from '../../view-data-interceptor.service';
+import { ViewDataInterceptor } from '../view-data.interceptor';
 import { AuthenticatedGuard } from '../auth/authenticated.guard';
-import RemoveApiCredentialsDto from './types/RemoveApiCredentials.dto';
+import RemoveApiCredentialsDto from './entities/remove-api-credentials.dto';
 
 @UseFilters(ErrorFilter)
 @UseInterceptors(ViewDataInterceptor)

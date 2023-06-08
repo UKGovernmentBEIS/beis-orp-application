@@ -1,6 +1,6 @@
 import { Controller, Get, Render, UseInterceptors } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ViewDataInterceptor } from '../../view-data-interceptor.service';
+import { ViewDataInterceptor } from '../view-data.interceptor';
 
 @Controller()
 @UseInterceptors(ViewDataInterceptor)

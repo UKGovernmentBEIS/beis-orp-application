@@ -1,4 +1,4 @@
-import { ApiClient } from '../../src/server/auth/types/ApiClient';
+import { ApiClient } from '../../src/server/auth/entities/api-client';
 
 export const DEFAULT_API_CREDENTIAL: ApiClient = {
   Attributes: [{ Name: 'custom:regulator', Value: 'regulatorId' }],

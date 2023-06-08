@@ -1,4 +1,4 @@
-import { CognitoAuthResponse } from '../../src/server/auth/types/CognitoAuthResponse';
+import { CognitoAuthResponse } from '../../src/server/auth/entities/cognito-auth-response';
 
 export const mockTokens: CognitoAuthResponse['AuthenticationResult'] = {
   AccessToken: 'access_token',

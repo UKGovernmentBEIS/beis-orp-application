@@ -2,9 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import * as convert from 'xml-js';
-import { SearchRequestDto } from '../search/types/SearchRequest.dto';
-import { TnaEuDoc, TnaPrimaryUkDoc, TnaSecondaryUkDoc } from './types/tnaDocs';
-import { RawTnaResponse } from './types/rawTnaSearchResponse';
+import { SearchRequestDto } from '../search/entities/search-request.dto';
+import {
+  TnaEuDoc,
+  TnaPrimaryUkDoc,
+  TnaSecondaryUkDoc,
+} from './entities/tna-docs';
+import { RawTnaResponse } from './entities/raw-tna-search-response';
 
 export const TNA_URL = 'https://www.legislation.gov.uk/all';
 

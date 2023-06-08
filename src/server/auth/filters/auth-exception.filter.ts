@@ -5,7 +5,7 @@ import {
   HttpStatus,
   Logger,
 } from '@nestjs/common';
-import { AuthException } from '../types/AuthException';
+import { AuthException } from '../entities/auth-exception';
 
 @Catch(AuthException)
 export class AuthExceptionFilter implements ExceptionFilter {

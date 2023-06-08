@@ -1,7 +1,7 @@
 import { Strategy } from 'passport-custom';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
-import { AuthException } from './types/AuthException';
+import { AuthException } from './entities/auth-exception';
 import { ClientAuthService } from './client-auth.service';
 import { Request } from 'express';
 

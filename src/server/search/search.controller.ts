@@ -10,10 +10,10 @@ import {
 } from '@nestjs/common';
 import { ErrorFilter } from '../error.filter';
 import { SearchService } from './search.service';
-import { ViewDataInterceptor } from '../../view-data-interceptor.service';
-import { SearchRequestDto } from './types/SearchRequest.dto';
-import { documentTypes } from './types/documentTypes';
-import { documentStatus } from './types/statusTypes';
+import { ViewDataInterceptor } from '../view-data.interceptor';
+import { SearchRequestDto } from './entities/search-request.dto';
+import { documentTypes } from './entities/document-types';
+import { documentStatus } from './entities/status-types';
 import { DateTransformPipe } from '../form-validation/date-transform.pipe';
 import regulators from '../regulator/config/regulators';
 import { topicsDisplayMap } from '../document/utils/topics-display-mapping';

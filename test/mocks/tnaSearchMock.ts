@@ -1,5 +1,5 @@
-import { ApiSearchResponseDto } from '../../src/server/api/types/ApiSearchResponse.dto';
-import { SearchResponseDto } from '../../src/server/search/types/SearchResponse.dto';
+import { ApiSearchResponseDto } from '../../src/server/api/entities/api-search-response.dto';
+import { SearchResponseDto } from '../../src/server/search/entities/search-response.dto';
 import * as snakecaseKeys from 'snakecase-keys';
 import * as convert from 'xml-js';
 
