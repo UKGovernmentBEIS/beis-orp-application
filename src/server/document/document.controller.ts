@@ -16,17 +16,18 @@ import { SearchService } from '../search/search.service';
 import { OrpSearchItem } from '../search/entities/search-response.dto';
 import TnaDocMeta from './entities/tna-doc-meta';
 import { Regulator } from '../regulator/entities/regulator';
-import regulators from '../regulator/config/regulators';
 import { ErrorFilter } from '../error.filter';
 import { ViewDataInterceptor } from '../view-data.interceptor';
 import { LinkedDocuments } from '../search/entities/linked-documents-response.dto';
 import { LinkedDocumentQueryDto } from './entities/linked-document-query.dto';
+import { RegulatorService } from '../regulator/regulator.service';
 
 @Controller('document')
 export class DocumentController {
   constructor(
     private readonly documentService: DocumentService,
     private readonly searchService: SearchService,
+    private readonly regulatorService: RegulatorService,
   ) {}
   @Get('/view/:id')
   @UseFilters(ErrorFilter)
@@ -50,13 +51,9 @@ export class DocumentController {
       document.documentFormat !== 'HTML'
         ? await this.documentService.getDocumentUrl(document.uri)
         : { url: null, documentFormat: 'HTML' };
-    const regulator = regulators.find(
-      (reg) => reg.name === document.creator,
-    ) ?? {
-      name: document.creator,
-      id: document.creator,
-      domain: document.creator,
-    };
+    const regulator = this.regulatorService.getRegulatorByName(
+      document.creator,
+    );
     const docType = documentTypes[document.documentType] ?? '';
 
     return {

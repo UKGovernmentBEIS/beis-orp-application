@@ -14,6 +14,8 @@ import { topicsDisplayMap } from '../document/utils/topics-display-mapping';
 import { topics } from '../document/utils/topics';
 import { FULL_TOPIC_PATH } from '../../../test/mocks/topics';
 import * as mocks from 'node-mocks-http';
+import { OrpSearchMapper } from '../search/utils/orp-search-mapper';
+import { RegulatorService } from '../regulator/regulator.service';
 
 describe('IngestController', () => {
   let controller: IngestController;
@@ -29,6 +31,8 @@ describe('IngestController', () => {
         mockConfigService,
         Logger,
         TnaDal,
+        OrpSearchMapper,
+        RegulatorService,
       ],
       imports: [HttpModule],
     }).compile();

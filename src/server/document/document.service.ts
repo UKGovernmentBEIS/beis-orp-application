@@ -10,7 +10,7 @@ import { isEuDocument } from '../data/entities/tna-docs';
 import TnaDocMeta from './entities/tna-doc-meta';
 import { getMetaFromEuDoc, getMetaFromUkDoc } from './utils/tna-meta';
 import { ApiUser, User } from '../auth/entities/user';
-import { mapOrpDocument } from '../search/utils/orp-search-mapper';
+import { OrpSearchMapper } from '../search/utils/orp-search-mapper';
 import { OrpSearchItem } from '../search/entities/search-response.dto';
 import { displayableMimeTypes } from './utils/mime-types';
 import { topicsLeafMap } from './utils/topics-leaf-map';
@@ -24,6 +24,7 @@ export class DocumentService {
     private readonly awsDal: AwsDal,
     private readonly logger: Logger,
     private readonly tnaDal: TnaDal,
+    private readonly orpSearchMapper: OrpSearchMapper,
   ) {}
 
   async upload(
@@ -71,7 +72,7 @@ export class DocumentService {
 
   async getDocumentById(id: string): Promise<OrpSearchItem> {
     const document = await this.orpDal.getById(id);
-    return mapOrpDocument(document);
+    return this.orpSearchMapper.mapOrpDocument(document);
   }
 
   async getDocumentUrl(
