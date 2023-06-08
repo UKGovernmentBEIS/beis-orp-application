@@ -28,7 +28,10 @@ export class MagicLinkStrategy extends PassportStrategy(
       !code ||
       typeof code !== 'string'
     ) {
-      throw new AuthException({ code: 'NotAuthorizedException' });
+      throw new AuthException({
+        code: 'NotAuthorizedException',
+        message: 'invalid session for the user',
+      });
     }
 
     const user = await this.clientAuthService.respondToAuthChallenge({

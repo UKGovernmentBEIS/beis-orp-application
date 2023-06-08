@@ -12,7 +12,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ErrorFilter } from '../error.filter';
-import { AuthExceptionFilter } from './filters/authException.filter';
+import { AuthExceptionFilter } from './filters/auth-exception.filter';
 import { ViewDataInterceptor } from '../../view-data-interceptor.service';
 import { ValidateForm } from '../form-validation';
 import { AuthenticatedGuard } from './authenticated.guard';
