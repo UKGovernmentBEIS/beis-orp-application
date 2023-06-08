@@ -5,10 +5,7 @@ import { OrpDal } from '../data/orp.dal';
 import { SearchRequestDto } from './entities/search-request.dto';
 import { LinkedDocumentsRequestDto } from '../api/entities/linked-documents-request.dto';
 import { LinkedDocumentsResponseDto } from './entities/linked-documents-response.dto';
-import {
-  mapLinkedDocuments,
-  mapOrpSearchResponse,
-} from './utils/orp-search-mapper';
+import { OrpSearchMapper } from './utils/orp-search-mapper';
 import { mapTnaSearchResponse } from './utils/tna-search-mapper';
 
 @Injectable()
@@ -16,6 +13,7 @@ export class SearchService {
   constructor(
     private readonly tnaDal: TnaDal,
     private readonly orpDal: OrpDal,
+    private readonly orpSearchMapper: OrpSearchMapper,
   ) {}
 
   async search(searchRequest: SearchRequestDto): Promise<SearchResponseDto> {
@@ -26,7 +24,8 @@ export class SearchService {
 
     return {
       legislation: mapTnaSearchResponse(legislation),
-      regulatoryMaterial: mapOrpSearchResponse(regulatoryMaterial),
+      regulatoryMaterial:
+        this.orpSearchMapper.mapOrpSearchResponse(regulatoryMaterial),
     };
   }
 
@@ -37,6 +36,6 @@ export class SearchService {
       legislation_href: [legislation_href].flat(),
     });
 
-    return mapLinkedDocuments(data);
+    return this.orpSearchMapper.mapLinkedDocuments(data);
   }
 }

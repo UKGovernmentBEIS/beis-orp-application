@@ -11,6 +11,7 @@ import { SearchService } from '../search/search.service';
 import { TnaDal } from '../data/tna.dal';
 import TnaDocMeta from './entities/tna-doc-meta';
 import { RegulatorService } from '../regulator/regulator.service';
+import { OrpSearchMapper } from '../search/utils/orp-search-mapper';
 
 describe('DocumentController', () => {
   let controller: DocumentController;
@@ -28,6 +29,8 @@ describe('DocumentController', () => {
         mockLogger,
         SearchService,
         TnaDal,
+        RegulatorService,
+        OrpSearchMapper,
         RegulatorService,
       ],
       imports: [HttpModule],

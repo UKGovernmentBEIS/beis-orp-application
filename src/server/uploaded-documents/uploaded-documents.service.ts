@@ -1,13 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { OrpDal } from '../data/orp.dal';
 import { OrpSearchResponse } from '../search/entities/search-response.dto';
-import { mapOrpSearchResponse } from '../search/utils/orp-search-mapper';
+import { OrpSearchMapper } from '../search/utils/orp-search-mapper';
 import { User } from '../auth/entities/user';
 import { SearchRequestDto } from '../search/entities/search-request.dto';
 
 @Injectable()
 export class UploadedDocumentsService {
-  constructor(private readonly orpDal: OrpDal) {}
+  constructor(
+    private readonly orpDal: OrpDal,
+    private readonly orpSearchMapper: OrpSearchMapper,
+  ) {}
 
   async findAll(user: User, pageNumber?: number): Promise<OrpSearchResponse> {
     const searchRequest: SearchRequestDto = { regulators: user.regulator.id };
@@ -16,7 +19,8 @@ export class UploadedDocumentsService {
       pageNumber,
     );
 
-    const results = mapOrpSearchResponse(regulatoryMaterial);
+    const results =
+      this.orpSearchMapper.mapOrpSearchResponse(regulatoryMaterial);
     return {
       ...results,
       documents: results.documents.sort(

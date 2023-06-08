@@ -23,6 +23,7 @@ import { getMappedOrpDocument } from '../../../test/mocks/orpSearchMock';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { FULL_TOPIC_PATH } from '../../../test/mocks/topics';
 import * as R from 'ramda';
+import { OrpSearchMapper } from '../search/utils/orp-search-mapper';
 
 describe('ApiController', () => {
   let controller: ApiController;
@@ -43,6 +44,7 @@ describe('ApiController', () => {
         mockLogger,
         ApiAuthService,
         RegulatorService,
+        OrpSearchMapper,
       ],
       imports: [
         HttpModule,

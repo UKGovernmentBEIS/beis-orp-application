@@ -5,10 +5,12 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class RegulatorService {
+  private regulators: Regulator[];
   private allRegulators: Regulator[];
   constructor(private readonly config: ConfigService) {
     const environmentRegulators = config.get<string>('environmentRegulators');
 
+    this.regulators = regulators;
     this.allRegulators = [
       ...regulators,
       ...environmentRegulators.split(',').map((reg) => ({
@@ -17,6 +19,17 @@ export class RegulatorService {
         id: reg,
       })),
     ];
+  }
+
+  getRegulators(includeEnvRegulators = false): Regulator[] {
+    return includeEnvRegulators ? this.allRegulators : this.regulators;
+  }
+
+  getRegulatorById(id: string) {
+    return this.allRegulators.find((reg) => reg.id === id);
+  }
+  getRegulatorByName(name: string) {
+    return this.allRegulators.find((reg) => reg.name === name);
   }
 
   getRegulatorByEmail(emailAddress: string): Regulator | null | undefined {

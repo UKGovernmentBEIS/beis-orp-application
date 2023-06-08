@@ -12,6 +12,8 @@ import * as mocks from 'node-mocks-http';
 import regulators from '../regulator/config/regulators';
 import { topics } from '../document/utils/topics';
 import { topicsDisplayMap } from '../document/utils/topics-display-mapping';
+import { OrpSearchMapper } from './utils/orp-search-mapper';
+import { RegulatorService } from '../regulator/regulator.service';
 
 const FILTERS = {
   regulators: regulators,
@@ -31,7 +33,15 @@ describe('SearchController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [SearchController],
-      providers: [SearchService, TnaDal, OrpDal, mockConfigService, mockLogger],
+      providers: [
+        SearchService,
+        TnaDal,
+        OrpDal,
+        mockConfigService,
+        mockLogger,
+        OrpSearchMapper,
+        RegulatorService,
+      ],
       imports: [HttpModule],
     }).compile();
 

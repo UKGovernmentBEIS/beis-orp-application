@@ -10,6 +10,8 @@ import {
 import { RawOrpResponse } from '../data/entities/raw-orp-search-response';
 import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/user.mock';
 import { mockConfigService } from '../../../test/mocks/config.mock';
+import { OrpSearchMapper } from '../search/utils/orp-search-mapper';
+import { RegulatorService } from '../regulator/regulator.service';
 
 const searchPayload = {
   date_published: {
@@ -36,6 +38,8 @@ describe('MyDocumentsService', () => {
         OrpDal,
         mockLogger,
         mockConfigService,
+        OrpSearchMapper,
+        RegulatorService,
       ],
       imports: [HttpModule],
     }).compile();

@@ -20,6 +20,8 @@ import {
   expectedInternalOutputForTnaStandardResponse,
   tnaStandardResponseJson,
 } from '../../../test/mocks/tnaSearchMock';
+import { OrpSearchMapper } from './utils/orp-search-mapper';
+import { RegulatorService } from '../regulator/regulator.service';
 
 describe('SearchService', () => {
   let service: SearchService;
@@ -35,6 +37,8 @@ describe('SearchService', () => {
         mockConfigService,
         mockLogger,
         mockRegulatorService,
+        OrpSearchMapper,
+        RegulatorService,
       ],
       imports: [HttpModule],
     }).compile();
