@@ -12,7 +12,7 @@ import {
   FileValidationException,
   FormValidationException,
 } from './form-validation';
-import { InvalidDomainException } from './auth/types/invalid-domain.exception';
+import { InvalidDomainException } from './auth/entities/invalid-domain.exception';
 
 @Catch()
 export class ErrorFilter<T extends Error> implements ExceptionFilter {

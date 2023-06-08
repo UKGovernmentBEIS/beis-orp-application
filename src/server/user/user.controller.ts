@@ -7,9 +7,9 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { AuthenticatedGuard } from '../auth/authenticated.guard';
-import { ViewDataInterceptor } from '../../view-data-interceptor.service';
+import { ViewDataInterceptor } from '../view-data.interceptor';
 import { User } from './user.decorator';
-import { User as UserType } from '../auth/types/User';
+import { User as UserType } from '../auth/entities/user';
 
 @Controller('user')
 @UseInterceptors(ViewDataInterceptor)

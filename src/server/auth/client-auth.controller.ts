@@ -12,15 +12,15 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ErrorFilter } from '../error.filter';
-import { AuthExceptionFilter } from './filters/authException.filter';
-import { ViewDataInterceptor } from '../../view-data-interceptor.service';
+import { AuthExceptionFilter } from './filters/auth-exception.filter';
+import { ViewDataInterceptor } from '../view-data.interceptor';
 import { ValidateForm } from '../form-validation';
 import { AuthenticatedGuard } from './authenticated.guard';
-import EmailAddressDto from './types/EmailAddress.dto';
+import EmailAddressDto from './entities/email-address.dto';
 import { ClientAuthService } from './client-auth.service';
 import { MagicLinkGuard } from './magic-link.guard';
 import { User } from '../user/user.decorator';
-import type { User as UserType } from '../auth/types/User';
+import type { User as UserType } from './entities/user';
 import { SignUpGuard } from './sign-up.guard';
 
 @UseFilters(AuthExceptionFilter)

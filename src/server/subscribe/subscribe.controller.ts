@@ -8,12 +8,12 @@ import {
   UseFilters,
   UseInterceptors,
 } from '@nestjs/common';
-import { SubscriberDto } from './types/Subscriber.dto';
+import { SubscriberDto } from './entities/subscriber.dto';
 import { SubscribeService } from './subscribe.service';
-import { MailchimpExceptionFilter } from './filters/mailchimpError.filter';
-import { UserPreferenceDto } from './types/UserPreference.dto';
+import { MailchimpExceptionFilter } from './filters/mailchimp-error.filter';
+import { UserPreferenceDto } from './entities/user-preference.dto';
 import { ErrorFilter } from '../error.filter';
-import { ViewDataInterceptor } from '../../view-data-interceptor.service';
+import { ViewDataInterceptor } from '../view-data.interceptor';
 import { ValidateForm } from '../form-validation';
 
 @UseFilters(new MailchimpExceptionFilter())

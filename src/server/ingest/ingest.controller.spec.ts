@@ -8,7 +8,7 @@ import { getPdfAsMulterFile } from '../../../test/mocks/uploadMocks';
 import { OrpDal } from '../data/orp.dal';
 import { HttpModule } from '@nestjs/axios';
 import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/user.mock';
-import { documentTypes } from '../search/types/documentTypes';
+import { documentTypes } from '../search/entities/document-types';
 import { TnaDal } from '../data/tna.dal';
 import { topicsDisplayMap } from '../document/utils/topics-display-mapping';
 import { topics } from '../document/utils/topics';

@@ -20,10 +20,10 @@ import {
   tnaUkPrimaryLegislationDocumentMockJson,
   tnaUkSecondaryLegislationDocumentMockJson,
 } from '../../../test/mocks/tnaDocumentsMock';
-import { TnaEuDoc } from '../data/types/tnaDocs';
+import { TnaEuDoc } from '../data/entities/tna-docs';
 import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/user.mock';
 import { FULL_TOPIC_PATH } from '../../../test/mocks/topics';
-import { pdfMimeType } from './utils/mimeTypes';
+import { pdfMimeType } from './utils/mime-types';
 
 jest.mock('uuid', () => {
   return { v4: jest.fn(() => 'UUID') };

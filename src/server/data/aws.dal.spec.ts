@@ -6,7 +6,7 @@ import {
 } from '../../../test/mocks/uploadMocks';
 import { mockLogger } from '../../../test/mocks/logger.mock';
 import { AwsDal } from './aws.dal';
-import { pdfMimeType } from '../document/utils/mimeTypes';
+import { pdfMimeType } from '../document/utils/mime-types';
 
 const mockS3 = {
   send: jest.fn(),

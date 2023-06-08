@@ -6,7 +6,7 @@ import {
   UseFilters,
   UseInterceptors,
 } from '@nestjs/common';
-import { ViewDataInterceptor } from '../../view-data-interceptor.service';
+import { ViewDataInterceptor } from '../view-data.interceptor';
 import { ErrorFilter } from '../error.filter';
 
 @Controller('unauthorised')

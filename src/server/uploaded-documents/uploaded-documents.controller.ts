@@ -16,27 +16,27 @@ import {
 import { RegulatorGuard } from '../auth/regulator.guard';
 import { UploadedDocumentsService } from './uploaded-documents.service';
 import { User } from '../user/user.decorator';
-import { User as UserType } from '../auth/types/User';
+import { User as UserType } from '../auth/entities/user';
 import {
   OrpSearchItem,
   OrpSearchResponse,
-} from '../search/types/SearchResponse.dto';
-import { ViewDataInterceptor } from '../../view-data-interceptor.service';
+} from '../search/entities/search-response.dto';
+import { ViewDataInterceptor } from '../view-data.interceptor';
 import { ErrorFilter } from '../error.filter';
 import { DocumentService } from '../document/document.service';
-import { DocumentType, documentTypes } from '../search/types/documentTypes';
+import { DocumentType, documentTypes } from '../search/entities/document-types';
 import { ValidateForm } from '../form-validation';
-import DocumentTypeDto from '../ingest/types/DocumentType.dto';
+import DocumentTypeDto from '../ingest/entities/document-type.dto';
 import {
   getTopicsForView,
   getTopicValuesFromNames,
 } from '../ingest/utils/topics';
 import { topics } from '../document/utils/topics';
 import { topicsDisplayMap } from '../document/utils/topics-display-mapping';
-import DocumentTopicsDto from '../ingest/types/DocumentTopics.dto';
-import DocumentStatusDto from '../ingest/types/DocumentStatus.dto';
+import DocumentTopicsDto from '../ingest/entities/document-topics.dto';
+import DocumentStatusDto from '../ingest/entities/document-status.dto';
 import { getPaginationDetails, PaginationDetails } from './utils/pagination';
-import DocumentDeleteDto from './types/DocumentDelete.dto';
+import DocumentDeleteDto from './entities/document-delete.dto';
 
 @Controller('uploaded-documents')
 @UseGuards(RegulatorGuard)

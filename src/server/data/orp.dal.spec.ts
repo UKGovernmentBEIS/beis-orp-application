@@ -10,8 +10,8 @@ import {
 } from '../../../test/mocks/config.mock';
 import { mockLogger } from '../../../test/mocks/logger.mock';
 import { searchMock } from '../../../test/mocks/handlers';
-import { OrpSearchBody } from './types/orpSearchRequests';
-import { SearchRequestDto } from '../search/types/SearchRequest.dto';
+import { OrpSearchBody } from './entities/orp-search-requests';
+import { SearchRequestDto } from '../search/entities/search-request.dto';
 import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/user.mock';
 import { FULL_TOPIC_PATH } from '../../../test/mocks/topics';
 

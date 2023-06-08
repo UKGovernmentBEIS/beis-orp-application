@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { RegulatorService } from '../regulator/regulator.service';
-import { InvalidDomainException } from './types/invalid-domain.exception';
+import { InvalidDomainException } from './entities/invalid-domain.exception';
 
 @Injectable()
 export class SignUpGuard implements CanActivate {

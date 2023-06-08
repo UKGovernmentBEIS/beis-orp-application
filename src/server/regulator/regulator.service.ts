@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import regulators from './config/regulators';
-import { Regulator } from './types/Regulator';
+import { Regulator } from './entities/regulator';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()

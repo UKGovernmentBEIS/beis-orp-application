@@ -6,7 +6,7 @@ import {
   DEFAULT_USER,
   DEFAULT_USER_WITH_REGULATOR,
 } from '../../../test/mocks/user.mock';
-import { AuthException } from './types/AuthException';
+import { AuthException } from './entities/auth-exception';
 import { RegulatorService } from '../regulator/regulator.service';
 import { COGNITO_SUCCESSFUL_RESPONSE_REGULATOR } from '../../../test/mocks/cognitoSuccessfulResponse';
 import { ClientAuthService } from './client-auth.service';

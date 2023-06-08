@@ -1,15 +1,15 @@
 import {
   RawOrpResponse,
   RawOrpResponseEntry,
-} from '../../src/server/data/types/rawOrpSearchResponse';
+} from '../../src/server/data/entities/raw-orp-search-response';
 import {
   ApiOrpSearchItem,
   ApiSearchResponseDto,
-} from '../../src/server/api/types/ApiSearchResponse.dto';
+} from '../../src/server/api/entities/api-search-response.dto';
 import {
   OrpSearchItem,
   SearchResponseDto,
-} from '../../src/server/search/types/SearchResponse.dto';
+} from '../../src/server/search/entities/search-response.dto';
 import { FULL_TOPIC_OUTPUT, FULL_TOPIC_PATH } from './topics';
 
 export const getRawOrpDocument = (

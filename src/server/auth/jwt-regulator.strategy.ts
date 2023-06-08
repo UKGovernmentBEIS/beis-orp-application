@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
-import getJwtStrategyProps from './utils/getJwtStrategyProps';
+import getJwtStrategyProps from './utils/get-jwt-strategy-props';
 import { ApiAuthService } from './api-auth.service';
-import { AuthException } from './types/AuthException';
-import { ApiUser } from './types/User';
+import { AuthException } from './entities/auth-exception';
+import { ApiUser } from './entities/user';
 
 @Injectable()
 export default class JwtRegulatorStrategy extends PassportStrategy(

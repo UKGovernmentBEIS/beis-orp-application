@@ -11,7 +11,7 @@ import { getMappedOrpDocument } from '../../../test/mocks/orpSearchMock';
 import { mockAwsDal } from '../../../test/mocks/uploadMocks';
 import { TnaDal } from '../data/tna.dal';
 import { ForbiddenException } from '@nestjs/common';
-import { documentTypes } from '../search/types/documentTypes';
+import { documentTypes } from '../search/entities/document-types';
 import { topicsDisplayMap } from '../document/utils/topics-display-mapping';
 import { topics } from '../document/utils/topics';
 import { FULL_TOPIC_PATH } from '../../../test/mocks/topics';

@@ -13,13 +13,13 @@ import {
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common';
-import { FileUpload } from './types/FileUpload';
+import { FileUpload } from './entities/file-upload';
 import { v4 as uuidv4 } from 'uuid';
-import { UploadedFile } from './types/UploadedFile';
+import { UploadedFile } from './entities/uploaded-file';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Readable } from 'stream';
-import { ObjectMetaData } from './types/ObjectMetaData';
-import { User } from '../auth/types/User';
+import { ObjectMetaData } from './entities/object-meta-data';
+import { User } from '../auth/entities/user';
 
 @Injectable()
 export class AwsDal {

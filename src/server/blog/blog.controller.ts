@@ -7,10 +7,10 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { BlogService } from './blog.service';
-import { BlogPostsView, BlogPostView } from './types';
+import { BlogPostsView, BlogPostView } from './entities/blog-types';
 import { ConfigService } from '@nestjs/config';
 import { ErrorFilter } from '../error.filter';
-import { ViewDataInterceptor } from '../../view-data-interceptor.service';
+import { ViewDataInterceptor } from '../view-data.interceptor';
 
 @UseFilters(ErrorFilter)
 @UseInterceptors(ViewDataInterceptor)

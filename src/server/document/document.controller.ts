@@ -11,16 +11,16 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { DocumentService } from './document.service';
-import { documentTypes } from '../search/types/documentTypes';
+import { documentTypes } from '../search/entities/document-types';
 import { SearchService } from '../search/search.service';
-import { OrpSearchItem } from '../search/types/SearchResponse.dto';
-import TnaDocMeta from './types/TnaDocMeta';
-import { Regulator } from '../regulator/types/Regulator';
+import { OrpSearchItem } from '../search/entities/search-response.dto';
+import TnaDocMeta from './entities/tna-doc-meta';
+import { Regulator } from '../regulator/entities/regulator';
 import regulators from '../regulator/config/regulators';
 import { ErrorFilter } from '../error.filter';
-import { ViewDataInterceptor } from '../../view-data-interceptor.service';
-import { LinkedDocuments } from '../search/types/LinkedDocumentsResponse.dto';
-import { LinkedDocumentQueryDto } from './types/LinkedDocumentQuery.dto';
+import { ViewDataInterceptor } from '../view-data.interceptor';
+import { LinkedDocuments } from '../search/entities/linked-documents-response.dto';
+import { LinkedDocumentQueryDto } from './entities/linked-document-query.dto';
 
 @Controller('document')
 export class DocumentController {

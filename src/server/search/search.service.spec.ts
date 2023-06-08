@@ -14,8 +14,8 @@ import {
   expectedInternalOutputForLinkedDocs,
   linkedDocsRawResponse,
 } from '../../../test/mocks/linkedDocumentsMock';
-import { RawOrpResponse } from '../data/types/rawOrpSearchResponse';
-import { RawTnaResponse } from '../data/types/rawTnaSearchResponse';
+import { RawOrpResponse } from '../data/entities/raw-orp-search-response';
+import { RawTnaResponse } from '../data/entities/raw-tna-search-response';
 import {
   expectedInternalOutputForTnaStandardResponse,
   tnaStandardResponseJson,

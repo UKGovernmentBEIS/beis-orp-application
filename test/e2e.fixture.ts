@@ -12,7 +12,7 @@ import { COGNITO_SUCCESSFUL_RESPONSE_REGULATOR } from './mocks/cognitoSuccessful
 import JwtAuthenticationGuard from '../src/server/auth/jwt.guard';
 import JwtRegulatorGuard from '../src/server/auth/jwt-regulator.guard';
 import { NextFunction, Request } from 'express';
-import { ApiUser } from '../src/server/auth/types/User';
+import { ApiUser } from '../src/server/auth/entities/user';
 import * as session from 'express-session';
 import { magicLinkInitiationResponse } from './mocks/magicLink.mock';
 

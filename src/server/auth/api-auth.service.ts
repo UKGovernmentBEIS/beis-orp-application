@@ -12,13 +12,16 @@ import {
   ListUsersInGroupCommand,
   SignUpCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
-import { CognitoAuthResponse } from './types/CognitoAuthResponse';
+import { CognitoAuthResponse } from './entities/cognito-auth-response';
 import { v4 as uuidv4 } from 'uuid';
 import { RegulatorService } from '../regulator/regulator.service';
-import CognitoUser from './types/CognitoUser';
-import { ApiClient, ListUsersInGroupCommandResponse } from './types/ApiClient';
-import { CognitoRefreshResponse } from './types/CognitoRefreshResponse.dto';
-import { User } from './types/User';
+import CognitoUser from './entities/cognito-user';
+import {
+  ApiClient,
+  ListUsersInGroupCommandResponse,
+} from './entities/api-client';
+import { CognitoRefreshResponse } from './entities/cognito-refresh-response.dto';
+import { User } from './entities/user';
 
 @Injectable()
 export class ApiAuthService {

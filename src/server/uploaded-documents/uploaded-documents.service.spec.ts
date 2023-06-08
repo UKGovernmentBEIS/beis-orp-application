@@ -7,7 +7,7 @@ import {
   getMappedOrpDocument,
   getRawOrpDocument,
 } from '../../../test/mocks/orpSearchMock';
-import { RawOrpResponse } from '../data/types/rawOrpSearchResponse';
+import { RawOrpResponse } from '../data/entities/raw-orp-search-response';
 import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/user.mock';
 import { mockConfigService } from '../../../test/mocks/config.mock';
 

@@ -1,4 +1,4 @@
-import { Regulator } from '../types/Regulator';
+import { Regulator } from '../entities/regulator';
 
 const regulators: Regulator[] = [
   {

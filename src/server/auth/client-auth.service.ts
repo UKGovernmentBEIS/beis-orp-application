@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AwsConfig } from '../config/application-config';
-import { AuthException } from './types/AuthException';
-import { User } from './types/User';
+import { AuthException } from './entities/auth-exception';
+import { User } from './entities/user';
 import {
   AdminDeleteUserCommand,
   AdminInitiateAuthCommand,
@@ -11,12 +11,12 @@ import {
   RespondToAuthChallengeCommand,
   SignUpCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
-import { CognitoAuthResponse } from './types/CognitoAuthResponse';
+import { CognitoAuthResponse } from './entities/cognito-auth-response';
 import { RegulatorService } from '../regulator/regulator.service';
-import EmailAddressDto from './types/EmailAddress.dto';
+import EmailAddressDto from './entities/email-address.dto';
 import { v4 as uuidv4 } from 'uuid';
-import decodeJwt from './utils/decodeJwt';
-import { MagicLinkInitiationResponse } from './types/MagicLinkInitiationResponse';
+import decodeJwt from './utils/decode-jwt';
+import { MagicLinkInitiationResponse } from './entities/magic-link-initiation-response';
 
 @Injectable()
 export class ClientAuthService {

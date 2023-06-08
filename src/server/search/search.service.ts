@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { TnaDal } from '../data/tna.dal';
-import { SearchResponseDto } from './types/SearchResponse.dto';
+import { SearchResponseDto } from './entities/search-response.dto';
 import { OrpDal } from '../data/orp.dal';
-import { SearchRequestDto } from './types/SearchRequest.dto';
-import { LinkedDocumentsRequestDto } from '../api/types/LinkedDocumentsRequest.dto';
-import { LinkedDocumentsResponseDto } from './types/LinkedDocumentsResponse.dto';
+import { SearchRequestDto } from './entities/search-request.dto';
+import { LinkedDocumentsRequestDto } from '../api/entities/linked-documents-request.dto';
+import { LinkedDocumentsResponseDto } from './entities/linked-documents-response.dto';
 import {
   mapLinkedDocuments,
   mapOrpSearchResponse,
-} from './utils/orpSearchMapper';
-import { mapTnaSearchResponse } from './utils/tnaSearchMapper';
+} from './utils/orp-search-mapper';
+import { mapTnaSearchResponse } from './utils/tna-search-mapper';
 
 @Injectable()
 export class SearchService {

@@ -9,7 +9,7 @@ import { HttpModule } from '@nestjs/axios';
 import { getMappedOrpDocument } from '../../../test/mocks/orpSearchMock';
 import { SearchService } from '../search/search.service';
 import { TnaDal } from '../data/tna.dal';
-import TnaDocMeta from './types/TnaDocMeta';
+import TnaDocMeta from './entities/tna-doc-meta';
 import { RegulatorService } from '../regulator/regulator.service';
 
 describe('DocumentController', () => {
