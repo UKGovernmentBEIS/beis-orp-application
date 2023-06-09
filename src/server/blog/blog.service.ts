@@ -5,7 +5,9 @@ import BlogPosts from './blog.posts';
 @Injectable()
 export class BlogService {
   getBlogPosts(): BlogPost[] {
-    return Object.values(BlogPosts);
+    return Object.values(BlogPosts).sort(
+      (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf(),
+    );
   }
 
   getBlogPost(id): BlogPost {

@@ -3,6 +3,7 @@ import { BlogController } from './blog.controller';
 import { BlogService } from './blog.service';
 import { mockConfigService } from '../../../test/mocks/config.mock';
 import posts from './blog.posts';
+import BlogPosts from './blog.posts';
 import { mockLogger } from '../../../test/mocks/logger.mock';
 
 describe('AppController', () => {
@@ -19,7 +20,9 @@ describe('AppController', () => {
 
   describe('findAll', () => {
     it('should return the list of blog posts', () => {
-      expect(blogController.findAll().posts).toHaveLength(1);
+      expect(blogController.findAll().posts).toHaveLength(
+        Object.values(BlogPosts).length,
+      );
     });
   });
 
