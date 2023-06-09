@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AwsConfig } from '../config/application-config';
 import {
@@ -95,6 +95,9 @@ export class ApiAuthService {
       );
       return result.AuthenticationResult;
     } catch (err) {
+      if (err.name === 'NotAuthorizedException') {
+        throw new UnauthorizedException(err.message);
+      }
       throw err;
     }
   }
@@ -184,6 +187,9 @@ export class ApiAuthService {
       );
       return result.AuthenticationResult;
     } catch (err) {
+      if (err.name === 'NotAuthorizedException') {
+        throw new UnauthorizedException(err.message);
+      }
       throw err;
     }
   }
