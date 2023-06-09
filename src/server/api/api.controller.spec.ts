@@ -24,6 +24,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { FULL_TOPIC_PATH } from '../../../test/mocks/topics';
 import * as R from 'ramda';
 import { OrpSearchMapper } from '../search/utils/orp-search-mapper';
+import ApiTokenRequestDto from './entities/api-token-request.dto';
 
 describe('ApiController', () => {
   let controller: ApiController;
@@ -179,12 +180,13 @@ describe('ApiController', () => {
   });
 
   describe('login', () => {
-    it('should return response from apiAuthService', async () => {
+    it('should return response from apiAuthService for grant_type client_credentials', async () => {
       const getTokensMock = jest
         .spyOn(apiAuthService, 'authenticateApiClient')
         .mockResolvedValue(mockTokens);
 
       const creds = {
+        grant_type: 'client_credentials' as ApiTokenRequestDto['grant_type'],
         client_id: 'clid',
         client_secret: 'cls',
       };
@@ -196,16 +198,15 @@ describe('ApiController', () => {
       });
       expect(result).toEqual(mockTokens);
     });
-  });
 
-  describe('refreshToken', () => {
-    it('should return response from apiAuthService', async () => {
+    it('should return response from apiAuthService for grant_type refresh_token', async () => {
       const refreshTokensMock = jest
         .spyOn(apiAuthService, 'refreshApiUser')
         .mockResolvedValue(mockTokens);
 
-      const result = await controller.refreshToken({
-        token: mockTokens.RefreshToken,
+      const result = await controller.login({
+        grant_type: 'refresh_token' as ApiTokenRequestDto['grant_type'],
+        refresh_token: mockTokens.RefreshToken,
       });
 
       expect(refreshTokensMock).toBeCalledWith(mockTokens.RefreshToken);

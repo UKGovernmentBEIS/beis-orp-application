@@ -7,3 +7,11 @@ export const mockTokens: CognitoAuthResponse['AuthenticationResult'] = {
   RefreshToken: 'refresh_token',
   TokenType: 'Bearer',
 };
+
+export const mockTokensResponse = {
+  access_token: 'access_token',
+  expires_in: 3600,
+  id_token: 'id_token',
+  refresh_token: 'refresh_token',
+  token_type: 'Bearer',
+};

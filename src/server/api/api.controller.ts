@@ -38,7 +38,6 @@ import JwtAuthenticationGuard from '../auth/jwt.guard';
 import JwtRegulatorGuard from '../auth/jwt-regulator.guard';
 import { ApiAuthService } from '../auth/api-auth.service';
 import ApiTokenRequestDto from './entities/api-token-request.dto';
-import ApiRefreshTokenRequestDto from './entities/api-refresh-token-request.dto';
 import toSearchRequest from './utils/to-search-request';
 import toApiSearchResult, {
   FilteredOrpSearchItemForApi,
@@ -50,7 +49,6 @@ import {
   ApiSearchResponseDto,
 } from './entities/api-search-response.dto';
 import ApiTokensDto from './entities/api-tokens-dto';
-import ApiRefreshTokenDto from './entities/api-refresh-token.dto';
 import { LinkedDocumentsRequestDto } from './entities/linked-documents-request.dto';
 import { User } from '../user/user.decorator';
 import { ApiUser as UserType } from '../auth/entities/user';
@@ -61,8 +59,8 @@ import FileNotEmptyValidator from '../validators/file-not-empty.validator';
 import { LinkedDocumentsResponseDto } from '../search/entities/linked-documents-response.dto';
 import { SnakeCaseInterceptor } from './utils/snake-case.interceptor';
 import { ApiLinkedDocumentsResponseDto } from './entities/api-linked-documents-response.dto';
-import { CognitoRefreshResponse } from '../auth/entities/cognito-refresh-response.dto';
 import { CognitoAuthResponse } from '../auth/entities/cognito-auth-response';
+import { CognitoRefreshResponse } from '../auth/entities/cognito-refresh-response.dto';
 
 @UseGuards(ThrottlerGuard)
 @UsePipes(new ValidationPipe())
@@ -180,22 +178,20 @@ export class ApiController {
   @ApiOkResponse({ type: ApiTokensDto })
   @UseInterceptors(SnakeCaseInterceptor)
   async login(
-    @Body() { client_id, client_secret }: ApiTokenRequestDto,
-  ): Promise<CognitoAuthResponse['AuthenticationResult']> {
+    @Body()
+    { grant_type, refresh_token, client_id, client_secret }: ApiTokenRequestDto,
+  ): Promise<
+    | CognitoAuthResponse['AuthenticationResult']
+    | CognitoRefreshResponse['AuthenticationResult']
+  > {
+    if (grant_type === 'refresh_token') {
+      return this.apiAuthService.refreshApiUser(refresh_token);
+    }
+
     return this.apiAuthService.authenticateApiClient({
       clientId: client_id,
       clientSecret: client_secret,
     });
-  }
-
-  @Post('refresh-tokens')
-  @ApiTags('auth')
-  @ApiOkResponse({ type: ApiRefreshTokenDto })
-  @UseInterceptors(SnakeCaseInterceptor)
-  async refreshToken(
-    @Body() apiRefreshTokenRequestDto: ApiRefreshTokenRequestDto,
-  ): Promise<CognitoRefreshResponse['AuthenticationResult']> {
-    return this.apiAuthService.refreshApiUser(apiRefreshTokenRequestDto.token);
   }
 
   @Post('linked-documents')
