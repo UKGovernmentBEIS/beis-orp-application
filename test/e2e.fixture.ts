@@ -15,11 +15,31 @@ import { NextFunction, Request } from 'express';
 import { ApiUser } from '../src/server/auth/entities/user';
 import * as session from 'express-session';
 import { magicLinkInitiationResponse } from './mocks/magicLink.mock';
+import { mockTokens } from './mocks/tokens.mock';
 
 export const CORRECT_CODE = '123456';
+export const CORRECT_API_CLIENT = 'a';
+export const CORRECT_API_SECRET = 'b';
 export const mockCognito = {
   send: jest.fn().mockImplementation((command) => {
     if (command.authRequest) {
+      // is api client creds login
+      if (
+        command.AuthFlow === 'ADMIN_USER_PASSWORD_AUTH' &&
+        command.AuthParameters.USERNAME === CORRECT_API_CLIENT &&
+        command.AuthParameters.PASSWORD === CORRECT_API_SECRET
+      ) {
+        return { AuthenticationResult: mockTokens };
+      }
+
+      // is api refresh token login
+      if (
+        command.AuthFlow === 'REFRESH_TOKEN_AUTH' &&
+        command.AuthParameters.REFRESH_TOKEN === mockTokens.RefreshToken
+      ) {
+        return { AuthenticationResult: mockTokens };
+      }
+
       return magicLinkInitiationResponse;
     }
 
