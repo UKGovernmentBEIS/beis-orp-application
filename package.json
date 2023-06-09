@@ -36,7 +36,6 @@
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.1.4",
     "@nestjs/throttler": "^4.0.0",
-    "@prisma/client": "^4.8.1",
     "@types/mailchimp__mailchimp_marketing": "^3.0.6",
     "@types/passport-local": "^1.0.35",
     "class-transformer": "^0.5.1",

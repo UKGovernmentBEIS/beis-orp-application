@@ -23,7 +23,6 @@ ARG GIT_REF
 RUN apt-get install -y make python g++
 
 COPY package*.json ./
-COPY prisma ./prisma/
 
 RUN npm ci --no-audit
 
@@ -55,9 +54,6 @@ COPY --from=build --chown=appuser:appgroup \
 
 COPY --from=build --chown=appuser:appgroup \
         /app/node_modules ./node_modules
-
-COPY --from=build --chown=appuser:appgroup \
-        /app/prisma ./prisma
 
 EXPOSE 3000
 ENV NODE_ENV='production'
