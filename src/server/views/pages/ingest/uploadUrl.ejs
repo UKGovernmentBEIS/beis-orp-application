@@ -1,0 +1,69 @@
+<%- include('../../partials/header'); %>
+
+<%
+var validationErrors = locals.errors ?? {}
+var validationValue = locals.values ?? {}
+var urlError = validationErrors["url"]
+var urlErrorValue = validationValue["url"]
+%>
+
+<div class="govuk-width-container">
+    <%- include('../../partials/components/backButton' , {href: '/ingest/upload'}); %>
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+        <%- include('../../partials/components/errorSummary', { errors: locals.errors }); %>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <form method="post">
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset" aria-describedby="contact-hint">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                                <span class="govuk-caption-l">Step 2 of 6</span>
+                                <h1 class="govuk-fieldset__heading">
+                                    Choose a document
+                                </h1>
+                            </legend>
+                            <div id="contact-hint" class="govuk-hint" >
+                                You have two options for uploading:
+                            </div>
+                            <div class="govuk-form-group <% if(urlError) { %>govuk-form-group--error<% } %>">
+                                <h1 class="govuk-label-wrapper">
+                                    <label class="govuk-label" for="url">
+                                        Enter a URL
+                                    </label>
+                                </h1>
+                                <div id="url-hint" class="govuk-hint">
+                                    Currently, you can only enter URLs of gov.uk pages. If the document is published somewhere else then you will need to upload from your device. If the document you are uploading is published on gov.uk you can simply enter the URL below.
+                                </div>
+                                <% if(urlError) { %>
+                                    <p id="url-error" class="govuk-error-message">
+                                        <span class="govuk-visually-hidden">Error:</span> <%= urlError %>
+                                    </p>
+                                <% } %>
+                                <input class="govuk-input <% if(urlError) { %> govuk-input--error<% } %>" id="url" name="url" type="text" aria-describedby="url-hint <% if(urlError) { %>url-error<% } %>" <% if(urlError) { %>value="<%= urlErrorValue %>" <% } %>>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <button type="submit" class="govuk-button" data-module="govuk-button">
+                        Continue
+                    </button>
+                </form>
+                </fieldset>
+
+                <details class="govuk-details" data-module="govuk-details">
+                    <summary class="govuk-details__summary">
+                        <span class="govuk-details__summary-text">
+                          Get help uploading a document
+                        </span>
+                    </summary>
+                    <div class="govuk-details__text">
+                        <p>Contact <a class="govuk-link" href="mailto:openregulationplatform@beis.gov.uk">openregulationplatform@beis.gov.uk</a> if you need help using this service.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </main>
+</div>
+
+<%- include('../../partials/footer'); %>

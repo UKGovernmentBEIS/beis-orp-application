@@ -1,10 +1,14 @@
+<%
+var backHref = locals.key ? `/ingest/document` : '/ingest/url'
+%>
 <%- include('../../partials/header'); %>
 <div class="govuk-width-container">
+    <%- include('../../partials/components/backButton' , {href: backHref}); %>
     <main class="govuk-main-wrapper " id="main-content" role="main">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <%- include('../../partials/components/errorSummary', { errors: locals.errors, hrefOverride: "document-type-GD" }); %>
-                <span class="govuk-caption-l">Step 2 of 5</span>
+                <span class="govuk-caption-l">Step 3 of 6</span>
                 <h1 class="govuk-heading-l">Choose document type</h1>
                 <%- include('../../partials/forms/documentTypeSelection'); %>
 

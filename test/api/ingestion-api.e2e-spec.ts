@@ -19,7 +19,7 @@ describe('api/upload (PUT)', () => {
 
   beforeAll(async () => {
     file = await getPdfBuffer();
-    await fixture.init('API_REG');
+    await fixture.init({ user: 'API_REG' });
   });
 
   it('accepts and uploads pdfs', async () => {

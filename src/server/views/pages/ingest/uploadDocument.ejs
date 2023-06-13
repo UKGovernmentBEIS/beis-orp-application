@@ -1,0 +1,59 @@
+<%- include('../../partials/header'); %>
+
+<%
+    var validationError = locals.errors ?? {}
+    var fileSelectedError = validationError["file-upload"]
+%>
+
+<div class="govuk-width-container">
+    <%- include('../../partials/components/backButton' , {href: '/ingest/upload'}); %>
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+        <%- include('../../partials/components/errorSummary', { errors: locals.errors }); %>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset" aria-describedby="contact-hint">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                                <span class="govuk-caption-l">Step 2 of 6</span>
+                                <h1 class="govuk-fieldset__heading">
+                                    Choose a document
+                                </h1>
+                            </legend>
+                            <div class="govuk-form-group <% if(fileSelectedError) { %>govuk-form-group--error<% } %>">
+                                <label class="govuk-label" for="file-upload">
+                                    Upload a file
+                                </label>
+                                <% if(fileSelectedError) { %>
+                                    <p id="file-upload-error" class="govuk-error-message">
+                                        <span class="govuk-visually-hidden">Error:</span> <%= fileSelectedError %>
+                                    </p>
+                                <% } %>
+                                <input class="govuk-file-upload" id="file-upload" name="file" type="file">
+                            </div>
+
+                        </fieldset>
+                    </div>
+
+                    <button type="submit" class="govuk-button" data-module="govuk-button">
+                        Continue
+                    </button>
+                </form>
+
+                <details class="govuk-details" data-module="govuk-details">
+                    <summary class="govuk-details__summary">
+                        <span class="govuk-details__summary-text">
+                          Get help uploading a document
+                        </span>
+                    </summary>
+                    <div class="govuk-details__text">
+                        <p>Contact <a class="govuk-link" href="mailto:openregulationplatform@beis.gov.uk">openregulationplatform@beis.gov.uk</a> if you need help using this service.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </main>
+</div>
+
+<%- include('../../partials/footer'); %>

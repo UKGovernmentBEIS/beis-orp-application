@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { OrpDocumentStatus } from '../../search/entities/status-types';
 
 export default class DocumentStatusDto {
@@ -8,5 +8,6 @@ export default class DocumentStatusDto {
   status: OrpDocumentStatus;
 
   @IsString()
-  key: string;
+  @IsOptional()
+  key?: string;
 }

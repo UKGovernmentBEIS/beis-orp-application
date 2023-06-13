@@ -18,7 +18,7 @@ jest.mock('@aws-sdk/client-s3', () => {
 jest.mock('uuid', () => {
   return { v4: jest.fn(() => 'UUID') };
 });
-describe('Ingest upload', () => {
+describe('Ingest document', () => {
   const fixture = new E2eFixture();
   let regulatorSession = null;
 
@@ -27,11 +27,23 @@ describe('Ingest upload', () => {
     regulatorSession = await getRegulatorSession(fixture);
   });
 
-  describe('upload/ (GET)', () => {
+  describe('ingest/document', () => {
+    it('starts ingestion flow', async () => {
+      return fixture
+        .request()
+        .post('/ingest/upload')
+        .send({
+          uploadType: 'document',
+        })
+        .set('Cookie', regulatorSession)
+        .expect(302)
+        .expect('Location', '/ingest/url');
+    });
+
     it('upload/ (GET)', () => {
       return fixture
         .request()
-        .get('/ingest/upload')
+        .get('/ingest/document')
         .set('Cookie', regulatorSession)
         .expect(200)
         .expect((res) => {
@@ -44,7 +56,7 @@ describe('Ingest upload', () => {
       it('redirects unauthenticated users', () => {
         return fixture
           .request()
-          .get('/ingest/upload')
+          .get('/ingest/document')
           .expect(302)
           .expect('Location', '/unauthorised/ingest');
       });
@@ -58,7 +70,7 @@ describe('Ingest upload', () => {
 
       return fixture
         .request()
-        .post('/ingest/upload')
+        .post('/ingest/document')
         .attach('file', file, 'testfile.pdf')
         .field({
           uploadType: 'device',
@@ -67,7 +79,7 @@ describe('Ingest upload', () => {
         .expect(302)
         .expect(
           'Location',
-          '/ingest/document-type?key=unconfirmed/uuid-testfile.pdf',
+          '/ingest/document/document-type?key=unconfirmed/uuid-testfile.pdf',
         );
     });
 
@@ -77,7 +89,7 @@ describe('Ingest upload', () => {
 
       return fixture
         .request()
-        .post('/ingest/upload')
+        .post('/ingest/document')
         .attach('file', file, 'testfile.docx')
         .field({
           uploadType: 'device',
@@ -86,7 +98,7 @@ describe('Ingest upload', () => {
         .expect(302)
         .expect(
           'Location',
-          '/ingest/document-type?key=unconfirmed/uuid-testfile.docx',
+          '/ingest/document/document-type?key=unconfirmed/uuid-testfile.docx',
         );
     });
 
@@ -96,7 +108,7 @@ describe('Ingest upload', () => {
 
       return fixture
         .request()
-        .post('/ingest/upload')
+        .post('/ingest/document')
         .attach('file', file, 'testfile.odt')
         .field({
           uploadType: 'device',
@@ -105,7 +117,7 @@ describe('Ingest upload', () => {
         .expect(302)
         .expect(
           'Location',
-          '/ingest/document-type?key=unconfirmed/uuid-testfile.odt',
+          '/ingest/document/document-type?key=unconfirmed/uuid-testfile.odt',
         );
     });
 
@@ -114,10 +126,10 @@ describe('Ingest upload', () => {
 
       return fixture
         .request()
-        .post('/ingest/upload')
+        .post('/ingest/document')
         .set('Cookie', regulatorSession)
         .expect(302)
-        .expect('Location', '/ingest/upload');
+        .expect('Location', '/ingest/document');
     });
 
     it('redirects back if empty pdf attached', async () => {
@@ -126,14 +138,14 @@ describe('Ingest upload', () => {
 
       return fixture
         .request()
-        .post('/ingest/upload')
+        .post('/ingest/document')
         .attach('file', file, 'emptypdf.pdf')
         .field({
           uploadType: 'device',
         })
         .set('Cookie', regulatorSession)
         .expect(302)
-        .expect('Location', '/ingest/upload');
+        .expect('Location', '/ingest/document');
     });
 
     it('redirects back if empty .docx attached', async () => {
@@ -142,14 +154,14 @@ describe('Ingest upload', () => {
 
       return fixture
         .request()
-        .post('/ingest/upload')
+        .post('/ingest/document')
         .attach('file', file, 'emptypdf.docx')
         .field({
           uploadType: 'device',
         })
         .set('Cookie', regulatorSession)
         .expect(302)
-        .expect('Location', '/ingest/upload');
+        .expect('Location', '/ingest/document');
     });
 
     it('redirects back if empty .odt attached', async () => {
@@ -158,14 +170,14 @@ describe('Ingest upload', () => {
 
       return fixture
         .request()
-        .post('/ingest/upload')
+        .post('/ingest/document')
         .attach('file', file, 'emptypdf.odt')
         .field({
           uploadType: 'device',
         })
         .set('Cookie', regulatorSession)
         .expect(302)
-        .expect('Location', '/ingest/upload');
+        .expect('Location', '/ingest/document');
     });
 
     it('redirects back if unsupported file type attached', async () => {
@@ -174,11 +186,11 @@ describe('Ingest upload', () => {
 
       return fixture
         .request()
-        .post('/ingest/upload')
+        .post('/ingest/document')
         .attach('file', file, 'testfile.png')
         .set('Cookie', regulatorSession)
         .expect(302)
-        .expect('Location', '/ingest/upload');
+        .expect('Location', '/ingest/document');
     });
 
     describe('guards', () => {
@@ -188,7 +200,7 @@ describe('Ingest upload', () => {
 
         return fixture
           .request()
-          .post('/ingest/upload')
+          .post('/ingest/document')
           .attach('file', file, 'testfile.pdf')
           .expect(302)
           .expect('Location', '/unauthorised/ingest');

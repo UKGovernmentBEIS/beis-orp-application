@@ -29,7 +29,7 @@ jest.mock('@aws-sdk/s3-request-presigner', () => {
     getSignedUrl: () => mockUrl,
   };
 });
-describe('Ingest submit', () => {
+describe('Ingest document: submit', () => {
   const fixture = new E2eFixture();
   let regulatorSession = null;
 
@@ -51,7 +51,7 @@ describe('Ingest submit', () => {
 
       return fixture
         .request()
-        .get('/ingest/submit?key=unconfirmeddoc')
+        .get('/ingest/document/submit?key=unconfirmeddoc')
         .set('Cookie', regulatorSession)
         .expect(200)
         .expect((res) => {
@@ -75,7 +75,7 @@ describe('Ingest submit', () => {
 
       return fixture
         .request()
-        .get('/ingest/submit?key=unconfirmeddoc')
+        .get('/ingest/document/submit?key=unconfirmeddoc')
         .set('Cookie', regulatorSession)
         .expect(302)
         .expect('Location', '/unauthorised/ingest');
@@ -85,7 +85,7 @@ describe('Ingest submit', () => {
       it('redirects unauthenticated users', () => {
         return fixture
           .request()
-          .get('/ingest/submit?key=unconfirmeddoc')
+          .get('/ingest/document/submit?key=unconfirmeddoc')
           .expect(302)
           .expect('Location', '/unauthorised/ingest');
       });
@@ -100,11 +100,11 @@ describe('Ingest submit', () => {
 
       return fixture
         .request()
-        .post('/ingest/submit')
+        .post('/ingest/document/submit')
         .set('Cookie', regulatorSession)
         .send({ key: 'unconfirmed/key' })
         .expect(302)
-        .expect('Location', '/ingest/success?key=key')
+        .expect('Location', '/ingest/document/success?key=key')
         .expect(() => {
           expect(mockS3.send).toBeCalledTimes(2);
         });
@@ -113,7 +113,7 @@ describe('Ingest submit', () => {
       it('redirects unauthenticated users', () => {
         return fixture
           .request()
-          .post('/ingest/submit')
+          .post('/ingest/document/submit')
           .send({ key: 'unconfirmed/key' })
           .expect(302)
           .expect('Location', '/unauthorised/ingest');

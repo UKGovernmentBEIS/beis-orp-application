@@ -23,7 +23,7 @@ jest.mock('@aws-sdk/client-s3', () => {
     })),
   };
 });
-describe('Ingest document type', () => {
+describe('Ingest document: document type', () => {
   const fixture = new E2eFixture();
   let regulatorSession = null;
 
@@ -44,7 +44,7 @@ describe('Ingest document type', () => {
 
       return fixture
         .request()
-        .get('/ingest/document-type?key=unconfirmeddoc')
+        .get('/ingest/document/document-type?key=unconfirmeddoc')
         .set('Cookie', regulatorSession)
         .expect(200)
         .expect((res) => {
@@ -65,7 +65,7 @@ describe('Ingest document type', () => {
 
       return fixture
         .request()
-        .get('/ingest/document-type?key=unconfirmeddoc')
+        .get('/ingest/document/document-type?key=unconfirmeddoc')
         .set('Cookie', regulatorSession)
         .expect(302)
         .expect('Location', '/unauthorised/ingest');
@@ -75,7 +75,7 @@ describe('Ingest document type', () => {
       it('redirects unauthenticated users', () => {
         return fixture
           .request()
-          .get('/ingest/document-type?key=unconfirmeddoc')
+          .get('/ingest/document/document-type?key=unconfirmeddoc')
           .expect(302)
           .expect('Location', '/unauthorised/ingest');
       });
@@ -92,11 +92,14 @@ describe('Ingest document type', () => {
 
       return fixture
         .request()
-        .post('/ingest/document-type')
+        .post('/ingest/document/document-type')
         .set('Cookie', regulatorSession)
-        .send({ key: 'unconfirmed/key', documentType: { new: 'meta' } })
+        .send({ key: 'unconfirmed/key', documentType: 'MSI' })
         .expect(302)
-        .expect('Location', '/ingest/document-topics?key=unconfirmed/key')
+        .expect(
+          'Location',
+          '/ingest/document/document-topics?key=unconfirmed/key',
+        )
         .expect(() => {
           expect(mockS3.send).toBeCalledTimes(2);
         });
@@ -111,7 +114,7 @@ describe('Ingest document type', () => {
 
       return fixture
         .request()
-        .post('/ingest/document-type')
+        .post('/ingest/document/document-type')
         .set('Cookie', regulatorSession)
         .send({ key: 'unconfirmed/key', documentType: { new: 'meta' } })
         .expect(302)
@@ -122,7 +125,7 @@ describe('Ingest document type', () => {
       it('redirects unauthenticated users', () => {
         return fixture
           .request()
-          .post('/ingest/document-type')
+          .post('/ingest/document/document-type')
           .send({ key: 'unconfirmed/key', documentType: { new: 'meta' } })
           .expect(302)
           .expect('Location', '/unauthorised/ingest');

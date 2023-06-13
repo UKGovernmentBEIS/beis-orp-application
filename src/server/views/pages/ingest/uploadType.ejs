@@ -10,18 +10,19 @@
 %>
 
 <div class="govuk-width-container">
+    <%- include('../../partials/components/backButton' , {href: '/ingest'}); %>
     <main class="govuk-main-wrapper " id="main-content" role="main">
         <%- include('../../partials/components/errorSummary', { errors: locals.errors, hrefOverride }); %>
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <form method="post" enctype="multipart/form-data" data-module="ingest-action">
+                <form method="post" enctype="multipart/form-data">
                     <div class="govuk-form-group <% if(noOptionSelectedError) { %>govuk-form-group--error<% } %>">
                         <fieldset class="govuk-fieldset" aria-describedby="contact-hint">
                             <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                                <span class="govuk-caption-l">Step 1 of 5</span>
+                                <span class="govuk-caption-l">Step 1 of 6</span>
                                 <h1 class="govuk-fieldset__heading">
-                                    Choose a document
+                                    Choose an upload option
                                 </h1>
                             </legend>
                             <div id="contact-hint" class="govuk-hint" >
@@ -39,17 +40,11 @@
                                         Upload from my device
                                     </label>
                                 </div>
-                                <div class="govuk-radios__conditional" id="conditional-upload-type">
-                                    <%- include('./partials/fromDeviceForm', {validationError: validationError["file-upload"], value: validationValue["file-upload"]}); %>
-                                </div>
                                 <div class="govuk-radios__item">
                                     <input class="govuk-radios__input" id="urlInput" name="uploadType" type="radio" value="urlInput" <% if (selected === 'urlInput') { %>checked<% } %> data-aria-controls="conditional-url">
                                     <label class="govuk-label govuk-radios__label" for="urlInput">
                                         Upload by entering the URL of the published document
                                     </label>
-                                </div>
-                                <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-url">
-                                    <%- include('./partials/fromUrlForm', {validationError: validationError["url"], value: validationValue["url"]}); %>
                                 </div>
                             </div>
                         </fieldset>
@@ -59,26 +54,6 @@
                         Continue
                     </button>
                 </form>
-                </fieldset>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 <details class="govuk-details" data-module="govuk-details">
                     <summary class="govuk-details__summary">

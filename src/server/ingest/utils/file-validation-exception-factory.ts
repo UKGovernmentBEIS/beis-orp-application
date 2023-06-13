@@ -12,6 +12,6 @@ const messageMap: Record<Messages, string> = {
 export default (validationMessage: Messages) => {
   return new FileValidationException(
     messageMap[validationMessage] ?? validationMessage,
-    'pages/ingest/upload',
+    'pages/ingest/uploadDocument',
   );
 };

@@ -90,7 +90,13 @@ jest.mock('@aws-sdk/client-cognito-identity-provider', () => {
 export class E2eFixture {
   private app: NestExpressApplication;
 
-  async init(user?: 'API_REG' | 'API_NON_REG') {
+  async init({
+    user,
+    sessionOverride,
+  }: {
+    user?: 'API_REG' | 'API_NON_REG';
+    sessionOverride?: Record<string, any>;
+  } = {}) {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     })
@@ -140,6 +146,11 @@ export class E2eFixture {
     this.app.use((req, res, next) => {
       req.session.challengeSession = 'cogSession';
       req.session.challengeUsername = 'cogUsername';
+
+      const override = sessionOverride ?? {};
+      for (const key in override) {
+        req.session[key] = override[key];
+      }
 
       return next();
     });

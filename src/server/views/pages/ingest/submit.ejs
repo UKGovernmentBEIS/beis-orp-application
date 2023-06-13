@@ -1,9 +1,13 @@
+<%
+    const uri = locals.key ? '/ingest/document/' : '/ingest/url/'
+    const docKey = locals.key ?? ''
+%>
 <%- include('../../partials/header'); %>
 <div class="govuk-width-container">
     <main class="govuk-main-wrapper " id="main-content" role="main">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
-                <span class="govuk-caption-l">Step 5 of 5</span>
+                <span class="govuk-caption-l">Step 6 of 6</span>
                 <h1 class="govuk-heading-l">Review document details</h1>
             </div>
             <div class="govuk-grid-column-two-thirds">
@@ -29,7 +33,7 @@
                             <%= documentType %>
                         </dd>
                         <dd class="govuk-summary-list__actions">
-                            <a class="govuk-link" href="/ingest/document-type?key=<%= locals.key %>">
+                            <a class="govuk-link" href="<%= uri %>document-type<% if(docKey) { %>?key=<%= docKey %><% } %>">
                                 Change<span class="govuk-visually-hidden"> document type</span>
                             </a>
                         </dd>
@@ -43,7 +47,7 @@
                                 <%= topic %>
                             </dd>
                             <dd class="govuk-summary-list__actions">
-                                <a class="govuk-link" href="/ingest/document-topics?key=<%= locals.key %>">
+                                <a class="govuk-link" href="<%= uri %>document-topics<% if(docKey) { %>?key=<%= docKey %><% } %>">
                                     Change<span class="govuk-visually-hidden"> document level <%= index + 1 %> topic</span>
                                 </a>
                             </dd>
@@ -57,7 +61,7 @@
                             <%= documentStatus %>
                         </dd>
                         <dd class="govuk-summary-list__actions">
-                            <a class="govuk-link" href="/ingest/document-status?key=<%= locals.key %>">
+                            <a class="govuk-link" href="<%= uri %>document-status<% if(docKey) { %>?key=<%= docKey %><% } %>">
                                 Change<span class="govuk-visually-hidden"> document status</span>
                             </a>
                         </dd>
@@ -73,7 +77,9 @@
                 <% } %>
 
                 <form method="post">
-                    <input type="hidden" value="<%= locals.key %>" name="key" />
+                    <% if(docKey) { %>
+                        <input type="hidden" value="<%= docKey %>" name="key" />
+                    <% } %>
                     <button type="submit" class="govuk-button" data-module="govuk-button">
                         Upload
                     </button>
