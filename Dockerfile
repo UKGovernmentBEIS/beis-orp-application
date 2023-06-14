@@ -20,7 +20,7 @@ FROM base as build
 ARG BUILD_NUMBER
 ARG GIT_REF
 
-RUN apt-get install -y make python g++
+RUN apt-get install -y make python3 g++
 
 COPY package*.json ./
 
