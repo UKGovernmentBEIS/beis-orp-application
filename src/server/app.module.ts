@@ -17,6 +17,8 @@ import { UnauthorisedModule } from './unauthorised/unauthorised.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { SupportingLinksModule } from './supporting-links/supporting-links.module';
 import { UploadedDocumentsModule } from './uploaded-documents/uploaded-documents.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { AuditInterceptor } from './audit.interceptor';
 
 @Module({
   imports: [
@@ -41,7 +43,13 @@ import { UploadedDocumentsModule } from './uploaded-documents/uploaded-documents
     SupportingLinksModule,
     UploadedDocumentsModule,
   ],
-  providers: [Logger],
+  providers: [
+    Logger,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: AuditInterceptor,
+    },
+  ],
   exports: [Logger],
 })
 export class AppModule {}
