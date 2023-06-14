@@ -341,6 +341,7 @@ describe('IngestUrlController', () => {
           });
           expect(expectedResult).toEqual({
             url: '/ingest/url/success',
+            uri: 'something.gov.uk',
           });
         });
       });

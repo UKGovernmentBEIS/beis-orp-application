@@ -34,6 +34,7 @@ import DocumentTopicsDto from './entities/document-topics.dto';
 import { RegulatorGuard } from '../auth/regulator.guard';
 import { getTopicsForView } from './utils/topics';
 import FileNotEmptyValidator from '../validators/file-not-empty.validator';
+import { Audit } from '../audit.interceptor';
 
 @Controller('ingest/document')
 @UseGuards(RegulatorGuard)
@@ -53,6 +54,7 @@ export class IngestDocumentController {
   @ValidateForm()
   @UseInterceptors(FileInterceptor('file'))
   @Redirect('/ingest/confirm', 302)
+  @Audit('UNCONFIRMED_DOCUMENT_UPLOAD', 'key')
   async uploadFile(
     @UploadedFile(
       new ParseFilePipe({
@@ -69,7 +71,7 @@ export class IngestDocumentController {
     @User() user: UserType,
   ) {
     const { key } = await this.documentService.upload(file, user, true);
-    return { url: `/ingest/document/document-type?key=${key}` };
+    return { url: `/ingest/document/document-type?key=${key}`, key };
   }
 
   @Get('document-type')
@@ -221,6 +223,7 @@ export class IngestDocumentController {
   @Get('success')
   @Header('Cache-Control', 'no-store')
   @Render('pages/ingest/success')
+  @Audit('DOCUMENT_UPLOAD', 'id')
   async success(@Query() { key }: { key: string }, @User() user: UserType) {
     const meta = await this.documentService.getDocumentMeta(key);
 

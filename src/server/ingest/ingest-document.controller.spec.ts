@@ -53,6 +53,7 @@ describe('IngestDocumentController', () => {
         );
 
         expect(expectedResult).toEqual({
+          key: 'file.pdf',
           url: '/ingest/document/document-type?key=file.pdf',
         });
       });

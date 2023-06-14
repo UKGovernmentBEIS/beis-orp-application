@@ -29,6 +29,7 @@ import IngestHtmlDto from './entities/ingest-html.dto';
 import { RegulatorGuard } from '../auth/regulator.guard';
 import { UserCollectedUrlUploadData } from '../data/entities/url-upload';
 import { getTopicsForView } from './utils/topics';
+import { Audit } from '../audit.interceptor';
 
 @Controller('ingest/url')
 @UseGuards(RegulatorGuard)
@@ -178,6 +179,7 @@ export class IngestUrlController {
 
   @Post('submit')
   @Redirect('/ingest/url/success')
+  @Audit('URL_UPLOAD', 'uri')
   async submitPost(@Request() req, @User() user: UserType) {
     const uuid = await this.documentService.ingestUrl(
       req.session.urlIngestion as UserCollectedUrlUploadData,
@@ -187,7 +189,7 @@ export class IngestUrlController {
       ...req.session.urlIngestion,
       uuid,
     };
-    return { url: `/ingest/url/success` };
+    return { url: `/ingest/url/success`, uri: req.session.urlIngestion.uri };
   }
 
   @Get('success')
