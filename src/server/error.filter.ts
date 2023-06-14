@@ -6,6 +6,7 @@ import {
   HttpException,
   HttpStatus,
   Logger,
+  NotFoundException,
 } from '@nestjs/common';
 import { HealthError } from './health/types';
 import {
@@ -61,6 +62,12 @@ export class ErrorFilter<T extends Error> implements ExceptionFilter {
       if (redirectUrl) {
         return response.redirect(redirectUrl);
       }
+    }
+
+    if (exception instanceof NotFoundException) {
+      return response.status(HttpStatus.NOT_FOUND).render('pages/notFound', {
+        title: 'Page not found – The Open Regulation Platform – GOV.UK',
+      });
     }
 
     const status =
