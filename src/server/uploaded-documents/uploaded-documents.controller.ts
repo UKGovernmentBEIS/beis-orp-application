@@ -37,6 +37,7 @@ import DocumentTopicsDto from '../ingest/entities/document-topics.dto';
 import DocumentStatusDto from '../ingest/entities/document-status.dto';
 import { getPaginationDetails, PaginationDetails } from './utils/pagination';
 import DocumentDeleteDto from './entities/document-delete.dto';
+import { Audit } from '../audit.interceptor';
 
 @Controller('uploaded-documents')
 @UseGuards(RegulatorGuard)
@@ -121,6 +122,7 @@ export class UploadedDocumentsController {
   @Post('document-type/:id')
   @Redirect('/uploaded-documents/updated/:id', 302)
   @ValidateForm()
+  @Audit('UPDATE_DOCUMENT', 'key', 'documentType')
   async postDocType(
     @Body() documentTypeDto: DocumentTypeDto,
     @Param() { id }: { id: string },
@@ -172,6 +174,7 @@ export class UploadedDocumentsController {
   @Post('/topics/:id')
   @Redirect('/uploaded-documents/updated/:id')
   @ValidateForm()
+  @Audit('UPDATE_DOCUMENT', 'key', 'topics')
   async postTagTopics(
     @Body() documentTopicsDto: DocumentTopicsDto,
     @Param() { id }: { id: string },
@@ -190,7 +193,7 @@ export class UploadedDocumentsController {
       user,
     );
 
-    return { url: `/uploaded-documents/updated/${id}` };
+    return { url: `/uploaded-documents/updated/${id}`, topics };
   }
 
   @Get('/status/:id')
@@ -219,6 +222,7 @@ export class UploadedDocumentsController {
   @Post('/status/:id')
   @Redirect('/uploaded-documents/updated/:id')
   @ValidateForm()
+  @Audit('UPDATE_DOCUMENT', 'key', 'status')
   async postUpdateDocumentStatus(
     @Body() documentStatusDto: DocumentStatusDto,
     @Param() { id }: { id: string },
@@ -253,6 +257,7 @@ export class UploadedDocumentsController {
   @Post('/delete')
   @Redirect('/uploaded-documents/deleted')
   @ValidateForm()
+  @Audit('DELETE_DOCUMENT', 'id')
   async postDeleteDocument(
     @Body() { id }: DocumentDeleteDto,
     @User() user: UserType,
