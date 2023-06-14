@@ -23,7 +23,7 @@ jest.mock('@aws-sdk/client-s3', () => {
     })),
   };
 });
-describe('Ingest document status', () => {
+describe('Ingest document: status', () => {
   const fixture = new E2eFixture();
   let regulatorSession = null;
 
@@ -41,7 +41,7 @@ describe('Ingest document status', () => {
       mockS3.send.mockResolvedValueOnce({ Metadata: { old: 'meta' } });
       return fixture
         .request()
-        .get('/ingest/document-status?key=unconfirmeddoc')
+        .get('/ingest/document/document-status?key=unconfirmeddoc')
         .set('Cookie', regulatorSession)
         .expect(200)
         .expect((res) => {
@@ -59,7 +59,7 @@ describe('Ingest document status', () => {
       it('redirects unauthenticated users', () => {
         return fixture
           .request()
-          .get('/ingest/document-status?key=unconfirmeddoc')
+          .get('/ingest/document/document-status?key=unconfirmeddoc')
           .expect(302)
           .expect('Location', '/unauthorised/ingest');
       });
@@ -76,11 +76,11 @@ describe('Ingest document status', () => {
 
       return fixture
         .request()
-        .post('/ingest/document-status')
+        .post('/ingest/document/document-status')
         .set('Cookie', regulatorSession)
         .send({ key: 'unconfirmed/key', status: 'published' })
         .expect(302)
-        .expect('Location', '/ingest/submit?key=unconfirmed/key')
+        .expect('Location', '/ingest/document/submit?key=unconfirmed/key')
         .expect(() => {
           expect(mockS3.send).toBeCalledTimes(2);
         });
@@ -95,7 +95,7 @@ describe('Ingest document status', () => {
 
       return fixture
         .request()
-        .post('/ingest/document-status')
+        .post('/ingest/document/document-status')
         .set('Cookie', regulatorSession)
         .send({ key: 'unconfirmed/key', status: 'published' })
         .expect(302)
@@ -109,7 +109,7 @@ describe('Ingest document status', () => {
       it('redirects unauthenticated users', () => {
         return fixture
           .request()
-          .post('/ingest/document-status')
+          .post('/ingest/document/document-status')
           .send({ key: 'unconfirmed/key', status: 'published' })
           .expect(302)
           .expect('Location', '/unauthorised/ingest');

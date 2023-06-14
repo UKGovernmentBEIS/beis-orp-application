@@ -25,7 +25,7 @@ jest.mock('@aws-sdk/client-s3', () => {
   };
 });
 
-describe('Ingest document topics', () => {
+describe('Ingest document: topics', () => {
   const fixture = new E2eFixture();
   let regulatorSession = null;
 
@@ -48,7 +48,7 @@ describe('Ingest document topics', () => {
 
       return fixture
         .request()
-        .get('/ingest/document-topics?key=unconfirmeddoc')
+        .get('/ingest/document/document-topics?key=unconfirmeddoc')
         .set('Cookie', regulatorSession)
         .expect(200)
         .expect((res) => {
@@ -91,7 +91,7 @@ describe('Ingest document topics', () => {
 
       return fixture
         .request()
-        .get('/ingest/document-topics?key=unconfirmeddoc')
+        .get('/ingest/document/document-topics?key=unconfirmeddoc')
         .set('Cookie', regulatorSession)
         .expect(200)
         .expect((res) => {
@@ -104,7 +104,7 @@ describe('Ingest document topics', () => {
       it('redirects unauthenticated users', () => {
         return fixture
           .request()
-          .get('/ingest/document-topics?key=unconfirmeddoc')
+          .get('/ingest/document/document-topics?key=unconfirmeddoc')
           .expect(302)
           .expect('Location', '/unauthorised/ingest');
       });
@@ -121,14 +121,17 @@ describe('Ingest document topics', () => {
 
       return fixture
         .request()
-        .post('/ingest/document-topics')
+        .post('/ingest/document/document-topics')
         .set('Cookie', regulatorSession)
         .send({
           key: 'unconfirmed/key',
           documentTopics: { topics: FULL_TOPIC_PATH },
         })
         .expect(302)
-        .expect('Location', '/ingest/document-status?key=unconfirmed/key')
+        .expect(
+          'Location',
+          '/ingest/document/document-status?key=unconfirmed/key',
+        )
         .expect(() => {
           expect(mockS3.send).toBeCalledTimes(2);
         });
@@ -143,7 +146,7 @@ describe('Ingest document topics', () => {
 
       return fixture
         .request()
-        .post('/ingest/document-topics')
+        .post('/ingest/document/document-topics')
         .set('Cookie', regulatorSession)
         .send({
           key: 'unconfirmed/key',
@@ -160,7 +163,7 @@ describe('Ingest document topics', () => {
       it('redirects unauthenticated users', () => {
         return fixture
           .request()
-          .post('/ingest/document-topics')
+          .post('/ingest/document/document-topics')
           .send({ key: 'unconfirmed/key', documentType: { new: 'meta' } })
           .expect(302)
           .expect('Location', '/unauthorised/ingest');
