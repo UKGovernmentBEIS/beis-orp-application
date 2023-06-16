@@ -20,7 +20,16 @@ const fileToBuffer = (filename): Promise<Buffer> => {
   });
 };
 
-type FILES = 'PDF' | 'EMPTY_PDF' | 'DOCX' | 'EMPTY_DOCX' | 'ODT' | 'EMPTY_ODT';
+type FILES =
+  | 'PDF'
+  | 'EMPTY_PDF'
+  | 'DOCX'
+  | 'EMPTY_DOCX'
+  | 'ODT'
+  | 'EMPTY_ODT'
+  | 'ORPML'
+  | 'EMPTY_ORPML';
+
 const files: Record<FILES, string> = {
   PDF: 'test.pdf',
   EMPTY_PDF: 'test-empty.pdf',
@@ -28,6 +37,8 @@ const files: Record<FILES, string> = {
   EMPTY_DOCX: 'test-empty.docx',
   ODT: 'test.odt',
   EMPTY_ODT: 'test-empty.odt',
+  ORPML: 'orp.orpml',
+  EMPTY_ORPML: 'orp-empty.orpml',
 };
 export const getPdfBuffer = (type: FILES = 'PDF'): Promise<Buffer> =>
   fileToBuffer(`${__dirname}/${files[type]}`);

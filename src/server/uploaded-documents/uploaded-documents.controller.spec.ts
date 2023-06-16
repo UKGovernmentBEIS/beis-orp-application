@@ -17,6 +17,7 @@ import { topics } from '../document/utils/topics';
 import { FULL_TOPIC_PATH } from '../../../test/mocks/topics';
 import { OrpSearchMapper } from '../search/utils/orp-search-mapper';
 import { RegulatorService } from '../regulator/regulator.service';
+import { OrpmlMapper } from '../document/utils/orpml-mapper';
 
 describe('UploadedDocumentsController', () => {
   let controller: UploadedDocumentsController;
@@ -35,6 +36,7 @@ describe('UploadedDocumentsController', () => {
         mockAwsDal,
         TnaDal,
         OrpSearchMapper,
+        OrpmlMapper,
         RegulatorService,
       ],
       imports: [HttpModule],

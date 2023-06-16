@@ -20,6 +20,8 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Readable } from 'stream';
 import { ObjectMetaData } from './entities/object-meta-data';
 import { User } from '../auth/entities/user';
+import * as convert from 'xml-js';
+import { RawOrpml } from './entities/raw-orpml';
 
 @Injectable()
 export class AwsDal {
@@ -78,6 +80,25 @@ export class AwsDal {
       Key: key,
     });
     return (await this.client.send(command)).Body as Readable;
+  }
+
+  async getOrpml(id: string): Promise<{ orpml: RawOrpml }> {
+    const streamToString = (stream) =>
+      new Promise((resolve, reject) => {
+        const chunks = [];
+        stream.on('data', (chunk) => chunks.push(chunk));
+        stream.on('error', reject);
+        stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
+      });
+
+    const command = new GetObjectCommand({
+      Bucket: this.awsConfig.orpmlBucket,
+      Key: `processed/${id}.orpml`,
+    });
+
+    const { Body } = await this.client.send(command);
+    const xmlString = (await streamToString(Body)) as string;
+    return JSON.parse(convert.xml2json(xmlString, { compact: true }));
   }
 
   getObjectUrl(key: string): Promise<string> {

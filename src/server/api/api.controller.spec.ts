@@ -25,6 +25,7 @@ import { FULL_TOPIC_PATH } from '../../../test/mocks/topics';
 import * as R from 'ramda';
 import { OrpSearchMapper } from '../search/utils/orp-search-mapper';
 import ApiTokenRequestDto from './entities/api-token-request.dto';
+import { OrpmlMapper } from '../document/utils/orpml-mapper';
 
 describe('ApiController', () => {
   let controller: ApiController;
@@ -46,6 +47,7 @@ describe('ApiController', () => {
         ApiAuthService,
         RegulatorService,
         OrpSearchMapper,
+        OrpmlMapper,
       ],
       imports: [
         HttpModule,

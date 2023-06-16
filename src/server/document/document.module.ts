@@ -5,10 +5,17 @@ import { DocumentController } from './document.controller';
 import { SearchModule } from '../search/search.module';
 import { OrpSearchMapper } from '../search/utils/orp-search-mapper';
 import { RegulatorService } from '../regulator/regulator.service';
+import { OrpmlMapper } from './utils/orpml-mapper';
 
 @Module({
   imports: [DataModule, SearchModule],
-  providers: [DocumentService, Logger, OrpSearchMapper, RegulatorService],
+  providers: [
+    DocumentService,
+    Logger,
+    OrpSearchMapper,
+    RegulatorService,
+    OrpmlMapper,
+  ],
   exports: [DocumentService],
   controllers: [DocumentController],
 })

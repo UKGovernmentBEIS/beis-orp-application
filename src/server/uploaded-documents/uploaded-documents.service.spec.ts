@@ -12,6 +12,7 @@ import { DEFAULT_USER_WITH_REGULATOR } from '../../../test/mocks/user.mock';
 import { mockConfigService } from '../../../test/mocks/config.mock';
 import { OrpSearchMapper } from '../search/utils/orp-search-mapper';
 import { RegulatorService } from '../regulator/regulator.service';
+import { OrpmlMapper } from '../document/utils/orpml-mapper';
 
 const searchPayload = {
   date_published: {
@@ -39,6 +40,7 @@ describe('MyDocumentsService', () => {
         mockLogger,
         mockConfigService,
         OrpSearchMapper,
+        OrpmlMapper,
         RegulatorService,
       ],
       imports: [HttpModule],

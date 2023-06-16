@@ -79,12 +79,69 @@
                 <div>
                     <h2 class="govuk-heading-s">Details</h2>
                     <dl class="govuk-body heading-field-list govuk-!-font-size-16">
-                        <dt class="govuk-summary-list__key">Published date</dt>
-                        <dd> <%- include('../../partials/components/dateDisplay', { dateString: locals.document.dates.published }); %></dd>
                         <dt class="govuk-summary-list__key">Regulator</dt>
                         <dd><%= locals.regulator.name %></dd>
+                        <dt class="govuk-summary-list__key">Contributor</dt>
+                        <dd><%= locals.meta.contributor ?? '-' %></dd>
                         <dt class="govuk-summary-list__key">Status</dt>
                         <dd><% if(locals.document.status === 'draft') { %> <strong class="govuk-tag">Draft</strong> <% } else { %> <strong class="govuk-tag">Active</strong> <% } %></dd>
+                        <dt class="govuk-summary-list__key">Enforcement Dates</dt>
+                        <dd>
+                            <% if(locals.meta.dates?.coverageStartDate &&  locals.meta.dates?.coverageEndDate) { %>
+                                <%- include('../../partials/components/dateDisplay', { dateString: locals.meta.dates?.coverageStartDate }); %> to <%- include('../../partials/components/dateDisplay', { dateString: locals.meta.dates?.coverageEndDate }); %>
+                            <% } else {%>
+                                -
+                            <% } %>
+                        </dd>
+                        <dt class="govuk-summary-list__key">Area Coverage</dt>
+                        <dd><%= locals.meta.coverage ?? '-' %>
+                        </dd>
+                    </dl>
+                </div>
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+                <div>
+                    <h2 class="govuk-heading-s">About</h2>
+                    <dl class="govuk-body heading-field-list govuk-!-font-size-16">
+                        <dt class="govuk-summary-list__key">Subject</dt>
+                        <dd><%= locals.meta.subject ?? '-' %></dd>
+                        <dt class="govuk-summary-list__key">Written Language</dt>
+                        <dd><%= locals.meta.languageName ?? '-' %></dd>
+                        <dt class="govuk-summary-list__key">Document Format</dt>
+                        <dd><%= locals.meta.format ?? '-' %></dd>
+                        <dt class="govuk-summary-list__key">Document Id</dt>
+                        <dd><%= locals.meta.identifier ?? '-' %></dd>
+                    </dl>
+                </div>
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+                <div>
+                    <h2 class="govuk-heading-s">Dates</h2>
+                    <dl class="govuk-body heading-field-list govuk-!-font-size-16">
+                        <dt class="govuk-summary-list__key">Created Date</dt>
+                        <dd>
+                            <% if(locals.meta.dates?.created) { %>
+                                <%- include('../../partials/components/dateDisplay', { dateString: locals.meta.dates.created }); %>
+                            <% } else {%>
+                                -
+                            <% } %>
+                        </dd>
+                        <dt class="govuk-summary-list__key">Published Date</dt>
+                        <dd> <%- include('../../partials/components/dateDisplay', { dateString: locals.document.dates.published }); %></dd>
+                        <dt class="govuk-summary-list__key">Last-updated Date</dt>
+                        <dd>
+                            <% if(locals.meta.dates?.modified) { %>
+                                <%- include('../../partials/components/dateDisplay', { dateString: locals.meta.dates.modified }); %>
+                            <% } else {%>
+                                -
+                            <% } %>
+                        </dd>
+                        <dt class="govuk-summary-list__key">Archived Date</dt>
+                        <dd>
+                            <% if(locals.meta.dates?.archived) { %>
+                                <%- include('../../partials/components/dateDisplay', { dateString: locals.meta.dates.archived }); %>
+                            <% } else {%>
+                                -
+                            <% } %>
+                        </dd>
                     </dl>
                 </div>
                 <% if(topics.length) { %>

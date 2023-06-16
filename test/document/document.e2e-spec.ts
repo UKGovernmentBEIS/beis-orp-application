@@ -5,6 +5,8 @@ import { rest } from 'msw';
 import { mockedSearchLambda } from '../mocks/config.mock';
 import { getRawOrpDocument } from '../mocks/orpSearchMock';
 import * as cheerio from 'cheerio';
+import { getPdfBuffer } from '../mocks/uploadMocks';
+import { Readable } from 'stream';
 
 const mockUrl = 'http://document';
 
@@ -35,66 +37,124 @@ describe('DocumentController (e2e)', () => {
     await fixture.init();
   });
 
-  describe('document/view/:id (GET)', () => {
-    it('should get document and display in object if pdf', () => {
-      mockS3.send.mockResolvedValueOnce({
-        MetaData: {},
-        ContentType: 'application/pdf',
+  describe('when no or unmappable ORPML', () => {
+    describe('document/view/:id (GET)', () => {
+      it('should get document and display in object if pdf', () => {
+        mockS3.send
+          .mockRejectedValueOnce({ name: 'NoSuchKey' })
+          .mockResolvedValueOnce({
+            MetaData: {},
+            ContentType: 'application/pdf',
+          });
+
+        return fixture
+          .request()
+          .get('/document/view/1')
+          .expect(200)
+          .expect((res) => {
+            const $ = cheerio.load(res.text);
+            expect($('h1').text().trim()).toEqual('Title1');
+            expect($('object.embedded-pdf').length).toBeTruthy();
+            expect(
+              $('embed[src="http://document"][type="application/pdf"]').length,
+            ).toBeTruthy();
+          });
       });
 
-      return fixture
-        .request()
-        .get('/document/view/1')
-        .expect(200)
-        .expect((res) => {
-          const $ = cheerio.load(res.text);
-          expect($('h1').text().trim()).toEqual('Title1');
-          expect($('object.embedded-pdf').length).toBeTruthy();
-          expect(
-            $('embed[src="http://document"][type="application/pdf"]').length,
-          ).toBeTruthy();
+      it('should get document and display in iframe if .docx', () => {
+        mockS3.send
+          .mockRejectedValueOnce({ invalid: 'ORPML' })
+          .mockResolvedValueOnce({
+            MetaData: {},
+            ContentType:
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          });
+
+        return fixture
+          .request()
+          .get('/document/view/1')
+          .expect(200)
+          .expect((res) => {
+            const $ = cheerio.load(res.text);
+            expect($('h1').text().trim()).toEqual('Title1');
+            expect($('object.embedded-pdf').length).toBeFalsy();
+            expect(
+              $(
+                'iframe[src="https://docs.google.com/gview?url=http%3A%2F%2Fdocument&embedded=true"]',
+              ).length,
+            ).toBeTruthy();
+          });
+      });
+
+      it('should not get document if non-displayable mimetype', () => {
+        mockS3.send.mockRejectedValueOnce({}).mockResolvedValueOnce({
+          MetaData: {},
+          ContentType: 'application/vnd.oasis.opendocument.text',
         });
+
+        return fixture
+          .request()
+          .get('/document/view/1')
+          .expect(200)
+          .expect((res) => {
+            const $ = cheerio.load(res.text);
+            expect($('h1').text().trim()).toEqual('Title1');
+            expect($('object').length).toBeFalsy();
+            expect($('iframe').length).toBeFalsy();
+          });
+      });
     });
+  });
 
-    it('should get document and display in iframe if .docx', () => {
-      mockS3.send.mockResolvedValueOnce({
-        MetaData: {},
-        ContentType:
-          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  describe('when ORPML available', () => {
+    describe('document/view/:id (GET)', () => {
+      it('should display the orpml meta fields', async () => {
+        mockS3.send
+          .mockResolvedValueOnce({
+            Body: Readable.from(await getPdfBuffer('ORPML')),
+          })
+          .mockResolvedValueOnce({
+            MetaData: {},
+            ContentType: 'application/pdf',
+          });
+
+        return fixture
+          .request()
+          .get('/document/view/1')
+          .expect(200)
+          .expect((res) => {
+            expect(res.text).toContain('Mike Gibson');
+            expect(res.text).toContain('1 January 2015');
+            expect(res.text).toContain('1 January 2016');
+            expect(res.text).toContain('Area where this regulation is covered');
+            expect(res.text).toContain('The subject');
+            expect(res.text).toContain('Russian');
+            expect(res.text).toContain('029b3010-7438-4141-b0e4-14307417ffa3');
+            expect(res.text).toContain('19 July 2013');
+            expect(res.text).toContain('19 July 2014');
+            expect(res.text).toContain('19 July 2019');
+          });
       });
 
-      return fixture
-        .request()
-        .get('/document/view/1')
-        .expect(200)
-        .expect((res) => {
-          const $ = cheerio.load(res.text);
-          expect($('h1').text().trim()).toEqual('Title1');
-          expect($('object.embedded-pdf').length).toBeFalsy();
-          expect(
-            $(
-              'iframe[src="https://docs.google.com/gview?url=http%3A%2F%2Fdocument&embedded=true"]',
-            ).length,
-          ).toBeTruthy();
-        });
-    });
+      it('copes with missing orpml field', async () => {
+        mockS3.send
+          .mockResolvedValueOnce({
+            Body: Readable.from(await getPdfBuffer('EMPTY_ORPML')),
+          })
+          .mockResolvedValueOnce({
+            MetaData: {},
+            ContentType: 'application/pdf',
+          });
 
-    it('should not get document if non-displayable mimetype', () => {
-      mockS3.send.mockResolvedValueOnce({
-        MetaData: {},
-        ContentType: 'application/vnd.oasis.opendocument.text',
+        return fixture
+          .request()
+          .get('/document/view/1')
+          .expect(200)
+          .expect((res) => {
+            expect(res.text).toContain('-');
+            expect(res.text).toContain('Title');
+          });
       });
-
-      return fixture
-        .request()
-        .get('/document/view/1')
-        .expect(200)
-        .expect((res) => {
-          const $ = cheerio.load(res.text);
-          expect($('h1').text().trim()).toEqual('Title1');
-          expect($('object').length).toBeFalsy();
-          expect($('iframe').length).toBeFalsy();
-        });
     });
   });
 

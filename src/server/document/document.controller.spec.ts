@@ -12,6 +12,7 @@ import { TnaDal } from '../data/tna.dal';
 import TnaDocMeta from './entities/tna-doc-meta';
 import { RegulatorService } from '../regulator/regulator.service';
 import { OrpSearchMapper } from '../search/utils/orp-search-mapper';
+import { OrpmlMapper } from './utils/orpml-mapper';
 
 describe('DocumentController', () => {
   let controller: DocumentController;
@@ -32,6 +33,7 @@ describe('DocumentController', () => {
         RegulatorService,
         OrpSearchMapper,
         RegulatorService,
+        OrpmlMapper,
       ],
       imports: [HttpModule],
     }).compile();
@@ -70,6 +72,7 @@ describe('DocumentController', () => {
         docType: 'Guidance',
         ingested: false,
         title: 'Document details for Title',
+        meta: {},
       });
     });
 

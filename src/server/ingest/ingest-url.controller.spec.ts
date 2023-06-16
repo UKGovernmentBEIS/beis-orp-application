@@ -15,6 +15,7 @@ import * as mocks from 'node-mocks-http';
 import { OrpSearchMapper } from '../search/utils/orp-search-mapper';
 import { RegulatorService } from '../regulator/regulator.service';
 import { IngestUrlController } from './ingest-url.controller';
+import { OrpmlMapper } from '../document/utils/orpml-mapper';
 
 describe('IngestUrlController', () => {
   let controller: IngestUrlController;
@@ -31,6 +32,7 @@ describe('IngestUrlController', () => {
         Logger,
         TnaDal,
         OrpSearchMapper,
+        OrpmlMapper,
         RegulatorService,
       ],
       imports: [HttpModule],

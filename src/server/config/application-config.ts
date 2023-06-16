@@ -13,6 +13,7 @@ export interface ApisConfig {
 
 export interface AwsConfig {
   ingestionBucket: string;
+  orpmlBucket: string;
   logGroupName: string;
   logStreamName: string;
   region: string;
@@ -70,6 +71,7 @@ export function config(): ApplicationConfig {
     },
     aws: {
       ingestionBucket: process.env.S3_UPLOAD_BUCKET,
+      orpmlBucket: process.env.S3_ORPML_BUCKET,
       logGroupName: process.env.CLOUDWATCH_GROUP_NAME,
       logStreamName: process.env.CLOUDWATCH_STREAM_NAME,
       region: process.env.AWS_REGION,

@@ -16,6 +16,8 @@ import { displayableMimeTypes } from './utils/mime-types';
 import { topicsLeafMap } from './utils/topics-leaf-map';
 import { UserCollectedUrlUploadData } from '../data/entities/url-upload';
 import { v4 as uuidv4 } from 'uuid';
+import { OrpmlMapper } from './utils/orpml-mapper';
+import { OrpmlMeta } from './entities/orpml-meta';
 
 @Injectable()
 export class DocumentService {
@@ -25,6 +27,7 @@ export class DocumentService {
     private readonly logger: Logger,
     private readonly tnaDal: TnaDal,
     private readonly orpSearchMapper: OrpSearchMapper,
+    private readonly orpmlMapper: OrpmlMapper,
   ) {}
 
   async upload(
@@ -73,6 +76,21 @@ export class DocumentService {
   async getDocumentById(id: string): Promise<OrpSearchItem> {
     const document = await this.orpDal.getById(id);
     return this.orpSearchMapper.mapOrpDocument(document);
+  }
+
+  async getOrpml(id: string): Promise<{ meta: OrpmlMeta }> {
+    try {
+      const { orpml } = await this.awsDal.getOrpml(id);
+      return { meta: this.orpmlMapper.mapMeta(orpml) };
+    } catch (error) {
+      const errorMsg =
+        error.name === 'NoSuchKey'
+          ? `No ORPML available`
+          : `Unable to process ORPML`;
+
+      this.logger.error(`${errorMsg}. ID: ${id}`);
+      return null;
+    }
   }
 
   async getDocumentUrl(

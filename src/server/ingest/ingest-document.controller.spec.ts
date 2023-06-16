@@ -15,6 +15,7 @@ import { FULL_TOPIC_PATH } from '../../../test/mocks/topics';
 import { OrpSearchMapper } from '../search/utils/orp-search-mapper';
 import { RegulatorService } from '../regulator/regulator.service';
 import { IngestDocumentController } from './ingest-document.controller';
+import { OrpmlMapper } from '../document/utils/orpml-mapper';
 
 describe('IngestDocumentController', () => {
   let controller: IngestDocumentController;
@@ -31,6 +32,7 @@ describe('IngestDocumentController', () => {
         Logger,
         TnaDal,
         OrpSearchMapper,
+        OrpmlMapper,
         RegulatorService,
       ],
       imports: [HttpModule],

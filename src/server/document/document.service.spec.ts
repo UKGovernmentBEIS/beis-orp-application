@@ -26,6 +26,7 @@ import { FULL_TOPIC_PATH } from '../../../test/mocks/topics';
 import { pdfMimeType } from './utils/mime-types';
 import { OrpSearchMapper } from '../search/utils/orp-search-mapper';
 import { RegulatorService } from '../regulator/regulator.service';
+import { OrpmlMapper } from './utils/orpml-mapper';
 
 jest.mock('uuid', () => {
   return { v4: jest.fn(() => 'UUID') };
@@ -48,6 +49,7 @@ describe('DocumentService', () => {
         Logger,
         TnaDal,
         OrpSearchMapper,
+        OrpmlMapper,
         RegulatorService,
       ],
     }).compile();

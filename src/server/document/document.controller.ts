@@ -21,6 +21,7 @@ import { ViewDataInterceptor } from '../view-data.interceptor';
 import { LinkedDocuments } from '../search/entities/linked-documents-response.dto';
 import { LinkedDocumentQueryDto } from './entities/linked-document-query.dto';
 import { RegulatorService } from '../regulator/regulator.service';
+import { OrpmlMeta } from './entities/orpml-meta';
 
 @Controller('document')
 export class DocumentController {
@@ -45,12 +46,16 @@ export class DocumentController {
     ingested: boolean;
     title: string;
     referrer?: string;
+    meta: OrpmlMeta | Record<string, never>;
   }> {
     const document = await this.documentService.getDocumentById(id);
+    const orpml = await this.documentService.getOrpml(id);
+
     const { url, documentFormat } =
       document.documentFormat !== 'HTML'
         ? await this.documentService.getDocumentUrl(document.uri)
         : { url: null, documentFormat: 'HTML' };
+
     const regulator = this.regulatorService.getRegulatorByName(
       document.creator,
     );
@@ -65,6 +70,7 @@ export class DocumentController {
       ingested: ingested === 'true',
       title: `Document details for ${document.title}`,
       referrer,
+      meta: orpml?.meta ?? {},
     };
   }
 
