@@ -6,5 +6,9 @@
     </object>
 <% } else if (documentFormat === locals.iframeMimeType) { %>
     <iframe class="<%= embedClass %>" src="https://docs.google.com/gview?url=<%= encodeURIComponent(locals.url) %>&embedded=true" data-module="iframe-content" title="<%= title %>"></iframe>
+<% } else if (documentFormat === 'ORPML') { %>
+    <div class="orpml-content govuk-body">
+        <h2 class="govuk-heading-m">Document Content</h2>
+        <%- content %>
+    </div>
 <% } %>
-

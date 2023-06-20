@@ -78,10 +78,13 @@ export class DocumentService {
     return this.orpSearchMapper.mapOrpDocument(document);
   }
 
-  async getOrpml(id: string): Promise<{ meta: OrpmlMeta }> {
+  async getOrpml(id: string): Promise<{ meta: OrpmlMeta; content: string }> {
     try {
-      const { orpml } = await this.awsDal.getOrpml(id);
-      return { meta: this.orpmlMapper.mapMeta(orpml) };
+      const { json, string: orpmlString } = await this.awsDal.getOrpml(id);
+      return {
+        meta: this.orpmlMapper.mapMeta(json.orpml),
+        content: this.orpmlMapper.getContent(orpmlString),
+      };
     } catch (error) {
       const errorMsg =
         error.name === 'NoSuchKey'

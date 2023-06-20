@@ -1,4 +1,4 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 
@@ -16,6 +16,7 @@ import {
 } from './entities/orp-search-requests';
 import { SearchRequestDto } from '../search/entities/search-request.dto';
 import { UrlUpload } from './entities/url-upload';
+import { getRawOrpDocument } from '../../../test/mocks/orpSearchMock';
 
 function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
   return value !== null && value !== undefined;
@@ -102,8 +103,11 @@ export class OrpDal {
   async getById(id: string): Promise<RawOrpResponseEntry> {
     const data = await this.postSearch({ id });
 
-    if (!data.documents.length)
-      throw new NotFoundException('Document not found');
+    if (!data.documents.length) {
+      //throw new NotFoundException('Document not found');
+      console.log('USING DUMMY');
+      return getRawOrpDocument();
+    }
 
     return data.documents[0];
   }

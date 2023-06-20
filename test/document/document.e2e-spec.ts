@@ -108,7 +108,7 @@ describe('DocumentController (e2e)', () => {
 
   describe('when ORPML available', () => {
     describe('document/view/:id (GET)', () => {
-      it('should display the orpml meta fields', async () => {
+      it('should display the orpml fields', async () => {
         mockS3.send
           .mockResolvedValueOnce({
             Body: Readable.from(await getPdfBuffer('ORPML')),
@@ -133,6 +133,9 @@ describe('DocumentController (e2e)', () => {
             expect(res.text).toContain('19 July 2013');
             expect(res.text).toContain('19 July 2014');
             expect(res.text).toContain('19 July 2019');
+            expect(res.text).toContain(
+              'FIELD OPERATIONS DIRECTORATE REPORT OCCUPATIONAL HYGIENE SPECIALIST GROUP ASSESSMENT OF POTENTIAL ASBESTOS RISK at CWMCARN HIGH SCHOOL CWMCARN NP ',
+            );
           });
       });
 

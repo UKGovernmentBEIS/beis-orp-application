@@ -47,14 +47,15 @@ export class DocumentController {
     title: string;
     referrer?: string;
     meta: OrpmlMeta | Record<string, never>;
+    content: string;
   }> {
     const document = await this.documentService.getDocumentById(id);
     const orpml = await this.documentService.getOrpml(id);
 
     const { url, documentFormat } =
-      document.documentFormat !== 'HTML'
+      document.documentFormat !== 'HTML' && !orpml
         ? await this.documentService.getDocumentUrl(document.uri)
-        : { url: null, documentFormat: 'HTML' };
+        : { url: null, documentFormat: orpml ? 'ORPML' : 'HTML' };
 
     const regulator = this.regulatorService.getRegulatorByName(
       document.creator,
@@ -71,6 +72,7 @@ export class DocumentController {
       title: `Document details for ${document.title}`,
       referrer,
       meta: orpml?.meta ?? {},
+      content: orpml?.content ?? '',
     };
   }
 

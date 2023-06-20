@@ -43,7 +43,7 @@
 
                 <% if(documentFormat === 'HTML') { %>
                     <a class="govuk-link govuk-!-font-size-19" href="<%= document.uri %>" rel="noopener noreferrer" target="_blank">View full document on GOV.UK</a>
-                <% } else { %>
+                <% } else if (documentFormat !== 'ORPML') { %>
                     <p>This file may not be suitable for users of assistive technology. </p>
                     <details class="govuk-details" data-module="govuk-details">
                         <summary class="govuk-details__summary">

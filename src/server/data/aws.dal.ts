@@ -82,7 +82,9 @@ export class AwsDal {
     return (await this.client.send(command)).Body as Readable;
   }
 
-  async getOrpml(id: string): Promise<{ orpml: RawOrpml }> {
+  async getOrpml(
+    id: string,
+  ): Promise<{ json: { orpml: RawOrpml }; string: string }> {
     const streamToString = (stream) =>
       new Promise((resolve, reject) => {
         const chunks = [];
@@ -98,7 +100,10 @@ export class AwsDal {
 
     const { Body } = await this.client.send(command);
     const xmlString = (await streamToString(Body)) as string;
-    return JSON.parse(convert.xml2json(xmlString, { compact: true }));
+    return {
+      json: JSON.parse(convert.xml2json(xmlString, { compact: true })),
+      string: xmlString,
+    };
   }
 
   getObjectUrl(key: string): Promise<string> {

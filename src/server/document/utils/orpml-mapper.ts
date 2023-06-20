@@ -46,4 +46,18 @@ export class OrpmlMapper {
       userId: orp.userId?._text,
     };
   }
+
+  getContent(orpmlString: string): string {
+    const startMatch = orpmlString.match(/<body[^>]*>/i);
+    const endMatch = orpmlString.match(/<\/body>/i);
+
+    if (startMatch && endMatch) {
+      const startIndex = startMatch.index + startMatch[0].length;
+      const endIndex = endMatch.index;
+
+      return orpmlString.substring(startIndex, endIndex);
+    } else {
+      return '';
+    }
+  }
 }
