@@ -16,20 +16,62 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Configure AWS credentials
+      - name: Configure AWS credentials in dev
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
           aws-region: eu-west-2
 
-      - name: Login to ECR
-        id: login-ecr
+      - name: Login to ECR in dev
+        id: login-ecr-dev
         uses: aws-actions/amazon-ecr-login@v1.5.3
 
-      - name: Build & Push Image to ECR
+      - name: Build & Push Image to ECR in dev
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REGISTRY: ${{ steps.login-ecr-dev.outputs.registry }}
+          ECR_REPOSITORY: beis
+          IMAGE_TAG: latest
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --build-arg BUILD_NUMBER=${{ github.run_number }} --build-arg GIT_REF=$(git log -n 1 | awk '{print $2; exit}') .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          aws ecs update-service --force-new-deployment --service ecs_webserver --cluster ecs_webserver
+
+      - name: Configure AWS credentials in test
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_TEST }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_TEST }}
+          aws-region: eu-west-2
+
+      - name: Login to ECR in test
+        id: login-ecr-test
+        uses: aws-actions/amazon-ecr-login@v1.5.3
+
+      - name: Build & Push Image to ECR in test
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr-test.outputs.registry }}
+          ECR_REPOSITORY: beis
+          IMAGE_TAG: latest
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --build-arg BUILD_NUMBER=${{ github.run_number }} --build-arg GIT_REF=$(git log -n 1 | awk '{print $2; exit}') .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          aws ecs update-service --force-new-deployment --service ecs_webserver --cluster ecs_webserver
+
+      - name: Configure AWS credentials in preprod
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_PREPROD }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_PREPROD }}
+          aws-region: eu-west-2
+
+      - name: Login to ECR in preprod
+        id: login-ecr-prepod
+        uses: aws-actions/amazon-ecr-login@v1.5.3
+
+      - name: Build & Push Image to ECR in dev
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr-preprod.outputs.registry }}
           ECR_REPOSITORY: beis
           IMAGE_TAG: latest
         run: |
