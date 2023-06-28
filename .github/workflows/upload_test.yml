@@ -24,15 +24,15 @@ jobs:
           aws-region: eu-west-2
 
       - name: Login to ECR in test
-        id: login-ecr-test
+        id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1.5.3
 
       - name: Build & Push Image to ECR in test
         env:
-          ECR_REGISTRY_TEST: ${{ steps.login-ecr-test.outputs.registry }}
-          ECR_REPOSITORY_TEST: beis
-          IMAGE_TAG_TEST: latest
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: beis
+          IMAGE_TAG: latest
         run: |
-          docker build -t $ECR_REGISTRY_TEST/$ECR_REPOSITORY_TEST:$IMAGE_TAG_TEST --build-arg BUILD_NUMBER=${{ github.run_number }} --build-arg GIT_REF=$(git log -n 1 | awk '{print $2; exit}') .
-          docker push $ECR_REGISTRY_TEST/$ECR_REPOSITORY_TEST:$IMAGE_TAG
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --build-arg BUILD_NUMBER=${{ github.run_number }} --build-arg GIT_REF=$(git log -n 1 | awk '{print $2; exit}') .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           aws ecs update-service --force-new-deployment --service ecs_webserver --cluster ecs_webserver
