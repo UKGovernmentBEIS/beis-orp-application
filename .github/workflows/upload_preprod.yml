@@ -1,6 +1,6 @@
-name: Upload Release to ECR
+name: Upload Release to ECR PreProd
 
-concurrency: upload_to_ecr
+#concurrency: upload_to_ecr
 
 on:
   release:
