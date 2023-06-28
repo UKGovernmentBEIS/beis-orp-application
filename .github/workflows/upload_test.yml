@@ -1,4 +1,4 @@
-name: Upload Release to ECR Test
+name: Upload Release to ECR test
 
 #concurrency: upload_to_ecr
 

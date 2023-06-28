@@ -1,4 +1,4 @@
-name: Upload Release to ECR PreProd
+name: Upload Release to ECR preprod
 
 #concurrency: upload_to_ecr
 
@@ -24,15 +24,15 @@ jobs:
           aws-region: eu-west-2
 
       - name: Login to ECR in preprod
-        id: login-ecr-prepod
+        id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1.5.3
 
-      - name: Build & Push Image to ECR in dev
+      - name: Build & Push Image to ECR in preprod
         env:
-          ECR_REGISTRY_PREPROD: ${{ steps.login-ecr-preprod.outputs.registry }}
-          ECR_REPOSITORY_PREPROD: beis
-          IMAGE_TAG_PREPROD: latest
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: beis
+          IMAGE_TAG: latest
         run: |
-          docker build -t $ECR_REGISTRY_PREPROD/$ECR_REPOSITORY_PREPROD:$IMAGE_TAG_PREPROD --build-arg BUILD_NUMBER=${{ github.run_number }} --build-arg GIT_REF=$(git log -n 1 | awk '{print $2; exit}') .
-          docker push $ECR_REGISTRY_PREPROD/$ECR_REPOSITORY_PREPROD:$IMAGE_TAG_PREPROD
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --build-arg BUILD_NUMBER=${{ github.run_number }} --build-arg GIT_REF=$(git log -n 1 | awk '{print $2; exit}') .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           aws ecs update-service --force-new-deployment --service ecs_webserver --cluster ecs_webserver
