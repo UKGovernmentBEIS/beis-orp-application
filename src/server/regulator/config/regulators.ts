@@ -326,6 +326,16 @@ const regulators: Regulator[] = [
     name: 'Water Services Regulation Authority',
     domain: 'ofwat.gov.uk',
   },
+  {
+    id: 'gmail',
+    name: 'gmail test',
+    domain: 'gmail.com',
+  },
+  {
+    id: 'Safety',
+    name: 'Safety Tech Accelerator',
+    domain: 'lr.org',
+  },
 ];
 
 export default regulators;
