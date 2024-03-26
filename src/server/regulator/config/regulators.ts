@@ -336,6 +336,13 @@ const regulators: Regulator[] = [
     name: 'Safety Tech Accelerator',
     domain: 'lr.org',
   },
+  {
+    id: 'Cognizant',
+    name: 'Cognizant test',
+    domain: 'cognizant.com',
+  }
+
+  
 ];
 
 export default regulators;
