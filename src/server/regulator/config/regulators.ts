@@ -327,11 +327,6 @@ const regulators: Regulator[] = [
     domain: 'ofwat.gov.uk',
   },
   {
-    id: 'gmail',
-    name: 'gmail test',
-    domain: 'gmail.com',
-  },
-  {
     id: 'Safety',
     name: 'Safety Tech Accelerator',
     domain: 'lr.org',
@@ -341,7 +336,6 @@ const regulators: Regulator[] = [
     name: 'Cognizant test',
     domain: 'cognizant.com',
   }
-
   
 ];
 
