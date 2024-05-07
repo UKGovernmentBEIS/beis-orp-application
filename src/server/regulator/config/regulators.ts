@@ -331,11 +331,6 @@ const regulators: Regulator[] = [
     name: 'Safety Tech Accelerator',
     domain: 'lr.org',
   },
-   {
-    id: 'gmail',
-    name: 'gmail test',
-    domain: 'gmail.com',
-  },
   {
     id: 'Cognizant',
     name: 'Cognizant test',
