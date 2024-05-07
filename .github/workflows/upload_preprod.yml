@@ -33,6 +33,6 @@ jobs:
           ECR_REPOSITORY: beis
           IMAGE_TAG: latest
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --build-arg BUILD_NUMBER=${{ github.run_number }} --build-arg GIT_REF=$(git log -n 1 | awk '{print $2; exit}') --verbose .
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --build-arg BUILD_NUMBER=${{ github.run_number }} --build-arg GIT_REF=$(git log -n 1 | awk '{print $2; exit}') .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           aws ecs update-service --force-new-deployment --service ecs_webserver --cluster ecs_webserver
