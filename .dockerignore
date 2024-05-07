@@ -3,7 +3,6 @@ dist
 kubectl_deploy*
 helm_deploy*
 README.md
-node_modules
 npm-debug.log
 .*
 **/*.test.js
