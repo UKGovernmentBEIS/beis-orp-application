@@ -332,6 +332,12 @@ const regulators: Regulator[] = [
     domain: 'lr.org',
   },
   {
+    id: 'gmail',
+    name: 'gmail test',
+    domain: 'gmail.com',
+  },
+
+  {
     id: 'Cognizant',
     name: 'Cognizant test',
     domain: 'cognizant.com',
