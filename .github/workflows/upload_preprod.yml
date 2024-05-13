@@ -3,7 +3,7 @@ name: Upload Release to ECR preprod
 #concurrency: upload_to_ecr
 
 on:
-  release:
+   pull_request:
     branches: [ "beis-orp-Preprod-app" ]
     types:
       - created
