@@ -1,7 +1,7 @@
 name: Upload Release to ECR preprod
 
 #concurrency: upload_to_ecr
-
+#adding branches
 on:
   release:
     branches: [ "beis-orp-Preprod-app" ]
