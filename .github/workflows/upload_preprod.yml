@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v3
         with:
            node-version: ${{ matrix.node-version }}
-
+         #adding node versions
       - name: Configure AWS credentials in preprod
         uses: aws-actions/configure-aws-credentials@v1
         with:
