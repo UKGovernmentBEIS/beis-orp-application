@@ -11,6 +11,11 @@ on:
 jobs:
   upload:
     runs-on: ubuntu-latest
+     strategy:
+      matrix:
+        node-version: [18.3]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        
     name: Upload new Release to ECR
     steps:
       - name: Checkout
