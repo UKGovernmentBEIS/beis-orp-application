@@ -11,7 +11,7 @@ on:
 jobs:
   upload:
     runs-on: ubuntu-latest
-     strategy:
+    strategy:
       matrix:
         node-version: [18.3]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
