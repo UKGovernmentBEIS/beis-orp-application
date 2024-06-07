@@ -1,7 +1,7 @@
 # compiled output
 #Commenting /dist and /node_modules
-#/dist
-#/node_modules
+/dist
+/node_modules
 
 # Logs
 logs
